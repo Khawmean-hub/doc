@@ -31,17 +31,11 @@ homeRoute.post('/doc_menu_home_r01', async (req, res, next) => {
 
 
 homeRoute.post('/doc_department_r001', async (req, res, next) => {
-    defaultPageInput(req);
-    var count = await db.one('select count(*) from doc_department where dep_status = 1');
-    var page = new Paging(req.body.OFFSET, req.body.LIMIT, count.count);
-    var resp = await db.any(`select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id
-    LIMIT ${page.limit} OFFSET ${page.getOffset()};`);
-
-    if (resp == null) {
+   var data = await db.any(`select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`);
+   if(!isNull(data))
+        return res.send(new BaseRes(true, "Success", data))
+   else
         return res.send(new BaseRes(false, "Error", null))
-    } else {
-        res.send(new BaseRes(true, "Success", { REC: resp, PAGE: page.getPage() }))
-    }
 })
 
 homeRoute.get('/doc_menu_r01', async (req, res, next) => {
