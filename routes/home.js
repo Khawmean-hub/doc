@@ -43,9 +43,6 @@ homeRoute.post('/doc_department_r001', async (req, res, next) => {
 
     if (resp == null) {
         return res.send(new BaseRes(false, "Error", null))
-    } else {
-        res.send(new BaseRes(true, "Success", { REC: resp, PAGE: page.getPage() }))
-    }
 })
 
 homeRoute.get('/doc_menu_r01', async (req, res, next) => {
