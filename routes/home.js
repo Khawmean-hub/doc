@@ -43,7 +43,9 @@ homeRoute.post('/doc_department_r001', async (req, res, next) => {
 
     if (resp == null) {
         return res.send(new BaseRes(false, "Error", null))
+}
 })
+
 
 homeRoute.get('/doc_menu_r01', async (req, res, next) => {
     var acticle = await db.any(`SELECT a.id, a.tag_id, a.title
