@@ -1,5 +1,5 @@
 const pgp = require('pg-promise')(/* options */)
-const db = pgp('postgres://ioatdkop:Jwxkjpj0unTI5BZ7cEvZromZTjNPrF3O@arjuna.db.elephantsql.com/ioatdkop')
+const db = pgp('postgresql://stdy:stdy@192.168.178.83:5432/stdydb')
 // const db = pgp('postgres://postgres:123@localhost:5432/b2b')
 db.one('SELECT $1 AS value', 123)
   .then((data) => {
@@ -8,6 +8,5 @@ db.one('SELECT $1 AS value', 123)
   .catch((error) => {
     console.log('ERROR:', error)
   })
-
 
 module.exports = db;
