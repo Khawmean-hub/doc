@@ -301,6 +301,41 @@ homeRoute.post('/api_0002_d002', async (req, res, next) => { //http://localhost:
 
 
 
+homeRoute.post('/api_0003_c001', async (req, res, next) => { //http://localhost:3000/api_0003_c001
+    /**
+     * reqeust
+     * {
+            "API_ID" : "ass",
+            "ERROR_YN" : "as",
+            "REQ_DATA" : "as",
+            "RES_DATA" : "as",
+            "BIZPLAY_API_YN" : "as",
+            "ERROR_CD" : "as"
+        }
+     */
+    var apiCreate = await db.any(`INSERT INTO b2b_api_his
+                            (seq, api_id, req_dt, error_yn, req_data, res_data, bizplay_api_yn, error_cd)
+                            VALUES(
+                            COALESCE( (SELECT  MAX(CAST(seq AS NUMERIC)) + 1 FROM  b2b_api_his), 1)
+                            , '${req.body.API_ID}', to_char(now(),'YYYY-MM-DD HH24:mi:SS') , '${req.body.ERROR_YN}', '${req.body.REQ_DATA}', '${req.body.RES_DATA}', '${req.body.BIZPLAY_API_YN}','${req.body.ERROR_CD}')`);
+    if (apiCreate == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { API_CREATE: apiCreate }))
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
