@@ -370,24 +370,80 @@ homeRoute.post('/api_0004_01', async (req, res, next) => { //http://localhost:30
     /**
      * reqeust
      * {
-            "API_ID" : "emplinfo19",  //database have this id for dynamic field
-            "ERROR_YN" : "as",
-            "REQ_DATA" : "as",
-            "RES_DATA" : "as",
-            "BIZPLAY_API_YN" : "as",
-            "ERROR_CD" : "as"
+             "PRJ_NM" : "hello",
+             "DESCRIPTION" : "world"
         }
      */
 
-
-
-    var apiCreate = await db.any(`INSERT INTO b2b_api_prj_info
-                                 ( prj_nm, reg_dt, mod_dt, description)
-                                 VALUES( '${req.body.PRJ_NM}',to_char(now(),'YYYY-MM-DD HH24:mi:SS') ,  to_char(now(),'YYYY-MM-DD HH24:mi:SS'), '${req.body.DESCRIPTION}')`);
+    var apiCreate = await db.any(`INSERT INTO b2b_api_prj_info( prj_nm, reg_dt, mod_dt, description)
+                                 VALUES( '${req.body.PRJ_NM}',to_char(now(),'YYYY-MM-DD HH24:mi:SS') ,  to_char(now(),'YYYY-MM-DD HH24:mi:SS'), '${req.body.DESCRIPTION}')
+                                 `);
     if (apiCreate == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
         res.send(new BaseRes(true, "Success", { API_CREATE: apiCreate }))
+    }
+})
+
+
+
+
+
+
+
+
+
+
+homeRoute.post('/api_0004_r01', async (req, res, next) => { //http://localhost:3000/api_0004_01
+    var api = await db.any(`SELECT prj_id, prj_nm
+                                  FROM stdy.b2b_api_prj_info
+                                  ORDER BY prj_id desc`);
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { B2B_API_PRJ_INFO: api }))
+    }
+})
+
+
+
+
+
+
+
+homeRoute.post('/b2b_api_mode_r001', async (req, res, next) => { //http://localhost:3000/b2b_api_mode_r001
+    /**
+     * reqeust
+     * {
+             "API_ID" : "2222"
+        }
+     */
+    var api = await db.any(`SELECT md_type, url, api_id, api_key
+                            FROM b2b_api_mode
+                            WHERE api_id = '${req.body.API_ID}'`);
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { B2B_API_MODE: api }))
+    }
+})
+
+
+
+
+
+homeRoute.post('/doc_view_u01', async (req, res, next) => { //http://localhost:3000/doc_view_u01
+    /**
+     * reqeust
+     * {
+             "API_ID" : "2222"
+        }
+     */
+    var api = await db.any(`update doc_view set view_amount=CAST('${req.body.VIEW_AMOUNT}' as INTEGER) where view_id = '${req.body.VIEW_ID}'`);
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { B2B_API_MODE: api }))
     }
 })
 
