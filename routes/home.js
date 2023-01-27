@@ -657,7 +657,18 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 
 
 
-
+homeRoute.post('/doc_article_c01', async(req, res)=>{
+    var data = await db.any(`
+    INSERT INTO stdy.doc_articles
+    (tag_id, title, content_body, create_date, modified_date, user_id, file_article_id, dep_id, status)
+    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
+    `);
+    if ( data == null){
+        return res.send(new BaseRes(false,"ERROR", null))
+    } else{
+        return res.send(new BaseRes(true, "Success", null))
+    }
+})
 
 
 
