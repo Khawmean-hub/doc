@@ -280,6 +280,38 @@ homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:
 
 
 
+homeRoute.post('/api_0002_d002', async (req, res, next) => { //http://localhost:3000/api_0002_d002
+    /**
+     * reqeust
+     * {
+            "API_ID" : "ass"
+        }
+     */
+    var api = await db.any(`DELETE FROM b2b_api_info WHERE api_id= '${req.body.API_ID}'`);
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { API: api }))
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 module.exports = homeRoute;
