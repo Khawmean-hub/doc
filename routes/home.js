@@ -201,7 +201,7 @@ homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:
 
      */
 
-    var count = await db.one(`SELECT COUNT(API.API_ID) AS CNT
+    var count = await db.one(`SELECT COUNT(*) 
                               FROM
                               	B2B_API_INFO API
                               LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
@@ -256,12 +256,31 @@ homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:
                            ) 
                            ORDER BY  API.API_ID, API.PRJ_ID ASC
                            LIMIT ${page.limit} OFFSET ${page.getOffset()}`);
-                            
+            
+                           
+    var countApi = await db.one(`SELECT COUNT(API.API_ID) AS CNT
+                                FROM
+                                    B2B_API_INFO API
+                                LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
+                                WHERE  1=1
+                                AND (  
+                                    API.API_ID      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                    OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                    OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                    OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                    OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                    )
+                                AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
+                                    OR( COALESCE('${req.body.PRJ_ID}','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID}' )  
+                                    )  
+                                AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
+                                    or (COALESCE('${req.body.REQ_METHOD}','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD}')  --P : POST, G: GET
+                                    )`)                           
 
     if (api == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
-        res.send(new BaseRes(true, "Success", { API: api }))
+        res.send(new BaseRes(true, "Success", { API: api,COUNT_API: countApi}))
     }
 })
 
