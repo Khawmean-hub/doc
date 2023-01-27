@@ -366,6 +366,35 @@ homeRoute.post('/api_0003_c001', async (req, res, next) => { //http://localhost:
 
 
 
+homeRoute.post('/api_0004_01', async (req, res, next) => { //http://localhost:3000/api_0004_01
+    /**
+     * reqeust
+     * {
+            "API_ID" : "emplinfo19",  //database have this id for dynamic field
+            "ERROR_YN" : "as",
+            "REQ_DATA" : "as",
+            "RES_DATA" : "as",
+            "BIZPLAY_API_YN" : "as",
+            "ERROR_CD" : "as"
+        }
+     */
+
+
+
+    var apiCreate = await db.any(`INSERT INTO b2b_api_prj_info
+                                 ( prj_nm, reg_dt, mod_dt, description)
+                                 VALUES( '${req.body.PRJ_NM}',to_char(now(),'YYYY-MM-DD HH24:mi:SS') ,  to_char(now(),'YYYY-MM-DD HH24:mi:SS'), '${req.body.DESCRIPTION}')`);
+    if (apiCreate == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { API_CREATE: apiCreate }))
+    }
+})
+
+
+
+
+
 
 
 
