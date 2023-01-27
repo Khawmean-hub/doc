@@ -1,3 +1,4 @@
+const e = require("express");
 var express = require("express");
 const db = require("../config/db");
 const Paging = require("../utils/Paging");
@@ -256,31 +257,30 @@ homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:
                            ) 
                            ORDER BY  API.API_ID, API.PRJ_ID ASC
                            LIMIT ${page.limit} OFFSET ${page.getOffset()}`);
-            
-                           
+                            
     var countApi = await db.one(`SELECT COUNT(API.API_ID) AS CNT
-                                FROM
-                                    B2B_API_INFO API
-                                LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
-                                WHERE  1=1
-                                AND (  
-                                    API.API_ID      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
-                                    OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
-                                    OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
-                                    OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
-                                    OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
-                                    )
-                                AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
-                                    OR( COALESCE('${req.body.PRJ_ID}','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID}' )  
-                                    )  
-                                AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
-                                    or (COALESCE('${req.body.REQ_METHOD}','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD}')  --P : POST, G: GET
-                                    )`)                           
+                              FROM
+                              	B2B_API_INFO API
+                              LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
+                              WHERE  1=1
+                              AND (  
+                                   API.API_ID      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                )
+                              AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
+                                   OR( COALESCE('${req.body.PRJ_ID}','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID}' )  
+                                 )  
+                              AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
+                                   or (COALESCE('${req.body.REQ_METHOD}','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD}')  --P : POST, G: GET
+                                 )`)
 
-    if (api == null) {
+    if (api == null || countApi ==null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
-        res.send(new BaseRes(true, "Success", { API: api,COUNT_API: countApi}))
+        res.send(new BaseRes(true, "Success", { API: api,COUNT_API: countApi }))
     }
 })
 
@@ -320,11 +320,14 @@ homeRoute.post('/api_0002_d002', async (req, res, next) => { //http://localhost:
 
 
 
+
+
+
 homeRoute.post('/api_0003_c001', async (req, res, next) => { //http://localhost:3000/api_0003_c001
     /**
      * reqeust
      * {
-            "API_ID" : "ass",
+            "API_ID" : "emplinfo19",  //database have this id for dynamic field
             "ERROR_YN" : "as",
             "REQ_DATA" : "as",
             "RES_DATA" : "as",
@@ -332,17 +335,35 @@ homeRoute.post('/api_0003_c001', async (req, res, next) => { //http://localhost:
             "ERROR_CD" : "as"
         }
      */
+
+    var dynamic
+    if(!isNull(req.body.API_ID)){
+        dynamic =  "\nand api_id ilike '%" + req.body.API_ID + "%'";
+    }
+
     var apiCreate = await db.any(`INSERT INTO b2b_api_his
                             (seq, api_id, req_dt, error_yn, req_data, res_data, bizplay_api_yn, error_cd)
                             VALUES(
                             COALESCE( (SELECT  MAX(CAST(seq AS NUMERIC)) + 1 FROM  b2b_api_his), 1)
                             , '${req.body.API_ID}', to_char(now(),'YYYY-MM-DD HH24:mi:SS') , '${req.body.ERROR_YN}', '${req.body.REQ_DATA}', '${req.body.RES_DATA}', '${req.body.BIZPLAY_API_YN}','${req.body.ERROR_CD}')`);
+
+    //work when b2b_api_info db have this API_ID
+    var count = await db.one(`SELECT  count(*) over() total_Recode, seq, api_id, req_dt, error_yn, req_data, res_data, bizplay_api_yn, error_cd
+                              FROM b2b_api_his
+                              where 1=1 
+                              ${dynamic} `)
+
     if (apiCreate == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
         res.send(new BaseRes(true, "Success", { API_CREATE: apiCreate }))
     }
 })
+
+
+
+
+
 
 
 
