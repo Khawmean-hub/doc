@@ -43,7 +43,7 @@ homeRoute.post('/doc_department_r001', async (req, res, next) => {
 
     if (resp == null) {
         return res.send(new BaseRes(false, "Error", null))
-}
+    }
 })
 
 
@@ -71,12 +71,12 @@ homeRoute.post('/doc_article_r01', async (req, res, next) => {
     left join doc_tags t on t.id = a.tag_id  
     left join doc_file as f on f.file_article_id = a.file_article_id
     where a.id=cast($1 as INTEGER) and a.status = 1 and t.status = 1`, [req.body.ID]);
-    if (acticle == null ) {
+    if (acticle == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
         var ress = [];
-        if(acticle.length>0){
-            ress=acticle[0];
+        if (acticle.length > 0) {
+            ress = acticle[0];
         }
         res.send(new BaseRes(true, "Success", ress))
     }
@@ -88,12 +88,12 @@ homeRoute.post('/doc_file_r01', async (req, res, next) => {
     from doc_file as f 
     inner join doc_articles as a on f.file_article_id = a.file_article_id
     where a.id=cast($1 as INTEGER) and a.status = 1 and f.status = 1`, [req.body.ID]);
-    if (acticle == null ) {
+    if (acticle == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
         var ress = [];
-        if(acticle.length>0){
-            ress=acticle[0];
+        if (acticle.length > 0) {
+            ress = acticle[0];
         }
         res.send(new BaseRes(true, "Success", ress))
     }
@@ -112,18 +112,174 @@ homeRoute.post('/doc_menu_r02', async (req, res, next) => { //http://localhost:3
     left join doc_tags t on t.id = a.tag_id  
     left join doc_file as f on f.file_article_id = a.file_article_id
     where a.id=cast($1 as INTEGER) and a.status = 1 and t.status = 1`, [req.body.ID]);
-    if (acticle == null ) {
+    if (acticle == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
         var ress = [];
-        if(acticle.length>0){
-            ress=acticle[0];
+        if (acticle.length > 0) {
+            ress = acticle[0];
         }
         res.send(new BaseRes(true, "Success", ress))
     }
 
-
-    
 })
+
+
+
+
+
+
+
+
+homeRoute.post('/doc_tags_r02', async (req, res, next) => { //http://localhost:3000/doc_tags_r02
+    var tags = await db.any(`select t.id,t.title,t.modified_date,t.user_id,u.username from doc_tags t left join doc_users u on t.user_id = u.id where t.status = 2;`);
+    if (tags == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { TAGS: tags }))
+    }
+})
+
+
+
+
+
+
+homeRoute.post('/api_0001_c001', async (req, res, next) => { //http://localhost:3000/api_0001_c001
+
+
+    /**
+           request
+           {
+            "API_ID" : "1",
+            "PRJ_ID" : "1",
+            "REQ_METHOD" : "post",
+            "REQ_DATA" : "1",
+            "API_NM" : "2",
+            "CONTENT_TYPE" : "1" ,
+            "DESCRIPTION" : "1",
+            "REG_USER_ID" : "1",
+            "MOD_USER_ID" : "1"
+            }
+         * 
+         * 
+         */
+
+
+    var b2bApiInfo = await db.any(`INSERT INTO b2b_api_info
+    (api_id, prj_id,req_method, req_data, api_nm, content_type, description, reg_user_id, mod_user_id, reg_dt, mod_dt)
+    VALUES('${req.body.API_ID}', CAST('${req.body.PRJ_ID}' AS int), '${req.body.REQ_METHOD}', '${req.body.REQ_DATA}', '${req.body.API_NM}', '${req.body.CONTENT_TYPE}', '${req.body.DESCRIPTION}', '${req.body.REG_USER_ID}', '${req.body.MOD_USER_ID}',to_char(now(),'YYYY-MM-DD HH24:mi:SS'),to_char(now(),'YYYY-MM-DD HH24:mi:SS'))`);
+    if (b2bApiInfo == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { B2B_API_INFO: b2bApiInfo }))
+
+    }
+
+})
+
+
+
+
+
+
+
+
+
+homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:3000/api_0002_r001
+
+
+    /**
+      
+      request
+        {
+            "MD_TYPE" : 2,
+            "SRCH_WORD" : "hello",
+            "PRJ_ID" : "122",
+            "REQ_METHOD" : "POST"
+        }
+
+     */
+
+    var count = await db.one(`SELECT COUNT(API.API_ID) AS CNT
+                              FROM
+                              	B2B_API_INFO API
+                              LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
+                              WHERE  1=1
+                              AND (  
+                                   API.API_ID      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                                )
+                              AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
+                                   OR( COALESCE('${req.body.PRJ_ID}','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID}' )  
+                                 )  
+                              AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
+                                   or (COALESCE('${req.body.REQ_METHOD}','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD}')  --P : POST, G: GET
+                                 )`)
+
+
+
+    var page = new Paging(req.body.OFFSET, req.body.LIMIT, count.count);
+
+    var api = await db.any(`SELECT /* MAP_ID(API_0002_R001) */
+                               API.API_ID,
+                               PR.PRJ_NM,
+                               ( SELECT URL FROM B2B_API_MODE WHERE API_ID = API.API_ID AND   MD_TYPE = '${req.body.MD_TYPE}' ) AS URL,--1:DEV, 2:REAL
+                               API.REQ_METHOD,
+                               API.REQ_DATA,
+                               API.CONTENT_TYPE,
+                               API.DESCRIPTION,
+                               API.REG_USER_ID,
+                               API.MOD_USER_ID,
+                               API.REG_DT,
+                               API.MOD_DT,
+                               API.API_NM,
+                               API.PRJ_ID
+                           FROM  B2B_API_INFO API
+                           LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
+                           WHERE  1=1
+                           AND (  
+                               API.API_ID         ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                               OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                               OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                               OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                               OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD}' || '%'
+                           )
+                           AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
+                               OR( COALESCE('${req.body.PRJ_ID}','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID}' )  
+                           )  
+                           AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
+                            or (COALESCE('${req.body.REQ_METHOD}','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD}')  --P : POST, G: GET
+                           ) 
+                           ORDER BY  API.API_ID, API.PRJ_ID ASC
+                           LIMIT ${page.limit} OFFSET ${page.getOffset()}`);
+                            
+
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { API: api }))
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 module.exports = homeRoute;
