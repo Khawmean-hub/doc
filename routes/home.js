@@ -436,16 +436,64 @@ homeRoute.post('/doc_view_u01', async (req, res, next) => { //http://localhost:3
     /**
      * reqeust
      * {
-             "API_ID" : "2222"
+              "VIEW_AMOUNT" : "2222",
+              "VIEW_ID" : "1673422113542"
         }
      */
     var api = await db.any(`update doc_view set view_amount=CAST('${req.body.VIEW_AMOUNT}' as INTEGER) where view_id = '${req.body.VIEW_ID}'`);
     if (api == null) {
         return res.send(new BaseRes(false, "Error", null))
     } else {
-        res.send(new BaseRes(true, "Success", { B2B_API_MODE: api }))
+        res.send(new BaseRes(true, "Success", { VIEW: api }))
     }
 })
+
+
+
+
+
+
+homeRoute.post('/doc_vote_u02', async (req, res, next) => { //http://localhost:3000/doc_vote_u02
+    /**
+     * reqeust
+     * {
+              "DENY_AMOUNT" : "100",
+              "VOTE_ID" : "1672364708250"
+        }
+     */
+    var api = await db.any(`update doc_vote set deny_amount = (CAST('${req.body.DENY_AMOUNT}' as INTEGER)) where vote_id = '${req.body.VOTE_ID}'`);
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { VOTE: api }))
+    }
+})
+
+
+
+
+
+
+homeRoute.post('/doc_vote_u01', async (req, res, next) => { //http://localhost:3000/doc_vote_u01
+    /**
+     * reqeust
+     * {
+              "VOTE_AMOUNT" : "100",
+              "VOTE_ID" : "1672364708250"
+        }
+     */
+    var api = await db.any(`update doc_vote set vote_amount = (CAST('${req.body.VOTE_AMOUNT}' as INTEGER)) where vote_id = '${req.body.VOTE_ID}'`);
+    if (api == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { VOTE: api }))
+    }
+})
+
+
+
+
+
 
 
 
