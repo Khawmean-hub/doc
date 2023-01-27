@@ -471,7 +471,7 @@ homeRoute.post('/doc_vote_u01', async (req, res, next) => { //http://localhost:3
      * reqeust
      * {
               "VOTE_AMOUNT" : "100",
-              "VOTE_ID" : "1672364708250"
+              "VOTE_ID" : "1582097535349"
         }
      */
     var api = await db.any(`update doc_vote set vote_amount = (CAST('${req.body.VOTE_AMOUNT}' as INTEGER)) where vote_id = '${req.body.VOTE_ID}'`);
@@ -498,7 +498,159 @@ homeRoute.post('/doc_vote_u01', async (req, res, next) => { //http://localhost:3
 
 
 
+homeRoute.post('/doc_tags_r02', async (req,res, next) => { //http://localhost:3000/doc_tags_r02
 
+    var tags = await db.any(`select t.id,t.title,t.modified_date,t.user_id,u.username from doc_tags t left join doc_users u on t.user_id = u.id where t.status = 1;`);
+    if (tags == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { TAGS: tags }))
+    }
+})
+
+homeRoute.get('/doc_tag_d01', async (req, res, next) => { // http://localhost:3000/doc_tags_d01
+    var tags = await db.any(`UPDATE doc_tags 
+                            set status=0 where id=cast('${req.body.ID}' as integer)`);
+    if (tags == null) {
+        return res.send(new BaseRes(false, "Error", null))
+    } else {
+        res.send(new BaseRes(true, "Success", { TAGS: tags }))
+    }
+})
+
+// homeRoute.get('/doc_search_r01', async(req, res, next) => { // http://localhost:3000/doc_search_r01
+//     var search = await db.any(select id, r_title,r_contents,tag_id,tag_title from  ${req.body.DYNAMIC});
+
+//     if ( search == null) {
+//         return res.send(new BaseRes(false, "Error", null))
+//     } else {
+//         res.send(new BaseRes(true, "Success", {  SEARCH: search }))
+//     }
+// })
+
+homeRoute.get('/doc_login_r01', async(req, res, next) =>{  // http://localhost:3000/doc_login_r01
+    var login = await db.any(`select id from doc_users where username= '${req.body.USERNAME}' and password= '${req.body.PASSWORD}' and status =1`);
+    if ( login == null){
+        return res.send(new BaseRes(false, "Error", null))
+    }else{
+        res.send(new BaseRes(true, "Success",{LOGIN : login}))
+    }
+})
+
+homeRoute.get('/doc_question_r01', async(req, res, next) =>{  // http://localhost:3000/doc_question_r01
+    var login = await db.any(`select dq.user_id, dq.question_id, dq.title_id, dq.title, dq.content_question, dq.vote_id, dq.view_id, dq.question_date, 
+    dqt.tag_id, dqt.tag_name, dv.view_amount, dvo.vote_amount, dvo.deny_amount
+    from doc_questions as dq
+    inner join doc_questions_tags as dqt on dqt.question_id=dq.question_id
+    left join doc_view as dv on dv.view_id = dq.view_id
+    left join doc_vote as dvo on dvo.vote_id = dq.vote_id
+    where dq.question_id= '${req.body.ID}' and dq.status = 1`);
+    if ( login == null){
+        return res.send(new BaseRes(false, "Error", null))
+    }else{
+        res.send(new BaseRes(true, "Success",{LOGIN : login}))
+    }
+})
+
+
+homeRoute.get('/doc_question_r02', async(req, res, next) =>{  // http://localhost:3000/doc_question_r02
+    var login = await db.any(`select dq.id,dq.user_id, du.username, dq.question_id, dq.title_id, dq.title, dq.content_question, dq.vote_id, dq.view_id, dq.question_date, 
+    dv.view_amount, dvo.vote_amount
+    from doc_questions as dq 
+    inner join doc_users as du on du.id = dq.user_id
+    left join doc_view as dv on dv.view_id = dq.view_id
+    left join doc_vote as dvo on dvo.vote_id = dq.vote_id
+    where dq.status = 1`);
+    if ( login == null){
+        return res.send(new BaseRes(false, "Error", null))
+    }else{
+        res.send(new BaseRes(true, "Success",{LOGIN : login}))
+    }
+})
+
+homeRoute.get('/doc_question_tags_r01', async(req, res, next) => { // http://localhost:3000/doc_question_tages_r01
+    var login = await db.any(`select tag_id, tag_name, question_id from doc_questions_tags where question_id='${req.body.QUESTION_ID}'`)
+    if ( login == null){
+        return res.send(new BaseRes(false, "Error", null))
+    }else{
+        res.send(new BaseRes(true, "Success",{LOGIN : login}))
+    }
+})
+
+
+homeRoute.get('/doc_answer_r01', async(req, res, next) => { // http://localhost:3000/doc_answer_r01
+    var answer = await db.any(`select da.answer_content, da.answer_date, da.answer_id, da.question_id, da.user_id, du.username, dav.vote_amount, dav.deny_amount
+    from doc_answer as da
+    inner join doc_users as du on da.user_id = du.id
+    left join doc_answer_vote as dav on da.answer_id = dav.answer_id
+    where da.question_id = '${req.body.QUESTION_ID}' and da.status = 1`)
+    if ( answer == null){
+        return res.send(new BaseRes(false, "Error", null))
+    }else{
+        return res.send(new BaseRes(true, "Success",{ANSWER : answer}))
+    }
+})
+
+homeRoute.post('/doc_answer_vote_c01', async(req, res, next) => { // http://localhost:3000/doc_answer_vote_c01
+    var answer = await db.any(`INSERT INTO doc_answer_vote(answer_id) VALUES ('${req.body.ANSWER_ID}')`);
+    if ( answer == null){
+        return res.send(new BaseRes(false, "ERROR", null))
+    }else{
+        return res.send(new BaseRes(true,"Success", {ANSWER : answer}))
+    }
+})
+
+homeRoute.post('/doc_answer_c01', async(req, res, next) => { // http://localhost:3000/doc_answer_c01
+    /**
+     req
+     {
+            "ANSWER_CONTENT" : "dara",
+            "ANSWER_DATE" : "27-01-2023",
+            "QUESTION_ID" : "22",
+            "USER_ID" : "11",
+            "ANSWER_ID" : "5"
+}
+     */
+    var answer = await db.any(`insert into doc_answer(answer_content, answer_date, question_id, user_id, answer_id, status) values('${req.body.ANSWER_CONTENT}', '${req.body.ANSWER_DATE}', '${req.body.QUESTION_ID}', CAST('${req.body.USER_ID}' AS INTEGER), '${req.body.ANSWER_ID}', 1)`)
+    if ( answer == null ){
+        return res.send(new BaseRes(false, "ERROR", null))
+    }else{
+        return res.send(new BaseRes(true, "Success", {ANSWER : answer}))
+    }
+})
+
+
+homeRoute.get('/doc_answer_amount_r01', async(req, res, next) =>{ // http://localhost:3000/doc_answer_amount_r01
+    var answer = await db.any(`select count(answer_content) as answer_count from doc_answer where question_id = '${req.body.QUESTION_ID}'`);
+    if ( answer == null ){
+        return res.send(new BaseRes(false, "ERROE", null))
+    }else{
+        return res.send(new BaseRes(true, "Success", {ANSWER : answer}))
+    }
+})
+
+homeRoute.get('/dashboard_list_app_r001', async(req, res, next) =>{ // http://localhost:3000/dashboard_list_app_r001
+    var dashboard = await db.any(`select 
+
+    app .app_id
+  , app.app_name
+  , app.redmine_id
+  , app.description
+  , string_agg(sub.subapp_name, ',') as subapp_name
+  , string_agg(sub.link_url, ',') as link_url
+  , Max(uv.uploadeddate) as uploadeddate
+
+from tbl_app app
+
+left join tbl_subapp sub on app.app_id = sub.app_id 
+left join tbl_uploadversion uv on app.app_id = uv.app_id 
+group by app.app_id, app.app_name,app.redmine_id, app.description`);
+    if ( dashboard == null){
+        return res.send(new BaseRes(false,"ERROR", null))
+    } else{
+        return res.send(new BaseRes(true, "Success",{DASHBOARD: dashboard}))
+    }
+})
 
 
 
