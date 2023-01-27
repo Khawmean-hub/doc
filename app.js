@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 
-var allowedOrigins = ['http://127.0.0.1:5500', 'https://khawmean-hub.github.io', 'http://192.168.178.169:5500', 'http://192.168.178.68:5500'];
+var allowedOrigins = ['http://127.0.0.1:5500'];
 app.use(cors({
   origin: function(origin, callback){
     // allow requests with no origin 
