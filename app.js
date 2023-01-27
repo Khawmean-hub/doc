@@ -31,6 +31,8 @@ app.use(bodyParser.json());
 
 // Routes
 app.use(require('./routes/home'))
+app.use(require('./routes/fileRes'))
 
 
 app.listen(process.env.PORT)
+
