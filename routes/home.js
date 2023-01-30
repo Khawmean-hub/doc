@@ -100,7 +100,7 @@ homeRoute.post('/doc_menu_r02', async (req, res, next) => { //http://localhost:3
     var acticle = await db.any(`SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body, 
     a.modified_date , a.status,b.username,a.user_id,
     f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path
-    FROM stdy.doc_articles a 
+    FROM doc_articles a 
     inner join doc_users b on a.user_id = b.id 
     left join doc_tags t on t.id = a.tag_id  
     left join doc_file as f on f.file_article_id = a.file_article_id
@@ -388,7 +388,7 @@ homeRoute.post('/api_0004_01', async (req, res, next) => { //http://localhost:30
 
 homeRoute.post('/api_0004_r01', async (req, res, next) => { //http://localhost:3000/api_0004_01
     var api = await db.any(`SELECT prj_id, prj_nm
-                                  FROM stdy.b2b_api_prj_info
+                                  FROM b2b_api_prj_info
                                   ORDER BY prj_id desc`);
     if (api == null) {
         return res.send(new BaseRes(false, "Error", null))
@@ -658,11 +658,19 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 
 
 homeRoute.post('/doc_article_c01', async(req, res)=>{
-    var data = await db.any(`
-    INSERT INTO stdy.doc_articles
+    console.log(req.body)
+    console.log(`
+    INSERT INTO doc_articles
     (tag_id, title, content_body, create_date, modified_date, user_id, file_article_id, dep_id, status)
     VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
     `);
+    var data = await db.any(`
+    INSERT INTO doc_articles
+    (tag_id, title, content_body, create_date, modified_date, user_id, file_article_id, dep_id, status)
+    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
+    `);
+
+
     if ( data == null){
         return res.send(new BaseRes(false,"ERROR", null))
     } else{
@@ -670,6 +678,16 @@ homeRoute.post('/doc_article_c01', async(req, res)=>{
     }
 })
 
+
+homeRoute.post('/doc_search_r01', async(req, res)=>{
+   var data = await db.any(`select id,r_title,r_contents,tag_id,tag_title from docs_search('${req.body.srch}')`);
+
+    if ( data == null){
+        return res.send(new BaseRes(false,"ERROR", null))
+    } else{
+        return res.send(new BaseRes(true, "Success", data))
+    }
+})
 
 
 
