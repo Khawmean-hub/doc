@@ -1,9 +1,8 @@
-FROM alpine:3.16
-RUN mkdir -p /home/node/app/node_modules && chown -R node:node /home/node/app
-WORKDIR /home/node/app
+FROM node:lts-alpine
+WORKDIR /home/app
 COPY package*.json ./
 USER node
 RUN npm install
-COPY --chown=node:node . .
+COPY . .
 EXPOSE 3000
 CMD ["node", "app.js"]
