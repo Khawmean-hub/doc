@@ -1,7 +1,6 @@
 FROM node:lts-alpine
-RUN mkdir -p /home/app/node_modules && chown -R /home/app
-WORKDIR /home/app
-COPY package*.json ./
+WORKDIR /app
+COPY ["package.json", "package-lock.json*", "./"]
 USER node
 RUN npm install
 COPY . .
