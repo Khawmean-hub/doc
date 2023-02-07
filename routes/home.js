@@ -692,6 +692,19 @@ homeRoute.post('/doc_search_r01', async(req, res)=>{
 
 
 
+homeRoute.post('/doc_tag_c01', async(req, res)=>{
+   var tag = await db.any(`INSERT INTO doc_tags(title, dep_id, create_date, modified_date, user_id, status)
+                            VALUES(strip_tags('${req.body.TITLE}'), '${req.body.DEP_ID}', now(),now(), CAST('${req.body.USER_ID}' AS INTEGER), 1)`);
+    if ( tag == null){
+        return res.send(new BaseRes(false,"ERROR", null))
+    } else{
+        return res.send(new BaseRes(true, "Success", tag))
+    }
+})
+
+
+
+
 
 
 
