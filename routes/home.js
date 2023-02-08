@@ -13,7 +13,7 @@ const jwt = require('jsonwebtoken');
 
 
 // Home
-homeRoute.post('/doc_menu_home_r01', async (req, res, next) => {
+homeRoute.post('/doc_menu_home_r01',auth.permitAll, async (req, res, next) => {
     defaultPageInput(req);
     var count = await db.one(`select count(*) from doc_tags  where   status = 1  and (dep_id = $1 or coalesce($1,'')='')`, [defaulEmpty(req.body.DEP_ID)])
     var page = new Paging(req.body.OFFSET, req.body.LIMIT, count.count);
@@ -32,7 +32,7 @@ homeRoute.post('/doc_menu_home_r01', async (req, res, next) => {
 })
 
 
-homeRoute.post('/doc_department_r001', async (req, res, next) => {
+homeRoute.post('/doc_department_r001',auth.permitAll, async (req, res, next) => {
     var data = await db.any(`select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`);
     if(!isNull(data))
          return res.send(new BaseRes(true, "Success", data))
@@ -56,7 +56,7 @@ homeRoute.get('/doc_menu_r01', auth.permitAll,async (req, res, next) => {
 })
 
 
-homeRoute.post('/doc_article_r01', async (req, res, next) => {
+homeRoute.post('/doc_article_r01',auth.permitAll, async (req, res, next) => {
     var acticle = await db.any(`SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body, 
     a.modified_date , a.status,b.username,a.user_id,
     f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path
@@ -77,7 +77,7 @@ homeRoute.post('/doc_article_r01', async (req, res, next) => {
 })
 
 
-homeRoute.post('/doc_file_r01', async (req, res, next) => {
+homeRoute.post('/doc_file_r01',auth.permitAll, async (req, res, next) => {
     var acticle = await db.any(`select f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path 
     from doc_file as f 
     inner join doc_articles as a on f.file_article_id = a.file_article_id
@@ -96,7 +96,7 @@ homeRoute.post('/doc_file_r01', async (req, res, next) => {
 
 
 // testing
-homeRoute.post('/doc_menu_r02', async (req, res, next) => { //http://localhost:3000/doc_menu_r02?id=222
+homeRoute.post('/doc_menu_r02',auth.permitAll, async (req, res, next) => { //http://localhost:3000/doc_menu_r02?id=222
 
     var acticle = await db.any(`SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body, 
     a.modified_date , a.status,b.username,a.user_id,
@@ -125,7 +125,7 @@ homeRoute.post('/doc_menu_r02', async (req, res, next) => { //http://localhost:3
 
 
 
-homeRoute.post('/doc_tags_r02', async (req, res, next) => { //http://localhost:3000/doc_tags_r02
+homeRoute.post('/doc_tags_r02',auth.permitAll, async (req, res, next) => { //http://localhost:3000/doc_tags_r02
     var tags = await db.any(`select t.id,t.title,t.modified_date,t.user_id,u.username from doc_tags t left join doc_users u on t.user_id = u.id where t.status = 2;`);
     if (tags == null) {
         return res.send(new BaseRes(false, "Error", null))
@@ -139,7 +139,7 @@ homeRoute.post('/doc_tags_r02', async (req, res, next) => { //http://localhost:3
 
 
 
-homeRoute.post('/api_0001_c001', async (req, res, next) => { //http://localhost:3000/api_0001_c001
+homeRoute.post('/api_0001_c001',auth.permitAll, async (req, res, next) => { //http://localhost:3000/api_0001_c001
 
 
     /**
@@ -180,7 +180,7 @@ homeRoute.post('/api_0001_c001', async (req, res, next) => { //http://localhost:
 
 
 
-homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:3000/api_0002_r001
+homeRoute.post('/api_0002_r001',auth.permitAll, async (req, res, next) => { //http://localhost:3000/api_0002_r001
 
 
     /**
@@ -292,7 +292,7 @@ homeRoute.post('/api_0002_r001', async (req, res, next) => { //http://localhost:
 
 
 
-homeRoute.post('/api_0002_d002', async (req, res, next) => { //http://localhost:3000/api_0002_d002
+homeRoute.post('/api_0002_d002',auth.admin, async (req, res, next) => { //http://localhost:3000/api_0002_d002
     /**
      * reqeust
      * {
@@ -316,7 +316,7 @@ homeRoute.post('/api_0002_d002', async (req, res, next) => { //http://localhost:
 
 
 
-homeRoute.post('/api_0003_c001', async (req, res, next) => { //http://localhost:3000/api_0003_c001
+homeRoute.post('/api_0003_c001',auth.permitAll, async (req, res, next) => { //http://localhost:3000/api_0003_c001
     /**
      * reqeust
      * {
@@ -359,7 +359,7 @@ homeRoute.post('/api_0003_c001', async (req, res, next) => { //http://localhost:
 
 
 
-homeRoute.post('/api_0004_01', async (req, res, next) => { //http://localhost:3000/api_0004_01
+homeRoute.post('/api_0004_01',auth.permitAll, async (req, res, next) => { //http://localhost:3000/api_0004_01
     /**
      * reqeust
      * {
