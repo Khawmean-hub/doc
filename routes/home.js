@@ -529,7 +529,7 @@ homeRoute.get('/doc_tag_d01',auth.permitAll, async (req, res, next) => { // http
 //     }
 // })
 
-homeRoute.post('/doc_login_r01',auth.permitAll, async(req, res, next) =>{  // http://localhost:3000/doc_login_r01
+homeRoute.post('/doc_login_r01', async(req, res, next) =>{  // http://localhost:3000/doc_login_r01
     var login = await db.any(`select * from doc_users where username= '${req.body.USERNAME}' and password= '${req.body.PASSWORD}' and status =1`);
     if ( login.length == 0){
         return res.send(new BaseRes(false, "Incorrect username or password", null))
