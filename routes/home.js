@@ -539,6 +539,7 @@ homeRoute.post('/doc_login_r01', async(req, res, next) =>{  // http://localhost:
 
         var response = {
             role: login[0].role,
+            id: login[0].id,
             token: asseccToken
         }
 
