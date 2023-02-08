@@ -387,7 +387,7 @@ homeRoute.post('/api_0004_01',auth.permitAll, async (req, res, next) => { //http
 
 
 
-homeRoute.post('/api_0004_r01', async (req, res, next) => { //http://localhost:3000/api_0004_01
+homeRoute.post('/api_0004_r01',auth.permitAll, async (req, res, next) => { //http://localhost:3000/api_0004_01
     var api = await db.any(`SELECT prj_id, prj_nm
                                   FROM b2b_api_prj_info
                                   ORDER BY prj_id desc`);
@@ -404,7 +404,7 @@ homeRoute.post('/api_0004_r01', async (req, res, next) => { //http://localhost:3
 
 
 
-homeRoute.post('/b2b_api_mode_r001', async (req, res, next) => { //http://localhost:3000/b2b_api_mode_r001
+homeRoute.post('/b2b_api_mode_r001',auth.permitAll, async (req, res, next) => { //http://localhost:3000/b2b_api_mode_r001
     /**
      * reqeust
      * {
@@ -425,7 +425,7 @@ homeRoute.post('/b2b_api_mode_r001', async (req, res, next) => { //http://localh
 
 
 
-homeRoute.post('/doc_view_u01', async (req, res, next) => { //http://localhost:3000/doc_view_u01
+homeRoute.post('/doc_view_u01',auth.permitAll, async (req, res, next) => { //http://localhost:3000/doc_view_u01
     /**
      * reqeust
      * {
@@ -446,7 +446,7 @@ homeRoute.post('/doc_view_u01', async (req, res, next) => { //http://localhost:3
 
 
 
-homeRoute.post('/doc_vote_u02', async (req, res, next) => { //http://localhost:3000/doc_vote_u02
+homeRoute.post('/doc_vote_u02',auth.permitAll, async (req, res, next) => { //http://localhost:3000/doc_vote_u02
     /**
      * reqeust
      * {
@@ -467,7 +467,7 @@ homeRoute.post('/doc_vote_u02', async (req, res, next) => { //http://localhost:3
 
 
 
-homeRoute.post('/doc_vote_u01', async (req, res, next) => { //http://localhost:3000/doc_vote_u01
+homeRoute.post('/doc_vote_u01',auth.permitAll, async (req, res, next) => { //http://localhost:3000/doc_vote_u01
     /**
      * reqeust
      * {
@@ -499,7 +499,7 @@ homeRoute.post('/doc_vote_u01', async (req, res, next) => { //http://localhost:3
 
 
 
-homeRoute.post('/doc_tags_r02', async (req,res, next) => { //http://localhost:3000/doc_tags_r02
+homeRoute.post('/doc_tags_r02',auth.permitAll, async (req,res, next) => { //http://localhost:3000/doc_tags_r02
 
     var tags = await db.any(`select t.id,t.title,t.modified_date,t.user_id,u.username from doc_tags t left join doc_users u on t.user_id = u.id where t.status = 1;`);
     if (tags == null) {
@@ -509,7 +509,7 @@ homeRoute.post('/doc_tags_r02', async (req,res, next) => { //http://localhost:30
     }
 })
 
-homeRoute.get('/doc_tag_d01', async (req, res, next) => { // http://localhost:3000/doc_tags_d01
+homeRoute.get('/doc_tag_d01',auth.permitAll, async (req, res, next) => { // http://localhost:3000/doc_tags_d01
     var tags = await db.any(`UPDATE doc_tags 
                             set status=0 where id=cast('${req.body.ID}' as integer)`);
     if (tags == null) {
@@ -529,7 +529,7 @@ homeRoute.get('/doc_tag_d01', async (req, res, next) => { // http://localhost:30
 //     }
 // })
 
-homeRoute.post('/doc_login_r01', async(req, res, next) =>{  // http://localhost:3000/doc_login_r01
+homeRoute.post('/doc_login_r01',auth.permitAll, async(req, res, next) =>{  // http://localhost:3000/doc_login_r01
     var login = await db.any(`select * from doc_users where username= '${req.body.USERNAME}' and password= '${req.body.PASSWORD}' and status =1`);
     if ( login.length == 0){
         return res.send(new BaseRes(false, "Incorrect username or password", null))
@@ -546,7 +546,7 @@ homeRoute.post('/doc_login_r01', async(req, res, next) =>{  // http://localhost:
     }
 })
 
-homeRoute.get('/doc_question_r01', async(req, res, next) =>{  // http://localhost:3000/doc_question_r01
+homeRoute.get('/doc_question_r01',auth.permitAll, async(req, res, next) =>{  // http://localhost:3000/doc_question_r01
     var login = await db.any(`select dq.user_id, dq.question_id, dq.title_id, dq.title, dq.content_question, dq.vote_id, dq.view_id, dq.question_date, 
     dqt.tag_id, dqt.tag_name, dv.view_amount, dvo.vote_amount, dvo.deny_amount
     from doc_questions as dq
@@ -562,7 +562,7 @@ homeRoute.get('/doc_question_r01', async(req, res, next) =>{  // http://localhos
 })
 
 
-homeRoute.get('/doc_question_r02', async(req, res, next) =>{  // http://localhost:3000/doc_question_r02
+homeRoute.get('/doc_question_r02',auth.permitAll, async(req, res, next) =>{  // http://localhost:3000/doc_question_r02
     var login = await db.any(`select dq.id,dq.user_id, du.username, dq.question_id, dq.title_id, dq.title, dq.content_question, dq.vote_id, dq.view_id, dq.question_date, 
     dv.view_amount, dvo.vote_amount
     from doc_questions as dq 
@@ -577,7 +577,7 @@ homeRoute.get('/doc_question_r02', async(req, res, next) =>{  // http://localhos
     }
 })
 
-homeRoute.get('/doc_question_tags_r01', async(req, res, next) => { // http://localhost:3000/doc_question_tages_r01
+homeRoute.get('/doc_question_tags_r01',auth.permitAll, async(req, res, next) => { // http://localhost:3000/doc_question_tages_r01
     var login = await db.any(`select tag_id, tag_name, question_id from doc_questions_tags where question_id='${req.body.QUESTION_ID}'`)
     if ( login == null){
         return res.send(new BaseRes(false, "Error", null))
@@ -587,7 +587,7 @@ homeRoute.get('/doc_question_tags_r01', async(req, res, next) => { // http://loc
 })
 
 
-homeRoute.get('/doc_answer_r01', async(req, res, next) => { // http://localhost:3000/doc_answer_r01
+homeRoute.get('/doc_answer_r01',auth.permitAll, async(req, res, next) => { // http://localhost:3000/doc_answer_r01
     var answer = await db.any(`select da.answer_content, da.answer_date, da.answer_id, da.question_id, da.user_id, du.username, dav.vote_amount, dav.deny_amount
     from doc_answer as da
     inner join doc_users as du on da.user_id = du.id
@@ -600,7 +600,7 @@ homeRoute.get('/doc_answer_r01', async(req, res, next) => { // http://localhost:
     }
 })
 
-homeRoute.post('/doc_answer_vote_c01', async(req, res, next) => { // http://localhost:3000/doc_answer_vote_c01
+homeRoute.post('/doc_answer_vote_c01',auth.permitAll, async(req, res, next) => { // http://localhost:3000/doc_answer_vote_c01
     var answer = await db.any(`INSERT INTO doc_answer_vote(answer_id) VALUES ('${req.body.ANSWER_ID}')`);
     if ( answer == null){
         return res.send(new BaseRes(false, "ERROR", null))
@@ -629,7 +629,7 @@ homeRoute.post('/doc_answer_c01', async(req, res, next) => { // http://localhost
 })
 
 
-homeRoute.get('/doc_answer_amount_r01', async(req, res, next) =>{ // http://localhost:3000/doc_answer_amount_r01
+homeRoute.get('/doc_answer_amount_r01',auth.permitAll, async(req, res, next) =>{ // http://localhost:3000/doc_answer_amount_r01
     var answer = await db.any(`select count(answer_content) as answer_count from doc_answer where question_id = '${req.body.QUESTION_ID}'`);
     if ( answer == null ){
         return res.send(new BaseRes(false, "ERROE", null))
@@ -638,7 +638,7 @@ homeRoute.get('/doc_answer_amount_r01', async(req, res, next) =>{ // http://loca
     }
 })
 
-homeRoute.get('/dashboard_list_app_r001', async(req, res, next) =>{ // http://localhost:3000/dashboard_list_app_r001
+homeRoute.get('/dashboard_list_app_r001',auth.permitAll, async(req, res, next) =>{ // http://localhost:3000/dashboard_list_app_r001
     var dashboard = await db.any(`select 
 
     app .app_id
@@ -666,7 +666,7 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 
 
 
-homeRoute.post('/doc_article_c01', async(req, res)=>{
+homeRoute.post('/doc_article_c01',auth.permitAll, async(req, res)=>{
     console.log(req.body)
     console.log(`
     INSERT INTO doc_articles
@@ -688,7 +688,7 @@ homeRoute.post('/doc_article_c01', async(req, res)=>{
 })
 
 
-homeRoute.post('/doc_search_r01', async(req, res)=>{
+homeRoute.post('/doc_search_r01',auth.permitAll, async(req, res)=>{
    var data = await db.any(`select id,r_title,r_contents,tag_id,tag_title from docs_search('${req.body.srch}')`);
 
     if ( data == null){
