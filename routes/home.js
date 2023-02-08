@@ -1,11 +1,12 @@
 const e = require("express");
 var express = require("express");
+const auth = require("../config/auth");
 const db = require("../config/db");
 const Paging = require("../utils/Paging");
 var homeRoute = express.Router();
 const BaseRes = require("../utils/Response");
 const { defaulEmpty, isNull, defaultPageInput } = require("../utils/strUtils");
-
+const jwt = require('jsonwebtoken');
 
 
 
@@ -40,7 +41,7 @@ homeRoute.post('/doc_department_r001', async (req, res, next) => {
  })
 
 
-homeRoute.get('/doc_menu_r01', async (req, res, next) => {
+homeRoute.get('/doc_menu_r01', auth.permitAll,async (req, res, next) => {
     var acticle = await db.any(`SELECT a.id, a.tag_id, a.title
     FROM doc_articles a right join doc_tags t on a.tag_id = t.id  where a.status=1 and t.status = 1
     order by a.title;`);
@@ -529,11 +530,19 @@ homeRoute.get('/doc_tag_d01', async (req, res, next) => { // http://localhost:30
 // })
 
 homeRoute.post('/doc_login_r01', async(req, res, next) =>{  // http://localhost:3000/doc_login_r01
-    var login = await db.any(`select id from doc_users where username= '${req.body.USERNAME}' and password= '${req.body.PASSWORD}' and status =1`);
+    var login = await db.any(`select * from doc_users where username= '${req.body.USERNAME}' and password= '${req.body.PASSWORD}' and status =1`);
     if ( login.length == 0){
         return res.send(new BaseRes(false, "Incorrect username or password", null))
     }else{
-        res.send(new BaseRes(true, "Success", login[0].id))
+        const user = {name: login[0].username, password: login[0].password, role: login[0].role, status: login[0].status}
+        let asseccToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {expiresIn: '1d'});
+
+        var response = {
+            role: login[0].role,
+            token: asseccToken
+        }
+
+        res.send(new BaseRes(true, "Success", response))
     }
 })
 
@@ -692,7 +701,7 @@ homeRoute.post('/doc_search_r01', async(req, res)=>{
 
 
 
-homeRoute.post('/doc_tag_c01', async(req, res)=>{
+homeRoute.post('/doc_tag_c01', auth.permitAll ,async(req, res)=>{
    var tag = await db.any(`INSERT INTO doc_tags(title, dep_id, create_date, modified_date, user_id, status)
                             VALUES(strip_tags('${req.body.TITLE}'), '${req.body.DEP_ID}', now(),now(), CAST('${req.body.USER_ID}' AS INTEGER), 1)`);
     if ( tag == null){
