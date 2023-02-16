@@ -559,6 +559,7 @@ homeRoute.get('/doc_question_r01', auth.permitAll, async (req, res, next) => {  
         return res.send(new BaseRes(false, "Error", null))
     } else {
         res.send(new BaseRes(true, "Success", { LOGIN: login }))
+        
     }
 })
 
