@@ -509,7 +509,7 @@ homeRoute.post('/doc_tags_r02', auth.permitAll, async (req, res, next) => { //ht
     }
 })
 
-homeRoute.get('/doc_tag_d01', auth.permitAll, async (req, res, next) => { // http://localhost:3000/doc_tags_d01
+homeRoute.get('/doc_tag_d01', /*auth.permitAll*/ async (req, res, next) => { // http://localhost:3000/doc_tags_d01
     var tags = await db.any(`UPDATE doc_tags 
                             set status=0 where id=cast('${req.body.ID}' as integer)`);
     if (tags == null) {
@@ -609,6 +609,7 @@ homeRoute.post('/doc_answer_vote_c01', auth.permitAll, async (req, res, next) =>
     } else {
         return res.send(new BaseRes(true, "Success", { ANSWER: answer }))
     }
+    
 })
 
 homeRoute.post('/doc_answer_c01', async (req, res, next) => { // http://localhost:3000/doc_answer_c01
