@@ -20,6 +20,7 @@ app.use(cors({
   }
 }));
 
+//
 //static file
 // app.use('/static', express.static('public'));
 
