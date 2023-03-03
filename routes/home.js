@@ -788,4 +788,48 @@ homeRoute.post("/doc_articles_d01", auth.permitAll, async (req, res) => {
   }
 });
 
+// user
+homeRoute.get('/doc_users', async (req, res) => {
+  const userImformation = await db.any(`SELECT id, username, "password", status, "role" FROM doc_users;`);
+  if (userImformation == null) {
+    return res.send(new BaseRes(false, 'ERROR', null))
+  } else {
+    return res.send(new BaseRes(true, 'SUCCESS', userImformation))
+  }
+});
+
+// delete user
+homeRoute.delete('/delete_users/:id', async (req, res) => {
+  var userDeleteIndex  = await db.result(`DELETE FROM doc_users WHERE id=${+req.params.id}`);
+  console.log('User has been delete:', userDeleteIndex);
+  if (userDeleteIndex.rowCount < 1) {
+    return res.send(new BaseRes(false, 'ERROR', null));
+  } else {
+    return res.send(new BaseRes(true, 'SUCCESS', userDeleteIndex));
+  }
+});
+
+// add user
+homeRoute.post('/add_users', async (req, res) => {
+  console.log('API route add is working');
+  var addUser = db.result(`INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}',${req.body.USER_ROLE} , 1)`);
+  if (addUser.rowCount < 1) {
+    return res.send(new BaseRes(false, 'ERROR', null));
+  } else {
+    return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount));
+  }
+}); 
+
+// update user
+homeRoute.post('/update_users/:id', async (req, res) => {
+  console.log('API Update user is running...');
+  // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
+  var upDateUser = db.update(`UPDATE doc_users SET id=nextval('${req.body.id}'), username='', "password"='', status=0, "role"=0;`);
+  if (upDateUser == null) {
+    return res.send(new BaseRes(false, 'ERROR', null));
+  } else {
+    res.send(new BaseRes(true, 'SUCCESS', upDateUser))
+  }
+});   
+
 module.exports = homeRoute;
