@@ -217,9 +217,8 @@ homeRoute.post("/api_0002_r001", auth.permitAll, async (req, res, next) => {
   var api = await db.any(`SELECT /* MAP_ID(API_0002_R001) */
                                API.API_ID,
                                PR.PRJ_NM,
-                               ( SELECT URL FROM B2B_API_MODE WHERE API_ID = API.API_ID AND   MD_TYPE = '${
-                                 req.body.MD_TYPE
-                               }' ) AS URL,--1:DEV, 2:REAL
+                               ( SELECT URL FROM B2B_API_MODE WHERE API_ID = API.API_ID AND   MD_TYPE = '${req.body.MD_TYPE
+    }' ) AS URL,--1:DEV, 2:REAL
                                API.REQ_METHOD,
                                API.REQ_DATA,
                                API.CONTENT_TYPE,
@@ -234,35 +233,26 @@ homeRoute.post("/api_0002_r001", auth.permitAll, async (req, res, next) => {
                            LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
                            WHERE  1=1
                            AND (  
-                               API.API_ID         ILIKE '%' || '${
-                                 req.body.SRCH_WORD
-                               }' || '%'
-                               OR PR.PRJ_NM       ILIKE '%' || '${
-                                 req.body.SRCH_WORD
-                               }' || '%'
-                               OR API.API_NM      ILIKE '%' || '${
-                                 req.body.SRCH_WORD
-                               }' || '%'
-                               OR API.REQ_DATA    ILIKE '%' || '${
-                                 req.body.SRCH_WORD
-                               }' || '%'
-                               OR API.DESCRIPTION ILIKE '%' || '${
-                                 req.body.SRCH_WORD
-                               }' || '%'
+                               API.API_ID         ILIKE '%' || '${req.body.SRCH_WORD
+    }' || '%'
+                               OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD
+    }' || '%'
+                               OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD
+    }' || '%'
+                               OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD
+    }' || '%'
+                               OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD
+    }' || '%'
                            )
                            AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
-                               OR( COALESCE('${
-                                 req.body.PRJ_ID
-                               }','')  <> '' AND cast(API.PRJ_ID as varchar)= '${
-    req.body.PRJ_ID
-  }' )  
+                               OR( COALESCE('${req.body.PRJ_ID
+    }','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID
+    }' )  
                            )  
                            AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
-                            or (COALESCE('${
-                              req.body.REQ_METHOD
-                            }','')  <> '' AND API.REQ_METHOD = '${
-    req.body.REQ_METHOD
-  }')  --P : POST, G: GET
+                            or (COALESCE('${req.body.REQ_METHOD
+    }','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD
+    }')  --P : POST, G: GET
                            ) 
                            ORDER BY  API.API_ID, API.PRJ_ID ASC
                            LIMIT ${page.limit} OFFSET ${page.getOffset()}`);
@@ -495,8 +485,8 @@ homeRoute.post(
 //     }
 // })
 
+// login
 homeRoute.post("/doc_login_r01", async (req, res, next) => {
-  // http://localhost:3000/doc_login_r01
   var login = await db.any(
     `select * from doc_users where username= '${req.body.USERNAME}' and password= '${req.body.PASSWORD}' and status =1`
   );
@@ -522,6 +512,9 @@ homeRoute.post("/doc_login_r01", async (req, res, next) => {
     res.send(new BaseRes(true, "Success", response));
   }
 });
+
+// normal user
+
 
 homeRoute.get("/doc_question_r01", auth.permitAll, async (req, res, next) => {
   // http://localhost:3000/doc_question_r01
@@ -800,7 +793,7 @@ homeRoute.get('/doc_users', async (req, res) => {
 
 // delete user
 homeRoute.delete('/delete_users/:id', async (req, res) => {
-  var userDeleteIndex  = await db.result(`DELETE FROM doc_users WHERE id=${+req.params.id}`);
+  var userDeleteIndex = await db.result(`DELETE FROM doc_users WHERE id=${+req.params.id}`);
   console.log('User has been delete:', userDeleteIndex);
   if (userDeleteIndex.rowCount < 1) {
     return res.send(new BaseRes(false, 'ERROR', null));
@@ -818,18 +811,21 @@ homeRoute.post('/add_users', async (req, res) => {
   } else {
     return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount));
   }
-}); 
+});
 
 // update user
 homeRoute.post('/update_users/:id', async (req, res) => {
+
+  console.log(req.body)
   console.log('API Update user is running...');
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
-  var upDateUser = db.update(`UPDATE doc_users SET id=nextval('${req.body.id}'), username='', "password"='', status=0, "role"=0;`);
+  console.log(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`)
+  var upDateUser = await db.result(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`);
   if (upDateUser == null) {
     return res.send(new BaseRes(false, 'ERROR', null));
   } else {
-    res.send(new BaseRes(true, 'SUCCESS', upDateUser))
+    res.send(new BaseRes(true, 'SUCCESS', upDateUser));
   }
-});   
+});
 
-module.exports = homeRoute;
+module.exports = homeRoute;     
