@@ -580,9 +580,9 @@ homeRoute.get("/doc_answer_r01", auth.permitAll, async (req, res, next) => {
     return res.send(new BaseRes(true, "Success", { ANSWER: answer }));
   }
 });
-
+ 
 homeRoute.post(
-  "/doc_answer_vote_c01",
+  "/doc_answer_vote_c01", 
   auth.permitAll,
   async (req, res, next) => {
     // http://localhost:3000/doc_answer_vote_c01
@@ -594,14 +594,14 @@ homeRoute.post(
     } else {
       return res.send(new BaseRes(true, "Success", { ANSWER: answer }));
     }
-  }
+  } 
 );
 
 homeRoute.post("/doc_answer_c01", async (req, res, next) => {
   // http://localhost:3000/doc_answer_c01
-  /**
+  /** 
      req
-     {
+     {  
             "ANSWER_CONTENT" : "dara",
             "ANSWER_DATE" : "27-01-2023",
             "QUESTION_ID" : "22",
@@ -809,9 +809,9 @@ homeRoute.post('/add_users', async (req, res) => {
   if (addUser.rowCount < 1) {
     return res.send(new BaseRes(false, 'ERROR', null));
   } else {
-    return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount));
-  }
-});
+    return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount)); 
+  }  
+}); 
 
 // update user
 homeRoute.post('/update_users/:id', async (req, res) => {
