@@ -28,14 +28,13 @@ image upload code using multer
 
  const fileSizeLimitHandler = (err, req, res, next) => {
    if (err) {
-    res.send(new BaseRes("0008", "Image size is too large. limit (200 MB)", null));
+    res.send(new BaseRes(false, "Image size is too large. limit (200 MB)", null));
    } else {
      next()
    }
  }
 
-
- 
+// file upload
 fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler,async (req, res) => {
     const fileUpload = new Resize(process.env.IMG_PATH);
     if (!req.file) {
@@ -44,11 +43,20 @@ fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler,async (re
     const filename = await fileUpload.save(req.file.buffer);
     var data = {
       url: process.env.URL+"/image/"+ filename, 
-      fileName: filename
+      fileName: filename 
     }
     res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
-});
-  
+});   
+// const uploadFile = async (file) => {
+//   const formData = new FormData();
+//   FormData.append('image', file);
+//   const res = await fetch(baseUrl+'/upload', {
+//     method: 'POST',
+//     body: formData
+//   })
+//   return await res.json();
+// }
 
 
-module.exports = fileRoute;
+module.exports = fileRoute;        
+   
