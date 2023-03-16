@@ -52,7 +52,8 @@ homeRoute.post(
   }
 );
 
-homeRoute.get("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
+// Route menu All
+homeRoute.get("/doc_menu_r01", async (req, res, next) => {
   var acticle = await db.any(`SELECT a.id, a.tag_id, a.title
     FROM doc_articles a right join doc_tags t on a.tag_id = t.id  where a.status=1 and t.status = 1
     order by a.title;`);
@@ -67,6 +68,7 @@ homeRoute.get("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { ARTICLES: acticle, TAGS: tags }));
   }
 });
+// 
 
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   var acticle = await db.any(
@@ -123,9 +125,8 @@ homeRoute.post('/doc_file_c01', async(req, res, next) => {
   console.log('fil.', fileUpload)
 })
 
-// testing
-homeRoute.post("/doc_menu_r02", auth.permitAll, async (req, res, next) => {
-  //http://localhost:3000/doc_menu_r02?id=222
+// Route B2B 1
+homeRoute.post("/doc_menu_r02", async (req, res, next) => { //http://localhost:3000/doc_menu_r02?id=222
 
   var acticle = await db.any(
     `SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body, 
@@ -139,27 +140,27 @@ homeRoute.post("/doc_menu_r02", auth.permitAll, async (req, res, next) => {
     [req.body.ID]
   );
   if (acticle == null) {
-    return res.send(new BaseRes(false, "Error", null));
+    return res.send(new BaseRes(false, "Error", null));   
   } else {
     var ress = [];
-    if (acticle.length > 0) {
+    if (acticle.length > 0) {       
       ress = acticle[0];
     }
     res.send(new BaseRes(true, "Success", ress));
   }
 });
 
-homeRoute.post("/doc_tags_r02", auth.permitAll, async (req, res, next) => {
+homeRoute.post("/doc_tags_r02", auth.permitAll, async (req, res, next) => { 
   //http://localhost:3000/doc_tags_r02
   var tags = await db.any(
     `select t.id,t.title,t.modified_date,t.user_id,u.username from doc_tags t left join doc_users u on t.user_id = u.id where t.status = 2;`
   );
-  if (tags == null) {
+  if (tags == null) { 
     return res.send(new BaseRes(false, "Error", null));
   } else {
-    res.send(new BaseRes(true, "Success", { TAGS: tags }));
-  }
-});
+    res.send(new BaseRes(true, "Success", { TAGS: tags }));   
+  }     
+});     
 
 homeRoute.post("/api_0001_c001", auth.permitAll, async (req, res, next) => {
   //http://localhost:3000/api_0001_c001
