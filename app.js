@@ -17,7 +17,7 @@ app.use(cors({
       return callback(new Error(msg), false);
     }
     return callback(null, true);     
-  }
+  }   
 }));      
  
 //
@@ -35,5 +35,4 @@ app.use(require('./routes/home'))
 app.use(require('./routes/fileRes'))
 
 
-app.listen(process.env.PORT)
-
+app.listen(process.env.PORT) 
