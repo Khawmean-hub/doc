@@ -788,7 +788,6 @@ limit $1 offset $2`,
 });
 
 // Update article has have 
-// Update article has have 
 homeRoute.post("/doc_article_u01", auth.permitAll, async (req, res) => {
   var article = await db.any(`UPDATE doc_articles
     SET tag_id=CAST('${req.body.TAG_ID}' AS INTEGER), title='${req.body.TITLE}', content_body='${req.body.CONTENT_BODY}', modified_date=now(), user_id=CAST( '${req.body.USER_ID}' AS INTEGER), dep_id='${req.body.DEP_ID}' where id=CAST( '${req.body.ID}' AS INTEGER)`);
@@ -845,9 +844,8 @@ homeRoute.post('/add_users', async (req, res) => {
     return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount));
   }
 });
-    return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount));
-  }
-});
+
+
 
 // update user
 homeRoute.post('/update_users/:id', async (req, res) => {

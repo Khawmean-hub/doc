@@ -30,13 +30,13 @@ const fileSizeLimitHandler = (err, req, res, next) => {
     next()
   }
 }
- const fileSizeLimitHandler = (err, req, res, next) => {
-   if (err) {
-    res.send(new BaseRes(false, "Image size is too large. limit (200 MB)", null));
-   } else {
-     next()
-   }
- }
+//  const fileSizeLimitHandler = (err, req, res, next) => {
+//    if (err) {
+//     res.send(new BaseRes(false, "Image size is too large. limit (200 MB)", null));
+//    } else {
+//      next()
+//    }
+//  }
 
 // file upload
 fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler, async (req, res) => {
