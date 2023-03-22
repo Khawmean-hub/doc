@@ -9,7 +9,7 @@ const { defaulEmpty, isNull, defaultPageInput } = require("../utils/strUtils");
 const jwt = require("jsonwebtoken");
 
 // Home
-homeRoute.post("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
+homeRoute.get("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
   defaultPageInput(req);
   var count = await db.one(
     `select count(*) from doc_tags  where   status = 1  and (dep_id = $1 or coalesce($1,'')='')`,
@@ -22,7 +22,7 @@ homeRoute.post("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
   );
 
   var rr = await db.any(
-    `select  id, title, dep_id  from doc_tags 
+    `select  id, title, dep_id  from doc_tags  
     where status = 1  and (dep_id = $1 or coalesce($1,'')='') order by title limit $2 offset $3;`,
     [defaulEmpty(req.body.DEP_ID), page.limit, page.getOffset()]
   );
@@ -40,10 +40,9 @@ homeRoute.post("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
   }
 });
 
+// Doc department ex: B2B Content B2B1
 homeRoute.post(
-  "/doc_department_r001",
-  auth.permitAll,
-  async (req, res, next) => {
+"/doc_department_r001",async (req, res, next) => {
     var data = await db.any(
       `select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`
     );
@@ -52,14 +51,20 @@ homeRoute.post(
   }
 );
 
-// Route menu All
-homeRoute.get("/doc_menu_r01", async (req, res, next) => {
+// Route get department menu All
+homeRoute.post("/doc_menu_r01", auth.permitAll,async (req, res, next) => {
+
+  var dynamic = '';
+  if(!isNull(req.body.DEPT_ID)){
+    dynamic = "and dep_id='" + req.body.DEPT_ID+"' ";
+  }
+
   var acticle = await db.any(`SELECT a.id, a.tag_id, a.title
-    FROM doc_articles a right join doc_tags t on a.tag_id = t.id  where a.status=1 and t.status = 1
+    FROM doc_articles a right join doc_tags t on a.tag_id = t.id  where a.status=1 and t.status = 1 
     order by a.title;`);
 
   var tags = await db.any(
-    `SELECT id, title, dep_id  FROM doc_tags where status=1  ORDER BY title`
+    `SELECT id, title, dep_id  FROM doc_tags where status=1 ${dynamic}  ORDER BY title`
   );
 
   if (acticle == null || tags == null) {
@@ -68,17 +73,17 @@ homeRoute.get("/doc_menu_r01", async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { ARTICLES: acticle, TAGS: tags }));
   }
 });
-// 
+
 
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   var acticle = await db.any(
     `SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body,   
-    a.modified_date , a.status,b.username,a.user_id,
+    a.modified_date , a.status,b.username,a.user_id,  
     f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path
     FROM doc_articles a 
     inner join doc_users b on a.user_id = b.id 
-    left join doc_tags t on t.id = a.tag_id  
-    left join doc_file as f on f.file_article_id = a.file_article_id
+    left join doc_tags t on t.id = a.tag_id   
+    left join doc_file as f on f.file_article_id = a.file_article_id 
     where a.id=cast($1 as INTEGER) and a.status = 1 and t.status = 1`,
     [req.body.ID]
   );
@@ -93,7 +98,6 @@ homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   }
 });
 
-// Read all file
 // Read all file
 homeRoute.post("/doc_file_r01", auth.permitAll, async (req, res, next) => {
   var acticle = await db.any(
@@ -610,7 +614,7 @@ homeRoute.get("/doc_answer_r01", auth.permitAll, async (req, res, next) => {
 
 homeRoute.post(
   "/doc_answer_vote_c01",
-  auth.permitAll,
+  auth.adminAndUser,
   async (req, res, next) => {
     // http://localhost:3000/doc_answer_vote_c01
     var answer = await db.any(
@@ -624,7 +628,7 @@ homeRoute.post(
   }
 );
 
-homeRoute.post("/doc_answer_c01", async (req, res, next) => {
+homeRoute.post("/doc_answer_c01",auth.adminAndUser, async (req, res, next) => {
   // http://localhost:3000/doc_answer_c01
   /** 
      req
@@ -692,7 +696,7 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 
 // Route insert article
 // Route insert article
-homeRoute.post("/doc_article_c01", auth.permitAll, async (req, res) => {
+homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
   console.log(req.body);
   console.log(`
     INSERT INTO doc_articles
@@ -724,26 +728,26 @@ homeRoute.post("/doc_search_r01", auth.permitAll, async (req, res) => {
   }
 });
 
-homeRoute.post("/doc_tag_c01", auth.permitAll, async (req, res) => {
+// ROUTE CREATE NEW DOC
+homeRoute.post("/doc_tag_c01",  async (req, res) => {
   var tag =
     await db.any(`INSERT INTO doc_tags(title, dep_id, create_date, modified_date, user_id, status)
                             VALUES(strip_tags('${req.body.TITLE}'), '${req.body.DEP_ID}', now(),now(), CAST('${req.body.USER_ID}' AS INTEGER), 1)`);
   if (tag == null) {
     return res.send(new BaseRes(false, "ERROR", null));
   } else {
-    return res.send(new BaseRes(true, "Success", tag));
+    return res.send(new BaseRes(true, "Success", tag));  
   }
 });
-
-// Route update doc tage  
-// Route update doc tage  
-homeRoute.post("/doc_tag_u01", auth.permitAll, async (req, res) => {
+   
+// ROUTR UPDATE DOC   
+homeRoute.post("/doc_tag_u01", auth.adminAndUser, async (req, res) => {
   var tag = await db.any(`UPDATE doc_tags
                             set title= '${req.body.TITLE}',modified_date=now(), user_id=cast( '${req.body.USER_ID}' as integer), dep_id='${req.body.DEP_ID}' where id =cast( '${req.body.ID}' as integer)`);
   if (tag == null) {
-    return res.send(new BaseRes(false, "Error", null));
+    return res.send(new BaseRes(false, "Error", null));   
   } else {
-    res.send(new BaseRes(true, "Success", { TAGS: tag }));
+    res.send(new BaseRes(true, "Success", { TAGS: tag }));            
   }
 });
 
@@ -757,17 +761,17 @@ homeRoute.post("/doc_tag_u01", auth.permitAll, async (req, res) => {
 //     if (tag == null || article == null) {
 //         return res.send(new BaseRes(false, "Error", null))
 //     } else {
-//         res.send(new BaseRes(true, "Success", { ARTICLES: article, TAGS: tag }))
+//         res.send(new BaseRes(true, "Success", { ARTICLES: article, TAGS: tag })) 
 //     }
 
 // }) 
-
-homeRoute.get("/doc_articles_r02", auth.permitAll, async (req, res) => {
+ 
+homeRoute.get("/doc_articles_r02", auth.permitAll, async (req, res) => { 
   var count = await db.one(`select count(*) from doc_articles a 
     left join doc_tags t on a.tag_id = t.id 
     left join doc_users u on u.id = a.user_id  where a.status=1 and t.status = 1
     ORDER BY  a.id ASC`);
-  var page = new Paging(req.body.OFFSET, req.body.LIMIT, count.count);
+  var page = new Paging(req.body.OFFSET, req.body.LIMIT, count.count);  
 
   var article = await db.any(
     `
@@ -785,10 +789,10 @@ limit $1 offset $2`,
   } else {
     return res.send(new BaseRes(true, "Success", article));
   }
-});
+}); 
 
 // Update article has have 
-homeRoute.post("/doc_article_u01", auth.permitAll, async (req, res) => {
+homeRoute.post("/doc_article_u01", auth.adminAndUser, async (req, res) => {
   var article = await db.any(`UPDATE doc_articles
     SET tag_id=CAST('${req.body.TAG_ID}' AS INTEGER), title='${req.body.TITLE}', content_body='${req.body.CONTENT_BODY}', modified_date=now(), user_id=CAST( '${req.body.USER_ID}' AS INTEGER), dep_id='${req.body.DEP_ID}' where id=CAST( '${req.body.ID}' AS INTEGER)`);
 
@@ -803,7 +807,7 @@ set modified_date=now(), user_id=cast('${req.body.USER_ID}' as integer), dep_id=
   }
 });
 
-homeRoute.post("/doc_articles_d01", auth.permitAll, async (req, res) => {
+homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
   var acticle = await db.any(`UPDATE doc_articles
     set status=0 where id=cast('${req.body.ID}' as integer)`);
   if (acticle == null) {
@@ -813,31 +817,40 @@ homeRoute.post("/doc_articles_d01", auth.permitAll, async (req, res) => {
   }
 });
 
-// user
+// user 
 homeRoute.get('/doc_users', async (req, res) => {
   const userImformation = await db.any(`SELECT id, username, "password", status, "role" FROM doc_users;`);
   if (userImformation == null) {
     return res.send(new BaseRes(false, 'ERROR', null))
   } else {
-    return res.send(new BaseRes(true, 'SUCCESS', userImformation))
+    return res.send(new BaseRes(true, 'SUCCESS', userImformation))  
   }
 });
 
 // delete user
 homeRoute.delete('/delete_users/:id', async (req, res) => {
-  var userDeleteIndex = await db.result(`DELETE FROM doc_users WHERE id=${+req.params.id}`);
+  var userDeleteIndex = await db.result(`DELETE FROM doc_users WHERE id=${+req.params.id}`);  
   console.log('User has been delete:', userDeleteIndex);
   if (userDeleteIndex.rowCount < 1) {
-    return res.send(new BaseRes(false, 'ERROR', null));
-  } else {
-    return res.send(new BaseRes(true, 'SUCCESS', userDeleteIndex));
+    return res.send(new BaseRes(false, 'ERROR', null)); 
+  } else { 
+    return res.send(new BaseRes(true, 'SUCCESS', userDeleteIndex));     
   }
 });
-
+       
 // add user
+// homeRoute.post('/add_users', async (req, res) => { 
+//   console.log('API route add is working');
+//   var addUser = db.result(`INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}',${req.body.USER_ROLE} , 1)`);
+//   if (addUser.rowCount < 1) {
+//     return res.send(new BaseRes(false, 'ERROR', null));
+//   } else {
+//     return res.send(new BaseRes(true, 'SUCCESS', addUser.rowCount));
+//   }
+// });
 homeRoute.post('/add_users', async (req, res) => {
   console.log('API route add is working');
-  var addUser = db.result(`INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}',${req.body.USER_ROLE} , 1)`);
+  var addUser = db.result(`INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, 0)`);
   if (addUser.rowCount < 1) {
     return res.send(new BaseRes(false, 'ERROR', null));
   } else {
@@ -846,20 +859,31 @@ homeRoute.post('/add_users', async (req, res) => {
 });
 
 
-
 // update user
+// homeRoute.post('/update_users/:id', async (req, res) => {
+
+//   console.log(req.body)
+//   console.log('API Update user is running...');
+//   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
+//   console.log(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`)
+//   var upDateUser = await db.result(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`);
+//   if (upDateUser == null) {
+//     return res.send(new BaseRes(false, 'ERROR', null));
+//   } else {
+//     res.send(new BaseRes(true, 'SUCCESS', upDateUser));
+//   }
+// });
 homeRoute.post('/update_users/:id', async (req, res) => {
 
   console.log(req.body)
   console.log('API Update user is running...');
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
-  console.log(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`)
+  console.log(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=1, role=0 where id=${req.params.id} ;`)
   var upDateUser = await db.result(`UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`);
   if (upDateUser == null) {
     return res.send(new BaseRes(false, 'ERROR', null));
   } else {
-    res.send(new BaseRes(true, 'SUCCESS', upDateUser));
+    res.send(new BaseRes(true, 'SUCCESS', upDateUser)); 
   }
 });
-
 module.exports = homeRoute;     
