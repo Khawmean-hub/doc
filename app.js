@@ -5,7 +5,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 
 // ALLOW ORIGIN NETWORK HTTPS
-var allowedOrigins = ['http://54.251.201.192:4545', 'http://127.0.0.1:5500', 'http://127.0.0.1:5501', 'http://127.0.0.1:5502'];
+var allowedOrigins = ['http://54.251.201.192:4545', 'http://localhost:4545'];
 app.use(cors({
   origin: function (origin, callback) {
     // allow requests with no origin 
