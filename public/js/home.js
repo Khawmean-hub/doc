@@ -97,9 +97,9 @@ function buildManageDepartment() {
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         list += `<tr>
-                 <td>${v.dep_id}</td>
-                 <td>${v.dep_name}</td>
-                 <td><a href="#"><i class="edit outline icon con-size"></i></a><a href="#"><i class="trash alternate outline icon"></i></a></td>
+                 <td dep-id='${v.dep_id}'>${v.dep_id}</td>
+                 <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
+                 <td><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#"><i class="trash alternate outline icon"></i></a></td>
                </tr>`;
       });
      

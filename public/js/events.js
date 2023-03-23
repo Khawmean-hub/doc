@@ -541,4 +541,10 @@ $("#manage-department").click(function () {
 });
 
  
+// UPDARE DEPARTMENT
+$(document).on('click', '#icon-update-dep',function() {
+  var dep_name = $(this).closest('tr').find('.dep-name').text();
+  console.log('Department name =>',dep_name);
+  $('.input').append(dep_name)
+})
 
