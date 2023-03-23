@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B2B Document</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.13.1/contents.min.css"
+    integrity="sha512-HK3G0WJTxeYhsh/hzS/1NDmqw1uZplDy2w2Z60xHPTytEKEpSSXF9DsXytkUNLh7AyPeBvyVSpz4+kRCxTDYqQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/skin.min.css">
+  <link rel="stylesheet" href="css/my_skin.css">
+  <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
+
+
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+  <!-- <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script> -->
+  <script src="https://cdn.tiny.cloud/1/bqhgyqvdd4wb1rpwuuve2eafsnuc3iihwg2v3wot221jolb9/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
+
+</head>
+
+<body>
+
+  <div class="page-login"
+    style="height: 100vh; width: 100vw; display: flex; align-items: center; justify-content: center;" ;>
+    <div style="position: absolute; bottom: 20px; right: 20px; display: none;" id="msg_alert">
+      <div class="ui red icon message compact">
+        <i class="exclamation circle icon"></i>
+        <div class="content">
+          <div class="header">
+            Login
+          </div>
+          <p>Incorrect username or password.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- login form -->
+    <form class="ui form login_form" onsubmit="return false" id="loginForm">
+      <h2>Login</h2>
+      <div class="field">
+        <label>Username</label>
+        <input type="text" name="user" placeholder="Enter Username" id="username_text">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="password_text" type="password" name="pass" placeholder="Enter Password">
+      </div>
+
+      <div class="field actions" style="text-align: right;">
+        <button class="ui positive tiny button" id="btn_login">
+          LOGIN
+        </button>
+      </div>
+    </form>
+    <!-- end login form -->
+
+    <!-- modal table add new -->
+    <div class="ui modal coupled" id="btn_manage-user-pop" style="width: 812px;">
+      <i class="close icon"></i>
+      <div class="header" style="text-align: center; background-color: #ffffff;">B2B USER <i
+          class="address book outline icon"></i> </div>
+      <div class="image content" style="background-color: #e2e2e263;">
+        <table class="ui celled table">
+          <thead>
+            <tr class="tb-head">
+              <th>ID</th>
+              <th>Username</th>
+              <th>Password</th>
+              <th>Status</th>
+              <th>Role</th>
+              <th>Permission</th>
+            </tr>
+          </thead>
+          <tbody id="userData">
+          </tbody>
+        </table>
+      </div>
+      <div class="actions" style="background-color: #ffffff;">
+        <button class="ui black basic tiny positive button" id="Create-New-User">Add new</button>
+      </div>
+    </div>
+    <!-- end modal table add new -->
+
+    <!-- modal for add new user -->
+    <div class="ui modal" id="New-User" style="width: 694px;">
+      <i class="close icon"></i>
+      <div class="header">New User</div>
+      <div class="image content" style="display: block;">
+        <form class="ui form" style="align-content: center;">
+          <div class="field">
+            <label>UserName</label>
+            <input type="text" name="name" placeholder="UserName" id="username" class="vUserName">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="text" name="password" placeholder="Password" id="password">
+          </div>
+          <!-- <div class="field">
+            <label>Status</label>
+            <input type="text" name="status" placeholder="status" id="status">
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <input type="text" name="role" placeholder="Role" id="role">
+          </div> -->
+        </form>
+      </div>
+      <div class="actions"><button class="ui button" type="submit" id="btn_doc_add_users">ADD</button></div>
+    </div>
+    <!-- // modal for add new user -->
+    <!-- MODAL UPDATE USER -->
+    <div class="ui modal" id="modal_update_user" style="width: 694px;">
+      <i class="close icon"></i>
+      <div class="header" style="text-align: center;">Update User</div>
+      <div class="image content" style="display: block;">
+        <form class="ui form" style="align-content: center;">
+          <div class="field">
+            <label>UserName</label>
+            <input type="text" name="name" placeholder="UserName" id="vUserName">
+          </div>
+          <div class="field">
+            <label>Password</label>
+            <input type="text" name="password" placeholder="Password" id="vUerPassword">
+          </div>
+          <div class="field">
+            <label>Status</label>
+            <input type="text" name="Status" placeholder="status" id="vUserstatus">
+          </div>
+          <div class="field">
+            <label>Role</label>
+            <input type="text" name="role" placeholder="Role" id="vUserRole">
+          </div>
+        </form>
+      </div>
+      <div class="actions">
+        <!-- <button class="ui button" id="back_to_user_table" type="submit">Back</button> -->
+        <button class="ui button" type="submit" id="btn_doc_update_users_icon">Update</button>
+      </div>
+    </div>
+    <!-- // modal update user -->
+
+  </div>
+  <div class="my_body" style="display: none;">
+    <!-- Navbar or menu-->
+    <div class="ui top attached secondary menu inverted main_nav">
+      <div class="ui top attached secondary menu inverted">
+        <a class="item menu_btn">
+          <i class="sidebar icon"></i>
+        </a>
+        <!-- Department list navbar -->
+        <div class="item">
+          <div class="ui inline dropdown loading deparment-type" id="departmentListId">
+            <div class="text" id=""></div>
+            <i class="dropdown icon"></i>
+          </div>
+          
+        </div>
+        
+        <a class="item add"><i class="sun outline icon" id="manage-department"></i></a>
+        
+        <!-- Button add content -->
+        <a class="item add" id="btn_add_contents">
+          <i class="plus icon small"></i>
+        </a>
+
+
+      </div>
+      <div class="menu">
+        <div class="item search_items">
+          <div class="ui icon input mini nav_searchbox">
+            <input type="text" placeholder="Search...">
+            <i class="search link icon inverted" id="btn_search_content"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="right menu">
+        <!-- manage user button-->
+        <div class="item test">
+          <button class="ui button" style="background: none; color: grey" id="btn_manage-user">
+            Manage User
+          </button>
+        </div>
+        <!-- Logout -->
+        <div class="item test">
+          <button class="ui button btn_login" style="background: none; color: grey">
+            Log in
+          </button>
+          <button class="ui button btn_logout" style="background: none; color: grey">
+            Log out
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Content -->
+    <div class="ui bottom attached segment contents_body">
+
+      <!-- Sidebar -->
+      <div id="Tag" class="ui left vertical secondary sidebar visible my_sidebar main_title">
+        <div class="ui vertical accordion" id="menu_body">
+          <!-- list menu body here -->
+        </div>
+      </div>
+      <!-- conten body here -->
+      <div class="pusher">
+        <div class="ui basic segment" id="content_body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- modal delete user -->
+
+  <!-- // modal delete user -->
+  <!-- Logout modal -->
+  <div class="ui modal" id="Logout-modal">
+    <div class="header header-delete">
+      <div>Log out!</div>
+      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+      <!-- <i class="sign out alternate icon"></i> -->
+    </div>
+    <div class="content dt_et">
+      <div>
+        <!-- <i class="check icon "></i> -->
+      </div>
+      <div>
+        <h3>Do you want to Log out?</h3>
+      </div>
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel button">No</div>
+      <div class="ui approve button btn_delete_tage" id="Logout-comfim">Yes</div>
+    </div>
+  </div>
+  <!-- // Logout modal -->
+  <!-- ------------------- modal add contents one---------------------- -->
+  <div class="ui modal large scrolling content coupled" id="modal_add_contents">
+    <!-- <div class="header">
+        New Document
+
+        <div class="ui approve tiny button">Approve</div>
+        <div class="ui button tiny">Neutral</div>
+        <div class="ui cancel tiny button">Cancel</div>
+        <i class="close"></i>
+      </div> -->
+    <div class="content" style="padding-bottom: 0;">
+      <form class="ui form">
+        <div class="three fields">
+          <div class="field">
+            <label>Department</label>
+            <div class="ui selection dropdown loading" id="departmentListId2">
+              <div class="text"></div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label>Main Title</label>
+            <button class=" ui icon button btn circular" type="button" id="btnAdd" style="margin-left:20px !important">
+              <i class="plus icon"></i>
+            </button>
+            <div class="ui selection dropdown loading ui action input" id="menu_com">
+              <div class="text">
+              </div>
+              <i class="dropdown icon">
+              </i>
+            </div>
+          </div>
+          <div class="field" style="width: 55px;">
+
+          </div>
+
+          <div class="field required">
+            <label>Sub Title</label>
+            <input type="text" placeholder="Sub Title" id="sub_title_val">
+          </div>
+        </div>
+      </form>
+      <!-- Content text here -->
+      <textarea name="editor1" id="editor1" class="blah"></textarea>
+
+      <!-- dropdown navbar -->
+      <div class="ui dropdown">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">New</div>
+          <div class="item">
+            <span class="description">ctrl + o</span>
+            Open...
+          </div>
+          <div class="item">
+            <span class="description">ctrl + s</span>
+            Save as...
+          </div>
+          <div class="item">
+            <span class="description">ctrl + r</span>
+            Rename
+          </div>
+          <div class="item">Make a copy</div>
+          <div class="item">
+            <i class="folder icon"></i>
+            Move to folder
+          </div>
+          <div class="item">
+            <i class="trash icon"></i>
+            Move to trash
+          </div>
+          <div class="divider"></div>
+          <div class="item">Download As...</div>
+          <div class="item">
+            <i class="dropdown icon"></i>
+            Publish To Web
+            <div class="menu">
+              <div class="item">Google Docs</div>
+              <div class="item">Google Drive</div>
+              <div class="item">Dropbox</div>
+              <div class="item">Adobe Creative Cloud</div>
+              <div class="item">Private FTP</div>
+              <div class="item">Another Service...</div>
+            </div>
+          </div>
+          <div class="item">E-mail Collaborators</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" style="display: flex; justify-content: space-between;">
+      <div>
+        <button class="ui labeled icon tiny button btn_upload_file">
+          <i class="upload icon"></i>
+          Upload File
+        </button>
+        <input type="file" hidden class="fileType" id="fileUpload">
+
+        <!-- <button id="upLoadFile">Uplaod</button> -->
+        <div class="ui button tiny" id="upLoadFile">Upload</div>
+        <span class="img_path"></span>
+      </div>
+      <div>
+        <div class="ui cancel tiny button">Cancel</div>
+        <div class="ui button tiny" id="editor_save">Save</div>
+      </div>
+    </div>
+    <img src="" alt="">
+  </div>
+
+  <!-- modal edit or update sub article 02 -->
+  <div class="ui modal large scrolling content coupled" id="modal-edit-update-sub-title">
+    <div class="content" style="padding-bottom: 0;">
+      <form class="ui form">
+        <div class="three fields">
+          <div class="field">
+            <label>Department</label>
+            <div class="ui selection dropdown loading" id="departmentListId4">
+              <div class="text"></div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div>
+          <div class="field">
+            <label>Main Title</label>
+            <button class="ui icon button btn circular" type="button" id="btn_add_title">
+              <i class="plus icon"></i>
+            </button>
+            <div class="ui selection dropdown loading ui action input" id="menu_com4">
+              <div class="text">
+              </div>
+              <i class="dropdown icon">
+              </i>
+            </div>
+          </div>
+          <div class="field" style="width: 55px;">
+
+          </div>
+
+          <div class="field required">
+            <label>Sub Title</label>
+            <input type="text" class="get-article-title">
+          </div>
+        </div>
+      </form>
+      <!-- for text content here -->
+      <textarea name="editor2" id="editor2"></textarea>
+
+      <!-- dropdown navbar -->
+      <div class="ui dropdown">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">New</div>
+          <div class="item">
+            <span class="description">ctrl + o</span>
+            Open...
+          </div>
+          <div class="item">
+            <span class="description">ctrl + s</span>
+            Save as...
+          </div>
+          <div class="item">
+            <span class="description">ctrl + r</span>
+            Rename
+          </div>
+          <div class="item">Make a copy</div>
+          <div class="item">
+            <i class="folder icon"></i>
+            Move to folder
+          </div>
+          <div class="item">
+            <i class="trash icon"></i>
+            Move to trash
+          </div>
+          <div class="divider"></div>
+          <div class="item">Download As...</div>
+          <div class="item">
+            <i class="dropdown icon"></i>
+            Publish To Web
+            <div class="menu">
+              <div class="item">Google Docs</div>
+              <div class="item">Google Drive</div>
+              <div class="item">Dropbox</div>
+              <div class="item">Adobe Creative Cloud</div>
+              <div class="item">Private FTP</div>
+              <div class="item">Another Service...</div>
+            </div>
+          </div>
+          <div class="item">E-mail Collaborators</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions" style="display: flex; justify-content: space-between;">
+      <div>
+        <button class="ui labeled icon tiny button btn_upload_file02">
+          <i class="upload icon"></i>
+          Upload File
+        </button>
+        <input type="file" hidden class="fileType" id="fileUpload02">
+
+        <!-- <button id="upLoadFile">Uplaod</button> -->
+        <div class="ui button tiny" id="upLoadFile02">Upload</div>
+        <span class="img_path02"></span>
+      </div>
+      <div>
+        <div class="ui cancel tiny button" id="btn-cancel-update-article">Cancel</div>
+        <div class="ui button tiny cancel " id="btn-save-update-sub-article">Update</div>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <!-- tage edit  -->
+  <div class=" tage_editT ui modal">
+    <form class="ui form form-edit">
+      <div class="lab"
+        style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px; margin-bottom: 5px;">
+        <label>Department</label>
+      </div>
+      <!-- Department -->
+      <div class="ui selection dropdown loading" id="departmentListId2" style="width: 94%;margin-left: 14px;">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+      </div>
+      <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px; margin-top: 10px;">
+        <label>New Title</label>
+        <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
+      </div>
+    </form>
+    <div class="actions ac_et">
+      <button class="ui approve button up btn-up-tag" id="update-departmentList"> UPDATE</button>
+      <button class="ui cancel button"> CLOSE</button>
+    </div>
+  </div>
+  <!-- delete tage  -->
+  <div class=" delete_tage ui modal">
+    <div class="header header-delete">
+      <div>Confirmation!</div>
+      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    </div>
+
+    <div class="content dt_et">
+      <div>
+        <i class="check icon "></i>
+      </div>
+      <div>
+        <h3> Are you sure?</h3>
+      </div>
+
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel button">No</div>
+      <div class="ui approve button btn_delete_tage" id="comfirmYes">Yes</div>
+    </div>
+  </div>
+  <!-- delete sub-title  -->
+  <div class=" delete_sub-title ui modal">
+    <div class="header header-delete">
+      <div>Confirmation!</div>
+      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    </div>
+
+    <div class="content dt_et">
+      <div>
+        <i class="check icon "></i>
+      </div>
+      <div>
+        <h3> Are you sure?</h3>
+      </div>
+
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel button">No</div>
+      <div class="ui approve button btn_delete_sub" id="comfirmYes">Yes</div>
+    </div>
+  </div>
+
+  <!--add new title-->
+  <div class="ui modal coupled" id="modal_add_title" style="line-height: 2;">
+    <form class="ui form">
+      <h4 class="ui header dividing " style="font-size: 16px;padding: 16px;background: #f9fafb;height: 56px;">Add New
+        Title</h4>
+      <div class="lab" style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px;">
+        <label>Document </label>
+      </div>
+      <div class="ui selection dropdown loading" id="modal_add" style="width: 94%;margin-left: 14px;">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+      </div>
+      <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
+        <label>New Title</label>
+        <input type="text" placeholder="New Title ..." id="titleView">
+      </div>
+    </form>
+    <br>
+    <div class="actions agr">
+      <div class="ui tiny button btn_cl deny ">Close</div>
+      <div class="ui button tiny btn_add" id="add_newTitle" value="submit">Add</div>
+    </div>
+
+  </div>
+
+  <!-- MODAL MANAGEMENT DEPARTMENT  -->
+  <div class="ui modal" id="pop-up-management-department">
+    <i class="close icon"></i>
+    <div class="header">
+      <div class="ui input">
+        <input type="text" placeholder="Title ..." id="insert-manage-department">
+      </div>
+      <button class="ui primary button add-manage-department">
+        Add
+      </button>
+    </div>
+    <div class="content">
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Title</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="listBody">
+         
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ---------------- Script ---------------- -->
+  <script src="js/stringUtils.js"></script>
+  <script src="js/api.js"></script>
+  <script src="/js/home.js"></script>
+  <script src="js/events.js"></script>
+  <script src="js/index.js"></script>
+  </div>
+</body>
+
+</html>

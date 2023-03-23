@@ -22,7 +22,7 @@ app.use(cors({
 
 //
 //static file
-// app.use('/static', express.static('public'));
+app.use('/', express.static('public'));
 
 //json
 app.use(express.json())
