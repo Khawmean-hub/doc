@@ -1,5 +1,6 @@
 //onload
 $(document).ready(function () {
+    $('.login_form').css("display", "none");
     //build Deparment combo box
     //check user
     var user = window.localStorage.getItem('b2b_user')

@@ -411,6 +411,8 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     };
     updateArticles(reqAr);
     buldHome(true);
+    location.href = "index.html";
+    
   });
 });
 
@@ -431,8 +433,8 @@ $(document).on("click", "#modale-delete-sub", function () {
   $(document).on("click", ".btn_delete_sub", function () {
     deleteArticles(id);
    // window.localStorage.removeItem("act_recent"); // AFTER DELETE IS CLEAR DATA ON LOCALSTORAGE
-    buldHome();
-    
+    buldHome(true);
+    location.href = "index.html";
   });
   console.log("delete-sub: ", id);
 });
