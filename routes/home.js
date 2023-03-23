@@ -41,8 +41,7 @@ homeRoute.get("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
 });
 
 // Doc department ex: B2B Content B2B1
-homeRoute.post(
-"/doc_department_r001",async (req, res, next) => {
+homeRoute.post("/doc_department_r001", async (req, res, next) => {
     var data = await db.any(
       `select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`
     );
@@ -73,7 +72,7 @@ homeRoute.post("/doc_menu_r01", auth.permitAll,async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { ARTICLES: acticle, TAGS: tags }));
   }
 });
-
+// test
 
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   var acticle = await db.any(
@@ -747,7 +746,7 @@ homeRoute.post("/doc_tag_u01", auth.adminAndUser, async (req, res) => {
   if (tag == null) {
     return res.send(new BaseRes(false, "Error", null));   
   } else {
-    res.send(new BaseRes(true, "Success", { TAGS: tag }));            
+    res.send(new BaseRes(true, "Success", { TAGS: tag }));             
   }
 });
 
