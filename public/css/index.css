@@ -344,3 +344,13 @@ a.title {
 .x {
   cursor: pointer;
 }
+.txtIsertD {
+  padding: 3px 5px !important;
+}
+.txtIsertD::placeholder{
+  font-size: smaller !important;
+}
+.btnAddD{
+  padding: 9px 19px !important;
+  margin-left: 5px !important;
+}
