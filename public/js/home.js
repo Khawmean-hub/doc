@@ -252,7 +252,6 @@ function buildActicle(id) {
   loader();
   getActicle(id, function (resp) {
     $("#content_body").empty().append(resp.data.content_body);
-    console.log("acticlce:", resp.data.content_body);
   });
 };
 
@@ -274,7 +273,6 @@ function getRecent(params) {
   $("#content_body").empty();
   $("body").find(".menu_active").removeClass("menu_active");
   var recentLs = window.localStorage.getItem("act_recent");
-  console.log('Localstorage', recentLs);
   if (!isNull(recentLs)) {
     var ls = JSON.parse(recentLs);
     $("#content_body").append("<h3>Recents</h3>");
@@ -325,7 +323,7 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
     });
     saveList = [...recentList, ...newLs];
   }
-  console.log(saveList);
+  
   window.localStorage.setItem("act_recent", JSON.stringify(saveList));
 
 }

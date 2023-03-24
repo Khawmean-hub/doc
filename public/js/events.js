@@ -132,7 +132,7 @@ $(document).on('click','#add_newTitle', function() {
   $('#modal_add_title').modal('hide')
   saveTage(req, function(resp){
     if(resp.status) {
-      buldHome();
+      buldHome(true);
     }
   })
    
@@ -218,6 +218,7 @@ $(".btn_logout").click(function () {
     window.localStorage.removeItem("b2b_user");
     $(".page-login").show();
     $(".my_body").hide();
+    $('.login_form').show();
   });
   // window.localStorage.removeItem("b2b_user");
   // $(".page-login").show();
