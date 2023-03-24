@@ -215,7 +215,7 @@ $(".btn_logout").click(function () {
     window.localStorage.removeItem("b2b_user");
     $(".page-login").show();
     $(".my_body").hide();
-    // $('.login_form').show();
+    $('.login_form').show();
   });
   // window.localStorage.removeItem("b2b_user");
   // $(".page-login").show();
@@ -488,7 +488,7 @@ $(document).on("click", "#btn_doc_add_users", function () {
   addB2bUser(req);
   // location.href = "index.html";
   buldHome(true);
-  alert('User has add')
+  alert('U')
   location.href = 'index.html';
   
 });
