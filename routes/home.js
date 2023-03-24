@@ -39,6 +39,15 @@ homeRoute.get("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
     );
   }
 });
+// doc_department_u001
+homeRoute.post("/doc_department_u001", auth.permitAll, async (req, res) => {
+  var dep = await db.any(`update doc_department set dep_name ='${req.body.DEP_NAME}' where dep_id=CAST('${req.body.DEP_ID}' AS INTEGER)`);
+  if (dep == null) {
+    return res.send(new BaseRes(false, "ERROR", null));
+  } else {
+    return res.send(new BaseRes(true, "Success", dep));
+  }
+});
 
 // doc_department_d001
 homeRoute.post("/doc_department_d001", auth.permitAll, async (req, res) => {

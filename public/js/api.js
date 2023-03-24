@@ -61,10 +61,22 @@ function deleteDepartment(id, callBack){
   };
   requestApi(settings, callBack);
 }
-
+// doc_department_c001
 function insertDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_c001",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getToken().token,
+    },
+    data: JSON.stringify(req),
+  };
+  requestApi(settings, callBack);
+}
+function updateDepartment(req, callBack) {
+  var settings = {
+    url: baseUrl + "/doc_department_u001",
     method: "POST",
     headers: {
       "Content-Type": "application/json",

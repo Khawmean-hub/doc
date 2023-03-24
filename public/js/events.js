@@ -533,15 +533,21 @@ $("#manage-department").click(function () {
       DEP_NAME: imd,
       DEP_STATUS: 1,
     };
-    insertDepartment(req, function (resp){
-      if (resp.status){
-        buildManageDepartment()
-      }
-    });
+    if(!isNull(imd)){
+      $('.txtIsertD').removeClass('txtWarning')
+      insertDepartment(req, function (resp){
+        if (resp.status){
+          buildManageDepartment()
+        }
+      });
+    }else{
+     $('.txtIsertD').addClass('txtWarning')
+    }
     $("#insert-manage-department").val("");
     console.log("IMD:", imd);
   });
 });
+
 // DELETE DEPARTMENT
 $(document).on("click", ".delete-department", function () {
     var id = $(this).parent().siblings('.dep-id').attr('dep_id')
@@ -555,10 +561,30 @@ $(document).on("click", ".delete-department", function () {
     console.log('dep-id', id);
 });
 
-
-// UPDARE DEPARTMENT
+// EDIT DEPARTMENT
 $(document).on("click", "#icon-update-dep", function () {
+  $(".btn-update").text("Update").addClass("btn-success").removeClass('add-manage-department')
   var dep_name = $(this).closest("tr").find(".dep-name").text();
-  console.log("Department name =>", dep_name);
-  $(".input").append(dep_name);
+  var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
+    $(".txtIsertD").val(dep_name);
+    var update = $(".txtIsertD").val();
+    console.log('up  id:', dep_id);
+    console.log('up name:', dep_name);
+    var req ={
+      DEP_ID: dep_id,
+      DEP_NAME: update,
+    }
+// UPDATE DEPARTMENT
+  $(document).on("click", ".btn-update ", function () {
+    updateDepartment(req, function (resp){
+      if(resp.status){
+        buildManageDepartment()
+      }else{
+        alert(data.message)
+      }
+    })
+    $(".btn-update").text("Add").removeClass("btn-success").addClass('add-manage-department')
+  
+  });
+
 });
