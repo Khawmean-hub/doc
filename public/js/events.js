@@ -546,8 +546,18 @@ $("#manage-department").click(function () {
  
 // UPDARE DEPARTMENT
 $(document).on('click', '#icon-update-dep',function() {
-  var dep_name = $(this).closest('tr').find('.dep-name').text();
-  console.log('Department name =>',dep_name);
-  $('.input').append(dep_name)
+  $('#update-department').modal('show')
+  var data_dep = {
+    DEP_UPDATE: $(this).closest('tr').find('.dep-name').text()
+  }
+  $('#dep_name').val(data_dep.DEP_UPDATE)
+  
+
+  //
+  var DEP_TITLE = {
+    MODIFY_DEP:  $('#dep_name').val()
+  }
+  
+  
 })
 

@@ -49,6 +49,12 @@ homeRoute.post("/doc_department_r001", async (req, res, next) => {
     else return res.send(new BaseRes(false, "Error", null));
   }
 );
+// Doc update department
+homeRoute.post("/doc_department_u001", async (req, res, next) => {
+  var dep_update = await db.any(`UPDATE doc_department SET dep_id=nextval('doc_department_dep_id_seq'::regclass), dep_name='${DEP_TITLE}', dep_status=0;`)
+  if (!isNull(dep_update)) return res.send(new BaseRes(true, "Success", dep_update));
+  else return res.send(new BaseRes(false, "ERROR", null));
+});
 
 // Route get department menu All
 homeRoute.post("/doc_menu_r01", auth.permitAll,async (req, res, next) => {

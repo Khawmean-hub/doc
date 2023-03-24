@@ -160,11 +160,11 @@
             <div class="text" id=""></div>
             <i class="dropdown icon"></i>
           </div>
-          
+
         </div>
-        
+
         <a class="item add"><i class="sun outline icon" id="manage-department"></i></a>
-        
+
         <!-- Button add content -->
         <a class="item add" id="btn_add_contents">
           <i class="plus icon small"></i>
@@ -552,7 +552,8 @@
     <i class="close icon"></i>
     <div class="header " style="display: flex; align-items: center;">
       <div class="ui input">
-        <input  type="text"class="txtIsertD" placeholder="Title ..." id="insert-manage-department" >
+        <input type="text" class="txtIsertD" placeholder="Title ..." id="insert-manage-department"
+          style="width: 351px;">
       </div>
       <button class=" btnAddD ui primary button add-manage-department">
         Add
@@ -568,9 +569,31 @@
           </tr>
         </thead>
         <tbody class="listBody">
-         
+
         </tbody>
       </table>
+    </div>
+  </div>
+
+  <!-- MODAL UPDATE DEPARTMENT -->
+  <div class="ui modal" id="update-department">
+    <i class="close icon"></i>
+    <div class="header">
+      Update department
+    </div>
+    <div class="image content">
+      <form class="ui form" style="align-content: center;">
+        <div class="field">
+          <label>Department</label>
+          <input type="text" name="name" placeholder="" id="dep_name">
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+
+      <div>
+        <div class="ui button tiny" id="com-update-department">Update</div>
+      </div>
     </div>
   </div>
 
