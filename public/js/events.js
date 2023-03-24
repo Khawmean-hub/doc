@@ -30,56 +30,54 @@ $("#btn_add_contents").click(function () {
 });
 //tinymce.get("editor1").setContent("<p>Hello world!</p>");
 
-
-$('.btn_upload_file').click(function () {
-  $('#fileUpload').click()
+$(".btn_upload_file").click(function () {
+  $("#fileUpload").click();
 });
 // Upload file 01
-$(document).on('click', '#upLoadFile', function () {
-  $(this).addClass('loading');
-  var file = $('#fileUpload')[0].files[0];
+$(document).on("click", "#upLoadFile", function () {
+  $(this).addClass("loading");
+  var file = $("#fileUpload")[0].files[0];
   if (!isNull(file)) {
-    uploadFile(file, $('#fileUpload').val(), function (resp) {
+    uploadFile(file, $("#fileUpload").val(), function (resp) {
       var data = JSON.parse(resp);
       console.log(data);
       if (data.status) {
         setTimeout(function () {
-          $('.img_path').text(data.data.url);
+          $(".img_path").text(data.data.url);
           $("#upLoadFile").removeClass("loading");
         }, 1000);
       } else {
-        alert(data.message)
+        alert(data.message);
       }
-    })
+    });
   } else {
-    alert("Please upload image")
+    alert("Please upload image");
   }
 });
 // Upload file 02
-$('.btn_upload_file02').click(function () {
-  $('#fileUpload02').click();
+$(".btn_upload_file02").click(function () {
+  $("#fileUpload02").click();
 });
-$(document).on('click', '#upLoadFile02', function () {
-  $(this).addClass('loading');
-  var file = $('#fileUpload02')[0].files[0];
+$(document).on("click", "#upLoadFile02", function () {
+  $(this).addClass("loading");
+  var file = $("#fileUpload02")[0].files[0];
   if (!isNull(file)) {
-    uploadFile(file, $('#fileUpload02').val(), function (resp) {
+    uploadFile(file, $("#fileUpload02").val(), function (resp) {
       var data = JSON.parse(resp);
       console.log(data);
       if (data.status) {
         setTimeout(function () {
-          $('.img_path02').text(data.data.url);
+          $(".img_path02").text(data.data.url);
           $("#upLoadFile02").removeClass("loading");
         }, 1000);
       } else {
-        alert(data.message)
+        alert(data.message);
       }
-    })
+    });
   } else {
-    alert("Please upload image")
+    alert("Please upload image");
   }
 });
-
 
 // save text editor when click button save
 $(document).on("click", "#editor_save", function () {
@@ -118,24 +116,23 @@ $(document).on("click", "#editor_save", function () {
 
   // $('#departmentListId2 .item').click(function () {
   //   buildMenu()
-    
+
   // })
 });
 
 // ADD NEW TITEL TO DEPARTMENT
-$(document).on('click','#add_newTitle', function() {
+$(document).on("click", "#add_newTitle", function () {
   var req = {
-    TITLE: $('#titleView').val(),
-    DEP_ID: $('#modal_add').dropdown("get value"),
+    TITLE: $("#titleView").val(),
+    DEP_ID: $("#modal_add").dropdown("get value"),
     USER_ID: 1,
-  }
-  $('#modal_add_title').modal('hide')
-  saveTage(req, function(resp){
-    if(resp.status) {
+  };
+  $("#modal_add_title").modal("hide");
+  saveTage(req, function (resp) {
+    if (resp.status) {
       buldHome();
     }
-  })
-   
+  });
 });
 
 // serch bar
@@ -210,11 +207,11 @@ $(document).on("click", ".menu_btn", function () {
   $(".sidebar-active").toggle();
 });
 
-// Logout 
+// Logout
 $(".btn_logout").click(function () {
   $("#Logout-modal").modal("show");
   // $('.sign').transition('slide right');
-  $('#Logout-comfim').click(function () {
+  $("#Logout-comfim").click(function () {
     window.localStorage.removeItem("b2b_user");
     $(".page-login").show();
     $(".my_body").hide();
@@ -240,21 +237,21 @@ $(document).on("click", "#btn-cancel-update-article", function () {
 });
 
 $(document).on("click", ".btn_login", function () {
-  alert('HI')
-  $('.page-login').show()
-})
+  alert("HI");
+  $(".page-login").show();
+});
 
 // SELECT DEPARTMENT ON NARBAR
-$(document).on('click', '#departmentListId .item', function () {
+$(document).on("click", "#departmentListId .item", function () {
   buildMenu();
   buldHome(true);
 });
 
 // SELECT DEPARTMENT LIST
-$(document).on('click', '#departmentListId2 .item', function () {
-  console.log($(this).attr('data-value'));
-  var dep2 = $(this).attr('data-value')
-  buildeMenuCombobox(id = "#menu_com", dep2);
+$(document).on("click", "#departmentListId2 .item", function () {
+  console.log($(this).attr("data-value"));
+  var dep2 = $(this).attr("data-value");
+  buildeMenuCombobox((id = "#menu_com"), dep2);
   console.log("dep2:", dep2);
 });
 
@@ -271,8 +268,8 @@ $(".menu_btn").click(function () {
 $(document).on("click", ".acticle_con", function () {
   var id = $(this).attr("act_id");
   var tag_title = $(this).attr("tag_title");
-  console.log('id',id);
-  console.log('tag_title', tag_title);
+  console.log("id", id);
+  console.log("tag_title", tag_title);
   buildActicle(id);
   saveRecent(tag_title, id, $(this).text());
   $("body .my_sidebar").find("li").removeClass("menu_active");
@@ -354,25 +351,22 @@ $(document).on("click", ".edit_tag", function () {
     };
     updateTag(reqTag);
     buldHome(true);
-
-
   });
 });
 
-// Update article has have 
+// Update article has have
 $(document).on("click", "#modal-edit-sub-article", function () {
-
   var acticle_id = $(this).attr("act_id");
   var tage_id = $(this).attr("tag_id");
-  var vaTitle = $(this).attr('title');
-  var dept_id = $(this).attr('dep_id');
+  var vaTitle = $(this).attr("title");
+  var dept_id = $(this).attr("dep_id");
   var avUserid = getToken().id + "";
-  console.log('Acticle ID :', acticle_id);
-  console.log('Tag ID :', tage_id);
-  console.log('Title :', vaTitle);
-  console.log('Department ID: ', dept_id);
+  console.log("Acticle ID :", acticle_id);
+  console.log("Tag ID :", tage_id);
+  console.log("Title :", vaTitle);
+  console.log("Department ID: ", dept_id);
 
-  // Show content 
+  // Show content
   $(".coupled.modal").modal({
     allowMultiple: true,
   });
@@ -388,18 +382,20 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   getActicle1(acticle_id, function (resp) {
     tinymce.remove("#editor2");
     tinymce.init({
-      selector: '#editor2',
-      plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+      selector: "#editor2",
+      plugins:
+        "anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount",
+      toolbar:
+        "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
       apiKey: "c2aw5c9qvbzg2o36fsuux51pvgwm0g3sctssoto55cd11e0p",
       init_instance_callback: function (inst) {
-        inst.setContent(resp.data.content_body)
-      }
+        inst.setContent(resp.data.content_body);
+      },
     });
   });
 
-  // UPDATE SUB-ARTICLE 
-  $(document).on('click', '#btn-save-update-sub-article', function () {
+  // UPDATE SUB-ARTICLE
+  $(document).on("click", "#btn-save-update-sub-article", function () {
     var myContent2 = tinymce.get("editor2").getContent();
     var reqAr = {
       TAG_ID: tage_id,
@@ -412,7 +408,6 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     updateArticles(reqAr);
     buldHome(true);
     location.href = "index.html";
-    
   });
 });
 
@@ -432,7 +427,7 @@ $(document).on("click", "#modale-delete-sub", function () {
   var id = $(this).attr("va-id");
   $(document).on("click", ".btn_delete_sub", function () {
     deleteArticles(id);
-   // window.localStorage.removeItem("act_recent"); // AFTER DELETE IS CLEAR DATA ON LOCALSTORAGE
+    // window.localStorage.removeItem("act_recent"); // AFTER DELETE IS CLEAR DATA ON LOCALSTORAGE
     buldHome(true);
     location.href = "index.html";
   });
@@ -443,7 +438,6 @@ $(document).on("click", "#modale-delete-sub", function () {
 $(document).ready(function () {
   //getLogin();
 });
-
 
 // USER
 let userB2b = [];
@@ -473,7 +467,7 @@ function userTable(data) {
 
 // delete user
 $(document).on("click", ".trash-delete_user_icon", function () {
-  $('#modal-delete-user').modal('show');
+  $("#modal-delete-user").modal("show");
   var id = $(this).attr("userRole");
   delete_User(id);
   buldHome(true);
@@ -510,7 +504,7 @@ $(document).on("click", ".editUser_icon", function () {
   $("#vUerPassword").val(currentUSer.V_Pass);
   $("#vUserstatus").val(currentUSer.V_Status);
   $("#vUserRole").val(currentUSer.V_Role);
- 
+
   var id = $(this).attr("userRole");
 
   // CLICK TO CONFIRMATION UPDATE
@@ -521,7 +515,6 @@ $(document).on("click", ".editUser_icon", function () {
       MODIFY_USERPASS: $("#vUerPassword").val(),
       MODIFY_USERSTATUS: $("#vUserstatus").val(),
       MODIFY_USERROLE: $("#vUserRole").val(),
-     
     };
     updateUser(id, req);
     buldHome();
@@ -530,23 +523,42 @@ $(document).on("click", ".editUser_icon", function () {
   //$("#btn_manage-user-pop").modal("show");
 });
 
-// MANAGE-DEPARTMENT
+// INSERT-DEPARTMENT
 $("#manage-department").click(function () {
-  buildManageDepartment();
+  buildManageDepartment()
   $("#pop-up-management-department").modal("show");
   $(".add-manage-department").click(function () {
-    var imd = $('#insert-manage-department').val(); 
-    $('#insert-manage-department').val(""); 
-    console.log("IMD:",imd);
+    var imd = $("#insert-manage-department").val();
+    var req = {
+      DEP_NAME: imd,
+      DEP_STATUS: 1,
+    };
+    insertDepartment(req, function (resp){
+      if (resp.status){
+        buildManageDepartment()
+      }
+    });
+    $("#insert-manage-department").val("");
+    console.log("IMD:", imd);
   });
- 
+});
+// DELETE DEPARTMENT
+$(document).on("click", ".delete-department", function () {
+    var id = $(this).parent().siblings('.dep-id').attr('dep_id')
+    deleteDepartment(id, function (resp){
+      if(resp.status){
+        buildManageDepartment()
+      }else{
+        alert('api down')
+      }
+    })
+    console.log('dep-id', id);
 });
 
- 
-// UPDARE DEPARTMENT
-$(document).on('click', '#icon-update-dep',function() {
-  var dep_name = $(this).closest('tr').find('.dep-name').text();
-  console.log('Department name =>',dep_name);
-  $('.input').append(dep_name)
-})
 
+// UPDARE DEPARTMENT
+$(document).on("click", "#icon-update-dep", function () {
+  var dep_name = $(this).closest("tr").find(".dep-name").text();
+  console.log("Department name =>", dep_name);
+  $(".input").append(dep_name);
+});
