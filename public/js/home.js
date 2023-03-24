@@ -94,10 +94,12 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
 function buildManageDepartment() {
   getDepartment(function (resp) {
     var list = "";
+    var fakeId= 0
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         list += `<tr>
-                 <td class="dep-id" dep_id='${v.dep_id}'>${v.dep_id}</td>
+                 <td>${fakeId+=1}</td>
+                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
                  <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
                  <td><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="delete-department"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;

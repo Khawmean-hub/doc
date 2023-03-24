@@ -321,9 +321,7 @@ a.title {
   cursor: pointer;
 }
 
-.editUser_icon:hover {
-  /* color: aqua; */
-}
+
 
 .trash-delete_user_icon {
   cursor: pointer;
@@ -346,13 +344,15 @@ a.title {
 }
 .txtIsertD {
   padding: 3px 5px !important;
+  width: 50% !important;
 }
 .txtIsertD::placeholder{
   font-size: smaller !important;
 }
-.btnAddD{
+.btn-add-css{
   padding: 9px 19px !important;
   margin-left: 5px !important;
+ 
 }
 .btn-success{
   background-color: #21ba45 !important;
@@ -363,7 +363,16 @@ border: 2px salmon solid !important;
 .icon-dltDpt{
   color:salmon !important;
 }
+.hide-thId{
+  display: none !important;
+}
 .btn-info{
   background-color: #2185d0;
 
+}
+
+.btn-update-css{
+  background-color: #21ba45 !important;
+  padding: 9px 19px !important;
+  margin-left: 5px !important;
 }
