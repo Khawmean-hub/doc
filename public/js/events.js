@@ -215,7 +215,7 @@ $(".btn_logout").click(function () {
     window.localStorage.removeItem("b2b_user");
     $(".page-login").show();
     $(".my_body").hide();
-    $('.login_form').show();
+    // $('.login_form').show();
   });
   // window.localStorage.removeItem("b2b_user");
   // $(".page-login").show();
@@ -244,8 +244,8 @@ $(document).on("click", ".btn_login", function () {
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
-  buildMenu();
-  buldHome(true);
+  buildMenu(true); 
+  //buldHome(true);
 });
 
 // SELECT DEPARTMENT LIST
@@ -487,7 +487,10 @@ $(document).on("click", "#btn_doc_add_users", function () {
   console.log("B2b add user: ", req);
   addB2bUser(req);
   // location.href = "index.html";
-  buldHome();
+  buldHome(true);
+  alert('User has add')
+  location.href = 'index.html';
+  
 });
 
 // UPDATE USER

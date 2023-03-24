@@ -395,12 +395,13 @@ function buildMenu(isFalse) {
         html += `</ul> </div></div>`;
       });
     }
+    
     if (isNull(html)) {
       // CHECK IT NULL
       $("#menu_body").empty().append('<p style="text-align:center; margin-top: 20px">No data</p>');
     } else
       $("#menu_body").empty().append(html);
-
+      
   });
   
 }
