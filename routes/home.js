@@ -42,7 +42,7 @@ homeRoute.get("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
 
 // doc_department_d001
 homeRoute.post("/doc_department_d001", auth.permitAll, async (req, res) => {
-  var dep = await db.any(`UPDATE doc_department set dep_status=1 WHERE	dep_id= CAST('${req.body.DEP_ID}' AS INTEGER`);
+  var dep = await db.any(`UPDATE doc_department set dep_status=0 WHERE dep_id= CAST('${req.body.DEP_ID}' AS INTEGER)`);
   if (dep == null) {
     return res.send(new BaseRes(false, "ERROR", null));
   } else {

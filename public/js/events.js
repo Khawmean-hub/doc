@@ -549,7 +549,7 @@ $(document).on("click", ".delete-department", function () {
       if(resp.status){
         buildManageDepartment()
       }else{
-        alert('api down')
+        alert(data.message)
       }
     })
     console.log('dep-id', id);
