@@ -126,11 +126,6 @@ $(document).on("click", "#add_newTitle", function () {
     TITLE: $("#titleView").val(),
     DEP_ID: $("#modal_add").dropdown("get value"),
     USER_ID: 1,
-  };
-  $("#modal_add_title").modal("hide");
-  saveTage(req, function (resp) {
-    if (resp.status) {
-      buldHome();
   }
   $('#modal_add_title').modal('hide')
   saveTage(req, function(resp){
