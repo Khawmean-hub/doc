@@ -569,22 +569,26 @@ $(document).on("click", "#icon-update-dep", function () {
   var dep_name = $(this).closest("tr").find(".dep-name").text();
   var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
     $(".txtIsertD").val(dep_name);
+    
+// UPDATE DEPARTMENT
+  $(document).on("click", ".btn-update ", function () {
     var update = $(".txtIsertD").val();
-    console.log('up  id:', dep_id);
-    console.log('up name:', dep_name);
+    console.log('id:' ,dep_id);
+    console.log('name:', update);
     var req ={
       DEP_ID: dep_id,
       DEP_NAME: update,
     }
-// UPDATE DEPARTMENT
-  $(document).on("click", ".btn-update ", function () {
+    
     updateDepartment(req, function (resp){
       if(resp.status){
         buildManageDepartment()
-      }else{
+      }else
+      {
         alert(data.message)
       }
     })
+    $("#insert-manage-department").val("");
     $('.btn-update-css').hide()
     $('.btn-add-css').show()
   });
