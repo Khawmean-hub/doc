@@ -1,3 +1,4 @@
+$('.page-login').hide()
 $("#btn_add_contents").click(function () {
   $(".coupled.modal").modal({
     allowMultiple: true,
@@ -485,8 +486,8 @@ $(document).on("click", "#btn_doc_add_users", function () {
   };
   console.log("B2b add user: ", req);
   addB2bUser(req);
-  // location.href = "index.html";
   buldHome();
+  location.href = "index.html";
 });
 
 // UPDATE USER
@@ -509,7 +510,7 @@ $(document).on("click", ".editUser_icon", function () {
 
   // CLICK TO CONFIRMATION UPDATE
   $(document).on("click", "#btn_doc_update_users_icon", function () {
-    alert("Data has been update success");
+    alert("Update success");
     var req = {
       MODIFY_USERNAME: $("#vUserName").val(),
       MODIFY_USERPASS: $("#vUerPassword").val(),
