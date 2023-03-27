@@ -39,7 +39,19 @@ const fileSizeLimitHandler = (err, req, res, next) => {
 //  }
 
 // file upload
-fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler, async (req, res) => {
+// fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler, async (req, res) => {
+//   const fileUpload = new Resize(process.env.IMG_PATH);
+//   if (!req.file) {
+//     return res.status(401).json(new BaseRes(false, MessageEnum.UPLOAD_FAILED, null));
+//   }
+//   const filename = await fileUpload.save(req.file.buffer);
+//   var data = {
+//     url: process.env.URL + "/image/" + filename,
+//     fileName: filename
+//   }
+//   res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
+// });
+fileRoute.post('/upload', upload.single('image'), async (req, res) => {
   const fileUpload = new Resize(process.env.IMG_PATH);
   if (!req.file) {
     return res.status(401).json(new BaseRes(false, MessageEnum.UPLOAD_FAILED, null));
@@ -52,19 +64,7 @@ fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler, async (r
   res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
 });
 
-// file upload
-fileRoute.post('/upload', upload.single('image'), fileSizeLimitHandler,async (req, res) => {
-    const fileUpload = new Resize(process.env.IMG_PATH);
-    if (!req.file) {
-      return res.status(401).json(new BaseRes(false,MessageEnum.UPLOAD_FAILED ,null));
-    }
-    const filename = await fileUpload.save(req.file.buffer);
-    var data = {
-      url: process.env.URL+"/image/"+ filename, 
-      fileName: filename 
-    }
-    res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
-});   
+   
 // const uploadFile = async (file) => {
 //   const formData = new FormData();
 //   FormData.append('image', file);
