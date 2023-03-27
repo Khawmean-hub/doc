@@ -566,6 +566,7 @@ $(document).on("click", ".delete-department", function () {
 $(document).on("click", "#icon-update-dep", function () {
   $('.btn-update-css').show()
   $('.btn-add-css').hide()
+  $('.act-u').show()
   var dep_name = $(this).closest("tr").find(".dep-name").text();
   var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
     $(".txtIsertD").val(dep_name);
@@ -582,14 +583,21 @@ $(document).on("click", "#icon-update-dep", function () {
     
     updateDepartment(req, function (resp){
       if(resp.status){
-        buildManageDepartment()
+        window.location.reload();
       }else
       {
         alert(data.message)
       }
     })
-    $("#insert-manage-department").val("");
     $('.btn-update-css').hide()
     $('.btn-add-css').show()
   });
+
 });
+
+
+$(document).on('click', '.act-u', function(){
+  $('.act-u').hide()
+  $('.btn-add-css').show()
+   $('.btn-update-css').hide()
+})
