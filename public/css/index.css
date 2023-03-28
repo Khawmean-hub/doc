@@ -376,3 +376,8 @@ border: 2px salmon solid !important;
   padding: 9px 19px !important;
   margin-left: 5px !important;
 }
+
+.act-u{
+  margin-right:7px !important;
+  display: none;
+}

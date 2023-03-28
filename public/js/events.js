@@ -238,14 +238,13 @@ $(document).on("click", "#btn-cancel-update-article", function () {
 });
 
 $(document).on("click", ".btn_login", function () {
-  alert("HI");
   $(".page-login").show();
 });
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
-  buildMenu();
-  // buldHome(true);
+  buildMenu(true);
+  // buldHome();
 });
 
 // SELECT DEPARTMENT LIST
@@ -254,6 +253,12 @@ $(document).on("click", "#departmentListId2 .item", function () {
   var dep2 = $(this).attr("data-value");
   buildeMenuCombobox((id = "#menu_com"), dep2);
   console.log("dep2:", dep2);
+});
+
+$(document).on("click", "#departmentListId3 .item", function () {
+  console.log($(this).attr("data-value"));
+  var dep3 = $(this).attr("data-value");
+  console.log("dep3:", dep3);
 });
 
 // CLICK HUMBERGER BUTTON
@@ -336,13 +341,14 @@ $(document).on("mouseleave", ".sub_t", function () {
 
 // MODAL UPDATE TAGE EX: Gradle
 $(document).on("click", ".edit_tag", function () {
-  var vTitle = $(this).attr("v.title");
-  var vDepid = $(this).attr("v.dep_id");
+  $(".tage_editT").modal("show");
+  var dept_id = $("#departmentListId").dropdown("get value");
+  buildDepartment("#departmentListId3", dept_id);
+  var vTitle = $(this).attr("v.title"); // Throw in new title
+  var vDepid = $(this).attr("v.dep_id"); // Department ID
   var vUserid = getToken().id + "";
   var vId = $(this).attr("v.id");
-
   $(".v-title").val(vTitle);
-  $(".tage_editT").modal("show");
   $(document).on("click", ".btn-up-tag", function () {
     var reqTag = {
       DEP_ID: vDepid,
@@ -352,6 +358,7 @@ $(document).on("click", ".edit_tag", function () {
     };
     updateTag(reqTag);
     buldHome(true);
+    window.location.reload();
   });
 });
 
@@ -366,6 +373,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   console.log("Tag ID :", tage_id);
   console.log("Title :", vaTitle);
   console.log("Department ID: ", dept_id);
+  console.log('UserID', avUserid)
 
   // Show content
   $(".coupled.modal").modal({
@@ -430,7 +438,8 @@ $(document).on("click", "#modale-delete-sub", function () {
     deleteArticles(id);
     // window.localStorage.removeItem("act_recent"); // AFTER DELETE IS CLEAR DATA ON LOCALSTORAGE
     buldHome(true);
-    location.href = "index.html";
+    // location.href = "index.html";
+    window.location.reload();
   });
   console.log("delete-sub: ", id);
 });
@@ -472,7 +481,8 @@ $(document).on("click", ".trash-delete_user_icon", function () {
   var id = $(this).attr("userRole");
   delete_User(id);
   buldHome(true);
-  location.href = "index.html";
+  // location.href = "index.html";
+  window.location.reload();
   console.log(id);
 });
 
@@ -487,7 +497,8 @@ $(document).on("click", "#btn_doc_add_users", function () {
   console.log("B2b add user: ", req);
   addB2bUser(req);
   buldHome();
-  location.href = "index.html";
+  // location.href = "index.html";
+  window.location.reload();
 });
 
 // UPDATE USER
@@ -566,6 +577,7 @@ $(document).on("click", ".delete-department", function () {
 $(document).on("click", "#icon-update-dep", function () {
   $('.btn-update-css').show()
   $('.btn-add-css').hide()
+  $('.act-u').show()
   var dep_name = $(this).closest("tr").find(".dep-name").text();
   var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
     $(".txtIsertD").val(dep_name);
@@ -582,14 +594,21 @@ $(document).on("click", "#icon-update-dep", function () {
     
     updateDepartment(req, function (resp){
       if(resp.status){
-        buildManageDepartment()
+        window.location.reload();
       }else
       {
         alert(data.message)
       }
     })
-    $("#insert-manage-department").val("");
     $('.btn-update-css').hide()
     $('.btn-add-css').show()
   });
+
 });
+
+
+$(document).on('click', '.act-u', function(){
+  $('.act-u').hide()
+  $('.btn-add-css').show()
+   $('.btn-update-css').hide()
+})

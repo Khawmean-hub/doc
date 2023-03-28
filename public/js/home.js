@@ -28,6 +28,7 @@ function buldHome() {
     $('#Create-New-User').show();
     // show button add contents or department
     $('#btn_add_contents').show();
+    $('#manage-department').show();
 
   } else if (getToken().role == 2) { // not user read only
     $('#btn_manage-user').hide();
@@ -35,6 +36,7 @@ function buldHome() {
     $('#btn_add_contents').hide();
     $('.btn_logout').hide();
     $('.btn_login').show();
+    $('#manage-department').hide();
   }
 }
 
@@ -83,9 +85,13 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     });
 
     if (id.includes("departmentListId2")) {
-      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment)
+      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment);
     }
-
+    // 
+    if (id.includes("departmentListId3")) {
+      $("#departmentListId3").dropdown("setting", "onChange", onChangeDepartment);
+    }
+   
     $(id).removeClass("loading");
     //$(id).dropdown();
   });
@@ -101,7 +107,8 @@ function buildManageDepartment() {
                  <td>${fakeId+=1}</td>
                  <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
                  <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
-                 <td><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="delete-department"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
+                 <td><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
+                 </a><a href="#" class="delete-department"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
       });
      
@@ -244,6 +251,7 @@ function buildeMenuCobobox(id = "#menu_com") {
     });
     $(id).removeClass("loading");
   });
+  
 }
 function deleteDocument(id) {
   buildMenu();

@@ -1,27 +1,25 @@
 const express = require('express');
+const multer = require('multer');
 const { MessageEnum } = require('../utils/message.enum');
 const Resize = require('../utils/Resize');
 const BaseRes = require('../utils/Response');
 var fileRoute = express.Router();
-var upload = require('../utils/uploadMiddleware');
-// Test
-const multer = require('multer');
-const uploadFile = multer({ dest: 'uploads/'})
+// var upload = require('../utils/uploadMiddleware');
 
 /*------------------------------------------
 --------------------------------------------
 image upload code using multer
 --------------------------------------------
 --------------------------------------------*/
-// var storage = multer.diskStorage({
-//    destination: function (req, file, cb) {
-//       cb(null, process.env.IMG_PATH);
-//    },
-//    filename: function (req, file, cb) {
-//       cb(null, Date.now() + '-' + file.originalname);
-//    }
-// });
-// var upload = multer({ storage: storage });
+var storage = multer.diskStorage({
+   destination: function (req, file, cb) {
+      cb(null, process.env.IMG_PATH);
+   },
+   filename: function (req, file, cb) {
+      cb(null, Date.now() + '-' + file.originalname);
+   }
+});
+var upload = multer({ storage: storage });
 
 
 // Handel file or image size
@@ -55,17 +53,12 @@ image upload code using multer
 //   res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
 // });
 
-fileRoute.post('/upload', upload.single('file'), async (req, res) => {
-  const fileUpload = new Resize(process.env.IMG_PATH);
-  if (!req.file) {
-    return res.status(401).json(new BaseRes(false, MessageEnum.UPLOAD_FAILED, null));
-  }
-  const filename = await fileUpload.save(req.file.buffer);
-  var data = {
-    url: process.env.URL + "/file/" + filename,
-    fileName: filename
-  }
-  res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
+fileRoute.post('/upload',upload.single('file') ,async (req, res) => {
+ // const fileUpload = new Resize(process.env.IMG_PATH);
+  // if (!req.file) {
+  //   return res.status(401).json(new BaseRes(false, MessageEnum.UPLOAD_FAILED, null));
+  // }
+  res.send(new BaseRes(true,  MessageEnum.UPLOAD_SUCCESS, {url: process.env.URL+"/image/"+ req.file.filename, fileName: req.file.filename}));
 });
 
 // const uploadFile = async (file) => {
