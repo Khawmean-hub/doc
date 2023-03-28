@@ -338,9 +338,25 @@ function updateUser(id, req) {
 }
 
 // Upload file
+// function uploadFile(file, path, callBack) {
+//   let formData = new FormData();
+//   formData.append("image", file, path);
+
+//   var settings = {
+//     url: baseUrl + "/upload",
+//     method: "POST",
+//     processData: false,
+//     contentType: false,
+//     mimeType: "multipart/form-data",
+//     data: formData,
+//   };
+//   requestApi(settings, callBack);
+// }
+
+// Test file upload
 function uploadFile(file, path, callBack) {
   let formData = new FormData();
-  formData.append("image", file, path);
+  formData.append("file", file, path);
 
   var settings = {
     url: baseUrl + "/upload",

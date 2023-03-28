@@ -4,7 +4,9 @@ const Resize = require('../utils/Resize');
 const BaseRes = require('../utils/Response');
 var fileRoute = express.Router();
 var upload = require('../utils/uploadMiddleware');
-
+// Test
+const multer = require('multer');
+const uploadFile = multer({ dest: 'uploads/'})
 
 /*------------------------------------------
 --------------------------------------------
@@ -22,14 +24,15 @@ image upload code using multer
 // var upload = multer({ storage: storage });
 
 
+// Handel file or image size
+// const fileSizeLimitHandler = (err, req, res, next) => {
+//   if (err) {
+//     res.send(new BaseRes(false, "Image size is too large. limit (200 MB)", null));
+//   } else {
+//     next()
+//   }
+// }
 
-const fileSizeLimitHandler = (err, req, res, next) => {
-  if (err) {
-    res.send(new BaseRes(false, "Image size is too large. limit (200 MB)", null));
-  } else {
-    next()
-  }
-}
 //  const fileSizeLimitHandler = (err, req, res, next) => {
 //    if (err) {
 //     res.send(new BaseRes(false, "Image size is too large. limit (200 MB)", null));
@@ -51,20 +54,20 @@ const fileSizeLimitHandler = (err, req, res, next) => {
 //   }
 //   res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
 // });
-fileRoute.post('/upload', upload.single('image'), async (req, res) => {
+
+fileRoute.post('/upload', upload.single('file'), async (req, res) => {
   const fileUpload = new Resize(process.env.IMG_PATH);
   if (!req.file) {
     return res.status(401).json(new BaseRes(false, MessageEnum.UPLOAD_FAILED, null));
   }
   const filename = await fileUpload.save(req.file.buffer);
   var data = {
-    url: process.env.URL + "/image/" + filename,
+    url: process.env.URL + "/file/" + filename,
     fileName: filename
   }
   res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
 });
 
-   
 // const uploadFile = async (file) => {
 //   const formData = new FormData();
 //   FormData.append('image', file);
