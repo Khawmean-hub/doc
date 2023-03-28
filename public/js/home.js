@@ -28,6 +28,7 @@ function buldHome() {
     $('#Create-New-User').show();
     // show button add contents or department
     $('#btn_add_contents').show();
+    $('#manage-department').show();
 
   } else if (getToken().role == 2) { // not user read only
     $('#btn_manage-user').hide();
@@ -35,6 +36,7 @@ function buldHome() {
     $('#btn_add_contents').hide();
     $('.btn_logout').hide();
     $('.btn_login').show();
+    $('#manage-department').hide();
   }
 }
 
@@ -83,9 +85,13 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     });
 
     if (id.includes("departmentListId2")) {
-      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment)
+      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment);
     }
-
+    // 
+    if (id.includes("departmentListId3")) {
+      $("#departmentListId3").dropdown("setting", "onChange", onChangeDepartment);
+    }
+   
     $(id).removeClass("loading");
     //$(id).dropdown();
   });
@@ -245,6 +251,7 @@ function buildeMenuCobobox(id = "#menu_com") {
     });
     $(id).removeClass("loading");
   });
+  
 }
 function deleteDocument(id) {
   buildMenu();
