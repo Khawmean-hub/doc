@@ -1,4 +1,4 @@
-$('.page-login').hide()
+$(".page-login").hide();
 $("#btn_add_contents").click(function () {
   $(".coupled.modal").modal({
     allowMultiple: true,
@@ -380,7 +380,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   console.log("Tag ID :", tage_id);
   console.log("Title :", vaTitle);
   console.log("Department ID: ", dept_id);
-  console.log('UserID', avUserid)
+  console.log("UserID", avUserid);
 
   // Show content
   $(".coupled.modal").modal({
@@ -446,7 +446,7 @@ $(document).on("click", "#modale-delete-sub", function () {
   $(document).on("click", ".btn_delete_sub", function () {
     deleteArticles(id);
     buldHome(true);
-    buildMenu(true)
+    buildMenu(true);
     window.location.reload();
   });
   console.log("delete-sub: ", id);
@@ -468,6 +468,19 @@ $.ajax({
     console.log("B2b user :", userB2b);
   },
 });
+// function userTable(data) {
+//   var table = document.getElementById("userData");
+//   for (var i = 0; i < data.length; i++) {
+//     var tableData = `<tr class='allUser'>
+//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
+//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
+//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
+//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
+//     <td id=all-icon><i class="edit outline icon con-size blue editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash alternate outline icon red trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+//   </tr>`;
+//     table.innerHTML += tableData;
+//   }
+// }
 function userTable(data) {
   var table = document.getElementById("userData");
   for (var i = 0; i < data.length; i++) {
@@ -484,11 +497,11 @@ function userTable(data) {
 // Test
 function userTable(data) {
   var table = document.getElementById("userData");
-  var tableData = '';
-  data.forEach((i) =>{
-    tableData += `<tr class='allUser'>`
-    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
+  var tableData = "";
+  data.forEach((i) => {
+    tableData += `<tr class='allUser'>`;
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`;
+    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`;
     // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
     if (i.status == 1) {
       tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`
@@ -498,13 +511,20 @@ function userTable(data) {
       tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
     } else if (i.role == 0) {
       tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
-    } else if (i.role == 2) {
-      tableData += `<td>Viewer</td>`
+      tableData += `<td class=''>Active</td>`;
     }
-    tableData += `<td id=all-icon><i class="edit icon editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+    // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
+    if (i.role == 1) {
+      tableData += `<td>Admin</td>`;
+    } else if (i.role == 0) {
+      tableData += `<td>User</td>`;
+    } else if (i.role == 2) {
+      tableData += `<td>Viewer</td>`;
+    }
+    tableData += `<td style="display:flex; justify-content: center;"  id=all-icon><i class="edit outline icon con-size blue editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash alternate outline icon red trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
-  })
-    
+  });
+
   table.innerHTML += tableData;
 }
 // <td userStatus='${data[i].password}' class='v-status'>${data[i].password}</td>
@@ -571,23 +591,23 @@ $(document).on("click", ".editUser_icon", function () {
 
 // INSERT-DEPARTMENT
 $("#manage-department").click(function () {
-  buildManageDepartment()
+  buildManageDepartment();
   $("#pop-up-management-department").modal("show");
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
-    var req = { 
+    var req = {
       DEP_NAME: imd,
       DEP_STATUS: 1,
     };
-    if(!isNull(imd)){
-      $('.txtIsertD').removeClass('txtWarning')
-      insertDepartment(req, function (resp){
-        if (resp.status){
-          buildManageDepartment()
+    if (!isNull(imd)) {
+      $(".txtIsertD").removeClass("txtWarning");
+      insertDepartment(req, function (resp) {
+        if (resp.status) {
+          buildManageDepartment();
         }
       });
-    }else{
-     $('.txtIsertD').addClass('txtWarning')
+    } else {
+      $(".txtIsertD").addClass("txtWarning");
     }
     $("#insert-manage-department").val("");
     console.log("IMD:", imd);
@@ -596,54 +616,51 @@ $("#manage-department").click(function () {
 
 // DELETE DEPARTMENT
 $(document).on("click", ".delete-department", function () {
-    var id = $(this).parent().siblings('.dep-id').attr('dep_id');
-    deleteDepartment(id, function (resp){
-      if(resp.status){
-        buildManageDepartment()
-      }else{
-        alert(data.message)
-      }
-    });
-    window.location.reload();
-    console.log('dep-id', id);
+  var id = $(this).parent().siblings(".dep-id").attr("dep_id");
+  deleteDepartment(id, function (resp) {
+    if (resp.status) {
+      buildManageDepartment();
+    } else {
+      alert(data.message);
+    }
+  });
+  window.location.reload();
+  console.log("dep-id", id);
 });
 
 // EDIT DEPARTMENT
 $(document).on("click", "#icon-update-dep", function () {
-  $('.btn-update-css').show()
-  $('.btn-add-css').hide()
-  $('.act-u').show()
+  $(".btn-update-css").show();
+  $(".btn-add-css").hide();
+  $(".act-u").show();
   var dep_name = $(this).closest("tr").find(".dep-name").text();
-  var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
-    $(".txtIsertD").val(dep_name);
-    
+  var dep_id = $(this).closest("tr").find(".dep-id").attr("dep_id");
+  $(".txtIsertD").val(dep_name);
+
   // UPDATE DEPARTMENT
   $(document).on("click", ".btn-update ", function () {
     var update = $(".txtIsertD").val();
-    console.log('id:' ,dep_id);
-    console.log('name:', update);
-    var req ={
+    console.log("id:", dep_id);
+    console.log("name:", update);
+    var req = {
       DEP_ID: dep_id,
       DEP_NAME: update,
-    }
-    
-    updateDepartment(req, function (resp){
-      if(resp.status){
-        window.location.reload();
-      }else
-      {
-        alert(data.message)
-      }
-    })
-    $('.btn-update-css').hide()
-    $('.btn-add-css').show()
-  });
+    };
 
+    updateDepartment(req, function (resp) {
+      if (resp.status) {
+        window.location.reload();
+      } else {
+        alert(data.message);
+      }
+    });
+    $(".btn-update-css").hide();
+    $(".btn-add-css").show();
+  });
 });
 
-
-$(document).on('click', '.act-u', function(){
-  $('.act-u').hide()
-  $('.btn-add-css').show()
-   $('.btn-update-css').hide()
-})
+$(document).on("click", ".act-u", function () {
+  $(".act-u").hide();
+  $(".btn-add-css").show();
+  $(".btn-update-css").hide();
+});

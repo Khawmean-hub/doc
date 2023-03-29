@@ -65,7 +65,6 @@
 
     <!-- modal table add new -->
     <div class="ui modal coupled" id="btn_manage-user-pop" style="width: 812px;">
-      <i class="close icon"></i>
       <h4 class="header">B2B USER <i
           class="address book outline icon"></i> </h4>
       <div class="image content" style="background-color: #e2e2e263;">
@@ -85,8 +84,9 @@
       </div>
       <div class="actions" style="background-color: #ffffff;">
         <!-- <button class=" blue ui black basic tiny positive" id="Create-New-User">Add new</button> -->
+        <div class="ui cancel tiny button">Cancel</div>
         <div class="ui blue button tiny" id="Create-New-User">Add new</div>
-
+         
       </div>
     </div>
     <!-- end modal table add new -->
@@ -199,9 +199,6 @@
         </div>
         <!-- Logout -->
         <div class="item test">
-          <button class="ui button btn_login" style="background: none; color: grey">
-            <i class="sign in alternate icon"></i>
-          </button>
           <button class="ui button btn_logout" style="background: none; color: grey">
             <i class="sign out alternate icon"></i>
           </button>
@@ -579,14 +576,14 @@
   </div>
 
   <!-- MODAL MANAGEMENT DEPARTMENT  -->
-  <div class="ui modal" id="pop-up-management-department">
-    <i class="close icon"></i>
+  <div class="ui modal " id="pop-up-management-department">
     <div class="header " style="display: flex; align-items: center;">
       <div class="ui input">
-        <input type="text" class="txtIsertD" placeholder="Title ..." id="insert-manage-department"
-          style="width: 351px;">
+          <div class="ui input">
+            <input  class="txtIsertD" type="text" placeholder="Title ..." id="insert-manage-department">
+          </div>
       </div>
-      <button class="btn-add-css  ui primary button add-manage-department">
+      <button class="btn-add-css  add-manage-department ui tiny blue button">
         Add
       </button>
       <button style="display: none;" class=" btn-update-css btn-update ui primary button">
@@ -606,6 +603,9 @@
 
         </tbody>
       </table>
+    </div>
+    <div class="actions">
+      <div class="ui tiny button btn_cl deny ">Close</div>
     </div>
   </div>
 
