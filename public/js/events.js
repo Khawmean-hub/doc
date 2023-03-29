@@ -241,15 +241,11 @@ $(document).on("click", ".btn_login", function () {
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
-
+  var dep2 = $(this).attr('data-value');
+  buildeMenuCobobox((id = '#menu_com'), dep2);
   buildMenu(true);
 
 });
-// $(document).ready(function() {
-//   $('#departmentListId .item').click(function(){
-//     buildMenu();
-//   })
-// })
 
 // SELECT DEPARTMENT LIST
 $(document).on("click", "#departmentListId2 .item", function () {
