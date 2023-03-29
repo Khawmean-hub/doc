@@ -244,9 +244,9 @@ $(document).on("click", ".btn_login", function () {
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
-  
+
   buildMenu(true);
-  
+
 });
 // $(document).ready(function() {
 //   $('#departmentListId .item').click(function(){
@@ -481,27 +481,27 @@ $.ajax({
 //     table.innerHTML += tableData;
 //   }
 // }
-function userTable(data) {
-  var table = document.getElementById("userData");
-  for (var i = 0; i < data.length; i++) {
-    var tableData = `<tr class='allUser'>
-    <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
-    <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
-    <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
-    <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
-    <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
-  </tr>`;
-    table.innerHTML += tableData;
-  }
-}
+// function userTable(data) {
+//   var table = document.getElementById("userData");
+//   for (var i = 0; i < data.length; i++) {
+//     var tableData = `<tr class='allUser'>
+//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
+//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
+//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
+//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
+//     <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+//   </tr>`;
+//     table.innerHTML += tableData;
+//   }
+// }
 // Test
 function userTable(data) {
   var table = document.getElementById("userData");
-  var tableData = "";
-  data.forEach((i) => {
-    tableData += `<tr class='allUser'>`;
-    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`;
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`;
+  var tableData = '';
+  data.forEach((i) =>{
+    tableData += `<tr class='allUser'>`
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
+    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
     // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
     if (i.status == 1) {
       tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`
@@ -511,20 +511,13 @@ function userTable(data) {
       tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
     } else if (i.role == 0) {
       tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
-      tableData += `<td class=''>Active</td>`;
-    }
-    // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
-    if (i.role == 1) {
-      tableData += `<td>Admin</td>`;
-    } else if (i.role == 0) {
-      tableData += `<td>User</td>`;
     } else if (i.role == 2) {
-      tableData += `<td>Viewer</td>`;
+      tableData += `<td>Viewer</td>`
     }
-    tableData += `<td style="display:flex; justify-content: center;"  id=all-icon><i class="edit outline icon con-size blue editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash alternate outline icon red trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+    tableData += `<td id=all-icon><i class="edit icon editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
-  });
-
+  })
+    
   table.innerHTML += tableData;
 }
 // <td userStatus='${data[i].password}' class='v-status'>${data[i].password}</td>
