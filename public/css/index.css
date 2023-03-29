@@ -25,7 +25,10 @@ h5,
 h6 {
   color: #2b2b2b;
 }
-
+.item.test{
+  margin: 0px 0px !important;
+  padding: 0px 0px !important;
+}
 .nav_searchbox input {
   color: white !important;
   width: 300px;
@@ -319,12 +322,12 @@ a.title {
 .x {
   cursor: pointer;
 }
-.txtIsertD {
-  padding: 3px 5px !important;
-  width: 50% !important;
+.txtIsertD{
+  padding: 5px 5px !important;
+  width: 70% !important;
 }
-.txtIsertD::placeholder{
-  font-size: smaller !important;
+ .txtIsertD[type="text"] {
+    font-size: smaller !important;
 }
 .btn-add-css{
   padding: 9px 19px !important;
