@@ -131,7 +131,8 @@ $(document).on("click", "#add_newTitle", function () {
   $("#modal_add_title").modal("hide");
   saveTage(req, function (resp) {
     if (resp.status) {
-      buldHome();
+      buldHome(true);
+      buildMenu(true);
     }
   });
 });
@@ -416,7 +417,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     };
     updateArticles(reqAr);
     buldHome(true);
-    location.href = "index.html";
+    window.location.reload();
   });
 });
 
@@ -427,6 +428,8 @@ $(document).on("click", "#delete_thisT", function () {
   $(document).on("click", ".btn_delete_tage ", function () {
     deleteTage(id);
     buldHome(true);
+    buildMenu(true);
+    window.location.reload();
   });
 });
 
@@ -436,9 +439,8 @@ $(document).on("click", "#modale-delete-sub", function () {
   var id = $(this).attr("va-id");
   $(document).on("click", ".btn_delete_sub", function () {
     deleteArticles(id);
-    // window.localStorage.removeItem("act_recent"); // AFTER DELETE IS CLEAR DATA ON LOCALSTORAGE
     buldHome(true);
-    // location.href = "index.html";
+    buildMenu(true)
     window.location.reload();
   });
   console.log("delete-sub: ", id);
@@ -460,20 +462,46 @@ $.ajax({
     console.log("B2b user :", userB2b);
   },
 });
+// function userTable(data) {
+//   var table = document.getElementById("userData");
+//   for (var i = 0; i < data.length; i++) {
+//     var tableData = `<tr class='allUser'>
+//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
+//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
+//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
+//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
+//     <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+//   </tr>`;
+//     table.innerHTML += tableData;
+//   }
+// }
+// Test
 function userTable(data) {
   var table = document.getElementById("userData");
-  for (var i = 0; i < data.length; i++) {
-    var tableData = `<tr class='allUser'>
-    <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
-    <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
-    <td userPass='${data[i].password}' class='v-password'>${data[i].password}</td>
-    <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
-    <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
-    <td style="display:flex; justify-content: center;" id=all-icon><i class=" blue edit outline icon con-size editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="red trash alternate outline icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+  var tableData = '';
+  data.forEach((i) =>{
+    tableData += `<tr class='allUser'>`
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
+    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
+    // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
+    if (i.status == 1) {
+      tableData += `<td class=''>Active</td>`
+    }
+    // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
+    if (i.role == 1) {
+      tableData += `<td>Admin</td>`
+    } else if (i.role == 0) {
+      tableData += `<td>User</td>`
+    } else if (i.role == 2) {
+      tableData += `<td>Viewer</td>`
+    }
+    tableData += `<td id=all-icon><i class="edit icon editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
-    table.innerHTML += tableData;
-  }
+  })
+    
+  table.innerHTML += tableData;
 }
+// <td userStatus='${data[i].password}' class='v-status'>${data[i].password}</td>
 
 // delete user
 $(document).on("click", ".trash-delete_user_icon", function () {
@@ -483,7 +511,6 @@ $(document).on("click", ".trash-delete_user_icon", function () {
   buldHome(true);
   // location.href = "index.html";
   window.location.reload();
-  console.log(id);
 });
 
 // add user
@@ -530,7 +557,8 @@ $(document).on("click", ".editUser_icon", function () {
     };
     updateUser(id, req);
     buldHome();
-    location.href = "index.html";
+    // location.href = "index.html";
+    window.location.reload();
   });
   //$("#btn_manage-user-pop").modal("show");
 });
@@ -541,7 +569,7 @@ $("#manage-department").click(function () {
   $("#pop-up-management-department").modal("show");
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
-    var req = {
+    var req = { 
       DEP_NAME: imd,
       DEP_STATUS: 1,
     };
@@ -562,14 +590,15 @@ $("#manage-department").click(function () {
 
 // DELETE DEPARTMENT
 $(document).on("click", ".delete-department", function () {
-    var id = $(this).parent().siblings('.dep-id').attr('dep_id')
+    var id = $(this).parent().siblings('.dep-id').attr('dep_id');
     deleteDepartment(id, function (resp){
       if(resp.status){
         buildManageDepartment()
       }else{
         alert(data.message)
       }
-    })
+    });
+    window.location.reload();
     console.log('dep-id', id);
 });
 
@@ -582,7 +611,7 @@ $(document).on("click", "#icon-update-dep", function () {
   var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
     $(".txtIsertD").val(dep_name);
     
-// UPDATE DEPARTMENT
+  // UPDATE DEPARTMENT
   $(document).on("click", ".btn-update ", function () {
     var update = $(".txtIsertD").val();
     console.log('id:' ,dep_id);
