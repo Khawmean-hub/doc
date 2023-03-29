@@ -469,7 +469,7 @@ function userTable(data) {
     <td userPass='${data[i].password}' class='v-password'>${data[i].password}</td>
     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
-    <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+    <td style="display:flex; justify-content: center;" id=all-icon><i class=" blue edit outline icon con-size editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="red trash alternate outline icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
   </tr>`;
     table.innerHTML += tableData;
   }

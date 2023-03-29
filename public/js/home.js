@@ -107,7 +107,7 @@ function buildManageDepartment() {
                  <td>${fakeId+=1}</td>
                  <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
                  <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
-                 <td><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
+                 <td style="display:flex; justify-content: center;"><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
                  </a><a href="#" class="delete-department"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
       });
@@ -369,7 +369,7 @@ function buildMenu(isFalse) {
         if (getToken().role == 1) {
           //  Icone update, delete main articel
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`
-          html += `<i class=" trash alternate outline icon con-size data_delete_tage" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`
+          html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`
         } else if (getToken().role == 0) {
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`
         }
@@ -391,8 +391,8 @@ function buildMenu(isFalse) {
             html += `     <li> <a href="javascript:" class="${va.id} h_st">`
             if (getToken().role == 1) {
               //  Icon update, delete sub articel
-              html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
-              html += `    <i class="trash alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`
+              html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
+              html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`
             } else if (getToken().role == 0) {
               html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
             }

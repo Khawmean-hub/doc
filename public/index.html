@@ -66,8 +66,8 @@
     <!-- modal table add new -->
     <div class="ui modal coupled" id="btn_manage-user-pop" style="width: 812px;">
       <i class="close icon"></i>
-      <div class="header" style="text-align: center; background-color: #ffffff;">B2B USER <i
-          class="address book outline icon"></i> </div>
+      <h4 class="header">B2B USER <i
+          class="address book outline icon"></i> </h4>
       <div class="image content" style="background-color: #e2e2e263;">
         <table class="ui celled table">
           <thead>
@@ -77,7 +77,7 @@
               <th>Password</th>
               <th>Status</th>
               <th>Role</th>
-              <th>Permission</th>
+              <th style="display:flex; justify-content: center;">Permission</th>
             </tr>
           </thead>
           <tbody id="userData">
@@ -85,7 +85,9 @@
         </table>
       </div>
       <div class="actions" style="background-color: #ffffff;">
-        <button class="ui black basic tiny positive button" id="Create-New-User">Add new</button>
+        <!-- <button class=" blue ui black basic tiny positive" id="Create-New-User">Add new</button> -->
+        <div class="ui blue button tiny" id="Create-New-User">Add new</div>
+
       </div>
     </div>
     <!-- end modal table add new -->
@@ -226,9 +228,8 @@
   <!-- // modal delete user -->
   <!-- Logout modal -->
   <div class="ui modal" id="Logout-modal">
-    <div class="header header-delete">
-      <div>Log out!</div>
-      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    <div class="header">
+      <h4>Log out!</h4>
       <!-- <i class="sign out alternate icon"></i> -->
     </div>
     <div class="content dt_et">
@@ -240,8 +241,8 @@
       </div>
     </div>
     <div class="actions da_et">
-      <div class="ui cancel button">No</div>
-      <div class="ui approve button btn_delete_tage" id="Logout-comfim">Yes</div>
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui approve blue tiny button btn_delete_tage" id="Logout-comfim">Yes</div>
     </div>
   </div>
   <!-- // Logout modal -->
@@ -266,8 +267,8 @@
             </div>
           </div>
           <div class="field">
-            <label>Main Title</label>
-            <button class=" ui icon button btn circular" type="button" id="btnAdd" style="margin-left:20px !important">
+            <label style="margin-right: 20px !important">Main Title</label>
+            <button  class=" ui icon button btn circular" type="button" id="btnAdd" >
               <i class="plus icon"></i>
             </button>
             <div class="ui selection dropdown loading ui action input" id="menu_com">
@@ -350,7 +351,7 @@
       </div>
       <div>
         <div class="ui cancel tiny button">Cancel</div>
-        <div class="ui button tiny" id="editor_save">Save</div>
+        <div class="ui blue button tiny" id="editor_save">Save</div>
       </div>
     </div>
     <img src="" alt="">
@@ -453,21 +454,45 @@
       </div>
       <div>
         <div class="ui cancel tiny button" id="btn-cancel-update-article">Cancel</div>
-        <div class="ui button tiny cancel " id="btn-save-update-sub-article">Update</div>
+        <div class="ui button tiny blue cancel " id="btn-save-update-sub-article">Update</div>
       </div>
     </div>
   </div>
   </div>
 
   <!-- tage edit  -->
-  <div class=" tage_editT ui modal">
+  <div class="  tage_editT ui modal coupled"  style="line-height: 2;">
+    <form class="ui form form-edit">
+      <h4 class="ui header dividing " style="font-size: 16px;padding: 16px;background: #f9fafb;height: 56px;"> Edit Department 
+    </h4>
+      <div class="lab" style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px;">
+        <label>Department </label>
+      </div>
+      <div class="ui selection dropdown loading"  id="departmentListId3" style="width: 94%;margin-left: 14px;">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+      </div>
+      <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
+        <label>New Title</label>
+      <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
+      </div>
+    </form>
+    <br>
+    <div class="actions agr">
+      <div class="ui tiny button btn_cl deny ">Close</div>
+      <div class="ui button tiny blue btn-up-tag" id="update-departmentList" value="submit">Update</div>
+    </div>
+
+  </div>
+
+  <!-- <div class=" tage_editT ui modal">
     <form class="ui form form-edit">
       <div class="lab"
         style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px; margin-bottom: 5px;">
         <label>Department</label>
-      </div>
+      </div> -->
       <!-- Department -->
-      <div class="ui selection dropdown loading" id="departmentListId3" style="width: 94%;margin-left: 14px;">
+      <!-- <div class="ui selection dropdown loading" id="departmentListId3" style="width: 94%;margin-left: 14px;">
         <div class="text"></div>
         <i class="dropdown icon"></i>
       </div>
@@ -476,16 +501,16 @@
         <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
       </div>
     </form>
-    <div class="actions ac_et">
-      <button class="ui cancel button"> CLOSE</button>
-      <button class="ui approve button up btn-up-tag" id="update-departmentList"> UPDATE</button>
+    <div class="actions">
+      <button class="ui tiny  cancel button"> close</button>
+      <button class="ui tiny approve  button btn-up-tag" id="update-departmentList"> update</button>
     </div>
-  </div>
+  </div> -->
+
   <!-- delete tage  -->
   <div class=" delete_tage ui modal">
-    <div class="header header-delete">
-      <div>Confirmation!</div>
-      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    <div class="header">
+      <h4>Confirmation!</h4>
     </div>
 
     <div class="content dt_et">
@@ -498,15 +523,14 @@
 
     </div>
     <div class="actions da_et">
-      <div class="ui cancel button">No</div>
-      <div class="ui approve button btn_delete_tage" id="comfirmYes">Yes</div>
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui blue tiny approve button btn_delete_tage" id="comfirmYes">Yes</div>
     </div>
   </div>
   <!-- delete sub-title  -->
   <div class=" delete_sub-title ui modal">
-    <div class="header header-delete">
-      <div>Confirmation!</div>
-      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    <div class="header">
+      <h4>Confirmation!</h4>
     </div>
 
     <div class="content dt_et">
@@ -519,8 +543,8 @@
 
     </div>
     <div class="actions da_et">
-      <div class="ui cancel button">No</div>
-      <div class="ui approve button btn_delete_sub" id="comfirmYes">Yes</div>
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui approve tiny blue button btn_delete_sub" id="comfirmYes">Yes</div>
     </div>
   </div>
 
@@ -544,7 +568,7 @@
     <br>
     <div class="actions agr">
       <div class="ui tiny button btn_cl deny ">Close</div>
-      <div class="ui button tiny btn_add" id="add_newTitle" value="submit">Add</div>
+      <div class="ui button blue tiny btn_add" id="add_newTitle" value="submit">Add</div>
     </div>
 
   </div>
@@ -570,7 +594,7 @@
           <tr>
             <th>No</th>
             <th>Title</th>
-            <th>Action</th>
+            <th style="display:flex; justify-content: center;">Action</th>
           </tr>
         </thead>
         <tbody class="listBody">
