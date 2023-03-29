@@ -187,7 +187,7 @@ loadSementicFunction();
 
 // Action management user
 $("#btn_manage-user").click(function () {
-  $("#btn_manage-user-pop").modal("show");
+  $("#btn_manage-user-pop").modal({closable: false}).modal('show');
 });
 
 // Action and new user
@@ -195,9 +195,6 @@ $("#Create-New-User").click(function () {
   $("#New-User").modal("show");
 });
 
-// $("#back_to_user_table").click(function () {
-//   $("#btn_manage-user-pop").modal("show");
-// });
 
 // Action login form
 $(document).on("click", ".login_btn", function () {
@@ -244,9 +241,15 @@ $(document).on("click", ".btn_login", function () {
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
+
   buildMenu(true);
-  // buldHome();
+
 });
+// $(document).ready(function() {
+//   $('#departmentListId .item').click(function(){
+//     buildMenu();
+//   })
+// })
 
 // SELECT DEPARTMENT LIST
 $(document).on("click", "#departmentListId2 .item", function () {
@@ -423,7 +426,8 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 
 // DELETE MAIN ARTICLE
 $(document).on("click", "#delete_thisT", function () {
-  $(".delete_tage").modal("show");
+  // $(".delete_tage").modal("show");
+  $(".delete_tage").modal({closable: false}).modal('show')
   var id = $(this).attr("da-de");
   $(document).on("click", ".btn_delete_tage ", function () {
     deleteTage(id);
@@ -435,7 +439,8 @@ $(document).on("click", "#delete_thisT", function () {
 
 // DELETE SUB ARTICLE
 $(document).on("click", "#modale-delete-sub", function () {
-  $(".delete_sub-title").modal("show");
+  // $(".delete_sub-title").modal("show");
+  $(".delete_sub-title").modal({closable: false}).modal('show');
   var id = $(this).attr("va-id");
   $(document).on("click", ".btn_delete_sub", function () {
     deleteArticles(id);
@@ -475,33 +480,48 @@ $.ajax({
 //     table.innerHTML += tableData;
 //   }
 // }
+// function userTable(data) {
+//   var table = document.getElementById("userData");
+//   for (var i = 0; i < data.length; i++) {
+//     var tableData = `<tr class='allUser'>
+//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
+//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
+//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
+//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
+//     <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+//   </tr>`;
+//     table.innerHTML += tableData;
+//   }
+// }
 // Test
 function userTable(data) {
   var table = document.getElementById("userData");
-  var tableData = "";
-  data.forEach((i) => {
-    tableData += `<tr class='allUser'>`;
-    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`;
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`;
+  var tableData = '';
+  data.forEach((i) =>{
+    tableData += `<tr class='allUser'>`
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
+    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
     // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
     if (i.status == 1) {
-      tableData += `<td class=''>Active</td>`;
+      tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`
     }
     // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
     if (i.role == 1) {
+      tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
       tableData += `<td >Admin</td>`;
     } else if (i.role == 0) {
+      tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
       tableData += `<td >User</td>`;
     } else if (i.role == 2) {
-      tableData += `<td>Viewer</td>`;
+      tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`
     }
-    tableData += `<td style="display:flex; justify-content: center;"  id=all-icon><i class="edit outline icon con-size blue editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash alternate outline icon red trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+    tableData += `<td id=all-icon><i class="edit icon editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
-  });
-
+  })
+    
   table.innerHTML += tableData;
 }
-// <td userStatus='${data[i].password}' class='v-status'>${data[i].password}</td>
+
 
 // delete user
 $(document).on("click", ".trash-delete_user_icon", function () {
@@ -530,7 +550,7 @@ $(document).on("click", "#btn_doc_add_users", function () {
 
 // UPDATE USER
 $(document).on("click", ".editUser_icon", function () {
-  $("#modal_update_user").modal("show");
+  $("#modal_update_user").modal({closable: false}).modal('show');
 
   var currentUSer = {
     V_Name: $(this).closest("tr").find(".v-username").text(),
@@ -566,7 +586,8 @@ $(document).on("click", ".editUser_icon", function () {
 // INSERT-DEPARTMENT
 $("#manage-department").click(function () {
   buildManageDepartment();
-  $("#pop-up-management-department").modal("show");
+  // $("#pop-up-management-department").modal("show");
+  $("#pop-up-management-department").modal({closable: false}).modal('show');
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
     var req = {
