@@ -140,11 +140,6 @@ ul {
   display: flex;
 }
 
-/* CLASS ACTIVE ON a  */
-.menu_active a {
-  background: rgb(201, 253, 206);
-}
-
 .sub-menu {
   margin-top: 10px !important;
   padding-left: 30px;
@@ -220,7 +215,6 @@ a.title {
 
 .login_form {
   width: 390px;
-  height: 320px;
   background-color: white;
   border-radius: 10px;
   padding: 30px;
@@ -245,11 +239,6 @@ a.title {
 /* Hover article */
 .co:hover {
   color: rgb(34, 80, 177) !important;
-}
-
-.tage_editT {
-
-  padding: 0 40px;
 }
 
 .c_et {
@@ -286,10 +275,6 @@ a.title {
 
 }
 
-.up {
-  background-color: #1b1b2f67 !important;
-}
-
 .dt_et {
   display: flex !important;
   justify-content: center;
@@ -299,23 +284,15 @@ a.title {
 
 .da_et {
   display: flex !important;
-  justify-content: center;
+  justify-content: right;
 }
 
-.header-delete {
-  background-color: #1b1b2fa1 !important;
-  color: white !important;
-  display: flex !important;
-  justify-content: space-between;
-}
 
 .tb-head {
   background-color: #4183c4;
 }
 
-.form-edit {
-  margin-top: 40px;
-}
+
 
 .editUser_icon {
   cursor: pointer;
@@ -380,5 +357,4 @@ border: 2px salmon solid !important;
 .act-u{
   margin-right:7px !important;
   display: none;
-  color: #21ba45 !important;
 }
