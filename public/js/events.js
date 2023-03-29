@@ -416,7 +416,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     };
     updateArticles(reqAr);
     buldHome(true);
-    location.href = "index.html";
+    window.location.reload();
   });
 });
 
@@ -427,6 +427,7 @@ $(document).on("click", "#delete_thisT", function () {
   $(document).on("click", ".btn_delete_tage ", function () {
     deleteTage(id);
     buldHome(true);
+    window.location.reload();
   });
 });
 
@@ -483,7 +484,6 @@ $(document).on("click", ".trash-delete_user_icon", function () {
   buldHome(true);
   // location.href = "index.html";
   window.location.reload();
-  console.log(id);
 });
 
 // add user
@@ -530,7 +530,8 @@ $(document).on("click", ".editUser_icon", function () {
     };
     updateUser(id, req);
     buldHome();
-    location.href = "index.html";
+    // location.href = "index.html";
+    window.location.reload();
   });
   //$("#btn_manage-user-pop").modal("show");
 });
@@ -541,7 +542,7 @@ $("#manage-department").click(function () {
   $("#pop-up-management-department").modal("show");
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
-    var req = {
+    var req = { 
       DEP_NAME: imd,
       DEP_STATUS: 1,
     };
@@ -562,14 +563,15 @@ $("#manage-department").click(function () {
 
 // DELETE DEPARTMENT
 $(document).on("click", ".delete-department", function () {
-    var id = $(this).parent().siblings('.dep-id').attr('dep_id')
+    var id = $(this).parent().siblings('.dep-id').attr('dep_id');
     deleteDepartment(id, function (resp){
       if(resp.status){
         buildManageDepartment()
       }else{
         alert(data.message)
       }
-    })
+    });
+    window.location.reload();
     console.log('dep-id', id);
 });
 
@@ -582,7 +584,7 @@ $(document).on("click", "#icon-update-dep", function () {
   var dep_id = $(this).closest("tr").find(".dep-id").attr('dep_id')
     $(".txtIsertD").val(dep_name);
     
-// UPDATE DEPARTMENT
+  // UPDATE DEPARTMENT
   $(document).on("click", ".btn-update ", function () {
     var update = $(".txtIsertD").val();
     console.log('id:' ,dep_id);

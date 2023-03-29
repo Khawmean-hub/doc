@@ -736,7 +736,6 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 );
 
 // Route insert article
-// Route insert article
 homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
   console.log(req.body);
   console.log(`
