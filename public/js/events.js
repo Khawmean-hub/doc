@@ -468,19 +468,19 @@ $.ajax({
     console.log("B2b user :", userB2b);
   },
 });
-// function userTable(data) {
-//   var table = document.getElementById("userData");
-//   for (var i = 0; i < data.length; i++) {
-//     var tableData = `<tr class='allUser'>
-//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
-//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
-//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
-//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
-//     <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
-//   </tr>`;
-//     table.innerHTML += tableData;
-//   }
-// }
+function userTable(data) {
+  var table = document.getElementById("userData");
+  for (var i = 0; i < data.length; i++) {
+    var tableData = `<tr class='allUser'>
+    <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
+    <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
+    <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
+    <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
+    <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
+  </tr>`;
+    table.innerHTML += tableData;
+  }
+}
 // Test
 function userTable(data) {
   var table = document.getElementById("userData");
@@ -491,13 +491,13 @@ function userTable(data) {
     tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
     // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
     if (i.status == 1) {
-      tableData += `<td class=''>Active</td>`
+      tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`
     }
     // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
     if (i.role == 1) {
-      tableData += `<td>Admin</td>`
+      tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
     } else if (i.role == 0) {
-      tableData += `<td>User</td>`
+      tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
     } else if (i.role == 2) {
       tableData += `<td>Viewer</td>`
     }

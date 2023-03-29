@@ -9,7 +9,7 @@ function buldHome() {
   buildDepartment();
   buildeMenuCobobox();
   getRecent();
-  buildMenu(true);
+  buildMenu(true, 1);
   //getMenu(true);
 
 
@@ -340,8 +340,9 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
 
 }
 // BUILD SIDE BAR MENU
-function buildMenu(isFalse) {
-  getMenu($('#departmentListId').dropdown('get value'), function (resp) {
+function buildMenu(isFalse, dept_id) {
+  var depID = isNull(dept_id) ? $('#departmentListId').dropdown('get value') : dept_id;
+  getMenu( depID , function (resp) {
     if (resp.status) {
       var html = "";
 
