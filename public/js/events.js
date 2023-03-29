@@ -244,9 +244,15 @@ $(document).on("click", ".btn_login", function () {
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
+  
   buildMenu(true);
-  // buldHome();
+  
 });
+// $(document).ready(function() {
+//   $('#departmentListId .item').click(function(){
+//     buildMenu();
+//   })
+// })
 
 // SELECT DEPARTMENT LIST
 $(document).on("click", "#departmentListId2 .item", function () {

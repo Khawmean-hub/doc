@@ -10,6 +10,8 @@ function buldHome() {
   buildeMenuCobobox();
   getRecent();
   buildMenu(true);
+  //getMenu(true);
+
 
   // check role
   if (getToken().role == 0) { // user
