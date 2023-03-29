@@ -67,7 +67,7 @@ function insertDepartment(req, callBack) {
     url: baseUrl + "/doc_department_c001",
     method: "POST",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json",  
       Authorization: "Bearer " + getToken().token,
     },
     data: JSON.stringify(req),
