@@ -508,14 +508,12 @@ function userTable(data) {
     // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
     if (i.role == 1) {
       tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
-      tableData += `<td >Admin</td>`;
     } else if (i.role == 0) {
       tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
-      tableData += `<td >User</td>`;
     } else if (i.role == 2) {
       tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`
     }
-    tableData += `<td id=all-icon><i class="edit icon editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+    tableData += `<td style="display:flex; justify-content: center; id="all-icon"><i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class=" red trash alternate outline icon con-size trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
   })
     
