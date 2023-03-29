@@ -93,8 +93,7 @@
 
     <!-- modal for add new user -->
     <div class="ui modal" id="New-User" style="width: 694px;">
-      <i class="close icon"></i>
-      <div class="header">New User</div>
+      <div class="header h4 ">New User</div>
       <div class="image content" style="display: block;">
         <form class="ui form" style="align-content: center;">
           <div class="field">
@@ -115,7 +114,11 @@
           </div> -->
         </form>
       </div>
-      <div class="actions"><button class="ui button" type="submit" id="btn_doc_add_users">ADD</button></div>
+      <div class="actions">
+        <button class="ui tiny cancel button">Cancel</button>
+        <button class="ui tiny button" type="submit" id="btn_doc_add_users">Add</button>
+        
+      </div>
     </div>
     <!-- // modal for add new user -->
     <!-- MODAL UPDATE USER -->
@@ -233,7 +236,7 @@
         <!-- <i class="check icon "></i> -->
       </div>
       <div>
-        <h3>Do you want to Log out?</h3>
+        <h4>Do you want to Log out?</h4>
       </div>
     </div>
     <div class="actions da_et">
@@ -475,7 +478,7 @@
     </form>
     <br>
     <div class="actions agr">
-      <div class="ui tiny button btn_cl deny ">Close</div>
+      <div class="ui tiny button btn_cl deny ">Cancel</div>
       <div class="ui button tiny blue btn-up-tag" id="update-departmentList" value="submit">Update</div>
     </div>
 
@@ -514,13 +517,34 @@
         <i class="check icon "></i>
       </div>
       <div>
-        <h3> Are you sure?</h3>
+        <h4> Are you sure?</h4>
       </div>
 
     </div>
     <div class="actions da_et">
       <div class="ui cancel tiny button">No</div>
       <div class="ui blue tiny approve button btn_delete_tage" id="comfirmYes">Yes</div>
+    </div>
+  </div>
+
+   <!-- delete department  -->
+ <div class="alert-delete-department ui modal">
+    <div class="header">
+      <h4>Confirmation!</h4>
+    </div>
+
+    <div class="content dt_et">
+      <div>
+        <i class="check icon "></i>
+      </div>
+      <div>
+        <h4> Are you sure?</h4>
+      </div>
+
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui blue tiny approve button " id="delete-depart">Yes</div>
     </div>
   </div>
   <!-- delete sub-title  -->
@@ -534,7 +558,7 @@
         <i class="check icon "></i>
       </div>
       <div>
-        <h3> Are you sure?</h3>
+        <h4> Are you sure?</h4>
       </div>
 
     </div>
@@ -563,7 +587,7 @@
     </form>
     <br>
     <div class="actions agr">
-      <div class="ui tiny button btn_cl deny ">Close</div>
+      <div class="ui tiny button btn_cl deny ">Cancel</div>
       <div class="ui button blue tiny btn_add" id="add_newTitle" value="submit">Add</div>
     </div>
 
@@ -599,7 +623,7 @@
       </table>
     </div>
     <div class="actions">
-      <div class="ui tiny button btn_cl deny ">Close</div>
+      <div class="ui tiny button btn_cl deny ">Cancel</div>
     </div>
   </div>
 

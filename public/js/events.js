@@ -489,9 +489,9 @@ function userTable(data) {
     }
     // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
     if (i.role == 1) {
-      tableData += `<td>Admin</td>`;
+      tableData += `<td >Admin</td>`;
     } else if (i.role == 0) {
-      tableData += `<td>User</td>`;
+      tableData += `<td >User</td>`;
     } else if (i.role == 2) {
       tableData += `<td>Viewer</td>`;
     }
@@ -589,7 +589,9 @@ $("#manage-department").click(function () {
 });
 
 // DELETE DEPARTMENT
-$(document).on("click", ".delete-department", function () {
+$(document).on("click", ".sure-delete-department", function () {
+  $('.alert-delete-department').modal("show")
+$(document).on("click", "#delete-depart", function () {
   var id = $(this).parent().siblings(".dep-id").attr("dep_id");
   deleteDepartment(id, function (resp) {
     if (resp.status) {
@@ -601,7 +603,7 @@ $(document).on("click", ".delete-department", function () {
   window.location.reload();
   console.log("dep-id", id);
 });
-
+});
 // EDIT DEPARTMENT
 $(document).on("click", "#icon-update-dep", function () {
   $(".btn-update-css").show();
@@ -638,3 +640,4 @@ $(document).on("click", ".act-u", function () {
   $(".btn-add-css").show();
   $(".btn-update-css").hide();
 });
+       
