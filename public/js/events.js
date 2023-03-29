@@ -509,7 +509,7 @@ function userTable(data) {
     } else if (i.role == 2) {
       tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`
     }
-    tableData += `<td id=all-icon><i class="edit icon editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+    tableData += `<td style="display:flex; justify-content: center; id="all-icon"><i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class=" red trash alternate outline icon con-size trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
   })
     
@@ -604,7 +604,9 @@ $("#manage-department").click(function () {
 });
 
 // DELETE DEPARTMENT
-$(document).on("click", ".delete-department", function () {
+$(document).on("click", ".sure-delete-department", function () {
+  $('.alert-delete-department').modal("show")
+$(document).on("click", "#delete-depart", function () {
   var id = $(this).parent().siblings(".dep-id").attr("dep_id");
   deleteDepartment(id, function (resp) {
     if (resp.status) {
@@ -616,7 +618,7 @@ $(document).on("click", ".delete-department", function () {
   window.location.reload();
   console.log("dep-id", id);
 });
-
+});
 // EDIT DEPARTMENT
 $(document).on("click", "#icon-update-dep", function () {
   $(".btn-update-css").show();
@@ -653,3 +655,4 @@ $(document).on("click", ".act-u", function () {
   $(".btn-add-css").show();
   $(".btn-update-css").hide();
 });
+       
