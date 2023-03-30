@@ -239,11 +239,13 @@ a.title {
   display: flex;
   align-items: center;
 }
-
-/* Hover article */
-.co:hover {
-  color: rgb(34, 80, 177) !important;
+.active_link{
+  background-color: #61b3f1;
 }
+/* Hover article */
+/* .co:hover {
+  color: rgb(34, 80, 177) !important;
+} */
 
 .c_et {
   margin-top: 90px;

@@ -1,4 +1,8 @@
 $(".page-login").hide();
+$(document).on('click', '.active_title ', function() {
+  $(this).addClass('active_link');
+  $('.active_title').not(this).removeClass('active_link');
+})
 $("#btn_add_contents").click(function () {
   $(".coupled.modal").modal({
     allowMultiple: true,
@@ -192,7 +196,10 @@ $("#btn_manage-user").click(function () {
 
 // Action and new user
 $("#Create-New-User").click(function () {
-  $("#New-User").modal("show");
+  $("#New-User").modal({
+    allowMultiple: true,
+    closable: false
+  }).modal('show')
 });
 
 
@@ -463,33 +470,6 @@ $.ajax({
     console.log("B2b user :", userB2b);
   },
 });
-// function userTable(data) {
-//   var table = document.getElementById("userData");
-//   for (var i = 0; i < data.length; i++) {
-//     var tableData = `<tr class='allUser'>
-//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
-//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
-//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
-//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
-//     <td id=all-icon><i class="edit outline icon con-size blue editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash alternate outline icon red trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
-//   </tr>`;
-//     table.innerHTML += tableData;
-//   }
-// }
-// function userTable(data) {
-//   var table = document.getElementById("userData");
-//   for (var i = 0; i < data.length; i++) {
-//     var tableData = `<tr class='allUser'>
-//     <td userRole='${data[i].id}' class='v-id'>${data[i].id}</td>
-//     <td userName='${data[i].username}' class='v-username'>${data[i].username}</td>
-//     <td userStatus='${data[i].status}' class='v-status'>${data[i].status}</td>
-//     <td userRolee='${data[i].role}' class='v-role'>${data[i].role}</td>
-//     <td id=all-icon><i class="edit icon editUser_icon" userRole='${data[i].id}' id='' title='Edit'></i>  <i class="trash icon trash-delete_user_icon" userRole='${data[i].id}' title='Delete'></i></td>
-//   </tr>`;
-//     table.innerHTML += tableData;
-//   }
-// }
-// Test
 function userTable(data) {
   var table = document.getElementById("userData");
   var tableData = '';
@@ -499,15 +479,15 @@ function userTable(data) {
     tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
     
     if (i.status == 1) {
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status'>Active</td>`
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status'>active</td>`
     }
     
-    if (i.role == 1) {
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' >Admin</td>`
-    } else if (i.role == 0) {
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' >User</td>`
-    } else if (i.role == 2) {
-      tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`
+    if (i.role == 1) { // admin
+      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' >admin</td>`
+    } else if (i.role == 0) { // user
+      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' >user</td>`
+    } else if (i.role == 2) { // viewer
+      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' >viewer</td>`
     }
     tableData += `<td style="display:flex; justify-content: center; id="all-icon"><i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class=" red trash alternate outline icon con-size trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
@@ -518,13 +498,29 @@ function userTable(data) {
 
 
 // delete user
+// $(document).on("click", ".trash-delete_user_icon", function () {
+//   $("#modal-delete-user").modal("show");
+//   var id = $(this).attr("userRole");
+//   $(document).on('click', '#comfim-delete-user',function() {
+//     delete_User(id);
+//     buldHome(true);
+//     window.location.reload();
+//   })
+// });
+
+// test delete user
 $(document).on("click", ".trash-delete_user_icon", function () {
-  $("#modal-delete-user").modal("show");
+  $("#modal-delete-user").modal({
+    allowMultiple: true,
+    closable: false,
+  }).modal('show');
   var id = $(this).attr("userRole");
-  delete_User(id);
-  buldHome(true);
-  // location.href = "index.html";
-  window.location.reload();
+  $(document).on('click', '#comfim-delete-user',function() {
+    delete_User(id);
+    buldHome();
+    alert('delete successfully');
+    window.location.reload();
+  })
 });
 
 // add user
@@ -535,28 +531,27 @@ $(document).on("click", "#btn_doc_add_users", function () {
     // USER_ROLE: $("#role").val(1),
     // USER_STATUSS: $("#status").val(1),
   };
-  console.log("B2b add user: ", req);
   addB2bUser(req);
   buldHome();
-  // location.href = "index.html";
+  alert('user has add successfully');
   window.location.reload();
 });
 
 // UPDATE USER
 $(document).on("click", ".editUser_icon", function () {
-  $("#modal_update_user").modal({closable: false}).modal('show');
+  $("#modal_update_user").modal({closable: false, allowMultiple: true}).modal('show');
 
   var currentUSer = {
     V_Name: $(this).closest("tr").find(".v-username").text(),
-    V_Pass: $(this).closest("tr").find(".v-password").text(),
-    V_Role: $(this).closest("tr").find(".v-role").text(),
-    V_Status: $(this).closest("tr").find(".v-status").text(),
+    // V_Pass: $(this).closest("tr").find(".v-password").text(),
+    // V_Role: $(this).closest("tr").find(".v-role").text(),
+    // V_Status: $(this).closest("tr").find(".v-status").text(),
   };
   console.log("Current USer: *", currentUSer);
   $("#vUserName").val(currentUSer.V_Name);
-  $("#vUerPassword").val(currentUSer.V_Pass);
-  $("#vUserstatus").val(currentUSer.V_Status);
-  $("#vUserRole").val(currentUSer.V_Role);
+  // $("#vUerPassword").val(currentUSer.V_Pass);
+  // $("#vUserstatus").val(currentUSer.V_Status);
+  // $("#vUserRole").val(currentUSer.V_Role);
 
   var id = $(this).attr("userRole");
 
@@ -565,14 +560,14 @@ $(document).on("click", ".editUser_icon", function () {
     alert("Update success");
     var req = {
       MODIFY_USERNAME: $("#vUserName").val(),
-      MODIFY_USERPASS: $("#vUerPassword").val(),
-      MODIFY_USERSTATUS: $("#vUserstatus").val(),
-      MODIFY_USERROLE: $("#vUserRole").val(),
+      // MODIFY_USERPASS: $("#vUerPassword").val(),
+      // MODIFY_USERSTATUS: $("#vUserstatus").val(),
+      // MODIFY_USERROLE: $("#vUserRole").val(),
     };
+    console.log('Update user data *', req)
     updateUser(id, req);
     buldHome();
-    // location.href = "index.html";
-    window.location.reload();
+    //window.location.reload();
   });
   //$("#btn_manage-user-pop").modal("show");
 });

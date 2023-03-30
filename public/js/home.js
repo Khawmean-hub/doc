@@ -36,9 +36,10 @@ function buldHome() {
     $('#btn_manage-user').hide();
     $('.edit_tag2').hide();
     $('#btn_add_contents').hide();
-    $('.btn_logout').hide();
-    $('.btn_login').show();
+    $('.btn_logout').show();
+    // $('.btn_login').show();
     $('#manage-department').hide();
+    $('.btn_login').show();
   }
 }
 
@@ -388,7 +389,7 @@ function buildMenu(isFalse, dept_id) {
           if (va.tag_id == v.id) {
             html += `  <div class="sub_t "d_est="${va.id}">`
             html += `    <li class="sub-title acticle_con" tag_title="${v.title}" act_id="${va.id}">`
-            html += `    <a class="co" href="javascript:" data-li="${va.title}">${va.title}`
+            html += `    <a class="active_title" href="javascript:" data-li="${va.title}">${va.title}`
             html += `    </a>`
             html += `    </li>`
             html += `     <li> <a href="javascript:" class="${va.id} h_st">`
