@@ -147,7 +147,7 @@
       <div class="actions">
         <!-- <button class="ui button" id="back_to_user_table" type="submit">Back</button> -->
         <button class="ui button cancel ">Cancel</button>
-        <button class="ui button blue" type="submit" id="btn_doc_update_users_icon">Update</button>
+        <button class="ui button blue" type="submit" id="btn_doc_update_users_icon">Save</button>
       </div>
     </div>
     <!-- // modal update user -->
@@ -459,7 +459,7 @@
       </div>
       <div>
         <div class="ui cancel tiny button" id="btn-cancel-update-article">Cancel</div>
-        <div class="ui button tiny blue cancel " id="btn-save-update-sub-article">Update</div>
+        <div class="ui button tiny blue cancel " id="btn-save-update-sub-article">Save</div>
       </div>
     </div>
   </div>
@@ -485,7 +485,7 @@
     <br>
     <div class="actions agr">
       <div class="ui tiny button btn_cl deny ">Cancel</div>
-      <div class="ui button tiny blue btn-up-tag" id="update-departmentList" value="submit">Update</div>
+      <div class="ui button tiny blue alert-edit-department" id="update-departmentList" value="submit">Save</div>
     </div>
 
   </div>
@@ -511,8 +511,27 @@
       <button class="ui tiny approve  button btn-up-tag" id="update-departmentList"> update</button>
     </div>
   </div> -->
-
-  <!-- delete tage  -->
+     <!-- alert edit department  -->
+     <div class=" modal-alert-edit-department ui modal">
+      <div class="header">
+        <h4>Confirmation!</h4>
+      </div>
+  
+      <div class="content dt_et">
+        <div>
+          <i class="check icon "></i>
+        </div>
+        <div>
+          <h4> Are you sure?</h4>
+        </div>
+  
+      </div>
+      <div class="actions da_et">
+        <div class="ui cancel tiny button">No</div>
+        <div class="ui blue tiny approve button btn-up-tag" >Yes</div>
+      </div>
+    </div>
+  <!-- alert delete tage  -->
   <div class=" delete_tage ui modal">
     <div class="header">
       <h4>Confirmation!</h4>

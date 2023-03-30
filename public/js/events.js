@@ -347,17 +347,21 @@ $(document).on("click", ".edit_tag", function () {
   var vUserid = getToken().id + "";
   var vId = $(this).attr("v.id");
   $(".v-title").val(vTitle);
-  $(document).on("click", ".btn-up-tag", function () {
-    var reqTag = {
-      DEP_ID: vDepid,
-      ID: vId,
-      USER_ID: vUserid,
-      TITLE: $(".v-title").val(),
-    };
-    updateTag(reqTag);
-    buldHome(true);
-    window.location.reload();
+  $(document).on("click", ".alert-edit-department", function () {
+    $(".modal-alert-edit-department").modal("show");
+    $(document).on("click", ".btn-up-tag", function () {
+      var reqTag = {
+        DEP_ID: vDepid,
+        ID: vId,
+        USER_ID: vUserid,
+        TITLE: $(".v-title").val(),
+      };
+      updateTag(reqTag);
+      buldHome(true);
+      window.location.reload();
+    });
   });
+ 
 });
 
 // Update article has have
@@ -586,14 +590,14 @@ $("#manage-department").click(function () {
       DEP_STATUS: 1,
     };
     if (!isNull(imd)) {
-      $(".txtIsertD").removeClass("txtWarning");
+      // $(".txtIsertD").removeClass("txtWarning");
       insertDepartment(req, function (resp) {
         if (resp.status) {
           buildManageDepartment();
         }
       });
     } else {
-      $(".txtIsertD").addClass("txtWarning");
+      // $(".txtIsertD").addClass("txtWarning");
     }
     $("#insert-manage-department").val("");
     console.log("IMD:", imd);
