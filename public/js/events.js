@@ -187,14 +187,13 @@ loadSementicFunction();
 
 // Action management user
 $("#btn_manage-user").click(function () {
-  $("#btn_manage-user-pop").modal({closable: false}).modal('show');
+  $("#btn_manage-user-pop").modal({ closable: false }).modal("show");
 });
 
 // Action and new user
 $("#Create-New-User").click(function () {
   $("#New-User").modal("show");
 });
-
 
 // Action login form
 $(document).on("click", ".login_btn", function () {
@@ -241,10 +240,9 @@ $(document).on("click", ".btn_login", function () {
 
 // SELECT DEPARTMENT ON NARBAR
 $(document).on("click", "#departmentListId .item", function () {
-  var dep2 = $(this).attr('data-value');
-  buildeMenuCobobox((id = '#menu_com'), dep2);
+  var dep2 = $(this).attr("data-value");
+  buildeMenuCobobox((id = "#menu_com"), dep2);
   buildMenu(true);
-
 });
 
 // SELECT DEPARTMENT LIST
@@ -423,7 +421,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 // DELETE MAIN ARTICLE
 $(document).on("click", "#delete_thisT", function () {
   // $(".delete_tage").modal("show");
-  $(".delete_tage").modal({closable: false}).modal('show')
+  $(".delete_tage").modal({ closable: false }).modal("show");
   var id = $(this).attr("da-de");
   $(document).on("click", ".btn_delete_tage ", function () {
     deleteTage(id);
@@ -436,7 +434,7 @@ $(document).on("click", "#delete_thisT", function () {
 // DELETE SUB ARTICLE
 $(document).on("click", "#modale-delete-sub", function () {
   // $(".delete_sub-title").modal("show");
-  $(".delete_sub-title").modal({closable: false}).modal('show');
+  $(".delete_sub-title").modal({ closable: false }).modal("show");
   var id = $(this).attr("va-id");
   $(document).on("click", ".btn_delete_sub", function () {
     deleteArticles(id);
@@ -492,30 +490,29 @@ $.ajax({
 // Test
 function userTable(data) {
   var table = document.getElementById("userData");
-  var tableData = '';
-  data.forEach((i) =>{
-    tableData += `<tr class='allUser'>`
-    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
+  var tableData = "";
+  data.forEach((i) => {
+    tableData += `<tr class='allUser'>`;
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`;
+    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`;
     // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
     if (i.status == 1) {
-      tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`
+      tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`;
     }
     // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
     if (i.role == 1) {
-      tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
+      tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`;
     } else if (i.role == 0) {
-      tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
+      tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`;
     } else if (i.role == 2) {
-      tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`
+      tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`;
     }
     tableData += `<td style="display:flex; justify-content: center; id="all-icon"><i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class=" red trash alternate outline icon con-size trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
   </tr>`;
-  })
-    
+  });
+
   table.innerHTML += tableData;
 }
-
 
 // delete user
 $(document).on("click", ".trash-delete_user_icon", function () {
@@ -544,7 +541,7 @@ $(document).on("click", "#btn_doc_add_users", function () {
 
 // UPDATE USER
 $(document).on("click", ".editUser_icon", function () {
-  $("#modal_update_user").modal({closable: false}).modal('show');
+  $("#modal_update_user").modal({ closable: false }).modal("show");
 
   var currentUSer = {
     V_Name: $(this).closest("tr").find(".v-username").text(),
@@ -581,7 +578,7 @@ $(document).on("click", ".editUser_icon", function () {
 $("#manage-department").click(function () {
   buildManageDepartment();
   // $("#pop-up-management-department").modal("show");
-  $("#pop-up-management-department").modal({closable: false}).modal('show');
+  $("#pop-up-management-department").modal({ closable: false }).modal("show");
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
     var req = {
@@ -604,20 +601,20 @@ $("#manage-department").click(function () {
 });
 
 // DELETE DEPARTMENT
-$(document).on("click", ".sure-delete-department", function () {
-  $('.alert-delete-department').modal("show")
-$(document).on("click", "#delete-depart", function () {
+$(document).on("click", ".alert-depart", function () {
   var id = $(this).parent().siblings(".dep-id").attr("dep_id");
-  deleteDepartment(id, function (resp) {
-    if (resp.status) {
-      buildManageDepartment();
-    } else {
-      alert(data.message);
-    }
+  $(".alert-delete").modal("show");
+  $(document).on("click", "#delete-depart", function () {  
+    console.log("delete id: ", id);
+    deleteDepartment(id, function (resp) {
+      if (resp.status) {
+        buildManageDepartment();
+      } else {
+        alert(data.message);
+      }
+    });
+    window.location.reload();
   });
-  window.location.reload();
-  console.log("dep-id", id);
-});
 });
 // EDIT DEPARTMENT
 $(document).on("click", "#icon-update-dep", function () {
@@ -655,4 +652,3 @@ $(document).on("click", ".act-u", function () {
   $(".btn-add-css").show();
   $(".btn-update-css").hide();
 });
-       
