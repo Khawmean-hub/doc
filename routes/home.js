@@ -919,8 +919,7 @@ homeRoute.post("/add_users", async (req, res) => {
 //   }
 // });
 homeRoute.post("/update_users/:id", async (req, res) => {
-  console.log(req.body);
-  console.log("API Update user is running...");
+  
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
   console.log(
     `UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=1, role=0 where id=${req.params.id} ;`
