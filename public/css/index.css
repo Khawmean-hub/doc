@@ -297,11 +297,9 @@ a.title {
 }
 
 
-
 .editUser_icon {
   cursor: pointer;
 }
-
 
 
 .trash-delete_user_icon {
@@ -361,4 +359,8 @@ border: 2px salmon solid !important;
 .act-u{
   margin-right:7px !important;
   display: none;
+}
+
+#btn_manage-user{
+  margin-right: 45%;
 }
