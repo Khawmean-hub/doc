@@ -497,15 +497,15 @@ function userTable(data) {
     tableData += `<tr class='allUser'>`
     tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
     tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
-    // tableData += `<td userStatus='${i.status}' class='v-status'>${i.status}</td>`
+    
     if (i.status == 1) {
-      tableData += `<td userStatus='${i.status}' class='v-status'>Active</td>`
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status'>Active</td>`
     }
-    // tableData += `<td userRolee='${i.role}' class='v-role'>${i.role}</td>`
+    
     if (i.role == 1) {
-      tableData += `<td  userRolee='${i.id}' class='v-role' >Admin</td>`
+      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' >Admin</td>`
     } else if (i.role == 0) {
-      tableData += `<td  userRolee='${i.id}' class='v-role' >User</td>`
+      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' >User</td>`
     } else if (i.role == 2) {
       tableData += `<td userRolee='${i.id}' class='v-role' >Viewer</td>`
     }
