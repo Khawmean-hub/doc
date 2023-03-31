@@ -15,7 +15,8 @@ h4,
 h5,
 h6,
 div {
-  font-family: "Poppins", sans-serif, "Hanuman", serif !important;
+  font-family: "Google Sans","Roboto",sans-serif !important;
+
 }
 
 h1,
@@ -77,6 +78,7 @@ h6 {
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px !important;
   background-color: #fafbff;
   padding-right: 0px !important;
+  /* font-family: "Google Sans","Roboto",sans-serif !important; */
 }
 
 .menu-sidebar {
@@ -115,8 +117,8 @@ h6 {
   margin: 5px 0px;
 }
 
-.sub-title a {
-  color: #000000 !important;
+.active_title {
+color: #000 !important;
 }
 
 ul {
@@ -240,7 +242,7 @@ a.title {
   align-items: center;
 }
 .active_link{
-  background-color: #61b3f1;
+  color: #1389fd !important;
 }
 /* Hover article */
 /* .co:hover {
