@@ -895,7 +895,7 @@ homeRoute.delete("/delete_users/:id", async (req, res) => {
 homeRoute.post("/add_users", async (req, res) => {
   console.log("API route add is working");
   var addUser = db.result(
-    `INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, 0)`
+    `INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, ${req.body.USER_ROLE})`
   );
   if (addUser.rowCount < 1) {
     return res.send(new BaseRes(false, "ERROR", null));

@@ -108,10 +108,30 @@
           <!-- <div class="field">
             <label>Status</label>
             <input type="text" name="status" placeholder="status" id="status">
-          </div>
-          <div class="field">
+            <select class="ui search dropdown">
+              <option></option>
+            </select>
+          </div> -->
+          <!-- <div class="field">
             <label>Role</label>
             <input type="text" name="role" placeholder="Role" id="role">
+          </div> -->
+          <div class="field">
+            <label>Role</label>
+            <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
+            <select class="ui search dropdown" id="b2b_role1">
+              <option value="1">admin</option>
+              <option value="0">user</option>
+              <option value="2">viewer</option>
+            </select>
+          </div>
+          <!-- <div class="field">
+            <label>Status</label>
+            <input type="text" name="Status" placeholder="status" id="vUserstatus">
+            <select class="ui search dropdown" id="b2b_status">
+              <option value="1">active</option>
+              <option value="0">disable</option>
+            </select>
           </div> -->
         </form>
       </div>
@@ -469,7 +489,7 @@
       </div>
       <div>
         <div class="ui cancel tiny button" id="btn-cancel-update-article">Cancel</div>
-        <div class="ui button tiny blue cancel " id="btn-save-update-sub-article">Save</div>
+        <div class="ui button tiny blue cancel " id="btn-save-update-sub-article">Update</div>
       </div>
     </div>
   </div>

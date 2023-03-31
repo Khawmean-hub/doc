@@ -304,11 +304,11 @@ a.title {
 }
 
 
-.trash-delete_user_icon {
+.delete_user_icon {
   cursor: pointer;
 }
 
-.trash-delete_user_icon:hover {
+.delete_user_icon:hover {
   color: crimson;
 }
 

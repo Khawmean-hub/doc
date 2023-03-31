@@ -203,6 +203,17 @@ $("#Create-New-User").click(function () {
   }).modal('show')
 });
 
+// Action delete user
+// $('.trash').click(function () {
+//   alert('hi')
+//   $('#modal-delete-user').modal({
+//     allowMultiple: true,
+//     closable: false,
+//   }).modal('show')
+// })
+
+
+
 // Action login form
 $(document).on("click", ".login_btn", function () {
   $(".tiny.modal").modal("show");
@@ -364,9 +375,13 @@ $(document).on("click", ".edit_tag", function () {
         USER_ID: vUserid,
         TITLE: $(".v-title").val(),
       };
-      updateTag(reqTag);
-      buldHome(true);
-      window.location.reload();
+      updateTag(reqTag, function () {
+        if(reqTag.status) {
+          buildMenu()
+        }
+      });
+      buildMenu(true);
+      
     });
   });
 
@@ -393,7 +408,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     "attach events",
     "#modal-edit-update-sub-title.modal #btn_add_title"
   );
-  $("#modal-edit-update-sub-title").modal("show");
+  $("#modal-edit-update-sub-title").modal({allowMultiple: true, closable: false,}).modal('show');
   $(".get-article-title").val(vaTitle);
   buildDepartment("#departmentListId4, #modal_add", dept_id);
   buildeMenuCombobox("#menu_com4", null, tage_id);
@@ -426,7 +441,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     };
     updateArticles(reqAr);
     buldHome(true);
-    window.location.reload();
+    //window.location.reload();
   });
 });
 
@@ -496,7 +511,7 @@ function userTable(data) {
       tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red label">disable</a> </td>`
     } 
 
-    tableData += `<td style="display:flex; justify-content: center; id="all-icon"><i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class=" red trash alternate outline icon con-size trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+    tableData += `<td style="display:flex; justify-content: center; id="all-icon"> <i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
   </tr>`;
   });
 
@@ -504,43 +519,46 @@ function userTable(data) {
 }
 
 // delete user
-// $(document).on("click", ".trash-delete_user_icon", function () {
-//   $("#modal-delete-user").modal("show");
-//   var id = $(this).attr("userRole");
-//   $(document).on('click', '#comfim-delete-user',function() {
-//     delete_User(id);
-//     buldHome(true);
-//     window.location.reload();
-//   })
-// });
-
-// test delete user
-$(document).on("click", ".trash-delete_user_icon", function () {
-  $("#modal-delete-user").modal({
-    allowMultiple: true,
-    closable: false,
-  }).modal('show');
+$(document).on("click", ".delete_user_icon", function () {
+  $("#modal-delete-user").modal({ closable: false, allowMultiple: true }).modal('show');
+  //$("#modal-delete-user").modal("show");
   var id = $(this).attr("userRole");
   $(document).on('click', '#comfim-delete-user', function () {
-    delete_User(id);
-    buldHome();
-    alert('delete successfully');
+    delete_User(id, function () {
+      if (id.status) {
+        buldHome(true);
+        
+
+      }
+    });
     window.location.reload();
+    
+    //alert('delete successfully');
+    //window.location.reload();
   })
 });
 
 // add user
 $(document).on("click", "#btn_doc_add_users", function () {
+  $(this).addClass("loading");
   var req = {
     USER_NAME: $("#username").val(),
     USER_PASSWORD: $("#password").val(),
-    // USER_ROLE: $("#role").val(1),
-    // USER_STATUSS: $("#status").val(1),
+    USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value")
+    
   };
-  addB2bUser(req);
-  buldHome();
-  alert('user has add successfully');
-  window.location.reload();
+  console.log('Data add user +', req);
+  addB2bUser(req, function (resp) {
+    if (resp.status) {
+      setTimeout(function () {
+        buldHome();
+        $('#btn_doc_add_users').removeClass("loading");
+      }, 1000);
+    } else { alert('Error')}
+  });
+  //buldHome();
+  //alert('user has add successfully');
+  //window.location.reload();
 });
 
 // UPDATE USER
@@ -569,23 +587,24 @@ $(document).on("click", ".editUser_icon", function () {
     var req = {
       MODIFY_USERNAME: $("#vUserName").val(),
       MODIFY_USERPASS: $("#vUerPassword").val(),
+      MODIFY_USERROLE: $("#b2b_role").siblings(".menu").children(".item.selected").attr("data-value"),
+      MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
+
       // MODIFY_USERSTATUS: $("#vUserstatus").val(),
       // MODIFY_USERROLE: $("#vUserRole").val(),
-      MODIFY_USERROLE: $('#b2b_role option:selected').val(),
-      MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
+      //MODIFY_USERROLE: $('#b2b_role option:selected').val(),
+      //MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
     };
     console.log('Update user data *', req)
     updateUser(id, req);
-    buldHome();
+    //buldHome();
     //window.location.reload();
   });
-  //$("#btn_manage-user-pop").modal("show");
 });
 
 // INSERT-DEPARTMENT
 $("#manage-department").click(function () {
   buildManageDepartment();
-  // $("#pop-up-management-department").modal("show");
   $("#pop-up-management-department").modal({ closable: false }).modal("show");
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();

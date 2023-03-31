@@ -264,7 +264,7 @@ function updateTag(reqTag, callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
-    data: JSON.stringify(reqTag, callBack),
+    data: JSON.stringify(reqTag),
   };
   requestApi(settings, callBack);
 }
@@ -296,7 +296,7 @@ function b2BUser(id, callBack) {
 }
 
 // delete user
-function delete_User(id) {
+function delete_User(id, callBack) {
   var settings = {
     url: baseUrl + "/delete_users/" + id,
     method: "DELETE",
@@ -305,11 +305,11 @@ function delete_User(id) {
       Authorization: "Bearer" + getToken().token,
     },
   };
-  requestApi(settings);
+  requestApi(settings, callBack);
 }
 
 // add user
-function addB2bUser(req) {
+function addB2bUser(req, callBack) {
   var settings = {
     url: baseUrl + "/add_users",
     method: "POST",
@@ -319,7 +319,7 @@ function addB2bUser(req) {
     },
     data: JSON.stringify(req),
   };
-  requestApi(settings, req);
+  requestApi(settings, callBack);
 }
 
 // update user
