@@ -922,10 +922,10 @@ homeRoute.post("/update_users/:id", async (req, res) => {
   
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
   console.log(
-    `UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=1, role=0 where id=${req.params.id} ;`
+    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
   );
   var upDateUser = await db.result(
-    `UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
+    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
   );
   if (upDateUser == null) {
     return res.send(new BaseRes(false, "ERROR", null));

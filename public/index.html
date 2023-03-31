@@ -73,8 +73,9 @@
             <tr class="tb-head">
               <th>ID</th>
               <th>Username</th>
-              <th style="text-align:center;">Status</th>
+              <th>Password</th>
               <th style="text-align:center;">Role</th>
+              <th style="text-align:center;">Status</th>
               <th style="display:flex; justify-content: center;">Permission</th>
             </tr>
           </thead>
@@ -130,24 +131,33 @@
             <label>UserName</label>
             <input type="text" name="name" placeholder="UserName" id="vUserName">
           </div>
-          <!-- <div class="field">
+          <div class="field">
             <label>Password</label>
             <input type="text" name="password" placeholder="Password" id="vUerPassword">
           </div>
           <div class="field">
-            <label>Status</label>
-            <input type="text" name="Status" placeholder="status" id="vUserstatus">
+            <label>Role</label>
+            <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
+            <select class="ui search dropdown" id="b2b_role">
+              <option value="1">admin</option>
+              <option value="0">user</option>
+              <option value="2">viewer</option>
+            </select>
           </div>
           <div class="field">
-            <label>Role</label>
-            <input type="text" name="role" placeholder="Role" id="vUserRole">
-          </div> -->
+            <label>Status</label>
+            <!-- <input type="text" name="Status" placeholder="status" id="vUserstatus"> -->
+            <select class="ui search dropdown" id="b2b_status">
+              <option value="1">active</option>
+              <option value="0">disable</option>
+            </select>
+          </div>
         </form>
       </div>
       <div class="actions">
         <!-- <button class="ui button" id="back_to_user_table" type="submit">Back</button> -->
         <button class="ui button cancel ">Cancel</button>
-        <button class="ui button blue" type="submit" id="btn_doc_update_users_icon">Save</button>
+        <button class="ui button blue" type="submit" id="btn_doc_update_users_icon">Update</button>
       </div>
     </div>
     <!-- // modal update user -->
