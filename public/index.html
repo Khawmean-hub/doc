@@ -15,7 +15,13 @@
   <link rel="stylesheet" href="css/my_skin.css">
   <link rel="icon" type="image/x-icon" href="/image/favicon.ico">
 
-
+  <link href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  <!-- link Google Font  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap" rel="stylesheet">
+  <!-- link Google Font  -->
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
@@ -63,9 +69,8 @@
 
     <!-- modal table add new -->
     <div class="ui modal coupled" id="btn_manage-user-pop" style="width: 812px;">
-      <i class="close icon"></i>
-      <div class="header" style="text-align: center; background-color: #ffffff;">B2B USER <i
-          class="address book outline icon"></i> </div>
+      <h4 class="header">B2B USER <i
+          class="address book outline icon"></i> </h4>
       <div class="image content" style="background-color: #e2e2e263;">
         <table class="ui celled table">
           <thead>
@@ -73,9 +78,9 @@
               <th>ID</th>
               <th>Username</th>
               <th>Password</th>
-              <th>Status</th>
-              <th>Role</th>
-              <th>Permission</th>
+              <th style="text-align:center;">Role</th>
+              <th style="text-align:center;">Status</th>
+              <th style="display:flex; justify-content: center;">Permission</th>
             </tr>
           </thead>
           <tbody id="userData">
@@ -83,15 +88,17 @@
         </table>
       </div>
       <div class="actions" style="background-color: #ffffff;">
-        <button class="ui black basic tiny positive button" id="Create-New-User">Add new</button>
+        <!-- <button class=" blue ui black basic tiny positive" id="Create-New-User">Add new</button> -->
+        <div class="ui cancel tiny button">Cancel</div>
+        <div class="ui blue button tiny" id="Create-New-User">Add new</div>
+         
       </div>
     </div>
     <!-- end modal table add new -->
 
     <!-- modal for add new user -->
     <div class="ui modal" id="New-User" style="width: 694px;">
-      <i class="close icon"></i>
-      <div class="header">New User</div>
+      <div class="header h4 ">New User</div>
       <div class="image content" style="display: block;">
         <form class="ui form" style="align-content: center;">
           <div class="field">
@@ -105,20 +112,43 @@
           <!-- <div class="field">
             <label>Status</label>
             <input type="text" name="status" placeholder="status" id="status">
-          </div>
-          <div class="field">
+            <select class="ui search dropdown">
+              <option></option>
+            </select>
+          </div> -->
+          <!-- <div class="field">
             <label>Role</label>
             <input type="text" name="role" placeholder="Role" id="role">
           </div> -->
+          <div class="field">
+            <label>Role</label>
+            <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
+            <select class="ui search dropdown" id="b2b_role1">
+              <option value="1">admin</option>
+              <option value="0">user</option>
+              <option value="2">viewer</option>
+            </select>
+          </div>
+          <!-- <div class="field">
+            <label>Status</label>
+            <input type="text" name="Status" placeholder="status" id="vUserstatus">
+            <select class="ui search dropdown" id="b2b_status">
+              <option value="1">active</option>
+              <option value="0">disable</option>
+            </select>
+          </div> -->
         </form>
       </div>
-      <div class="actions"><button class="ui button" type="submit" id="btn_doc_add_users">ADD</button></div>
+      <div class="actions">
+        <button class="ui tiny cancel button">Cancel</button>
+        <button class="ui blue tiny button" type="submit" id="btn_doc_add_users">Add</button>
+        
+      </div>
     </div>
     <!-- // modal for add new user -->
     <!-- MODAL UPDATE USER -->
     <div class="ui modal" id="modal_update_user" style="width: 694px;">
-      <i class="close icon"></i>
-      <div class="header" style="text-align: center;">Update User</div>
+      <div class="header">Update User</div>
       <div class="image content" style="display: block;">
         <form class="ui form" style="align-content: center;">
           <div class="field">
@@ -130,18 +160,28 @@
             <input type="text" name="password" placeholder="Password" id="vUerPassword">
           </div>
           <div class="field">
-            <label>Status</label>
-            <input type="text" name="Status" placeholder="status" id="vUserstatus">
+            <label>Role</label>
+            <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
+            <select class="ui search dropdown" id="b2b_role">
+              <option value="1">admin</option>
+              <option value="0">user</option>
+              <option value="2">viewer</option>
+            </select>
           </div>
           <div class="field">
-            <label>Role</label>
-            <input type="text" name="role" placeholder="Role" id="vUserRole">
+            <label>Status</label>
+            <!-- <input type="text" name="Status" placeholder="status" id="vUserstatus"> -->
+            <select class="ui search dropdown" id="b2b_status">
+              <option value="1">active</option>
+              <option value="0">disable</option>
+            </select>
           </div>
         </form>
       </div>
       <div class="actions">
         <!-- <button class="ui button" id="back_to_user_table" type="submit">Back</button> -->
-        <button class="ui button" type="submit" id="btn_doc_update_users_icon">Update</button>
+        <button class="ui button cancel ">Cancel</button>
+        <button class="ui button blue" type="submit" id="btn_doc_update_users_icon">Update</button>
       </div>
     </div>
     <!-- // modal update user -->
@@ -155,16 +195,22 @@
           <i class="sidebar icon"></i>
         </a>
         <!-- Department list navbar -->
+        <!-- <div class="item">
+          <div class="ui inline dropdown loading deparment-type" id="departmentListId">
+            <div class="text" id=""></div>
+            <i class="dropdown icon"></i>
+          </div>
+        </div> -->
+
         <div class="item">
           <div class="ui inline dropdown loading deparment-type" id="departmentListId">
             <div class="text" id=""></div>
             <i class="dropdown icon"></i>
           </div>
-          
         </div>
-        
-        <a class="item add"><i class="sun outline icon" id="manage-department"></i></a>
-        
+
+        <a id="manage-department" class="item add"><i class="sun outline icon"></i></a>
+
         <!-- Button add content -->
         <a class="item add" id="btn_add_contents">
           <i class="plus icon small"></i>
@@ -185,16 +231,13 @@
         <!-- manage user button-->
         <div class="item test">
           <button class="ui button" style="background: none; color: grey" id="btn_manage-user">
-            Manage User
+            <i class="user icon"></i>
           </button>
         </div>
         <!-- Logout -->
         <div class="item test">
-          <button class="ui button btn_login" style="background: none; color: grey">
-            Log in
-          </button>
           <button class="ui button btn_logout" style="background: none; color: grey">
-            Log out
+            <i class="sign out alternate icon"></i>
           </button>
         </div>
 
@@ -224,9 +267,8 @@
   <!-- // modal delete user -->
   <!-- Logout modal -->
   <div class="ui modal" id="Logout-modal">
-    <div class="header header-delete">
-      <div>Log out!</div>
-      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    <div class="header">
+      <h4>Log out!</h4>
       <!-- <i class="sign out alternate icon"></i> -->
     </div>
     <div class="content dt_et">
@@ -234,12 +276,12 @@
         <!-- <i class="check icon "></i> -->
       </div>
       <div>
-        <h3>Do you want to Log out?</h3>
+        <h4>Do you want to Log out?</h4>
       </div>
     </div>
     <div class="actions da_et">
-      <div class="ui cancel button">No</div>
-      <div class="ui approve button btn_delete_tage" id="Logout-comfim">Yes</div>
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui approve blue tiny button btn_delete_tage" id="Logout-comfim">Yes</div>
     </div>
   </div>
   <!-- // Logout modal -->
@@ -264,8 +306,8 @@
             </div>
           </div>
           <div class="field">
-            <label>Main Title</label>
-            <button class=" ui icon button btn circular" type="button" id="btnAdd" style="margin-left:20px !important">
+            <label style="margin-right: 20px !important">Main Title</label>
+            <button  class=" ui icon button btn circular" type="button" id="btnAdd" >
               <i class="plus icon"></i>
             </button>
             <div class="ui selection dropdown loading ui action input" id="menu_com">
@@ -348,7 +390,7 @@
       </div>
       <div>
         <div class="ui cancel tiny button">Cancel</div>
-        <div class="ui button tiny" id="editor_save">Save</div>
+        <div class="ui blue button tiny" id="editor_save">Save</div>
       </div>
     </div>
     <img src="" alt="">
@@ -451,21 +493,45 @@
       </div>
       <div>
         <div class="ui cancel tiny button" id="btn-cancel-update-article">Cancel</div>
-        <div class="ui button tiny cancel " id="btn-save-update-sub-article">Update</div>
+        <div class="ui button tiny blue cancel " id="btn-save-update-sub-article">Update</div>
       </div>
     </div>
   </div>
   </div>
 
   <!-- tage edit  -->
-  <div class=" tage_editT ui modal">
+  <div class="  tage_editT ui modal coupled"  style="line-height: 2;">
+    <form class="ui form form-edit">
+      <h4 class="ui header dividing " style="font-size: 16px;padding: 16px;background: #f9fafb;height: 56px;"> Edit Department 
+    </h4>
+      <div class="lab" style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px;">
+        <label>Department </label>
+      </div>
+      <div class="ui selection dropdown loading"  id="departmentListId3" style="width: 94%;margin-left: 14px;">
+        <div class="text"></div>
+        <i class="dropdown icon"></i>
+      </div>
+      <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
+        <label>New Title</label>
+      <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
+      </div>
+    </form>
+    <br>
+    <div class="actions agr">
+      <div class="ui tiny button btn_cl deny ">Cancel</div>
+      <div class="ui button tiny blue alert-edit-department" id="update-departmentList" value="submit">Save</div>
+    </div>
+
+  </div>
+
+  <!-- <div class=" tage_editT ui modal">
     <form class="ui form form-edit">
       <div class="lab"
         style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px; margin-bottom: 5px;">
         <label>Department</label>
-      </div>
+      </div> -->
       <!-- Department -->
-      <div class="ui selection dropdown loading" id="departmentListId2" style="width: 94%;margin-left: 14px;">
+      <!-- <div class="ui selection dropdown loading" id="departmentListId3" style="width: 94%;margin-left: 14px;">
         <div class="text"></div>
         <i class="dropdown icon"></i>
       </div>
@@ -474,16 +540,35 @@
         <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
       </div>
     </form>
-    <div class="actions ac_et">
-      <button class="ui approve button up btn-up-tag" id="update-departmentList"> UPDATE</button>
-      <button class="ui cancel button"> CLOSE</button>
+    <div class="actions">
+      <button class="ui tiny  cancel button"> close</button>
+      <button class="ui tiny approve  button btn-up-tag" id="update-departmentList"> update</button>
     </div>
-  </div>
-  <!-- delete tage  -->
+  </div> -->
+     <!-- alert edit department  -->
+     <div class=" modal-alert-edit-department ui modal">
+      <div class="header">
+        <h4>Confirmation!</h4>
+      </div>
+  
+      <div class="content dt_et">
+        <div>
+          <i class="check icon "></i>
+        </div>
+        <div>
+          <h4> Are you sure?</h4>
+        </div>
+  
+      </div>
+      <div class="actions da_et">
+        <div class="ui cancel tiny button">No</div>
+        <div class="ui blue tiny approve button btn-up-tag" >Yes</div>
+      </div>
+    </div>
+  <!-- alert delete tage  -->
   <div class=" delete_tage ui modal">
-    <div class="header header-delete">
-      <div>Confirmation!</div>
-      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    <div class="header">
+      <h4>Confirmation!</h4>
     </div>
 
     <div class="content dt_et">
@@ -491,20 +576,40 @@
         <i class="check icon "></i>
       </div>
       <div>
-        <h3> Are you sure?</h3>
+        <h4> Are you sure?</h4>
       </div>
 
     </div>
     <div class="actions da_et">
-      <div class="ui cancel button">No</div>
-      <div class="ui approve button btn_delete_tage" id="comfirmYes">Yes</div>
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui blue tiny approve button btn_delete_tage" id="comfirmYes">Yes</div>
+    </div>
+  </div>
+
+   <!-- delete department  -->
+ <div class="alert-delete ui modal">
+    <div class="header">
+      <h4>Confirmation!</h4>
+    </div>
+
+    <div class="content dt_et">
+      <div>
+        <i class="check icon "></i>
+      </div>
+      <div>
+        <h4> Are you sure?</h4>
+      </div>
+
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui blue tiny approve button " id="delete-depart">Yes</div>
     </div>
   </div>
   <!-- delete sub-title  -->
   <div class=" delete_sub-title ui modal">
-    <div class="header header-delete">
-      <div>Confirmation!</div>
-      <div class="actions"> <i class=" x icon ui cancel "></i></div>
+    <div class="header">
+      <h4>Confirmation!</h4>
     </div>
 
     <div class="content dt_et">
@@ -512,13 +617,33 @@
         <i class="check icon "></i>
       </div>
       <div>
-        <h3> Are you sure?</h3>
+        <h4> Are you sure?</h4>
       </div>
 
     </div>
     <div class="actions da_et">
-      <div class="ui cancel button">No</div>
-      <div class="ui approve button btn_delete_sub" id="comfirmYes">Yes</div>
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui approve tiny blue button btn_delete_sub" id="comfirmYes">Yes</div>
+    </div>
+  </div>
+  <!-- delete user -->
+  <div class="ui modal" id="modal-delete-user">
+    <div class="header">
+      <h4>Confirmation!</h4>
+    </div>
+
+    <div class="content dt_et">
+      <div>
+        <i class="check icon "></i>
+      </div>
+      <div>
+        <h4> Are you sure?</h4>
+      </div>
+
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui approve tiny blue button" id="comfim-delete-user">Yes</div>
     </div>
   </div>
 
@@ -541,21 +666,25 @@
     </form>
     <br>
     <div class="actions agr">
-      <div class="ui tiny button btn_cl deny ">Close</div>
-      <div class="ui button tiny btn_add" id="add_newTitle" value="submit">Add</div>
+      <div class="ui tiny button btn_cl deny ">Cancel</div>
+      <div class="ui button blue tiny btn_add" id="add_newTitle" value="submit">Add</div>
     </div>
 
   </div>
 
   <!-- MODAL MANAGEMENT DEPARTMENT  -->
-  <div class="ui modal" id="pop-up-management-department">
-    <i class="close icon"></i>
-    <div class="header">
+  <div class="ui modal " id="pop-up-management-department">
+    <div class="header " style="display: flex; align-items: center;">
       <div class="ui input">
-        <input type="text" placeholder="Title ..." id="insert-manage-department">
+          <div class="ui input">
+            <input  class="txtIsertD" type="text" placeholder="Title ..." id="insert-manage-department">
+          </div>
       </div>
-      <button class="ui primary button add-manage-department">
+      <button class="btn-add-css  add-manage-department ui tiny blue button">
         Add
+      </button>
+      <button style="display: none;" class=" btn-update-css btn-update ui primary button">
+        Udpate
       </button>
     </div>
     <div class="content">
@@ -564,13 +693,38 @@
           <tr>
             <th>No</th>
             <th>Title</th>
-            <th>Action</th>
+            <th style="display:flex; justify-content: center;">Action</th>
           </tr>
         </thead>
         <tbody class="listBody">
-         
+
         </tbody>
       </table>
+    </div>
+    <div class="actions">
+      <div class="ui tiny button btn_cl deny ">Cancel</div>
+    </div>
+  </div>
+
+  <!-- MODAL UPDATE DEPARTMENT -->
+  <div class="ui modal" id="update-department">
+    <i class="close icon"></i>
+    <div class="header">
+      Update department
+    </div>
+    <div class="image content">
+      <form class="ui form" style="align-content: center;">
+        <div class="field">
+          <label>Department</label>
+          <input type="text" name="name" placeholder="" id="dep_name">
+        </div>
+      </form>
+    </div>
+    <div class="actions">
+
+      <div>
+        <div class="ui button tiny" id="com-update-department">Update</div>
+      </div>
     </div>
   </div>
 

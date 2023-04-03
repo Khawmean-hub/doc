@@ -9,7 +9,9 @@ function buldHome() {
   buildDepartment();
   buildeMenuCobobox();
   getRecent();
-  buildMenu(true);
+  buildMenu(true, 1);
+  //getMenu(true);
+
 
   // check role
   if (getToken().role == 0) { // user
@@ -28,12 +30,15 @@ function buldHome() {
     $('#Create-New-User').show();
     // show button add contents or department
     $('#btn_add_contents').show();
+    $('#manage-department').show();
 
   } else if (getToken().role == 2) { // not user read only
     $('#btn_manage-user').hide();
     $('.edit_tag2').hide();
     $('#btn_add_contents').hide();
-    $('.btn_logout').hide();
+    $('.btn_logout').show();
+    // $('.btn_login').show();
+    $('#manage-department').hide();
     $('.btn_login').show();
   }
 }
@@ -83,9 +88,13 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     });
 
     if (id.includes("departmentListId2")) {
-      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment)
+      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment);
     }
-
+    // 
+    if (id.includes("departmentListId3")) {
+      $("#departmentListId3").dropdown("setting", "onChange", onChangeDepartment);
+    }
+   
     $(id).removeClass("loading");
     //$(id).dropdown();
   });
@@ -94,12 +103,15 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
 function buildManageDepartment() {
   getDepartment(function (resp) {
     var list = "";
+    var fakeId= 0
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         list += `<tr>
-                 <td dep-id='${v.dep_id}'>${v.dep_id}</td>
+                 <td>${fakeId+=1}</td>
+                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
                  <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
-                 <td><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#"><i class="trash alternate outline icon"></i></a></td>
+                 <td style="display:flex; justify-content: center;"><a href="#"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
+                 </a><a href="#" class="alert-depart"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
       });
      
@@ -242,6 +254,7 @@ function buildeMenuCobobox(id = "#menu_com") {
     });
     $(id).removeClass("loading");
   });
+  
 }
 function deleteDocument(id) {
   buildMenu();
@@ -252,7 +265,6 @@ function buildActicle(id) {
   loader();
   getActicle(id, function (resp) {
     $("#content_body").empty().append(resp.data.content_body);
-    console.log("acticlce:", resp.data.content_body);
   });
 };
 
@@ -274,7 +286,6 @@ function getRecent(params) {
   $("#content_body").empty();
   $("body").find(".menu_active").removeClass("menu_active");
   var recentLs = window.localStorage.getItem("act_recent");
-  console.log('Localstorage', recentLs);
   if (!isNull(recentLs)) {
     var ls = JSON.parse(recentLs);
     $("#content_body").append("<h3>Recents</h3>");
@@ -325,13 +336,14 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
     });
     saveList = [...recentList, ...newLs];
   }
-  console.log(saveList);
+  
   window.localStorage.setItem("act_recent", JSON.stringify(saveList));
 
 }
 // BUILD SIDE BAR MENU
-function buildMenu(isFalse) {
-  getMenu($('#departmentListId').dropdown('get value'), function (resp) {
+function buildMenu(isFalse, dept_id) {
+  var depID = isNull(dept_id) ? $('#departmentListId').dropdown('get value') : dept_id;
+  getMenu( depID , function (resp) {
     if (resp.status) {
       var html = "";
 
@@ -361,7 +373,7 @@ function buildMenu(isFalse) {
         if (getToken().role == 1) {
           //  Icone update, delete main articel
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`
-          html += `<i class=" trash alternate outline icon con-size data_delete_tage" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`
+          html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`
         } else if (getToken().role == 0) {
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`
         }
@@ -377,14 +389,14 @@ function buildMenu(isFalse) {
           if (va.tag_id == v.id) {
             html += `  <div class="sub_t "d_est="${va.id}">`
             html += `    <li class="sub-title acticle_con" tag_title="${v.title}" act_id="${va.id}">`
-            html += `    <a class="co" href="javascript:" data-li="${va.title}">${va.title}`
+            html += `    <a class="active_title" href="javascript:" data-li="${va.title}">${va.title}`
             html += `    </a>`
             html += `    </li>`
             html += `     <li> <a href="javascript:" class="${va.id} h_st">`
             if (getToken().role == 1) {
               //  Icon update, delete sub articel
-              html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
-              html += `    <i class="trash alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`
+              html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
+              html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`
             } else if (getToken().role == 0) {
               html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
             }
@@ -397,12 +409,13 @@ function buildMenu(isFalse) {
         html += `</ul> </div></div>`;
       });
     }
+    
     if (isNull(html)) {
       // CHECK IT NULL
       $("#menu_body").empty().append('<p style="text-align:center; margin-top: 20px">No data</p>');
     } else
       $("#menu_body").empty().append(html);
-
+      
   });
   
 }
