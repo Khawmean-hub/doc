@@ -310,6 +310,8 @@ $(document).on("click", ".acticle_con", function () {
     .parent()
     .siblings()
     .addClass("active");
+    //
+    
 });
 
 // LOGIN
@@ -498,17 +500,17 @@ function userTable(data) {
     tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
 
     if (i.role == 1) { // admin
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui green label">admin</a> </td>`
+      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label">Admin  </a> </td>`
     } else if (i.role == 0) { // user
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui violet label">user</a> </td>`
+      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label"> User </a> </td>`
     } else if (i.role == 2) { // viewer
-      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui grey label">viewer</a> </td>`
+      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label"> Viewer </a> </td>`
     }
 
     if (i.status == 1) { // status
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui blue label">active</a> </td>`
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label">  </a> Active </td>`
     } else if(i.status == 0) {
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red label">disable</a> </td>`
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label"></a> Disable </td>`
     } 
 
     tableData += `<td style="display:flex; justify-content: center; id="all-icon"> <i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
@@ -528,9 +530,11 @@ $(document).on("click", ".delete_user_icon", function () {
       if (id.status) {
         buldHome(true);
         
+        
 
       }
     });
+    $('#btn_manage-user-pop').modal('hide');
     window.location.reload();
     
     //alert('delete successfully');
@@ -554,6 +558,9 @@ $(document).on("click", "#btn_doc_add_users", function () {
         buldHome();
         $('#btn_doc_add_users').removeClass("loading");
       }, 1000);
+      $('#New-User').modal('hide');
+      alert('Add successfully');
+      window.location.reload();
     } else { alert('Error')}
   });
   //buldHome();
@@ -597,8 +604,11 @@ $(document).on("click", ".editUser_icon", function () {
     };
     console.log('Update user data *', req)
     updateUser(id, req);
-    //buldHome();
-    //window.location.reload();
+    $("#modal_update_user, #btn_manage-user-pop").modal('hide');
+    //buldHome(true);
+    alert('Has been update');
+    window.location.reload();
+    
   });
 });
 

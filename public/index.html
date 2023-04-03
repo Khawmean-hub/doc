@@ -75,12 +75,12 @@
         <table class="ui celled table">
           <thead>
             <tr class="tb-head">
-              <th>ID</th>
+              <th>No</th>
               <th>Username</th>
               <th>Password</th>
               <th style="text-align:center;">Role</th>
-              <th style="text-align:center;">Status</th>
-              <th style="display:flex; justify-content: center;">Permission</th>
+              <th style="text-align:left;" colspan="2">Status</th>
+              <!-- <th style="display:flex; justify-content: center;">Permission</th> -->
             </tr>
           </thead>
           <tbody id="userData">
@@ -180,7 +180,7 @@
       </div>
       <div class="actions">
         <!-- <button class="ui button" id="back_to_user_table" type="submit">Back</button> -->
-        <button class="ui button cancel ">Cancel</button>
+        <button class="ui button cancel " id="cancel_update_user">Cancel</button>
         <button class="ui button blue" type="submit" id="btn_doc_update_users_icon">Update</button>
       </div>
     </div>
@@ -727,6 +727,7 @@
       </div>
     </div>
   </div>
+
 
   <!-- ---------------- Script ---------------- -->
   <script src="js/stringUtils.js"></script>
