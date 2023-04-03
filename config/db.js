@@ -5,7 +5,7 @@ const db = pgp('postgresql://ioatdkop:Jwxkjpj0unTI5BZ7cEvZromZTjNPrF3O@arjuna.db
 // const db = pgp('postgres://postgres:123@localhost:5432/b2b')
 db.one('SELECT $1 AS value', 123)
   .then((data) => {
-    console.log('DATA:', data.value)
+    console.log('Connection is working.')
   })
   .catch((error) => {
     console.log('ERROR:', error)
