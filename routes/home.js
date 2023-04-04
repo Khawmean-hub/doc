@@ -895,7 +895,7 @@ homeRoute.delete("/delete_users/:id", async (req, res) => {
 homeRoute.post("/add_users", async (req, res) => {
   console.log("API route add is working");
   var addUser = db.result(
-    `INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, 0)`
+    `INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, ${req.body.USER_ROLE})`
   );
   if (addUser.rowCount < 1) {
     return res.send(new BaseRes(false, "ERROR", null));
@@ -922,10 +922,10 @@ homeRoute.post("/update_users/:id", async (req, res) => {
   
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
   console.log(
-    `UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=1, role=0 where id=${req.params.id} ;`
+    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
   );
   var upDateUser = await db.result(
-    `UPDATE doc_users set "username"='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, role=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
+    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
   );
   if (upDateUser == null) {
     return res.send(new BaseRes(false, "ERROR", null));

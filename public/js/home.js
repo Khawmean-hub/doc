@@ -260,12 +260,23 @@ function deleteDocument(id) {
   buildMenu();
 }
 
-// Build Acticle
+function randomNotFound() {
+  $('#content_body').append('<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium circular image" src="image/not_found.png" alt="not found "></div> </div>');
+}
+
+// Build Acticlev
 function buildActicle(id) {
   loader();
+  
   getActicle(id, function (resp) {
-    $("#content_body").empty().append(resp.data.content_body);
+    if (resp.data.content_body === undefined) {
+      $("#content_body").empty().append(resp.data.content_body);
+      randomNotFound();
+    } else {
+      $("#content_body").empty().append(resp.data.content_body);
+    }
   });
+  
 };
 
 // Get acticle for update
@@ -367,7 +378,7 @@ function buildMenu(isFalse, dept_id) {
     if (isFalse == true) {
       var html = "";
 
-      resp.data.TAGS.forEach((v) => {
+      resp.data.TAGS.forEach((v) => { // main articles
         html += `<div class="item" d_et="${v.id}">`
         html += `<a  href="javascript:"  class=" ${v.id} a_ab h_et" > `
         if (getToken().role == 1) {
@@ -384,7 +395,7 @@ function buildMenu(isFalse, dept_id) {
         html += `<div class="content">`
         html += `<ul class="sub-menu">`;
 
-        resp.data.ARTICLES.forEach((va) => {
+        resp.data.ARTICLES.forEach((va) => { // sub articles
 
           if (va.tag_id == v.id) {
             html += `  <div class="sub_t "d_est="${va.id}">`

@@ -39,7 +39,7 @@ var auth = {
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
             if (err) return res.sendStatus(403)
-            if (user.role == "1" || user.role == "2") {
+            if (user.role == "1" || user.role == "0") {
                 req.user = user
                 next()
             } else

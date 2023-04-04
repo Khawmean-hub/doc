@@ -1,18 +1,19 @@
 $(".page-login").hide();
-$(document).on('click', '.active_title ', function() {
+$(document).on('click', '.active_title ', function () {
   $(this).addClass('active_link');
   $('.active_title').not(this).removeClass('active_link');
 })
 $("#btn_add_contents").click(function () {
   $(".coupled.modal").modal({
-    allowMultiple: true,
+    allowMultiple: true, closable: false,
+
   });
   $("#modal_add_title").modal(
     "attach events",
     "#modal_add_contents.modal #btnAdd"
   );
 
-  $("#modal_add_contents").modal().modal("show");
+  $("#modal_add_contents").modal().modal({ closable: false }).modal('show');
   var dept_id = $("#departmentListId").dropdown("get value");
   buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
 
@@ -202,6 +203,17 @@ $("#Create-New-User").click(function () {
   }).modal('show')
 });
 
+// Action delete user
+// $('.trash').click(function () {
+//   alert('hi')
+//   $('#modal-delete-user').modal({
+//     allowMultiple: true,
+//     closable: false,
+//   }).modal('show')
+// })
+
+
+
 // Action login form
 $(document).on("click", ".login_btn", function () {
   $(".tiny.modal").modal("show");
@@ -298,6 +310,8 @@ $(document).on("click", ".acticle_con", function () {
     .parent()
     .siblings()
     .addClass("active");
+    //
+    
 });
 
 // LOGIN
@@ -363,12 +377,16 @@ $(document).on("click", ".edit_tag", function () {
         USER_ID: vUserid,
         TITLE: $(".v-title").val(),
       };
-      updateTag(reqTag);
-      buldHome(true);
-      window.location.reload();
+      updateTag(reqTag, function () {
+        if(reqTag.status) {
+          buildMenu()
+        }
+      });
+      buildMenu(true);
+      
     });
   });
- 
+
 });
 
 // Update article has have
@@ -392,7 +410,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     "attach events",
     "#modal-edit-update-sub-title.modal #btn_add_title"
   );
-  $("#modal-edit-update-sub-title").modal("show");
+  $("#modal-edit-update-sub-title").modal({allowMultiple: true, closable: false,}).modal('show');
   $(".get-article-title").val(vaTitle);
   buildDepartment("#departmentListId4, #modal_add", dept_id);
   buildeMenuCombobox("#menu_com4", null, tage_id);
@@ -425,7 +443,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     };
     updateArticles(reqAr);
     buldHome(true);
-    window.location.reload();
+    //window.location.reload();
   });
 });
 
@@ -475,23 +493,27 @@ $.ajax({
 function userTable(data) {
   var table = document.getElementById("userData");
   var tableData = '';
-  data.forEach((i) =>{
+  data.forEach((i) => {
     tableData += `<tr class='allUser'>`
-    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>`
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`
-    
-    if (i.status == 1) {
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status'>active</td>`
-    }
-    
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>` // id
+    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
+    tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
+
     if (i.role == 1) { // admin
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' >admin</td>`
+      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label">Admin  </a> </td>`
     } else if (i.role == 0) { // user
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' >user</td>`
+      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label"> User </a> </td>`
     } else if (i.role == 2) { // viewer
-      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' >viewer</td>`
+      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label"> Viewer </a> </td>`
     }
-    tableData += `<td style="display:flex; justify-content: center; id="all-icon"><i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'></i>  <i class=" red trash alternate outline icon con-size trash-delete_user_icon" userRole='${i.id}' title='Delete'></i></td>
+
+    if (i.status == 1) { // status
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label">  </a> Active </td>`
+    } else if(i.status == 0) {
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label"></a> Disable </td>`
+    } 
+
+    tableData += `<td style="display:flex; justify-content: center; id="all-icon"> <i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
   </tr>`;
   });
 
@@ -499,84 +521,100 @@ function userTable(data) {
 }
 
 // delete user
-// $(document).on("click", ".trash-delete_user_icon", function () {
-//   $("#modal-delete-user").modal("show");
-//   var id = $(this).attr("userRole");
-//   $(document).on('click', '#comfim-delete-user',function() {
-//     delete_User(id);
-//     buldHome(true);
-//     window.location.reload();
-//   })
-// });
-
-// test delete user
-$(document).on("click", ".trash-delete_user_icon", function () {
-  $("#modal-delete-user").modal({
-    allowMultiple: true,
-    closable: false,
-  }).modal('show');
+$(document).on("click", ".delete_user_icon", function () {
+  $("#modal-delete-user").modal({ closable: false, allowMultiple: true }).modal('show');
+  //$("#modal-delete-user").modal("show");
   var id = $(this).attr("userRole");
-  $(document).on('click', '#comfim-delete-user',function() {
-    delete_User(id);
-    buldHome();
-    alert('delete successfully');
+  $(document).on('click', '#comfim-delete-user', function () {
+    delete_User(id, function () {
+      if (id.status) {
+        buldHome(true);
+        
+        
+
+      }
+    });
+    $('#btn_manage-user-pop').modal('hide');
     window.location.reload();
+    
+    //alert('delete successfully');
+    //window.location.reload();
   })
 });
 
 // add user
 $(document).on("click", "#btn_doc_add_users", function () {
+  $(this).addClass("loading");
   var req = {
     USER_NAME: $("#username").val(),
     USER_PASSWORD: $("#password").val(),
-    // USER_ROLE: $("#role").val(1),
-    // USER_STATUSS: $("#status").val(1),
+    USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value")
+    
   };
-  addB2bUser(req);
-  buldHome();
-  alert('user has add successfully');
-  window.location.reload();
+  console.log('Data add user +', req);
+  addB2bUser(req, function (resp) {
+    if (resp.status) {
+      setTimeout(function () {
+        buldHome();
+        $('#btn_doc_add_users').removeClass("loading");
+      }, 1000);
+      $('#New-User').modal('hide');
+      alert('Add successfully');
+      window.location.reload();
+    } else { alert('Error')}
+  });
+  //buldHome();
+  //alert('user has add successfully');
+  //window.location.reload();
 });
 
 // UPDATE USER
 $(document).on("click", ".editUser_icon", function () {
-  $("#modal_update_user").modal({closable: false, allowMultiple: true}).modal('show');
+  $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal('show');
 
   var currentUSer = {
     V_Name: $(this).closest("tr").find(".v-username").text(),
-    // V_Pass: $(this).closest("tr").find(".v-password").text(),
-    // V_Role: $(this).closest("tr").find(".v-role").text(),
-    // V_Status: $(this).closest("tr").find(".v-status").text(),
+    V_Pass: $(this).closest("tr").find(".v-password").text(),
+    V_Role: $(this).closest("tr").find(".v-role").text(),
+    V_Status: $(this).closest("tr").find(".v-status").text(),
   };
   console.log("Current USer: *", currentUSer);
   $("#vUserName").val(currentUSer.V_Name);
-  // $("#vUerPassword").val(currentUSer.V_Pass);
-  // $("#vUserstatus").val(currentUSer.V_Status);
-  // $("#vUserRole").val(currentUSer.V_Role);
+  $("#vUerPassword").val(currentUSer.V_Pass);
+  $("#vUserstatus").val(currentUSer.V_Status);
+  $("#vUserRole").val(currentUSer.V_Role);
 
   var id = $(this).attr("userRole");
+  console.log('ID ^', id)
 
   // CLICK TO CONFIRMATION UPDATE
   $(document).on("click", "#btn_doc_update_users_icon", function () {
-    alert("Update success");
+    //alert("Update success");
+    
     var req = {
       MODIFY_USERNAME: $("#vUserName").val(),
-      // MODIFY_USERPASS: $("#vUerPassword").val(),
+      MODIFY_USERPASS: $("#vUerPassword").val(),
+      MODIFY_USERROLE: $("#b2b_role").siblings(".menu").children(".item.selected").attr("data-value"),
+      MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
+
       // MODIFY_USERSTATUS: $("#vUserstatus").val(),
       // MODIFY_USERROLE: $("#vUserRole").val(),
+      //MODIFY_USERROLE: $('#b2b_role option:selected').val(),
+      //MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
     };
     console.log('Update user data *', req)
     updateUser(id, req);
-    buldHome();
-    //window.location.reload();
+    $("#modal_update_user, #btn_manage-user-pop").modal('hide');
+    //buldHome(true);
+    alert('Has been update');
+    window.location.reload();
+    
   });
-  //$("#btn_manage-user-pop").modal("show");
 });
 
 // INSERT-DEPARTMENT
 $("#manage-department").click(function () {
   buildManageDepartment();
-  // $("#pop-up-management-department").modal("show");
   $("#pop-up-management-department").modal({ closable: false }).modal("show");
   $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
@@ -603,7 +641,7 @@ $("#manage-department").click(function () {
 $(document).on("click", ".alert-depart", function () {
   var id = $(this).parent().siblings(".dep-id").attr("dep_id");
   $(".alert-delete").modal("show");
-  $(document).on("click", "#delete-depart", function () {  
+  $(document).on("click", "#delete-depart", function () {
     console.log("delete id: ", id);
     deleteDepartment(id, function (resp) {
       if (resp.status) {
