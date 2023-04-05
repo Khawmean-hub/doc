@@ -344,20 +344,15 @@ $("#btn_login").click(function () {
   }
 });
 
-// Hover articel side bar
-// Hover main article
-$(document).on("mouseover", "#menu_body .item", function () {  
+// LOG OUT SIDEBAR
+$(document).on("mouseenter", "#menu_body .item", function () {
   $("." + $(this).attr("d_et")).show();
-  
 });
-$(document).on("mouseout", "#menu_body .item", function () { 
-  $("." + $(this).attr("d_et")).hide(); 
+$(document).on("mouseleave", "#menu_body .item", function () {
+  $("." + $(this).attr("d_et")).hide();
 });
-
-// Hove sub article
 $(document).on("mouseenter", ".sub_t", function () {
   $("." + $(this).attr("d_est")).show();
-  
 });
 $(document).on("mouseleave", ".sub_t", function () {
   $("." + $(this).attr("d_est")).hide();
@@ -461,7 +456,7 @@ $(document).on("click", "#delete_thisT", function () {
     deleteTage(id);
     buldHome(true);
     buildMenu(true);
-
+    window.location.reload();
   });
 });
 
@@ -474,7 +469,7 @@ $(document).on("click", "#modale-delete-sub", function () {
     deleteArticles(id);
     buldHome(true);
     buildMenu(true);
-
+    window.location.reload();
   });
   console.log("delete-sub: ", id);
 });
@@ -495,31 +490,30 @@ $.ajax({
     console.log("B2b user :", userB2b);
   },
 });
-
 function userTable(data) {
   var table = document.getElementById("userData");
   var tableData = '';
-  data.forEach((i, ind) => {
-    tableData += `<tr class='allUser' data="${encodeURIComponent(JSON.stringify(i))}">`
-    tableData += `<td userRole='${i.id}' class='v-id'>${ind+1}</td>` // id
+  data.forEach((i) => {
+    tableData += `<tr class='allUser'>`
+    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>` // id
     tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
     tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
 
     if (i.role == 1) { // admin
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin  </a> </td>`
+      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label">Admin  </a> </td>`
     } else if (i.role == 0) { // user
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`
+      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label"> User </a> </td>`
     } else if (i.role == 2) { // viewer
-      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`
+      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label"> Viewer </a> </td>`
     }
 
     if (i.status == 1) { // status
-      tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny">  </a> Active </td>`
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label">  </a> Active </td>`
     } else if(i.status == 0) {
-      tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny"></a> Disable </td>`
+      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label"></a> Disable </td>`
     } 
 
-    tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-left: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
+    tableData += `<td style="display:flex; justify-content: center; id="all-icon"> <i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
   </tr>`;
   });
 
@@ -541,7 +535,7 @@ $(document).on("click", ".delete_user_icon", function () {
       }
     });
     $('#btn_manage-user-pop').modal('hide');
-
+    window.location.reload();
     
     //alert('delete successfully');
     //window.location.reload();
@@ -566,7 +560,7 @@ $(document).on("click", "#btn_doc_add_users", function () {
       }, 1000);
       $('#New-User').modal('hide');
       alert('Add successfully');
-
+      window.location.reload();
     } else { alert('Error')}
   });
   //buldHome();
@@ -578,18 +572,17 @@ $(document).on("click", "#btn_doc_add_users", function () {
 $(document).on("click", ".editUser_icon", function () {
   $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal('show');
 
-  var data = JSON.parse(decodeURIComponent($(this).closest("tr").attr('data')))
-
-  // var currentUSer = {
-  //   V_Name: $(this).closest("tr").find(".v-username").text(),
-  //   V_Pass: $(this).closest("tr").find(".v-password").text(),
-  //   V_Role: $(this).closest("tr").find(".v-role").text(),
-  //   V_Status: $(this).closest("tr").find(".v-status").text(),
-  // };
-  console.log("Current USer: *", data);
-  $("#vUserName").val(data.username);
-  $("#b2b_status").dropdown('set selected', data.status+'')
-  $("#b2b_role").dropdown('set selected', data.role+'')
+  var currentUSer = {
+    V_Name: $(this).closest("tr").find(".v-username").text(),
+    V_Pass: $(this).closest("tr").find(".v-password").text(),
+    V_Role: $(this).closest("tr").find(".v-role").text(),
+    V_Status: $(this).closest("tr").find(".v-status").text(),
+  };
+  console.log("Current USer: *", currentUSer);
+  $("#vUserName").val(currentUSer.V_Name);
+  $("#vUerPassword").val(currentUSer.V_Pass);
+  $("#vUserstatus").val(currentUSer.V_Status);
+  $("#vUserRole").val(currentUSer.V_Role);
 
   var id = $(this).attr("userRole");
   console.log('ID ^', id)
@@ -602,8 +595,7 @@ $(document).on("click", ".editUser_icon", function () {
       MODIFY_USERNAME: $("#vUserName").val(),
       MODIFY_USERPASS: $("#vUerPassword").val(),
       MODIFY_USERROLE: $("#b2b_role").siblings(".menu").children(".item.selected").attr("data-value"),
-      //MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
-      MODIFY_USERSTATUS: $("b2b_status").on('chan')
+      MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
 
       // MODIFY_USERSTATUS: $("#vUserstatus").val(),
       // MODIFY_USERROLE: $("#vUserRole").val(),
@@ -611,11 +603,11 @@ $(document).on("click", ".editUser_icon", function () {
       //MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
     };
     console.log('Update user data *', req)
-    //updateUser(id, req);
-    //$("#modal_update_user, #btn_manage-user-pop").modal('hide');
+    updateUser(id, req);
+    $("#modal_update_user, #btn_manage-user-pop").modal('hide');
     //buldHome(true);
-    //alert('Has been update');
-    //window.location.reload();
+    alert('Has been update');
+    window.location.reload();
     
   });
 });
@@ -624,88 +616,76 @@ $(document).on("click", ".editUser_icon", function () {
 $("#manage-department").click(function () {
   buildManageDepartment();
   $("#pop-up-management-department").modal({ closable: false }).modal("show");
-  $(document).on("click", ".btn-add-css", function () {
+  $(".add-manage-department").click(function () {
     var imd = $("#insert-manage-department").val();
     var req = {
       DEP_NAME: imd,
       DEP_STATUS: 1,
     };
-    $("#insert-manage-department").val('');
-    if(!isNull(imd)) {
-      $(".txtIs").removeClass("error");
-      $('.btn-add-css').addClass("loading")
+    if (!isNull(imd)) {
+      // $(".txtIsertD").removeClass("txtWarning");
       insertDepartment(req, function (resp) {
-        $('.btn-add-css').removeClass("loading")
         if (resp.status) {
           buildManageDepartment();
         }
       });
     } else {
-       $(".txtIs").addClass("error");
+      // $(".txtIsertD").addClass("txtWarning");
     }
     $("#insert-manage-department").val("");
     console.log("IMD:", imd);
   });
 });
 
-var dept_id1;
 // DELETE DEPARTMENT
 $(document).on("click", ".alert-depart", function () {
-  dept_id1 = $(this).parent().siblings(".dep-id").attr("dep_id");
+  var id = $(this).parent().siblings(".dep-id").attr("dep_id");
   $(".alert-delete").modal("show");
-  
-});
-
-$(document).on("click", "#delete-depart", function () {
-  console.log("delete id: ", dept_id1);
-  deleteDepartment(id, function (resp) {
-    if (resp.status) {
-      buildManageDepartment();
-    } else {
-      alert(data.message);
-    }
-  });
-});
-
-var btnUpdateID;
-// EDIT DEPARTMENT
-$(document).on("click", "#icon-update-dep", function () {
-  $(".txtIs").append(`<button class="btn-update-css ui primary button">Udpate</button>`);
-  $(".txtIs .btn-add-css").remove()
-  $(".act-u").show();
-  var dep_name = $(this).closest("tr").find(".dep-name").text();
-  btnUpdateID = $(this).closest("tr").find(".dep-id").attr("dep_id");
-  $(".txtIsertD").val(dep_name);
-
-});
-
-  // UPDATE DEPARTMENT
-  $(document).on("click", ".btn-update-css ", function () {
-    var update = $(".txtIsertD").val();
-
-    var req = {
-      DEP_ID: btnUpdateID,
-      DEP_NAME: update,
-    };
-
-    $('.btn-update-css').addClass('loading')
-    $(".txtIsertD").val('')
-    updateDepartment(req, function (resp) {
-      $(".txtIs").append(`<button class="btn-add-css ui tiny blue button" style="">Add</button>`);
-      $(".txtIs .btn-update-css").remove();
+  $(document).on("click", "#delete-depart", function () {
+    console.log("delete id: ", id);
+    deleteDepartment(id, function (resp) {
       if (resp.status) {
         buildManageDepartment();
-        buildDepartment();
-        buildeMenuCobobox();
       } else {
         alert(data.message);
       }
     });
+    window.location.reload();
   });
+});
+// EDIT DEPARTMENT
+$(document).on("click", "#icon-update-dep", function () {
+  $(".btn-update-css").show();
+  $(".btn-add-css").hide();
+  $(".act-u").show();
+  var dep_name = $(this).closest("tr").find(".dep-name").text();
+  var dep_id = $(this).closest("tr").find(".dep-id").attr("dep_id");
+  $(".txtIsertD").val(dep_name);
 
+  // UPDATE DEPARTMENT
+  $(document).on("click", ".btn-update ", function () {
+    var update = $(".txtIsertD").val();
+    console.log("id:", dep_id);
+    console.log("name:", update);
+    var req = {
+      DEP_ID: dep_id,
+      DEP_NAME: update,
+    };
+
+    updateDepartment(req, function (resp) {
+      if (resp.status) {
+        window.location.reload();
+      } else {
+        alert(data.message);
+      }
+    });
+    $(".btn-update-css").hide();
+    $(".btn-add-css").show();
+  });
+});
 
 $(document).on("click", ".act-u", function () {
   $(".act-u").hide();
-  $(".txtIs").append(`<button class="btn-add-css ui tiny blue button" style="">Add</button>`);
-  $(".txtIs .btn-update-css").remove();
+  $(".btn-add-css").show();
+  $(".btn-update-css").hide();
 });
