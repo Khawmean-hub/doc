@@ -120,9 +120,11 @@ h6 {
 .active_title {
 color: #000 !important;
 }
+
 .active_title:hover{
   color: #2185d0 !important;
-  }
+}
+
 ul {
   list-style-type: none;
   margin-block-start: 1em;
@@ -302,15 +304,22 @@ a.title {
   background-color: #4183c4;
 }
 
-
-.editUser_icon {
+.editUser_icon{
   cursor: pointer;
-  margin-right: 15px;
+  
+}
+
+i.icon.outline{
+  font-family: outline-icons;
+  margin-left: 20px;
 }
 
 
-.delete_user_icon {
+.delete_user_icon{
+  margin-right: 20%;
   cursor: pointer;
+ 
+  
 }
 
 .delete_user_icon:hover {

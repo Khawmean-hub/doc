@@ -1,6 +1,8 @@
 // BASE URL
-var baseUrl = "http://192.168.178.81:88"; // LOCAL SERVER
-//var baseUrl = "http://54.251.201.192:4545"; // HOSTING SERVER
+//var baseUrl = "http://192.168.178.81:88"; // HOSTING SERVER
+//var baseUrl = "http://54.251.201.192:4545"; // LOCAL SERVER
+var baseUrl = "http://localhost:4545"; // Testing
+
 // CALL API
 var isAlreadyAlert = false;
 function requestApi(settings, callBack) {

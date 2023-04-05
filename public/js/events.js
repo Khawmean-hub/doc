@@ -344,15 +344,20 @@ $("#btn_login").click(function () {
   }
 });
 
-// LOG OUT SIDEBAR
-$(document).on("mouseenter", "#menu_body .item", function () {
+// Hover articel side bar
+// Hover main article
+$(document).on("mouseover", "#menu_body .item", function () {  
   $("." + $(this).attr("d_et")).show();
+  
 });
-$(document).on("mouseleave", "#menu_body .item", function () {
-  $("." + $(this).attr("d_et")).hide();
+$(document).on("mouseout", "#menu_body .item", function () { 
+  $("." + $(this).attr("d_et")).hide(); 
 });
+
+// Hove sub article
 $(document).on("mouseenter", ".sub_t", function () {
   $("." + $(this).attr("d_est")).show();
+  
 });
 $(document).on("mouseleave", ".sub_t", function () {
   $("." + $(this).attr("d_est")).hide();
@@ -500,20 +505,20 @@ function userTable(data) {
     tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
 
     if (i.role == 1) { // admin
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label">Admin  </a> </td>`
+      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin  </a> </td>`
     } else if (i.role == 0) { // user
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label"> User </a> </td>`
+      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`
     } else if (i.role == 2) { // viewer
-      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label"> Viewer </a> </td>`
+      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`
     }
 
     if (i.status == 1) { // status
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label">  </a> Active </td>`
+      tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny">  </a> Active </td>`
     } else if(i.status == 0) {
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label"></a> Disable </td>`
+      tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny"></a> Disable </td>`
     } 
 
-    tableData += `<td style="display:flex; justify-content: center; id="all-icon"> <i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
+    tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
   </tr>`;
   });
 
