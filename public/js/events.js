@@ -193,6 +193,7 @@ loadSementicFunction();
 // Action management user
 $("#btn_manage-user").click(function () {
   $("#btn_manage-user-pop").modal({ closable: false }).modal("show");
+  buildUserTable();
 });
 
 // Action and new user
@@ -480,6 +481,15 @@ $(document).ready(function () {
 
 // USER
 let userB2b = [];
+// $.ajax({
+//   method: "GET",
+//   url: baseUrl + "/doc_users",
+//   success: function (response) {
+//     userB2b = response.data;
+//     userTable(userB2b);
+//     console.log("B2b user :", userB2b);
+//   },
+// });
 $.ajax({
   method: "GET",
   url: baseUrl + "/doc_users",
@@ -520,8 +530,6 @@ function userTable(data) {
   </tr>`;
   });
 
-  table.innerHTML += tableData;
-}
 
 // delete user
 $(document).on("click", ".delete_user_icon", function () {
@@ -555,73 +563,67 @@ $(document).on("click", "#btn_doc_add_users", function () {
       .children(".item.selected")
       .attr("data-value"),
   };
-  console.log("Data add user +", req);
+  console.log('Data add user +', req);
   addB2bUser(req, function (resp) {
     if (resp.status) {
       setTimeout(function () {
         buldHome();
-        $("#btn_doc_add_users").removeClass("loading");
+        $('#btn_doc_add_users').removeClass("loading");
       }, 1000);
-      $("#New-User").modal("hide");
-      alert("Add successfully");
-      window.location.reload();
-    } else {
-      alert("Error");
-    }
+      $('#New-User').modal('hide');
+      alert('Add successfully');
+
+    } else { alert('Error')}
   });
-  //buldHome();
-  //alert('user has add successfully');
-  //window.location.reload();
 });
 
 // UPDATE USER
+var updateId;
+var updatePwd;
 $(document).on("click", ".editUser_icon", function () {
   $("#modal_update_user")
     .modal({ closable: false, allowMultiple: true })
     .modal("show");
 
-  var currentUSer = {
-    V_Name: $(this).closest("tr").find(".v-username").text(),
-    V_Pass: $(this).closest("tr").find(".v-password").text(),
-    V_Role: $(this).closest("tr").find(".v-role").text(),
-    V_Status: $(this).closest("tr").find(".v-status").text(),
-  };
-  console.log("Current USer: *", currentUSer);
-  $("#vUserName").val(currentUSer.V_Name);
-  $("#vUerPassword").val(currentUSer.V_Pass);
-  $("#vUserstatus").val(currentUSer.V_Status);
-  $("#vUserRole").val(currentUSer.V_Role);
+  var data = JSON.parse(decodeURIComponent($(this).closest("tr").attr('data')))
+
+  // var currentUSer = {
+  //   V_Name: $(this).closest("tr").find(".v-username").text(),
+  //   V_Pass: $(this).closest("tr").find(".v-password").text(),
+  //   V_Role: $(this).closest("tr").find(".v-role").text(),
+  //   V_Status: $(this).closest("tr").find(".v-status").text(),
+  // };
+  console.log("Current USer: *", data);
+  $("#vUserName").val(data.username);
+  $("#b2b_status").dropdown('set selected', data.status+'')
+  $("#b2b_role").dropdown('set selected', data.role+'')
 
   var id = $(this).attr("userRole");
-  console.log("ID ^", id);
+  console.log('ID ^', id)
 
   // CLICK TO CONFIRMATION UPDATE
   $(document).on("click", "#btn_doc_update_users_icon", function () {
     //alert("Update success");
-
+    
     var req = {
       MODIFY_USERNAME: $("#vUserName").val(),
       MODIFY_USERPASS: $("#vUerPassword").val(),
-      MODIFY_USERROLE: $("#b2b_role")
-        .siblings(".menu")
-        .children(".item.selected")
-        .attr("data-value"),
-      MODIFY_USERSTATUS: $("#b2b_status")
-        .siblings(".menu")
-        .children(".item.selected")
-        .attr("data-value"),
+      MODIFY_USERROLE: $("#b2b_role").siblings(".menu").children(".item.selected").attr("data-value"),
+      //MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
+      MODIFY_USERSTATUS: $("b2b_status").on('chan')
 
       // MODIFY_USERSTATUS: $("#vUserstatus").val(),
       // MODIFY_USERROLE: $("#vUserRole").val(),
       //MODIFY_USERROLE: $('#b2b_role option:selected').val(),
       //MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
     };
-    console.log("Update user data *", req);
-    updateUser(id, req);
-    $("#modal_update_user, #btn_manage-user-pop").modal("hide");
+    console.log('Update user data *', req)
+    //updateUser(id, req);
+    //$("#modal_update_user, #btn_manage-user-pop").modal('hide');
     //buldHome(true);
-    alert("Has been update");
-    window.location.reload();
+    //alert('Has been update');
+    //window.location.reload();
+    
   });
 });
 
@@ -660,7 +662,8 @@ $(document).on("click", "#delete-depart", function () {
   console.log("delete id: ", id_delete_dep);
   deleteDepartment(id_delete_dep, function (resp) {
     if (resp.status) {
-      buildManageDepartment();
+      //buildManageDepartment();
+      buildUserTable();
     } else {
       alert(data.message);
     }

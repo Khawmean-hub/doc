@@ -271,28 +271,15 @@ function updateTag(reqTag, callBack) {
   requestApi(settings, callBack);
 }
 
-// user
-// function b2BUser(id) {
-//   var settings = {
-//     url: baseUrl + '/doc_users',
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: "Bearer " + getToken().token,
-//     },
-//     data: JSON.stringify({ID: id})
-//   };
-//   requestApi(settings)
-// };
-function b2BUser(id, callBack) {
+// User
+function userTable(callBack) {
   var settings = {
     url: baseUrl + "/doc_users",
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
-    },
-    data: JSON.stringify({ ID: id }),
+    }
   };
   requestApi(settings, callBack);
 }
@@ -370,3 +357,4 @@ function uploadFile(file, path, callBack) {
   };
   requestApi(settings, callBack);
 }
+
