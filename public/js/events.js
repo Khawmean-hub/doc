@@ -193,6 +193,7 @@ loadSementicFunction();
 // Action management user
 $("#btn_manage-user").click(function () {
   $("#btn_manage-user-pop").modal({ closable: false }).modal("show");
+  buildUserTable();
 });
 
 // Action and new user
@@ -486,45 +487,16 @@ $(document).ready(function () {
 
 // USER
 let userB2b = [];
-$.ajax({
-  method: "GET",
-  url: baseUrl + "/doc_users",
-  success: function (response) {
-    userB2b = response.data;
-    userTable(userB2b);
-    console.log("B2b user :", userB2b);
-  },
-});
+// $.ajax({
+//   method: "GET",
+//   url: baseUrl + "/doc_users",
+//   success: function (response) {
+//     userB2b = response.data;
+//     userTable(userB2b);
+//     console.log("B2b user :", userB2b);
+//   },
+// });
 
-function userTable(data) {
-  var table = document.getElementById("userData");
-  var tableData = '';
-  data.forEach((i, ind) => {
-    tableData += `<tr class='allUser' data="${encodeURIComponent(JSON.stringify(i))}">`
-    tableData += `<td userRole='${i.id}' class='v-id'>${ind+1}</td>` // id
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
-    tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
-
-    if (i.role == 1) { // admin
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin  </a> </td>`
-    } else if (i.role == 0) { // user
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`
-    } else if (i.role == 2) { // viewer
-      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`
-    }
-
-    if (i.status == 1) { // status
-      tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny">  </a> Active </td>`
-    } else if(i.status == 0) {
-      tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny"></a> Disable </td>`
-    } 
-
-    tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-left: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
-  </tr>`;
-  });
-
-  table.innerHTML += tableData;
-}
 
 // delete user
 $(document).on("click", ".delete_user_icon", function () {
@@ -557,67 +529,60 @@ $(document).on("click", "#btn_doc_add_users", function () {
     USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value")
     
   };
-  console.log('Data add user +', req);
   addB2bUser(req, function (resp) {
     if (resp.status) {
       setTimeout(function () {
-        buldHome();
+        // buldHome();
         $('#btn_doc_add_users').removeClass("loading");
       }, 1000);
       $('#New-User').modal('hide');
+      buildUserTable();
       alert('Add successfully');
 
     } else { alert('Error')}
   });
-  //buldHome();
-  //alert('user has add successfully');
-  //window.location.reload();
 });
 
 // UPDATE USER
+var updateId;
+var updatePwd;
 $(document).on("click", ".editUser_icon", function () {
   $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal('show');
 
-  var data = JSON.parse(decodeURIComponent($(this).closest("tr").attr('data')))
-
-  // var currentUSer = {
-  //   V_Name: $(this).closest("tr").find(".v-username").text(),
-  //   V_Pass: $(this).closest("tr").find(".v-password").text(),
-  //   V_Role: $(this).closest("tr").find(".v-role").text(),
-  //   V_Status: $(this).closest("tr").find(".v-status").text(),
-  // };
-  console.log("Current USer: *", data);
-  $("#vUserName").val(data.username);
-  $("#b2b_status").dropdown('set selected', data.status+'')
-  $("#b2b_role").dropdown('set selected', data.role+'')
-
+  var data = JSON.parse(decodeURIComponent($(this).closest("tr").attr('data')));
+  updateId = data.id;
+  updatePwd = data.password
   var id = $(this).attr("userRole");
-  console.log('ID ^', id)
+  console.log('ID ^', id);
 
-  // CLICK TO CONFIRMATION UPDATE
-  $(document).on("click", "#btn_doc_update_users_icon", function () {
-    //alert("Update success");
-    
-    var req = {
-      MODIFY_USERNAME: $("#vUserName").val(),
-      MODIFY_USERPASS: $("#vUerPassword").val(),
-      MODIFY_USERROLE: $("#b2b_role").siblings(".menu").children(".item.selected").attr("data-value"),
-      //MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
-      MODIFY_USERSTATUS: $("b2b_status").on('chan')
+  var get_current_user = {
+    V_Name: $("#vUserName").val(data.username),
+    V_Role: $("#b2b_role").dropdown('set selected', data.role),
+    V_Status: $("#b2b_status").dropdown('set selected', data.status)
+  }
+  console.log('Get curent user data', get_current_user)
 
-      // MODIFY_USERSTATUS: $("#vUserstatus").val(),
-      // MODIFY_USERROLE: $("#vUserRole").val(),
-      //MODIFY_USERROLE: $('#b2b_role option:selected').val(),
-      //MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
-    };
-    console.log('Update user data *', req)
-    //updateUser(id, req);
-    //$("#modal_update_user, #btn_manage-user-pop").modal('hide');
-    //buldHome(true);
-    //alert('Has been update');
-    //window.location.reload();
-    
-  });
+  
+});
+
+// Click to confirmation update user
+$(document).on("click", "#btn_doc_update_users_icon", function () {
+  //var id = $(this).attr("userRole");
+  //console.log('User id', id)
+  updateId
+  var req = {
+    // id : updateId,
+    MODIFY_USERNAME: $("#vUserName").val(),
+    MODIFY_USERPASS: updatePwd,
+    MODIFY_USERROLE: $("#b2b_role").dropdown('get value'),
+    MODIFY_USERSTATUS: $("#b2b_status").dropdown('get value')
+  };
+  console.log('Update user data *', req)
+  updateUser(updateId, req);
+  $("#modal_update_user").modal('hide');
+  buildUserTable();
+  
+  
 });
 
 // INSERT-DEPARTMENT
@@ -660,7 +625,8 @@ $(document).on("click", "#delete-depart", function () {
   console.log("delete id: ", dept_id1);
   deleteDepartment(id, function (resp) {
     if (resp.status) {
-      buildManageDepartment();
+      //buildManageDepartment();
+      buildUserTable();
     } else {
       alert(data.message);
     }

@@ -94,7 +94,7 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     if (id.includes("departmentListId3")) {
       $("#departmentListId3").dropdown("setting", "onChange", onChangeDepartment);
     }
-   
+
     $(id).removeClass("loading");
     //$(id).dropdown();
   });
@@ -105,18 +105,18 @@ function buildManageDepartment() {
   $(".listBody").empty().append(htmlLoad);
   getDepartment(function (resp) {
     var list = "";
-    var fakeId= 0
+    var fakeId = 0
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         list += `<tr>
-                 <td>${fakeId+=1}</td>
+                 <td>${fakeId += 1}</td>
                  <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
                  <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
                  <td style="text-align: right"><a href="#" style ="margin-right: 8px !important;"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
                  </a><a href="#" class="alert-depart"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
       });
-     
+
     }
     $(".listBody").empty().append(list);
   });
@@ -256,7 +256,7 @@ function buildeMenuCobobox(id = "#menu_com") {
     });
     $(id).removeClass("loading");
   });
-  
+
 }
 function deleteDocument(id) {
   buildMenu();
@@ -269,7 +269,7 @@ function randomNotFound() {
 // Build Acticlev
 function buildActicle(id) {
   loader();
-  
+
   getActicle(id, function (resp) {
     if (resp.data.content_body === undefined) {
       $("#content_body").empty().append(resp.data.content_body);
@@ -278,7 +278,7 @@ function buildActicle(id) {
       $("#content_body").empty().append(resp.data.content_body);
     }
   });
-  
+
 };
 
 // Get acticle for update
@@ -349,14 +349,14 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
     });
     saveList = [...recentList, ...newLs];
   }
-  
+
   window.localStorage.setItem("act_recent", JSON.stringify(saveList));
 
 }
 // BUILD SIDE BAR MENU
 function buildMenu(isFalse, dept_id) {
   var depID = isNull(dept_id) ? $('#departmentListId').dropdown('get value') : dept_id;
-  getMenu( depID , function (resp) {
+  getMenu(depID, function (resp) {
     if (resp.status) {
       var html = "";
 
@@ -422,15 +422,15 @@ function buildMenu(isFalse, dept_id) {
         html += `</ul> </div></div>`;
       });
     }
-    
+
     if (isNull(html)) {
       // CHECK IT NULL
       $("#menu_body").empty().append('<p style="text-align:center; margin-top: 20px">No data</p>');
     } else
       $("#menu_body").empty().append(html);
-      
+
   });
-  
+
 }
 
 
@@ -454,4 +454,38 @@ function getTag(isFalse) {
       html += `</ul></div></div>`;
     }
   });
+}
+
+
+
+function buildUserTable() {
+  userTable(function (data) {
+    var tableData = '';
+    data.data.forEach((i, ind) => {
+      tableData += `<tr class='allUser' data="${encodeURIComponent(JSON.stringify(i))}">`
+      tableData += `<td userRole='${i.id}' class='v-id'>${ind + 1}</td>` // id
+      tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
+      tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
+
+      if (i.role == 1) { // admin
+        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin  </a> </td>`
+      } else if (i.role == 0) { // user
+        tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`
+      } else if (i.role == 2) { // viewer
+        tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`
+      }
+
+      if (i.status == 1) { // status
+        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`
+      } else if (i.status == 0) {
+        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`
+      }
+
+      tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
+    </tr>`;
+    });
+
+    $("#userData").empty().append(tableData);
+
+  })
 }
