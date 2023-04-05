@@ -16,7 +16,6 @@ h5,
 h6,
 div {
   font-family: "Google Sans","Roboto",sans-serif !important;
-
 }
 
 h1,
@@ -334,21 +333,11 @@ i.icon.outline{
   color: #000;
 }
 
-.x {
-  cursor: pointer;
+.txtIs{
+  width: 100% !important;
 }
-.txtIsertD{
-  padding: 5px 5px !important;
-  width: 70% !important;
-}
- .txtIsertD[type="text"] {
-    font-size: smaller !important;
-}
-.btn-add-css{
-  padding: 9px 19px !important;
-  margin-left: 5px !important;
- 
-}
+
+
 .btn-success{
   background-color: #21ba45 !important;
 }
@@ -368,8 +357,6 @@ border: 2px salmon solid !important;
 
 .btn-update-css{
   background-color: #21ba45 !important;
-  padding: 9px 19px !important;
-  margin-left: 5px !important;
 }
 
 .act-u{
