@@ -461,9 +461,9 @@ function getTag(isFalse) {
 function buildUserTable() {
   userTable(function (data) {
     var tableData = '';
-    data.data.forEach((i, ind) => {
+    data.data.forEach((i, index) => {
       tableData += `<tr class='allUser' data="${encodeURIComponent(JSON.stringify(i))}">`
-      tableData += `<td userRole='${i.id}' class='v-id'>${ind + 1}</td>` // id
+      tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>` // id
       tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
       tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
 

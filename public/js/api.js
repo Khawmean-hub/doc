@@ -1,7 +1,7 @@
 // BASE URL
 //var baseUrl = "http://192.168.178.81:88"; // HOSTING SERVER
-//var baseUrl = "http://54.251.201.192:4545"; // LOCAL SERVER
-var baseUrl = "http://localhost:4545"; // Testing
+//var baseUrl = "http://54.251.201.192:4545"; // LOCAL SERVER 
+var baseUrl = "http://localhost:4545"; // Testing local server
 
 // CALL API
 var isAlreadyAlert = false;
@@ -312,7 +312,7 @@ function addB2bUser(req, callBack) {
 }
 
 // update user
-function updateUser(id, req) {
+function updateUser(id, req,callBack) {
   var settings = {
     url: baseUrl + "/update_users/" + id,
     method: "POST",
@@ -323,7 +323,7 @@ function updateUser(id, req) {
     data: req,
   };
   //console.log(settings)
-  requestApi(settings, () => { });
+  requestApi(settings, callBack);
 }
 
 // Upload file
