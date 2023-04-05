@@ -19,8 +19,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
   <!-- link Google Font  -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200&display=swap" rel="stylesheet">
   <!-- link Google Font  -->
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -90,7 +90,7 @@
         <!-- <button class=" blue ui black basic tiny positive" id="Create-New-User">Add new</button> -->
         <div class="ui cancel tiny button">Cancel</div>
         <div class="ui blue button tiny" id="Create-New-User">Add new</div>
-         
+
       </div>
     </div>
     <!-- end modal table add new -->
@@ -141,7 +141,7 @@
       <div class="actions">
         <button class="ui tiny cancel button">Cancel</button>
         <button class="ui blue tiny button" type="submit" id="btn_doc_add_users">Add</button>
-        
+
       </div>
     </div>
     <!-- // modal for add new user -->
@@ -154,26 +154,49 @@
             <label>UserName</label>
             <input type="text" name="name" placeholder="UserName" id="vUserName">
           </div>
-          <div class="field">
+          <!-- <div class="field">
             <label>Password</label>
             <input type="text" name="password" placeholder="Password" id="vUerPassword">
-          </div>
+          </div> -->
           <div class="field">
             <label>Role</label>
             <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
-            <select class="ui search dropdown" id="b2b_role">
-              <option value="1">admin</option>
-              <option value="0">user</option>
-              <option value="2">viewer</option>
-            </select>
+            <div class="ui fluid selection dropdown" id="b2b_role">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select</div>
+              <div class="menu">
+                <div class="item" data-value="1">
+                 Admin
+                </div>
+                <div class="item" data-value="0">
+                  User
+                </div>
+                <div class="item" data-value="2">
+                  Viewer
+                </div>
+              </div>
+            </div>
           </div>
           <div class="field">
             <label>Status</label>
             <!-- <input type="text" name="Status" placeholder="status" id="vUserstatus"> -->
-            <select class="ui search dropdown" id="b2b_status">
-              <option value="1">active</option>
+            <!-- <select class="ui search dropdown" id="b2b_status">
+              <option value="1">Active</option>
               <option value="0">disable</option>
-            </select>
+            </select> -->
+            <div class="ui fluid selection dropdown" id="b2b_status">
+              <i class="dropdown icon"></i>
+              <div class="default text">Select</div>
+              <div class="menu">
+                <div class="item" data-value="1">
+                  <a class="ui blue empty circular label"></a>Active
+                </div>
+                <div class="item" data-value="0">
+                  <a class="ui red empty circular label"></a>
+                  Disable
+                </div>
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -306,7 +329,7 @@
           </div>
           <div class="field">
             <label style="margin-right: 20px !important">Main Title</label>
-            <button  class=" ui icon button btn circular" type="button" id="btnAdd" >
+            <button class=" ui icon button btn circular" type="button" id="btnAdd">
               <i class="plus icon"></i>
             </button>
             <div class="ui selection dropdown loading ui action input" id="menu_com">
@@ -499,20 +522,21 @@
   </div>
 
   <!-- tage edit  -->
-  <div class="  tage_editT ui modal coupled"  style="line-height: 2;">
+  <div class="  tage_editT ui modal coupled" style="line-height: 2;">
     <form class="ui form form-edit">
-      <h4 class="ui header dividing " style="font-size: 16px;padding: 16px;background: #f9fafb;height: 56px;"> Edit Department 
-    </h4>
+      <h4 class="ui header dividing " style="font-size: 16px;padding: 16px;background: #f9fafb;height: 56px;"> Edit
+        Department
+      </h4>
       <div class="lab" style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px;">
         <label>Department </label>
       </div>
-      <div class="ui selection dropdown loading"  id="departmentListId3" style="width: 94%;margin-left: 14px;">
+      <div class="ui selection dropdown loading" id="departmentListId3" style="width: 94%;margin-left: 14px;">
         <div class="text"></div>
         <i class="dropdown icon"></i>
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>New Title</label>
-      <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
+        <input type="text" placeholder="New Title ..." id="labelTitle" class="v-title">
       </div>
     </form>
     <br>
@@ -529,8 +553,8 @@
         style="font-weight: bold;font-size: .92857143em;width: 94%;margin-left: 14px; margin-bottom: 5px;">
         <label>Department</label>
       </div> -->
-      <!-- Department -->
-      <!-- <div class="ui selection dropdown loading" id="departmentListId3" style="width: 94%;margin-left: 14px;">
+  <!-- Department -->
+  <!-- <div class="ui selection dropdown loading" id="departmentListId3" style="width: 94%;margin-left: 14px;">
         <div class="text"></div>
         <i class="dropdown icon"></i>
       </div>
@@ -544,26 +568,26 @@
       <button class="ui tiny approve  button btn-up-tag" id="update-departmentList"> update</button>
     </div>
   </div> -->
-     <!-- alert edit department  -->
-     <div class=" modal-alert-edit-department ui modal">
-      <div class="header ">
-        <h4>Confirmation!</h4>
-      </div>
-  
-      <div class="content dt_et">
-        <div>
-          <i class="check icon "></i>
-        </div>
-        <div>
-          <h4> Are you sure?</h4>
-        </div>
-  
-      </div>
-      <div class="actions da_et">
-        <div class="ui cancel tiny button">No</div>
-        <div class="ui blue tiny approve button btn-up-tag" >Yes</div>
-      </div>
+  <!-- alert edit department  -->
+  <div class=" modal-alert-edit-department ui modal">
+    <div class="header ">
+      <h4>Confirmation!</h4>
     </div>
+
+    <div class="content dt_et">
+      <div>
+        <i class="check icon "></i>
+      </div>
+      <div>
+        <h4> Are you sure?</h4>
+      </div>
+
+    </div>
+    <div class="actions da_et">
+      <div class="ui cancel tiny button">No</div>
+      <div class="ui blue tiny approve button btn-up-tag">Yes</div>
+    </div>
+  </div>
   <!-- alert delete tage  -->
   <div class=" delete_tage ui modal">
     <div class="header">
@@ -585,8 +609,8 @@
     </div>
   </div>
 
-   <!-- delete department  -->
- <div class="alert-delete ui modal">
+  <!-- delete department  -->
+  <div class="alert-delete ui modal">
     <div class="header">
       <h4>Confirmation!</h4>
     </div>
@@ -674,26 +698,23 @@
   <!-- MODAL MANAGEMENT DEPARTMENT  -->
   <div class="ui modal " id="pop-up-management-department">
     <div class="header " style="display: flex; align-items: center;">
-         Department
- 
+      Department
+
     </div>
     <div class="content">
-    <div class="ui action input txtIs">
-      <input  class="txtIsertD" type="text" placeholder="Title ..." id="insert-manage-department">
-      <button class="btn-add-css  add-manage-department ui tiny blue button">
-        Add
-      </button>
-      <button style="display: none;" class=" btn-update-css btn-update ui primary button">
-        Udpate
-      </button>
-    </div>
+      <div class="ui action input txtIs">
+        <input class="txtIsertD" type="text" placeholder="Title ..." id="insert-manage-department">
+        <button class="btn-add-css ui tiny blue button">
+          Add
+        </button>
+      </div>
 
       <table class="ui table">
         <thead>
           <tr>
-            <th >No</th>
+            <th>No</th>
             <th>Title</th>
-            <th></th>
+            <th style="width: 105px; text-align: right"></th>
           </tr>
         </thead>
         <tbody class="listBody ">

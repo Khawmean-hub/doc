@@ -101,6 +101,8 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
 }
 
 function buildManageDepartment() {
+  var htmlLoad = `<tr><td colspan="3" style="height: 206px;"><div class="ui active centered inline loader my-loader"></div></td></tr>`
+  $(".listBody").empty().append(htmlLoad);
   getDepartment(function (resp) {
     var list = "";
     var fakeId= 0
@@ -110,7 +112,7 @@ function buildManageDepartment() {
                  <td>${fakeId+=1}</td>
                  <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
                  <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
-                 <td style="display:flex; justify-content: center;"><a href="#" style =" margin-right: 8px !important;"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
+                 <td style="text-align: right"><a href="#" style ="margin-right: 8px !important;"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
                  </a><a href="#" class="alert-depart"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
       });

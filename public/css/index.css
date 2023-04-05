@@ -308,10 +308,10 @@ a.title {
   
 }
 
-i.icon.outline{
+/* i.icon.outline{
   font-family: outline-icons;
   margin-left: 20px;
-}
+} */
 
 
 .delete_user_icon{
@@ -366,4 +366,11 @@ border: 2px salmon solid !important;
 
 #btn_manage-user{
   margin-right: 45%;
+}
+
+.my-loader:before {
+  border-color: rgb(214 214 214 / 15%) !important;
+} 
+.my-loader:after {
+  border-color: #e2e2e2 transparent transparent !important;
 }
