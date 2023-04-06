@@ -1,4 +1,5 @@
-$(".page-login").hide();
+// $(".page-login").hide();
+// $(".my_body").hide();
 $(document).on('click', '.active_title ', function () {
   $(this).addClass('active_link');
   $('.active_title').not(this).removeClass('active_link');
@@ -619,6 +620,7 @@ $(document).on("click", "#delete-depart", function () {
 var btnUpdateID;
 // EDIT DEPARTMENT
 $(document).on("click", "#icon-update-dep", function () {
+  $(".txtIs .btn-update-css").remove()
   $(".txtIs").append(`<button class="btn-update-css ui primary button">Udpate</button>`);
   $(".txtIs .btn-add-css").remove()
   $(".act-u").show();
