@@ -597,17 +597,17 @@ $("#manage-department").click(function () {
   });
 });
 
-var dept_id1;
+var del_idd
 // DELETE DEPARTMENT
 $(document).on("click", ".alert-depart", function () {
-  dept_id1 = $(this).parent().siblings(".dep-id").attr("dep_id");
+  del_idd = $(this).parent().siblings(".dep-id").attr("dep_id");
   $(".alert-delete").modal({ closable: false, allowMultiple: true }).modal('show');
 
 });
 
 $(document).on("click", "#delete-depart", function () {
-  console.log("delete id: ", dept_id1);
-  deleteDepartment(dept_id1, function (resp) {
+  console.log("delete id: ", del_idd);
+  deleteDepartment(dept_idd, function (resp) {
     if (resp.status) {
       //buildManageDepartment();
       buildUserTable();
