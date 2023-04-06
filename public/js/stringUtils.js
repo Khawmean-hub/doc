@@ -5,3 +5,9 @@ function isNull(str) {
         return false
 }
 
+
+function hidelightCode() {
+    document.querySelectorAll('pre code').forEach((el) => {
+        hljs.highlightElement(el);
+    });
+}
