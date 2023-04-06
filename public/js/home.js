@@ -1,5 +1,5 @@
 function buildLogin() {
-  $('#loginForm').show()
+  $('#loginForm').show();
   $(".page-login").show();
   $(".my_body").hide();
 }
@@ -22,6 +22,7 @@ function buldHome() {
     $('.btn_logout').show();
     $('.btn_login').hide();
     $('#Create-New-User').hide();
+    $('#manage-department').hide();
 
     // hide button add contents or department
   } else if (getToken().role == 1) { // admin
@@ -264,7 +265,7 @@ function deleteDocument(id) {
 }
 
 function randomNotFound() {
-  $('#content_body').append('<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium circular image" src="image/not_found.png" alt="not found "></div> </div>');
+  $('#content_body').append('<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/not_found.png" alt="not found "></div> </div>');
 }
 
 // Build Acticlev
@@ -277,6 +278,7 @@ function buildActicle(id) {
       randomNotFound();
     } else {
       $("#content_body").empty().append(resp.data.content_body);
+      hidelightCode();
     }
   });
 

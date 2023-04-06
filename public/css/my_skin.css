@@ -4,3 +4,13 @@
     padding: 1px 5px !important;
     border-radius: 5px !important;
 }
+
+p code {
+    background-color: #efefef;
+    border-radius: 3px;
+    padding: 2px 11px;  
+}
+
+.hljs {
+    border-radius: 5px;
+}

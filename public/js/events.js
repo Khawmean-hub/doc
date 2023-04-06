@@ -365,36 +365,75 @@ $(document).on("mouseleave", ".sub_t", function () {
   $("." + $(this).attr("d_est")).hide();
 });
 
-// MODAL UPDATE TAGE EX: Gradle
+//MODAL UPDATE TAGE EX: Gradle
+
+// $(document).on("click", ".edit_tag", function () {
+//   $(".tage_editT").modal("show");
+//   var dept_id = $("#departmentListId").dropdown("get value");
+//   buildDepartment("#departmentListId3", dept_id);
+//   var vTitle = $(this).attr("v.title"); 
+//   var vDepid = $(this).attr("v.dep_id"); 
+//   var vUserid = getToken().id + "";
+//   var vId = $(this).attr("v.id");
+//   $(".v-title").val(vTitle);
+
+//   $(document).on("click", ".alert-edit-department", function () {
+//     $(".modal-alert-edit-department").modal("show");
+//     $(document).on("click", ".btn-up-tag", function () {
+//       var reqTag = {
+//         DEP_ID: vDepid,
+//         ID: vId,
+//         USER_ID: vUserid,
+//         TITLE: $(".v-title").val(),
+//       };
+//       updateTag(reqTag, function () {
+//         if (reqTag.status) {
+//           buildMenu()
+//         }
+//       });
+//       buildMenu(true);
+
+//     });
+//   });
+
+// });
+
+
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
   var dept_id = $("#departmentListId").dropdown("get value");
   buildDepartment("#departmentListId3", dept_id);
-  var vTitle = $(this).attr("v.title"); // Throw in new title
-  var vDepid = $(this).attr("v.dep_id"); // Department ID
+  var vTitle = $(this).attr("v.title");
+  var vDepid = $(this).attr("v.dep_id");
   var vUserid = getToken().id + "";
   var vId = $(this).attr("v.id");
   $(".v-title").val(vTitle);
-  $(document).on("click", ".alert-edit-department", function () {
-    $(".modal-alert-edit-department").modal("show");
-    $(document).on("click", ".btn-up-tag", function () {
-      var reqTag = {
-        DEP_ID: vDepid,
-        ID: vId,
-        USER_ID: vUserid,
-        TITLE: $(".v-title").val(),
-      };
-      updateTag(reqTag, function () {
-        if (reqTag.status) {
-          buildMenu()
-        }
-      });
-      buildMenu(true);
 
+  $(document).on("click", "#update-departmentList", function () {
+    $('#update-departmentList').addClass("loading");
+    var reqTag = {
+      DEP_ID: vDepid,
+      ID: vId,
+      USER_ID: vUserid,
+      TITLE: $(".v-title").val(),
+    };
+    updateTag(reqTag, function () {
+      if (reqTag.status) {
+        buildMenu();
+      }
     });
+    buildMenu(true);
+    setTimeout(function () {
+      $('#update-departmentList').removeClass("loading");
+      $(".tage_editT").modal("hide");
+    }, 1000);
+    
+    
+    
   });
 
 });
+
 
 // Update article has have
 $(document).on("click", "#modal-edit-sub-article", function () {
