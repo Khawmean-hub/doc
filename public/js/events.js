@@ -234,6 +234,7 @@ $(".btn_logout").click(function () {
     window.localStorage.removeItem("b2b_user");
     $(".page-login").show();
     $(".my_body").hide();
+    $('#loginForm').show();
   });
   // window.localStorage.removeItem("b2b_user");
   // $(".page-login").show();
