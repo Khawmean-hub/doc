@@ -600,13 +600,13 @@ var dept_id1;
 // DELETE DEPARTMENT
 $(document).on("click", ".alert-depart", function () {
   dept_id1 = $(this).parent().siblings(".dep-id").attr("dep_id");
-  $(".alert-delete").modal("show");
+  $(".alert-delete").modal({ closable: false, allowMultiple: true }).modal('show');
 
 });
 
 $(document).on("click", "#delete-depart", function () {
   console.log("delete id: ", dept_id1);
-  deleteDepartment(id, function (resp) {
+  deleteDepartment(dept_id1, function (resp) {
     if (resp.status) {
       //buildManageDepartment();
       buildUserTable();
