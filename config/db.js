@@ -6,8 +6,8 @@ const pgp = require('pg-promise')(/* options */)
 // const db = pgp('postgresql://ioatdkop:Jwxkjpj0unTI5BZ7cEvZromZTjNPrF3O@arjuna.db.elephantsql.com:5432/ioatdkop')
 
 
-const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_dev');
-// const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');      // HOST DB
+const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_dev'); // Server DB
+// const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');      // Host DB
 
 db.one('SELECT $1 AS value', 123)
   .then((data) => {
