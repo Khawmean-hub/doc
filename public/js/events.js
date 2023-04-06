@@ -487,15 +487,6 @@ $(document).ready(function () {
 
 // USER
 let userB2b = [];
-// $.ajax({
-//   method: "GET",
-//   url: baseUrl + "/doc_users",
-//   success: function (response) {
-//     userB2b = response.data;
-//     userTable(userB2b);
-//     console.log("B2b user :", userB2b);
-//   },
-// });
 
 
 // delete user
@@ -507,16 +498,9 @@ $(document).on("click", ".delete_user_icon", function () {
     delete_User(id, function () {
       if (id.status) {
         buldHome(true);
-
-
-
       }
     });
     $('#btn_manage-user-pop').modal('hide');
-
-
-    //alert('delete successfully');
-    //window.location.reload();
   })
 });
 
