@@ -97,7 +97,7 @@ $(document).on("click", "#editor_save", function () {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
         TAG_ID: $("#menu_com").dropdown("get value"), // DROPDOW MENU
-        USER_ID: 4,
+        USER_ID: getToken().id,
         CONTENT_BODY: myContent,
         TITLE: $("#sub_title_val").val(),
         FILE_ARTICLE_ID: Date.now(),
@@ -429,7 +429,6 @@ $(document).on("click", ".edit_tag", function () {
     }, 1000);
     
     
-    
   });
 
 });
@@ -638,9 +637,10 @@ $("#manage-department").click(function () {
 
 var dept_id1;
 // DELETE DEPARTMENT
-$(document).on("click", ".alert-depart", function () {
-  dept_id1 = $(this).parent().siblings(".dep-id").attr("dep_id");
-  $(".alert-delete").modal({ closable: false, allowMultiple: true }).modal('show');
+$(document).on("click", ".icon-dltDpt", function () {
+  alert('Work')
+  //dept_id1 = $(this).parent().siblings(".dep-id").attr("dep_id");
+  //$(".alert-delete").modal({ closable: false, allowMultiple: true }).modal('show');
 
 });
 

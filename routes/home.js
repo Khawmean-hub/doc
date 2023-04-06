@@ -115,7 +115,7 @@ homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   var acticle = await db.any(
     `SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body,   
-    a.modified_date , a.status,b.username,a.user_id,  
+    a.modified_date , a.create_date,  a.status,b.username,a.user_id,  
     f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path
     FROM doc_articles a 
     inner join doc_users b on a.user_id = b.id 
@@ -737,16 +737,11 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 
 // Route insert article
 homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
-  console.log(req.body);
-  console.log(`
-    INSERT INTO doc_articles
-    (tag_id, title, content_body, create_date, modified_date, user_id, file_article_id, dep_id, status)
-    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
-    `);
+
   var data = await db.any(`
     INSERT INTO doc_articles
-    (tag_id, title, content_body, create_date, modified_date, user_id, file_article_id, dep_id, status)
-    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
+    (tag_id, title, content_body, create_date, user_id, file_article_id, dep_id, status)
+    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
     `);
 
   if (data == null) {
