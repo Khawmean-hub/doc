@@ -1,4 +1,5 @@
 function buildLogin() {
+  $('#loginForm').show()
   $(".page-login").show();
   $(".my_body").hide();
 }
