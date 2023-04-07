@@ -477,7 +477,11 @@ $(document).on("click", "#modal-edit-sub-article", function () {
       DEP_ID: dept_id,
       ID: acticle_id,
     };
-    updateArticles(reqAr);
+    updateArticles(reqAr, function(resp) {
+      if (resp.status) {
+        buldHome(true);
+      }
+    });
     buldHome(true);
     //window.location.reload();
   });
