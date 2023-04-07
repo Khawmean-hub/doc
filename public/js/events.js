@@ -121,10 +121,6 @@ $(document).on("click", "#editor_save", function () {
   }
   $;
 
-  // $('#departmentListId2 .item').click(function () {
-  //   buildMenu()
-
-  // })
 });
 
 // ADD NEW TITEL TO DEPARTMENT
@@ -228,7 +224,7 @@ $(document).on("click", ".menu_btn", function () {
 
 // Logout
 $(".btn_logout").click(function () {
-  $("#Logout-modal").modal("show");
+  $("#Logout-modal").modal({ allowMultiple: true, closable: false, }).modal('show');
   // $('.sign').transition('slide right');
   $("#Logout-comfim").click(function () {
     window.localStorage.removeItem("b2b_user");
@@ -236,9 +232,7 @@ $(".btn_logout").click(function () {
     $(".my_body").hide();
     $('#loginForm').show();
   });
-  // window.localStorage.removeItem("b2b_user");
-  // $(".page-login").show();
-  // $(".my_body").hide();
+
 });
 
 //  Add
@@ -250,11 +244,7 @@ $(document).on("click", ".btn-checkbox", function () {
   $(this).toggle();
 });
 
-// Cancel update article button
-$(document).on("click", "#btn-cancel-update-article", function () {
-  // buldHome();
-  // location.href = "index.html";
-});
+
 
 $(document).on("click", ".btn_login", function () {
   $(".page-login").show();
@@ -428,8 +418,8 @@ $(document).on("click", ".edit_tag", function () {
       $('#update-departmentList').removeClass("loading");
       $(".tage_editT").modal("hide");
     }, 1000);
-    
-    
+
+
   });
 
 });
@@ -581,6 +571,7 @@ $(document).on("click", ".editUser_icon", function () {
 
   var get_current_user = {
     V_Name: $("#vUserName").val(data.username),
+    V_Pass: $('#vUerPassword').val(data.password),
     V_Role: $("#b2b_role").dropdown('set selected', data.role),
     V_Status: $("#b2b_status").dropdown('set selected', data.status)
   }
@@ -591,13 +582,13 @@ $(document).on("click", ".editUser_icon", function () {
 
 // Click to confirmation update user
 $(document).on("click", "#btn_doc_update_users_icon", function () {
-  //var id = $(this).attr("userRole");
-  //console.log('User id', id)
-  updateId
+
+  //updateId    // staic 
   var req = {
     // id : updateId,
     MODIFY_USERNAME: $("#vUserName").val(),
-    MODIFY_USERPASS: updatePwd,
+    //MODIFY_USERPASS: updatePwd,
+    MODIFY_USERPASS: $('#vUerPassword').val(),
     MODIFY_USERROLE: $("#b2b_role").dropdown('get value'),
     MODIFY_USERSTATUS: $("#b2b_status").dropdown('get value')
   };
@@ -626,6 +617,7 @@ $("#manage-department").click(function () {
         $('.btn-add-css').removeClass("loading")
         if (resp.status) {
           buildManageDepartment();
+          buildDepartment();
         }
       });
     } else {
@@ -636,12 +628,12 @@ $("#manage-department").click(function () {
   });
 });
 
-var dep_idd 
+var dep_idd
 // DELETE DEPARTMENT
 $(document).on("click", ".alert-depart", function () {
- dep_idd = $(this).parent().siblings(".dep-id").attr("dep_id");
+  dep_idd = $(this).parent().siblings(".dep-id").attr("dep_id");
   $(".alert-delete").modal({ closable: false, allowMultiple: true }).modal('show');
- 
+
 });
 $(document).on("click", "#delete-depart", function () {
   console.log("delete id: ", dep_idd);
