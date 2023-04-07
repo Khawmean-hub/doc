@@ -855,7 +855,7 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
 // user
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
-    `SELECT id, username, "password", status, "role" FROM doc_users;`
+    `SELECT id, username, "password", status, "role", image FROM doc_users;`
   );
   if (userImformation == null) {
     return res.send(new BaseRes(false, "ERROR", null));
