@@ -393,7 +393,7 @@ $(document).on("mouseleave", ".sub_t", function () {
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
   var dept_id = $("#departmentListId").dropdown("get value");
-  buildDepartment("#departmentListId3", dept_id);
+  buildDepartment("#departmentListId3", dept_id); // Call department
   var vTitle = $(this).attr("v.title");
   var vDepid = $(this).attr("v.dep_id");
   var vUserid = getToken().id + "";
@@ -417,7 +417,7 @@ $(document).on("click", ".edit_tag", function () {
     setTimeout(function () {
       $('#update-departmentList').removeClass("loading");
       $(".tage_editT").modal("hide");
-    }, 1000);
+    }, 1500);
 
 
   });
@@ -489,16 +489,32 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 
 // DELETE MAIN ARTICLE
 $(document).on("click", "#delete_thisT", function () {
-  // $(".delete_tage").modal("show");
+  
   $(".delete_tage").modal({ closable: false }).modal("show");
   var id = $(this).attr("da-de");
   $(document).on("click", ".btn_delete_tage ", function () {
-    deleteTage(id);
-    buldHome(true);
-    buildMenu(true);
+    $(this).addClass('loading');
+    deleteTage(id, function(resp_delete) {
+      if (resp_delete.status) {
+        setTimeout(function () {
 
+        }, 1500);
+        $('.btn_delete_tage').removeClass('loading');
+        buldHome(true);
+        buildMenu(true);
+
+      }
+      else {
+        alert('Error');
+      }
+    });
+    
+  
   });
+  
+  
 });
+
 
 // DELETE SUB ARTICLE
 $(document).on("click", "#modale-delete-sub", function () {
