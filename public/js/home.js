@@ -279,11 +279,11 @@ function buildActicle(id) {
     } else {
       var html='';
       if(!isNull(resp.data.modified_date)){
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(resp.data.modified_date).format('DD MMM YYYY')}</span>`
+        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span >Modify : ${moment(resp.data.modified_date).format('DD MMM YYYY')}</span>`
       }else{
         html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format('DD MMM YYYY')}</span>`
       }
-      html +=`<span> by ${resp.data.username}</span> </div>`;
+      html +=`<span class="dt_modi" dt-modify="${resp.data.username}" > by ${resp.data.username}</span> </div>`
       html +=resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();

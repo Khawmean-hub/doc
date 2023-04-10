@@ -699,3 +699,4 @@ $(document).on("click", ".act-u", function () {
   );
   $(".txtIs .btn-update-css").remove();
 });
+
