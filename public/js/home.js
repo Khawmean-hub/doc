@@ -14,6 +14,7 @@ function buldHome() {
   //getMenu(true);
 
 
+
   // check role
   if (getToken().role == 0) { // user
     $('#btn_add_contents').show();
@@ -277,14 +278,14 @@ function buildActicle(id) {
       $("#content_body").empty().append(resp.data.content_body);
       randomNotFound();
     } else {
-      var html='';
-      if(!isNull(resp.data.modified_date)){
+      var html = '';
+      if (!isNull(resp.data.modified_date)) {
         html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(resp.data.modified_date).format('DD MMM YYYY')}</span>`
-      }else{
+      } else {
         html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format('DD MMM YYYY')}</span>`
       }
-      html +=`<span> by ${resp.data.username}</span> </div>`;
-      html +=resp.data.content_body;
+      html += `<span> by ${resp.data.username}</span> </div>`;
+      html += resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();
     }
@@ -475,7 +476,11 @@ function buildUserTable() {
     data.data.forEach((i, index) => {
       tableData += `<tr class='allUser' data="${encodeURIComponent(JSON.stringify(i))}">`
       tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>` // id
+
+      tableData += `<td><img src="${i.image}" class="ui mini rounded image"></td>` // User profile
+
       tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
+
       tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
 
       if (i.role == 1) { // admin
@@ -500,3 +505,39 @@ function buildUserTable() {
 
   })
 }
+
+// User information
+// function buildInformation() {
+//   userInformation(function () {
+//     var htmll = '';
+
+//       htmll += `<div class="item test">`;
+//       htmll +=          `<div class="ui floating labeled icon dropdown ">`;
+//       htmll +=            `<img`;
+//       htmll +=              `src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDJzEaxLN-jGRYYUO65pWu7Q9GXoNt4LUSSA&usqp=CAU"`;
+//       htmll +=              `alt="" style="width: 22px ; height: 22px; border-radius: 50%; border:2px solid #698199; ">`;
+//       htmll +=            `<div class="menu">`;
+//       htmll +=              `<div class="header"> Yakusa </div>`;
+//       htmll +=              `<div class="divider"></div>`;
+//       htmll +=              `<div class="item"> Profile </div>`;
+//       htmll +=              `<div class="item test" id="btn_manage-user"> Managers user`;
+//       htmll +=              `</div>`;
+//       htmll +=              `<div class="item"> Reset password </div>`;
+//       htmll +=              `<div class="divider"></div>`;
+//       htmll +=              `<div class="item test">`;
+//       htmll +=                `<button class="ui button btn_logout" style="background: none; color: grey; text-align: center;"> Logout </button>`;
+//       htmll +=              `</div>`;
+//       htmll +=            `</div>`;
+//       htmll +=          `</div>`;
+//       htmll +=        `</div>`; 
+
+//     $("#callUserInformation").empty().append(htmll);
+
+//   })
+  
+// }
+
+
+
+
+
