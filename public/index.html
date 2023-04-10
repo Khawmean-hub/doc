@@ -77,8 +77,8 @@
     <!-- modal table add new -->
     <div class="ui modal coupled mini" id="btn_manage-user-pop" style="width: 812px;">
       <h4 class="header">B2B USER</h4>
-      <div class="image content" style="background-color: #e2e2e263;">
-        <table class="ui table">
+      <div class="image content table-scroll" style="background-color: #e2e2e263;">
+        <table class="ui table" id="">
           <thead>
             <tr class="tb-head">
               <th>No</th>
@@ -255,21 +255,35 @@
         </div>
       </div>
 
-      <div class="right menu">
-        
-        <!-- manage user button-->
+      <div class="right menu" style="margin-right: 15px;">
         <div class="item test">
-          <button class="ui button" style="background: none; color: grey" id="btn_manage-user">
-            <i class="user icon"></i>
+          <div class="ui floating labeled icon dropdown ">
+         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDJzEaxLN-jGRYYUO65pWu7Q9GXoNt4LUSSA&usqp=CAU" alt="" style="width: 22px ; height: 22px; border-radius: 50%; border:2px solid #698199; " >
+            <div class="menu">
+              <div class="header">
+                Yakusa
+              </div>
+              <div class="divider"></div>
+              <div class="item">
+                Profile
+              </div>
+              <!-- Manage user -->
+              <div class="item test" id="btn_manage-user">
+               Managers user
+              </div>
+              <div class="item">
+                Reset password
+              </div>
+              <div class="divider"></div>
+                <!-- Logout -->
+        <div class="item test">
+          <button class="ui button btn_logout" style="background: none; color: grey; text-align: center;">
+            Logout
           </button>
         </div>
-        <!-- Logout -->
-        <div class="item test">
-          <button class="ui button btn_logout" style="background: none; color: grey">
-            <i class="sign out alternate icon"></i>
-          </button>
+            </div>
+          </div>
         </div>
-
       </div>
 
     </div>

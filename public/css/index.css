@@ -1,7 +1,7 @@
 body {
   margin: 0 !important;
   background-color: #f7f9ff;
-  
+
 }
 
 body,
@@ -15,7 +15,7 @@ h4,
 h5,
 h6,
 div {
-  font-family: "Google Sans","Roboto",sans-serif !important;
+  font-family: "Google Sans", "Roboto", sans-serif !important;
 }
 
 h1,
@@ -26,10 +26,12 @@ h5,
 h6 {
   color: #2b2b2b;
 }
-.item.test{
+
+.item.test {
   margin: 0px 0px !important;
   padding: 0px 0px !important;
 }
+
 .nav_searchbox input {
   color: white !important;
   width: 300px;
@@ -117,10 +119,10 @@ h6 {
 }
 
 .active_title {
-color: #000 !important;
+  color: #000 !important;
 }
 
-.active_title:hover{
+.active_title:hover {
   color: #2185d0 !important;
 }
 
@@ -244,9 +246,11 @@ a.title {
   display: flex;
   align-items: center;
 }
-.active_link{
+
+.active_link {
   color: #1389fd !important;
 }
+
 /* Hover article */
 /* .co:hover {
   color: rgb(34, 80, 177) !important;
@@ -303,9 +307,9 @@ a.title {
   background-color: #4183c4;
 }
 
-.editUser_icon{
+.editUser_icon {
   cursor: pointer;
-  
+
 }
 
 /* i.icon.outline{
@@ -314,11 +318,11 @@ a.title {
 } */
 
 
-.delete_user_icon{
+.delete_user_icon {
   margin-right: 20%;
   cursor: pointer;
- 
-  
+
+
 }
 
 .delete_user_icon:hover {
@@ -329,51 +333,73 @@ a.title {
   color: #000;
 }
 
-.img_path, .img_path02{
+.img_path,
+.img_path02 {
   color: #000;
 }
 
-.txtIs{
+.txtIs {
   width: 100% !important;
 }
 
 
-.btn-success{
+.btn-success {
   background-color: #21ba45 !important;
 }
-.txtWarning{
-border: 2px salmon solid !important;
+
+.txtWarning {
+  border: 2px salmon solid !important;
 }
-.icon-dltDpt{
-  color:salmon !important;
+
+.icon-dltDpt {
+  color: salmon !important;
 }
-.hide-thId{
+
+.hide-thId {
   display: none !important;
 }
-.btn-info{
+
+.btn-info {
   background-color: #2185d0;
 
 }
 
-.btn-update-css{
+.btn-update-css {
   background-color: #21ba45 !important;
 }
 
-.act-u{
-  margin-right:7px !important;
+.act-u {
+  margin-right: 7px !important;
   display: none;
 }
 
-#btn_manage-user{
+#btn_manage-user {
   margin-right: 45%;
 }
-#user_profile{
+
+#user_profile {
   margin-right: 45%;
 }
 
 .my-loader:before {
   border-color: rgb(214 214 214 / 15%) !important;
-} 
+}
+
 .my-loader:after {
   border-color: #e2e2e2 transparent transparent !important;
+}
+
+
+.table-scroll>.table>tbody>tr>td,
+.table-scroll>.table>tfoot>tr>td,
+.table-scroll>.table>thead>tr>td,
+.table-scroll>.table>thead>tr>th {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-scroll {
+  max-height: 500px !important;
+  overflow-y: scroll;
 }

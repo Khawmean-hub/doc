@@ -699,3 +699,16 @@ $(document).on("click", ".act-u", function () {
   );
   $(".txtIs .btn-update-css").remove();
 });
+
+var oldScrollTop = $(window).scrollTop();
+var oldScrollLeft = $(window).scrollLeft();
+$('.table-scroll').scroll(function () { 
+  if(oldScrollTop == $('.table-scroll').scrollTop()) {
+      $('.table-scroll').css('color', 'red');
+  }
+  else {
+      $('.table-scroll').css('color', 'blue');
+  }
+  oldScrollTop = $('.table-scroll').scrollTop();
+  oldScrollLeft = $('.table-scroll').scrollLeft();
+});
