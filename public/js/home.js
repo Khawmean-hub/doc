@@ -503,6 +503,8 @@ function buildUserTable() {
 
     $("#userData").empty().append(tableData);
 
+    
+
   })
 }
 

@@ -310,6 +310,7 @@ $("#btn_login").click(function () {
   var password = $("#password_text").val();
   console.log("username: ", username);
   console.log("password: ", password);
+  
   // VALIDATION
   if (isNull(username)) $("#username_text").parent().addClass("error");
   else $("#username_text").parent().removeClass("error");
@@ -320,8 +321,21 @@ $("#btn_login").click(function () {
     $("#btn_login").addClass("loading");
     getLogin(username, password, function (resp) {
       if (resp.status) {
+        
+        
+        //$('#User_profile').attr('src', getToken().img);
+        
+        
+
         window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
         console.log("resp.data: ", resp.data);
+
+        var userProfile = $('<img>').attr('src',  getToken().id);
+        $('#User_profile img').append(userProfile);
+        console.log('User Profile', userProfile);
+
+        
+
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
         $(".edit_tag").show();
@@ -332,7 +346,13 @@ $("#btn_login").click(function () {
       $("#btn_login").removeClass("loading");
     });
   }
+  
 });
+
+// test image
+function fetchUserImage() {
+
+}
 
 // Hover articel side bar
 // Hover main article
@@ -712,3 +732,8 @@ $('.table-scroll').scroll(function () {
   oldScrollTop = $('.table-scroll').scrollTop();
   oldScrollLeft = $('.table-scroll').scrollLeft();
 });
+
+//
+$(document).on('click', '#click_profile', function() {
+  $('#profile').modal('show');
+})
