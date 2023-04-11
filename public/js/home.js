@@ -12,6 +12,9 @@ function buldHome() {
   getRecent();
   buildMenu(true, 1);
   //getMenu(true);
+  // Set user profile
+  var user_profile = $('img').attr('src', getToken().img);
+  $('#User_profile').empty().append(user_profile);
 
   // check role
   if (getToken().role == 0) {
