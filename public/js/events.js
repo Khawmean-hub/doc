@@ -202,14 +202,6 @@ $("#Create-New-User").click(function () {
     .modal("show");
 });
 
-// Action delete user
-// $('.trash').click(function () {
-//   alert('hi')
-//   $('#modal-delete-user').modal({
-//     allowMultiple: true,
-//     closable: false,
-//   }).modal('show')
-// })
 
 // Action login form
 $(document).on("click", ".login_btn", function () {
@@ -364,37 +356,6 @@ $(document).on("mouseleave", ".sub_t", function () {
 });
 
 //MODAL UPDATE TAGE EX: Gradle
-
-// $(document).on("click", ".edit_tag", function () {
-//   $(".tage_editT").modal("show");
-//   var dept_id = $("#departmentListId").dropdown("get value");
-//   buildDepartment("#departmentListId3", dept_id);
-//   var vTitle = $(this).attr("v.title");
-//   var vDepid = $(this).attr("v.dep_id");
-//   var vUserid = getToken().id + "";
-//   var vId = $(this).attr("v.id");
-//   $(".v-title").val(vTitle);
-
-//   $(document).on("click", ".alert-edit-department", function () {
-//     $(".modal-alert-edit-department").modal("show");
-//     $(document).on("click", ".btn-up-tag", function () {
-//       var reqTag = {
-//         DEP_ID: vDepid,
-//         ID: vId,
-//         USER_ID: vUserid,
-//         TITLE: $(".v-title").val(),
-//       };
-//       updateTag(reqTag, function () {
-//         if (reqTag.status) {
-//           buildMenu()
-//         }
-//       });
-//       buildMenu(true);
-
-//     });
-//   });
-
-// });
 var vId, vUserid, vDepid;
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");

@@ -103,19 +103,6 @@ function getDepartment(callBack) {
 }
 
 // get department menu
-// function getMenu(callBack) {
-//   var settings = {
-//     url: baseUrl + "/doc_menu_r01",
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: "Bearer " + getToken().token,
-//     },
-//   };
-//   requestApi(settings, callBack);
-// }
-
-// get department menu
 function getMenu(deptId, callBack) {
   var settings = {
     url: baseUrl + "/doc_menu_r01",
@@ -327,22 +314,6 @@ function updateUser(id, req,callBack) {
 }
 
 // Upload file
-// function uploadFile(file, path, callBack) {
-//   let formData = new FormData();
-//   formData.append("image", file, path);
-
-//   var settings = {
-//     url: baseUrl + "/upload",
-//     method: "POST",
-//     processData: false,
-//     contentType: false,
-//     mimeType: "multipart/form-data",
-//     data: formData,
-//   };
-//   requestApi(settings, callBack);
-// }
-
-// Test file upload
 function uploadFile(file, path, callBack) {
   let formData = new FormData();
   formData.append("file", file, path);

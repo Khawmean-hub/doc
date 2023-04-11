@@ -514,33 +514,4 @@ function buildUserTable() {
     $("#userData").empty().append(tableData);
   });
 }
-// User information
-// function buildInformation() {
-//   userInformation(function () {
-//     var htmll = '';
 
-//       htmll += `<div class="item test">`;
-//       htmll +=          `<div class="ui floating labeled icon dropdown ">`;
-//       htmll +=            `<img`;
-//       htmll +=              `src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDJzEaxLN-jGRYYUO65pWu7Q9GXoNt4LUSSA&usqp=CAU"`;
-//       htmll +=              `alt="" style="width: 22px ; height: 22px; border-radius: 50%; border:2px solid #698199; ">`;
-//       htmll +=            `<div class="menu">`;
-//       htmll +=              `<div class="header"> Yakusa </div>`;
-//       htmll +=              `<div class="divider"></div>`;
-//       htmll +=              `<div class="item"> Profile </div>`;
-//       htmll +=              `<div class="item test" id="btn_manage-user"> Managers user`;
-//       htmll +=              `</div>`;
-//       htmll +=              `<div class="item"> Reset password </div>`;
-//       htmll +=              `<div class="divider"></div>`;
-//       htmll +=              `<div class="item test">`;
-//       htmll +=                `<button class="ui button btn_logout" style="background: none; color: grey; text-align: center;"> Logout </button>`;
-//       htmll +=              `</div>`;
-//       htmll +=            `</div>`;
-//       htmll +=          `</div>`;
-//       htmll +=        `</div>`;
-
-//     $("#callUserInformation").empty().append(htmll);
-
-//   })
-
-// }
