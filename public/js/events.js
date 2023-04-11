@@ -303,7 +303,6 @@ $(document).on("click", ".acticle_con", function () {
     .addClass("active");
   //
 });
-
 // LOGIN
 $("#btn_login").click(function () {
   var username = $("#username_text").val();
@@ -321,7 +320,7 @@ $("#btn_login").click(function () {
     getLogin(username, password, function (resp) {
       if (resp.status) {
         window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
-        console.log("resp.data: ", resp.data);
+        console.log("resp.data: ", resp.data.name);
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
         $(".edit_tag").show();
@@ -702,13 +701,27 @@ $(document).on("click", ".act-u", function () {
 
 var oldScrollTop = $(window).scrollTop();
 var oldScrollLeft = $(window).scrollLeft();
-$('.table-scroll').scroll(function () { 
-  if(oldScrollTop == $('.table-scroll').scrollTop()) {
-      $('.table-scroll').css('color', 'red');
+$(".table-scroll").scroll(function () {
+  if (oldScrollTop == $(".table-scroll").scrollTop()) {
+    $(".table-scroll").css("color", "red");
+  } else {
+    $(".table-scroll").css("color", "blue");
   }
-  else {
-      $('.table-scroll').css('color', 'blue');
+  oldScrollTop = $(".table-scroll").scrollTop();
+  oldScrollLeft = $(".table-scroll").scrollLeft();
+});
+
+// Name profile who login
+$(document).on("click", ".profile", function () {
+  var html = "";
+  var data = JSON.parse(window.localStorage.getItem("b2b_user"));
+  html += `<p class="user-css">${data.name}</p>`;
+  if (data.role == 1) {
+    html += `<small class="sma">Admin</small>`;
+  } else if (data.role == 2) {
+    html += `<small class="sma">Viever</small>`;
+  } else if (data.role == 0) {
+    html += `<small class="sma">User</small>`;
   }
-  oldScrollTop = $('.table-scroll').scrollTop();
-  oldScrollLeft = $('.table-scroll').scrollLeft();
+  $("#profile-use").empty().append(html);
 });

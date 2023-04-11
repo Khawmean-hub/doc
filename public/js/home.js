@@ -1,5 +1,5 @@
 function buildLogin() {
-  $('#loginForm').show();
+  $("#loginForm").show();
   $(".page-login").show();
   $(".my_body").hide();
 }
@@ -13,42 +13,42 @@ function buldHome() {
   buildMenu(true, 1);
   //getMenu(true);
 
-
-
   // check role
-  if (getToken().role == 0) { // user
-    $('#btn_add_contents').show();
-    $('#btn_manage-user').hide();
-    $('.edit_tag2').show();
-    $('.btn_logout').show();
-    $('.btn_login').hide();
-    $('#Create-New-User').hide();
-    $('#manage-department').hide();
+  if (getToken().role == 0) {
+    // user
+    $("#btn_add_contents").show();
+    $("#btn_manage-user").hide();
+    $(".edit_tag2").show();
+    $(".btn_logout").show();
+    $(".btn_login").hide();
+    $("#Create-New-User").hide();
+    $("#manage-department").hide();
 
     // hide button add contents or department
-  } else if (getToken().role == 1) { // admin
-    $('#btn_manage-user').show();
-    $('.btn_login').hide();
-    $('.btn_logout').show();
-    $('#Create-New-User').show();
+  } else if (getToken().role == 1) {
+    // admin
+    $("#btn_manage-user").show();
+    $(".btn_login").hide();
+    $(".btn_logout").show();
+    $("#Create-New-User").show();
     // show button add contents or department
-    $('#btn_add_contents').show();
-    $('#manage-department').show();
-
-  } else if (getToken().role == 2) { // not user read only
-    $('#btn_manage-user').hide();
-    $('.edit_tag2').hide();
-    $('#btn_add_contents').hide();
-    $('.btn_logout').show();
+    $("#btn_add_contents").show();
+    $("#manage-department").show();
+  } else if (getToken().role == 2) {
+    // not user read only
+    $("#btn_manage-user").hide();
+    $(".edit_tag2").hide();
+    $("#btn_add_contents").hide();
+    $(".btn_logout").show();
     // $('.btn_login').show();
-    $('#manage-department').hide();
-    $('.btn_login').show();
+    $("#manage-department").hide();
+    $(".btn_login").show();
   }
 }
 
 //on change department
 var onChangeDepartment = (id, text) => {
-  buildeMenuCombobox("#menu_com", id)
+  buildeMenuCombobox("#menu_com", id);
 };
 
 //build content loader
@@ -77,8 +77,8 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
               ? true
               : false
             : i == 0
-              ? true
-              : false,
+            ? true
+            : false,
         };
 
         departmentList.push(obj);
@@ -91,11 +91,19 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     });
 
     if (id.includes("departmentListId2")) {
-      $("#departmentListId2").dropdown("setting", "onChange", onChangeDepartment);
+      $("#departmentListId2").dropdown(
+        "setting",
+        "onChange",
+        onChangeDepartment
+      );
     }
-    // 
+    //
     if (id.includes("departmentListId3")) {
-      $("#departmentListId3").dropdown("setting", "onChange", onChangeDepartment);
+      $("#departmentListId3").dropdown(
+        "setting",
+        "onChange",
+        onChangeDepartment
+      );
     }
 
     $(id).removeClass("loading");
@@ -104,22 +112,25 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
 }
 
 function buildManageDepartment() {
-  var htmlLoad = `<tr><td colspan="3" style="height: 206px;"><div class="ui active centered inline loader my-loader"></div></td></tr>`
+  var htmlLoad = `<tr><td colspan="3" style="height: 206px;"><div class="ui active centered inline loader my-loader"></div></td></tr>`;
   $(".listBody").empty().append(htmlLoad);
   getDepartment(function (resp) {
     var list = "";
-    var fakeId = 0
+    var fakeId = 0;
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         list += `<tr>
-                 <td>${fakeId += 1}</td>
-                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
-                 <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
+                 <td>${(fakeId += 1)}</td>
+                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${
+          v.dep_id
+        }</td>
+                 <td dep-name='${v.dep_name}' class='dep-name'>${
+          v.dep_name
+        }</td>
                  <td style="text-align: right"><a href="#" style ="margin-right: 8px !important;"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
                  </a><a href="#" class="alert-depart"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
       });
-
     }
     $(".listBody").empty().append(list);
   });
@@ -137,15 +148,15 @@ function buildeMenuCombobox(id = "#menu_com", depId, select_id) {
           selec = true;
         } else {
           if (select_id == e.id) {
-            selec = true
+            selec = true;
           } else {
-            selec = false
+            selec = false;
           }
         }
         var obj = {
           name: e.title,
           value: e.id,
-          selected: selec
+          selected: selec,
         };
         if (!isNull(depId)) {
           if (depId == e.dep_id) {
@@ -163,8 +174,6 @@ function buildeMenuCombobox(id = "#menu_com", depId, select_id) {
     $(id).removeClass("loading");
   });
 }
-
-
 
 // build when search
 function getBuildSearchContent(srch) {
@@ -214,13 +223,13 @@ function getBuildSearchContent(srch) {
           .replace("</span>", "");
         element.append(
           "<div class=\"result-item\"><a class='acticle_con' tag_title='" +
-          tag +
-          "' act_id='" +
-          r.id +
-          "'>" +
-          r.r_title +
-          ' </a><div class="_search-contents">' +
-          r.r_contents,
+            tag +
+            "' act_id='" +
+            r.id +
+            "'>" +
+            r.r_title +
+            ' </a><div class="_search-contents">' +
+            r.r_contents,
           "</div></div>"
         );
       });
@@ -236,9 +245,9 @@ function getBuildSearchContent(srch) {
   });
 }
 
-// ON CHANNGE MENU LIST 
+// ON CHANNGE MENU LIST
 function buildeMenuCobobox(id = "#menu_com") {
-  getMenu($('#departmentListId').dropdown('get value'), function (resp) {
+  getMenu($("#departmentListId").dropdown("get value"), function (resp) {
     let departmentList = [];
     if (!isNull(resp) && resp.status) {
       resp.data.TAGS.forEach((e, i) => {
@@ -259,14 +268,15 @@ function buildeMenuCobobox(id = "#menu_com") {
     });
     $(id).removeClass("loading");
   });
-
 }
 function deleteDocument(id) {
   buildMenu();
 }
 
 function randomNotFound() {
-  $('#content_body').append('<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/not_found.png" alt="not found "></div> </div>');
+  $("#content_body").append(
+    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/not_found.png" alt="not found "></div> </div>'
+  );
 }
 
 // Build Acticlev
@@ -278,11 +288,15 @@ function buildActicle(id) {
       $("#content_body").empty().append(resp.data.content_body);
       randomNotFound();
     } else {
-      var html = '';
+      var html = "";
       if (!isNull(resp.data.modified_date)) {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(resp.data.modified_date).format('DD MMM YYYY')}</span>`
+        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(
+          resp.data.modified_date
+        ).format("DD MMM YYYY")}</span>`;
       } else {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format('DD MMM YYYY')}</span>`
+        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(
+          resp.data.create_date
+        ).format("DD MMM YYYY")}</span>`;
       }
       html += `<span> by ${resp.data.username}</span> </div>`;
       html += resp.data.content_body;
@@ -290,21 +304,18 @@ function buildActicle(id) {
       hidelightCode();
     }
   });
-
-};
+}
 
 // Get acticle for update
 function getActicleForUpdate(id) {
   loader();
   getActicle1(id, function (resp) {
-    var currentActicle = $(this).attr('va.id');
-    console.log("Data content body :", currentActicle)
+    var currentActicle = $(this).attr("va.id");
+    console.log("Data content body :", currentActicle);
 
     console.log("acticlce:", resp.data.content_body);
   });
-
 }
-
 
 // load recent
 function getRecent(params) {
@@ -332,11 +343,8 @@ function getRecent(params) {
   }
 }
 
-
 // check remove from localstorage
-function checkAndRemoveFromLocalStorage() {
-
-}
+function checkAndRemoveFromLocalStorage() {}
 
 //save recent
 function saveRecent(tag_title, acticle_id, acticle_name) {
@@ -363,11 +371,12 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
   }
 
   window.localStorage.setItem("act_recent", JSON.stringify(saveList));
-
 }
 // BUILD SIDE BAR MENU
 function buildMenu(isFalse, dept_id) {
-  var depID = isNull(dept_id) ? $('#departmentListId').dropdown('get value') : dept_id;
+  var depID = isNull(dept_id)
+    ? $("#departmentListId").dropdown("get value")
+    : dept_id;
   getMenu(depID, function (resp) {
     if (resp.status) {
       var html = "";
@@ -392,41 +401,42 @@ function buildMenu(isFalse, dept_id) {
     if (isFalse == true) {
       var html = "";
 
-      resp.data.TAGS.forEach((v) => { // main articles
-        html += `<div class="item" d_et="${v.id}">`
-        html += `<a  href="javascript:"  class=" ${v.id} a_ab h_et" > `
+      resp.data.TAGS.forEach((v) => {
+        // main articles
+        html += `<div class="item" d_et="${v.id}">`;
+        html += `<a  href="javascript:"  class=" ${v.id} a_ab h_et" > `;
         if (getToken().role == 1) {
           //  Icone update, delete main articel
-          html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`
-          html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`
+          html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`;
+          html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`;
         } else if (getToken().role == 0) {
-          html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`
+          html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`;
         }
 
-
-        html += `</a>`
-        html += `<a class="title cde"  style="font-size: 15px;font-weight: 500;margin-top: 10px;"><i class=" icon"></i><b class="${v.title}">${v.title}</b></a>`
-        html += `<div class="content">`
+        html += `</a>`;
+        html += `<a class="title cde"  style="font-size: 15px;font-weight: 500;margin-top: 10px;"><i class=" icon"></i><b class="${v.title}">${v.title}</b></a>`;
+        html += `<div class="content">`;
         html += `<ul class="sub-menu">`;
 
-        resp.data.ARTICLES.forEach((va) => { // sub articles
+        resp.data.ARTICLES.forEach((va) => {
+          // sub articles
 
           if (va.tag_id == v.id) {
-            html += `  <div class="sub_t "d_est="${va.id}">`
-            html += `    <li class="sub-title acticle_con" tag_title="${v.title}" act_id="${va.id}">`
-            html += `    <a class="active_title" href="javascript:" data-li="${va.title}">${va.title}`
-            html += `    </a>`
-            html += `    </li>`
-            html += `     <li> <a href="javascript:" class="${va.id} h_st">`
+            html += `  <div class="sub_t "d_est="${va.id}">`;
+            html += `    <li class="sub-title acticle_con" tag_title="${v.title}" act_id="${va.id}">`;
+            html += `    <a class="active_title" href="javascript:" data-li="${va.title}">${va.title}`;
+            html += `    </a>`;
+            html += `    </li>`;
+            html += `     <li> <a href="javascript:" class="${va.id} h_st">`;
             if (getToken().role == 1) {
               //  Icon update, delete sub articel
-              html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
-              html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`
+              html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
+              html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`;
             } else if (getToken().role == 0) {
-              html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`
+              html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
             }
 
-            html += `    </a>`
+            html += `    </a>`;
             html += `    </li> </div>`;
           }
         });
@@ -437,16 +447,12 @@ function buildMenu(isFalse, dept_id) {
 
     if (isNull(html)) {
       // CHECK IT NULL
-      $("#menu_body").empty().append('<p style="text-align:center; margin-top: 20px">No data</p>');
-    } else
-      $("#menu_body").empty().append(html);
-
+      $("#menu_body")
+        .empty()
+        .append('<p style="text-align:center; margin-top: 20px">No data</p>');
+    } else $("#menu_body").empty().append(html);
   });
-
 }
-
-
-
 
 function getTag(isFalse) {
   saveTage(function (resp) {
@@ -468,44 +474,46 @@ function getTag(isFalse) {
   });
 }
 
-
-
 function buildUserTable() {
   userTable(function (data) {
-    var tableData = '';
+    var tableData = "";
     data.data.forEach((i, index) => {
-      tableData += `<tr class='allUser' data="${encodeURIComponent(JSON.stringify(i))}">`
-      tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>` // id
+      tableData += `<tr class='allUser' data="${encodeURIComponent(
+        JSON.stringify(i)
+      )}">`;
+      tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
 
-      tableData += `<td><img src="${i.image}" class="ui mini rounded image"></td>` // User profile
+      tableData += `<td><img src="${i.image}" class="ui mini rounded image"></td>`; // User profile
 
-      tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
+      tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // user name
 
-      tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
+      tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>`; // user passwork
 
-      if (i.role == 1) { // admin
-        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin  </a> </td>`
-      } else if (i.role == 0) { // user
-        tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`
-      } else if (i.role == 2) { // viewer
-        tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`
+      if (i.role == 1) {
+        // admin
+        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny role-use">Admin </a> </td>`;
+      } else if (i.role == 0) {
+        // user
+        tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
+      } else if (i.role == 2) {
+        // viewer
+        tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
       }
 
-      if (i.status == 1) { // status
-        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`
+      if (i.status == 1) {
+        // status
+        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`;
       } else if (i.status == 0) {
-        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`
+        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
       }
 
       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
     </tr>`;
     });
-
+     
     $("#userData").empty().append(tableData);
-
-  })
+  });
 }
-
 // User information
 // function buildInformation() {
 //   userInformation(function () {
@@ -529,15 +537,10 @@ function buildUserTable() {
 //       htmll +=              `</div>`;
 //       htmll +=            `</div>`;
 //       htmll +=          `</div>`;
-//       htmll +=        `</div>`; 
+//       htmll +=        `</div>`;
 
 //     $("#callUserInformation").empty().append(htmll);
 
 //   })
-  
+
 // }
-
-
-
-
-
