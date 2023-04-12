@@ -699,3 +699,10 @@ $(document).on("click", ".profile", function () {
   }
   $("#profile-use").empty().append(html);
 });
+
+// Reset password 
+$(document).on("click", "#reset-password", function () {
+
+ $('.change-password').modal({ closable: false, allowMultiple: true })
+ .modal("show");
+});

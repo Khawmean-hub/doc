@@ -581,12 +581,14 @@ homeRoute.post("/doc_login_r01", async (req, res, next) => {
       id: login[0].id,
       img: login[0].image,
       name: login[0].username,
+      password: login[0].password, 
       token: asseccToken,
     };
 
     res.send(new BaseRes(true, "Success", response));
   }
 });
+
 
 // normal user
 
@@ -909,3 +911,8 @@ homeRoute.post("/update_users/:id", async (req, res) => {
   }
 });
 module.exports = homeRoute;
+
+// reset password
+homeRoute.post("/doc_reset_password", async(req, res)=>{
+  var pwd
+})
