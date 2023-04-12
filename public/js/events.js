@@ -700,9 +700,17 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// Reset password 
-$(document).on("click", "#reset-password", function () {
-
- $('.change-password').modal({ closable: false, allowMultiple: true })
- .modal("show");
+// 
+$(document).on('click', '.profile-users', function () {
+  $('#information_user').modal({ closable: false }).modal("show");
+  
 });
+$(document).ready(function() {
+  $('.btn_file').on('click', function() {
+    $('#file_image').click();
+  });
+  $('#file_image').on('change', function() {
+    var imagee = $(this).val().split('\\').pop();
+    $('.btn_file').text(imagee)
+  })
+})
