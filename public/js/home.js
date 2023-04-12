@@ -14,7 +14,7 @@ function buldHome() {
   //getMenu(true);
   // Set user profile
   var user_profile = $('img').attr('src', getToken().img);
-  $('#User_profile').empty().append(user_profile);
+  $('#User_profile #user_image #users').empty().append(user_profile);
 
   // check role
   if (getToken().role == 0) {
@@ -293,15 +293,12 @@ function buildActicle(id) {
     } else {
       var html = "";
       if (!isNull(resp.data.modified_date)) {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(
-          resp.data.modified_date
-        ).format("DD MMM YYYY")}</span>`;
+        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(resp.data.modified_date).format("DD MMM YYYY")}</span>`;
       } else {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(
-          resp.data.create_date
-        ).format("DD MMM YYYY")}</span>`;
+        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
       }
-      html += `<span> by ${resp.data.username}</span> </div>`;
+      html += `<span> by ${resp.data.username}</span> <img class="ui avatar image" src="${getToken().img}"> </div>`;
+     // html += `<span> <img class="ui avatar image" id='users' src="${resp.data.username}"> </span>`
       html += resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();
@@ -517,4 +514,7 @@ function buildUserTable() {
     $("#userData").empty().append(tableData);
   });
 }
+
+// Test
+
 

@@ -411,3 +411,9 @@ font-size: 1rem;
   color: gray;
   font-size: 80%;
 }
+img{
+  cursor: pointer;
+}
+#choose_image{
+  margin-right: 311px;
+}
