@@ -436,7 +436,7 @@
         <div class="ui blue button tiny" id="editor_save">Save</div>
       </div>
     </div>
-    <img src="" alt="">
+    <!-- <img src="" alt=""> -->
   </div>
 
   <!-- modal edit or update sub article 02 -->
@@ -805,10 +805,11 @@
       Information
     </div>
     <div class="image content">
-      <label for="file-input" class="btn_file">
+      <label for="user_image" class="">
         <div class="ui medium image">
-         
-          <input type="file" id="file_image" style="display: none;"> <img id="user_image" src="">
+          <!-- <label for="fileuploads"> Unload Profile</label> -->
+          <!-- <input type="file" id="fileuploads">  -->
+          <img id="upload-img" src="">
         </div>
       </label>
       <div class="description">
@@ -816,21 +817,21 @@
           <form class="ui form" style="align-content: center;">
             <div class="field">
               <label>UserName</label>
-              <input type="text" name="name" placeholder="UserName" id="">
+              <input type="text" class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name">
             </div>
             <div class="field">
               <label>Password</label>
-              <input type="text" name="password" placeholder="Password" id="">
+              <input type="text" pass="password" placeholder="Password" id="user_pass">
             </div>
           </form>
         </div>
       </div>
     </div>
     <div class="actions">
-      <button class="ui button cancel tiny choose_image" id="choose_image">Choose image</button>
-      <!-- <input type="file" id="choose_image"> -->
+      <!-- <button class="ui button cancel tiny choose_image" id="choose_image">Choose image</button> -->
+      <input type="file" for="fileuploads" class="" id="fileuploads">
       <button class="ui button cancel tiny" id="">Cancel</button>
-      <button class="ui button blue tiny" type="submit" id="">Update</button>
+      <button class="ui button blue tiny" type="submit" id="user_click_update">Update</button>
     </div>
   </div>
 

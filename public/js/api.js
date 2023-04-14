@@ -8,7 +8,7 @@ var isAlreadyAlert = false;
 function requestApi(settings, callBack) {
   $.ajax(settings)
     .done(function (response) {
-      console.log("response :", response);
+      console.log("response from API :", response);
       callBack(response);
     })
     .fail(function (data, textStatus, xhr) {

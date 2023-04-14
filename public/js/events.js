@@ -301,7 +301,7 @@ $("#btn_login").click(function () {
   var password = $("#password_text").val();
   console.log("username: ", username);
   console.log("password: ", password);
-  
+
   // VALIDATION
   if (isNull(username)) $("#username_text").parent().addClass("error");
   else $("#username_text").parent().removeClass("error");
@@ -312,16 +312,11 @@ $("#btn_login").click(function () {
     $("#btn_login").addClass("loading");
     getLogin(username, password, function (resp) {
       if (resp.status) {
-        
-        
-        //$('#User_profile').attr('src', getToken().img);
-        
-        
-
         window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
         console.log("resp.data: ", resp.data);
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
+        
         $(".edit_tag").show();
       } else {
         $("#msg_alert p").text(resp.message);
@@ -330,13 +325,9 @@ $("#btn_login").click(function () {
       $("#btn_login").removeClass("loading");
     });
   }
-  
+
 });
 
-// test image
-function fetchUserImage() {
-
-}
 
 // Hover articel side bar
 // Hover main article
@@ -460,7 +451,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () {}, 1500);
+        setTimeout(function () { }, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -701,16 +692,44 @@ $(document).on("click", ".profile", function () {
 });
 
 // 
+var user_name = $('#get_user_name').val(getToken().name);
+var user_pass = $('#user_pass').val(getToken().password);
+
+// var res = {
+//   DATA_USER_NAME: user_name,
+//   DATA_USER_PASS: user_pass
+// };
+
 $(document).on('click', '.profile-users', function () {
   $('#information_user').modal({ closable: false }).modal("show");
-  
+  buldHome()
 });
-$(document).ready(function() {
-  $('.btn_file').on('click', function() {
-    $('#file_image').click();
+
+
+  
+$(document).on('click', '#user_click_update', function () {
+  
+  console.log("___", res)
+  var user_name_input = $('#get_user_name').val();
+  var user_pass_input = $('#user_pass').val();
+
+  var res = {
+    DATA_USER_NAME: user_name_input,
+    DATA_USER_PASS: user_pass_input
+  };
+
+  console.log("all : ", res);
+
+})
+
+
+
+// Select image 
+$(function(){
+  $("#fileuploads").change(function(event) {
+    var change_image = URL.createObjectURL(event.target.files[0]);
+    $("#upload-img").attr("src",change_image);
+    console.log(event);
+    console.log('Change image : ',change_image);
   });
-  $('#file_image').on('change', function() {
-    var imagee = $(this).val().split('\\').pop();
-    $('.btn_file').text(imagee)
-  })
 })

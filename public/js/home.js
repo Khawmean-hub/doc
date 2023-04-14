@@ -14,7 +14,8 @@ function buldHome() {
   //getMenu(true);
   // Set user profile
   var user_profile = $('img').attr('src', getToken().img);
-  $('#User_profile #user_image #users').empty().append(user_profile);
+  $('#User_profile #user_image').empty().append(user_profile);
+  // buildUser()
 
   // check role
   if (getToken().role == 0) {
@@ -297,7 +298,7 @@ function buildActicle(id) {
       } else {
         html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
       }
-      html += `<span> by ${resp.data.username}</span> <img class="ui avatar image" src="${getToken().img}"> </div>`;
+      html += `<span> by ${resp.data.username}</span> </div>`;
      // html += `<span> <img class="ui avatar image" id='users' src="${resp.data.username}"> </span>`
       html += resp.data.content_body;
       $("#content_body").empty().append(html);

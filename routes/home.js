@@ -605,7 +605,7 @@ homeRoute.post("/doc_login_r01", async (req, res, next) => {
       id: login[0].id,
       img: login[0].image,
       name: login[0].username,
-      password: login[0].password, 
+      password: login[0].password,
       token: asseccToken,
     };
 
@@ -893,7 +893,7 @@ homeRoute.get("/doc_users", async (req, res) => {
 });
 
 // delete user
-homeRoute.delete("/delete_users/:id",  async (req, res) => {
+homeRoute.delete("/delete_users/:id", async (req, res) => {
   var userDeleteIndex = await db.result(
     `DELETE FROM doc_users WHERE id=${+req.params.id}`
   );
@@ -920,7 +920,7 @@ homeRoute.post("/add_users", async (req, res) => {
 
 // update user
 homeRoute.post("/update_users/:id", async (req, res) => {
-  
+
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
   console.log(
     `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
@@ -934,9 +934,23 @@ homeRoute.post("/update_users/:id", async (req, res) => {
     res.send(new BaseRes(true, "SUCCESS", upDateUser));
   }
 });
-module.exports = homeRoute;
+
 
 // reset password
-homeRoute.post("/doc_reset_password", async(req, res)=>{
+homeRoute.post("/doc_reset_password", async (req, res) => {
   var pwd
-})
+});
+
+// Personal user update
+homeRoute.post('/persona_user_update/:id', async (req, res) => {
+  // default query: UPDATE public.doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0, image='';
+  var personal_user_update = await db.result(`UPDATE public.doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.DATA_USER_PASS}', status=1, "role"=0, image=''`);
+  if (personal_user_update == null) {
+    return res.send(new BaseRes(false, 'Error', null));
+  }
+  else {
+    res.send(new BaseRes(true, "Success", personal_user_update));
+  }
+});
+
+module.exports = homeRoute;
