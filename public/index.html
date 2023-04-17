@@ -575,15 +575,15 @@
       </h4>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Current password</label>
-        <input type="text" placeholder="" >
+        <input type="text" placeholder="">
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>New password</label>
-        <input type="text" placeholder="" >
+        <input type="text" placeholder="">
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Confirm password</label>
-        <input type="text" placeholder="" >
+        <input type="text" placeholder="">
       </div>
     </form>
     <br>
@@ -800,19 +800,18 @@
   </div>
 
   <!-- Profile -->
-  <div class="ui modal" id="information_user" style="width: 650px;">
-    <div class="header">
-      Information
-    </div>
-    <div class="image content">
+  <div class="ui modal" id="information_user">
+    <div class="image content" style="height: 399px;">
       <label for="user_image" class="">
         <div class="ui medium image">
-          <!-- <label for="fileuploads"> Unload Profile</label> -->
-          <!-- <input type="file" id="fileuploads">  -->
-          <img id="upload-img" src="">
-        </div>
+          <!-- <img class="ui  circular image" id="upload-img" src=""> -->
+          <img class="ui medium circular image" id="upload-img" src="" style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
+        </div> 
+        <center> <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p> </center> <br>
+        <center> <div> <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name"></h2></div> </center> 
       </label>
-      <div class="description">
+      <!-- <a class="edit_profile_user" href="#" style="text-align: center;">Edit profile</a> -->
+      <!-- <div class="description">
         <div class="image content" style="display: block;">
           <form class="ui form" style="align-content: center;">
             <div class="field">
@@ -825,11 +824,12 @@
             </div>
           </form>
         </div>
-      </div>
+      </div> -->
+      
     </div>
+    
     <div class="actions">
-      <!-- <button class="ui button cancel tiny choose_image" id="choose_image">Choose image</button> -->
-      <input type="file" for="fileuploads" class="" id="fileuploads">
+      <input type="file" for="fileuploads" class="" id="fileuploads" style="display: none;">
       <button class="ui button cancel tiny" id="">Cancel</button>
       <button class="ui button blue tiny" type="submit" id="user_click_update">Update</button>
     </div>

@@ -1,11 +1,14 @@
 const pgp = require('pg-promise')(/* options */)
-//const db = pgp('postgresql://stdy:stdy@192.168.178.83:5432/stdydb')
-//const db = pgp('postgresql://postgres:123@172.104.182.46:5432/postgres')
+// Import form STDY
+//const db = pgp('postgresql://stdy:stdy@192.168.178.83:5432/stdydb');
+
+//const db = pgp('postgresql://postgres:123@172.104.182.46:5432/postgres');
 
 // DB Local DB
-const db = pgp('postgresql://ioatdkop:Jwxkjpj0unTI5BZ7cEvZromZTjNPrF3O@arjuna.db.elephantsql.com:5432/ioatdkop');
+//const db = pgp('postgresql://ioatdkop:Jwxkjpj0unTI5BZ7cEvZromZTjNPrF3O@arjuna.db.elephantsql.com:5432/ioatdkop');
 
-//const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_dev'); // Ubutu server DB for dev
+const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_dev'); // Ubutu server DB for dev
+
 // const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');      // Ubutu server DB for real
 
 db.one('SELECT $1 AS value', 123)

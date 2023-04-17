@@ -48,14 +48,15 @@ function buldHome() {
     $("#manage-department").hide();
     $(".btn_login").show();
   }
+  get_user_information();
 }
 
-//on change department
+// On change department
 var onChangeDepartment = (id, text) => {
   buildeMenuCombobox("#menu_com", id);
 };
 
-//build content loader
+// Build content loader
 function loader() {
   $("#content_body").append(
     '<div class="ui active inverted dimmer"><div class="ui text loader">Loading</div> </div>'
@@ -298,8 +299,8 @@ function buildActicle(id) {
       } else {
         html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
       }
-      html += `<span> by ${resp.data.username}</span> </div>`;
-     // html += `<span> <img class="ui avatar image" id='users' src="${resp.data.username}"> </span>`
+      html += `<span> by ${resp.data.username} <span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span> </span> </div>`;
+      //html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span>`
       html += resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();
@@ -516,6 +517,12 @@ function buildUserTable() {
   });
 }
 
-// Test
+// Get user name
+var user_name = $('#get_user_name').val(getToken().name);
+function get_user_information() {
+  $('#get_user_name').empty().append(user_name.val());
+  // buldHome();
+}
+
 
 

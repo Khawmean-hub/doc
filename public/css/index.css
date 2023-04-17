@@ -191,10 +191,10 @@ ul {
   background: #e2e7eb none;
 }
 
-label {
+/* label {
   padding: 3px;
   margin-right: 10px;
-}
+} */
 
 .ui.modal {
   width: 729px;
@@ -206,7 +206,7 @@ label {
 }
 
 .ui.modal {
-  width: 476px;
+  width: 348px;
 }
 
 .icon-size {
@@ -403,17 +403,28 @@ a.title {
   max-height: 500px !important;
   overflow-y: scroll;
 }
-.user-css{
-line-height: 0;
-font-size: 1rem;
+
+.user-css {
+  line-height: 0;
+  font-size: 1rem;
 }
-.sma{
+
+.sma {
   color: gray;
   font-size: 80%;
 }
-img{
+
+img {
   cursor: pointer;
 }
-#fileuploads{
+
+#fileuploads {
   margin-right: 162px;
 }
+
+.edit_profile_user {
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/*  */

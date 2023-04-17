@@ -51,7 +51,7 @@ function getMenuHome(callBack) {
     callBack(response);
   });
 }
-function deleteDepartment(id, callBack){
+function deleteDepartment(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_d001",
     method: "POST",
@@ -59,7 +59,7 @@ function deleteDepartment(id, callBack){
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
-    data: JSON.stringify({DEP_ID: id}),
+    data: JSON.stringify({ DEP_ID: id }),
   };
   requestApi(settings, callBack);
 }
@@ -69,7 +69,7 @@ function insertDepartment(req, callBack) {
     url: baseUrl + "/doc_department_c001",
     method: "POST",
     headers: {
-      "Content-Type": "application/json",  
+      "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
     data: JSON.stringify(req),
@@ -299,7 +299,7 @@ function addB2bUser(req, callBack) {
 }
 
 // update user
-function updateUser(id, req,callBack) {
+function updateUser(id, req, callBack) {
   var settings = {
     url: baseUrl + "/update_users/" + id,
     method: "POST",
@@ -329,3 +329,17 @@ function uploadFile(file, path, callBack) {
   requestApi(settings, callBack);
 }
 
+// Update user profile
+function update_user_profile(id, req, callBack) {
+  var settings = {
+    url: baseUrl + "/persona_user_update/" + id,
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: req,
+  };
+  //console.log(settings)
+  requestApi(settings, callBack);
+}

@@ -316,7 +316,7 @@ $("#btn_login").click(function () {
         console.log("resp.data: ", resp.data);
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
-        
+
         $(".edit_tag").show();
       } else {
         $("#msg_alert p").text(resp.message);
@@ -691,9 +691,10 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// 
-var user_name = $('#get_user_name').val(getToken().name);
-var user_pass = $('#user_pass').val(getToken().password);
+// Get user name, pass
+// var user_name = $('#get_user_name').val(getToken().name);
+// console.log("Get user name", user_name);
+// var user_pass = $('#user_pass').val(getToken().password);
 
 // var res = {
 //   DATA_USER_NAME: user_name,
@@ -701,35 +702,67 @@ var user_pass = $('#user_pass').val(getToken().password);
 // };
 
 $(document).on('click', '.profile-users', function () {
+  buldHome();
+  get_user_information();
   $('#information_user').modal({ closable: false }).modal("show");
-  buldHome()
+
+  //$('#get_user_name').empty().append(user_name.val());
+});
+
+// Click update  
+// $(document).on('click', '#user_click_update', function () {
+
+//   var user_name_input = $('#get_user_name').val();
+
+//   var res = {
+//     DATA_USER_NAME: user_name_input,
+//     USER_ID: getToken().id,
+//     USER_PASS: getToken().password,
+//     USER_STATUS: 1,
+//     USER_ROLE: getToken().role,
+//   };
+
+//   console.log("all : ", res);
+// });
+
+// Click edit profile
+$(document).on('click', '.edit_profile_user', function () {
+
+  $('#fileuploads').click();
+
 });
 
 
-  
-$(document).on('click', '#user_click_update', function () {
-  
-  console.log("___", res)
-  var user_name_input = $('#get_user_name').val();
-  var user_pass_input = $('#user_pass').val();
+$(function () {
 
-  var res = {
-    DATA_USER_NAME: user_name_input,
-    DATA_USER_PASS: user_pass_input
-  };
-
-  console.log("all : ", res);
-
-})
-
-
-
-// Select image 
-$(function(){
-  $("#fileuploads").change(function(event) {
+  $("#fileuploads").change(function (event) {
+    // Select image 
     var change_image = URL.createObjectURL(event.target.files[0]);
-    $("#upload-img").attr("src",change_image);
-    console.log(event);
-    console.log('Change image : ',change_image);
+    $("#upload-img").attr("src", change_image);
+    console.log('change_image', change_image);
+
+    $(document).on('click', '#user_click_update', function () {
+
+      var user_name_input = $('#get_user_name').val();
+      var user_id = getToken().id;
+      var res = {
+        DATA_USER_NAME: user_name_input,
+        //USER_ID: getToken().id,
+        USER_PASS: getToken().password,
+        USER_STATUS: 1,
+        USER_ROLE: getToken().role,
+        USER_IMAGE: change_image,
+      };
+  
+      console.log("all : ", res);
+
+      update_user_profile(user_id, res, function(resp) {
+        if(resp.status) {
+          // buldHome();
+        }
+      })
+    });
   });
 })
+
+

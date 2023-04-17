@@ -110,39 +110,15 @@ homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { ARTICLES: acticle, TAGS: tags }));
   }
 });
-// test
-// Doc article
-// homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
-//   var acticle = await db.any(
-//     `SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body,   
-//     a.modified_date , a.create_date,  a.status,b.username,a.user_id,  
-//     f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path
-//     FROM doc_articles a 
-//     inner join doc_users b on a.user_id = b.id 
-//     left join doc_tags t on t.id = a.tag_id   
-//     left join doc_file as f on f.file_article_id = a.file_article_id 
-//     where a.id=cast($1 as INTEGER) and a.status = 1 and t.status = 1`,
-//     [req.body.ID]
-//   );
-//   if (acticle == null) {
-//     return res.send(new BaseRes(false, "Error", null));
-//   } else {
-//     var ress = [];
-//     if (acticle.length > 0) {
-//       ress = acticle[0];
-//     }
-//     res.send(new BaseRes(true, "Success", ress));
-//   }
-// });
 
-// test
+// Doc article
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   var acticle = await db.any(
     `SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body,   
-    a.modified_date , a.create_date,  a.status,b.username,a.user_id,b.image,  
-    f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path,c.image, 
+    a.modified_date , a.create_date,  a.status,b.username,b.image,a.user_id,  
+    f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path
     FROM doc_articles a 
-    inner join doc_users b on a.user_id = b.id
+    inner join doc_users b on a.user_id = b.id 
     left join doc_tags t on t.id = a.tag_id   
     left join doc_file as f on f.file_article_id = a.file_article_id 
     where a.id=cast($1 as INTEGER) and a.status = 1 and t.status = 1`,
@@ -803,7 +779,7 @@ homeRoute.post("/doc_tag_c01", async (req, res) => {
   }
 });
 
-// ROUTR UPDATE DOC
+// Update doc
 homeRoute.post("/doc_tag_u01", auth.adminAndUser, async (req, res) => {
   var tag = await db.any(`UPDATE doc_tags
                             set title= '${req.body.TITLE}',modified_date=now(), user_id=cast( '${req.body.USER_ID}' as integer), dep_id='${req.body.DEP_ID}' where id =cast( '${req.body.ID}' as integer)`);
@@ -814,20 +790,6 @@ homeRoute.post("/doc_tag_u01", auth.adminAndUser, async (req, res) => {
   }
 });
 
-// homeRoute.post('/doc_tag_u01', auth.permitAll, async (req, res) => {
-//     var tag = await db.any(`UPDATE doc_tags
-//                             set title= '${req.body.TITLE}',modified_date=now(), user_id=cast( '${req.body.USER_ID}' as integer), dep_id='${req.body.DEP_ID}' where id =cast( '${req.body.ID}' as integer)`);
-
-//     var article = await db.any(`UPDATE doc_articles
-//                             SET dep_id='${req.body.DEP_ID}' where tag_id=CAST( '${req.body.TAG_ID}' AS INTEGER)`);
-
-//     if (tag == null || article == null) {
-//         return res.send(new BaseRes(false, "Error", null))
-//     } else {
-//         res.send(new BaseRes(true, "Success", { ARTICLES: article, TAGS: tag }))
-//     }
-
-// })
 
 homeRoute.get("/doc_articles_r02", auth.permitAll, async (req, res) => {
   var count = await db.one(`select count(*) from doc_articles a 
@@ -941,10 +903,10 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
   var pwd
 });
 
-// Personal user update
+// Update user profile
 homeRoute.post('/persona_user_update/:id', async (req, res) => {
   // default query: UPDATE public.doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0, image='';
-  var personal_user_update = await db.result(`UPDATE public.doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.DATA_USER_PASS}', status=1, "role"=0, image=''`);
+  var personal_user_update = await db.result(`UPDATE public.doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}'`);
   if (personal_user_update == null) {
     return res.send(new BaseRes(false, 'Error', null));
   }
