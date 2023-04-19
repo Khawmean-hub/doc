@@ -332,7 +332,7 @@ function uploadFile(file, path, callBack) {
 // Update user profile
 function update_user_profile(id, req, callBack) {
   var settings = {
-    url: baseUrl + "/persona_user_update/" + id,
+    url: baseUrl + "/user_update_profile/" + id,
     method: "POST",
     header: {
       "Content-Type": "application/json",
@@ -343,3 +343,18 @@ function update_user_profile(id, req, callBack) {
   //console.log(settings)
   requestApi(settings, callBack);
 }
+
+// function update_user_profile(file, path, callBack) {
+//   let formData = new FormData();
+//   formData.append("file", file, path);
+
+//   var settings = {
+//     url: baseUrl + "user_update_profile/",
+//     method: "POST",
+//     processData: false,
+//     contentType: false,
+//     mimeType: "multipart/form-data",
+//     data: formData,
+//   };
+//   requestApi(settings, callBack);
+// }

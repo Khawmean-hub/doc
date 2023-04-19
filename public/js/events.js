@@ -1,4 +1,7 @@
 // $(".page-login").hide();
+
+//const { isNull } = require("../../utils/strUtils");
+
 // $(".my_body").hide();
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
@@ -44,7 +47,8 @@ $(".btn_upload_file").click(function () {
 $(document).on("click", "#upLoadFile", function () {
   $(this).addClass("loading");
   var file = $("#fileUpload")[0].files[0];
-  if (!isNull(file)) {
+  console.log('File:', file);
+;  if (!isNull(file)) {
     uploadFile(file, $("#fileUpload").val(), function (resp) {
       var data = JSON.parse(resp);
       console.log(data);
@@ -709,60 +713,112 @@ $(document).on('click', '.profile-users', function () {
   //$('#get_user_name').empty().append(user_name.val());
 });
 
-// Click update  
-// $(document).on('click', '#user_click_update', function () {
+// Click edit profile
+// $(document).on('click', '.edit_profile_user', function () {
 
-//   var user_name_input = $('#get_user_name').val();
+//   $('#fileuploads').click();
 
-//   var res = {
-//     DATA_USER_NAME: user_name_input,
-//     USER_ID: getToken().id,
-//     USER_PASS: getToken().password,
-//     USER_STATUS: 1,
-//     USER_ROLE: getToken().role,
-//   };
-
-//   console.log("all : ", res);
 // });
 
-// Click edit profile
+// $(function () {
+
+//   $("#fileuploads").change(function (event) {
+//     // Select image 
+//     var change_image = URL.createObjectURL(event.target.files[0]);
+//     $("#upload-img").attr("src", change_image);
+//     console.log('change_image', change_image);
+
+//     $(document).on('click', '#user_click_update', function () {
+//       alert('Hello');
+
+//       var user_name_input = $('#get_user_name').val();
+
+//       var id = getToken().id;
+//       console.log('User ID:', id)
+//       var res = {
+//         ID: id,
+//         DATA_USER_NAME: user_name_input,
+//         //USER_ID: getToken().id,
+//         USER_PASS: getToken().password,
+//         USER_STATUS: 1,
+//         USER_ROLE: getToken().role,
+//         USER_IMAGE: change_image,
+//       };
+  
+//       console.log("all : ", res);
+
+//       // update_user_profile(id, res, function(resp) {
+//       //   if(resp.status) {
+//       //     // buldHome();
+//       //   }
+//       // })
+//     });
+//   });
+// })
+
+// Test
+// $(document).on('click', '.edit_profile_user', function () {
+
+//   $('#fileuploads_image').click();
+//   var choose_image = $('#fileuploads_image')[0].files[0];
+//   console.log('Data form choose file:', choose_image);
+//   if(!isNull(choose_image)) {
+//     update_user_profile(id)
+//   }
+
+// });
+
 $(document).on('click', '.edit_profile_user', function () {
 
-  $('#fileuploads').click();
+  $('#fileuploads_image').click();
 
 });
 
-
 $(function () {
 
-  $("#fileuploads").change(function (event) {
-    // Select image 
-    var change_image = URL.createObjectURL(event.target.files[0]);
-    $("#upload-img").attr("src", change_image);
-    console.log('change_image', change_image);
+  $("#fileuploads_image").change(function () {
+    var reader = new FileReader();
+    var file = this.files[0];
+    console.log('Log file', file);            
+    if (file.type.indexOf('image') !=-1) {
+      reader.readAsDataURL(file);
+      reader.onload = function() {
+        $('#upload-img').attr('src', reader.result)
+      }
+    }
 
     $(document).on('click', '#user_click_update', function () {
+      alert('Hello');
 
-      var user_name_input = $('#get_user_name').val();
-      var user_id = getToken().id;
+      var id = getToken().id;
+      console.log('User ID:', id)
+
       var res = {
-        DATA_USER_NAME: user_name_input,
+        ID: id,
+        DATA_USER_NAME: getToken().name,
         //USER_ID: getToken().id,
         USER_PASS: getToken().password,
         USER_STATUS: 1,
         USER_ROLE: getToken().role,
-        USER_IMAGE: change_image,
+        USER_IMAGE: file,
       };
   
       console.log("all : ", res);
 
-      update_user_profile(user_id, res, function(resp) {
-        if(resp.status) {
-          // buldHome();
-        }
-      })
+      // update_user_profile(id, res, function(resp) {
+      //   if(resp.status) {
+      //     // buldHome();
+      //   }
+      // })
     });
   });
 })
 
-
+// $(document).on('click', '#user_click_update', function() {
+//   var choose_image = $('#fileuploads_image')[0].files[0];
+//   console.log('My file :', choose_image);
+//   update_user_profile(choose_image, $('#fileuploads_image').val(), function (resp) {
+//     var data = JSON.parse(resp);
+//     console.log('Data covert to JSON', data);
+//   })
+// })
