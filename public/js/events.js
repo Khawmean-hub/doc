@@ -1,5 +1,7 @@
 // $(".page-login").hide();
 
+// const { isNull } = require("../../utils/strUtils");
+
 //const { isNull } = require("../../utils/strUtils");
 
 // $(".my_body").hide();
@@ -705,68 +707,19 @@ $(document).on("click", ".profile", function () {
 //   DATA_USER_PASS: user_pass
 // };
 
+// Click user profile
 $(document).on('click', '.profile-users', function () {
-  buldHome();
-  get_user_information();
+  
   $('#information_user').modal({ closable: false }).modal("show");
 
-  //$('#get_user_name').empty().append(user_name.val());
 });
 
-// Click edit profile
-// $(document).on('click', '.edit_profile_user', function () {
+// Testting is work
 
-//   $('#fileuploads').click();
 
-// });
 
-// $(function () {
 
-//   $("#fileuploads").change(function (event) {
-//     // Select image 
-//     var change_image = URL.createObjectURL(event.target.files[0]);
-//     $("#upload-img").attr("src", change_image);
-//     console.log('change_image', change_image);
-
-//     $(document).on('click', '#user_click_update', function () {
-//       alert('Hello');
-
-//       var user_name_input = $('#get_user_name').val();
-
-//       var id = getToken().id;
-//       console.log('User ID:', id)
-//       var res = {
-//         ID: id,
-//         DATA_USER_NAME: user_name_input,
-//         //USER_ID: getToken().id,
-//         USER_PASS: getToken().password,
-//         USER_STATUS: 1,
-//         USER_ROLE: getToken().role,
-//         USER_IMAGE: change_image,
-//       };
-  
-//       console.log("all : ", res);
-
-//       // update_user_profile(id, res, function(resp) {
-//       //   if(resp.status) {
-//       //     // buldHome();
-//       //   }
-//       // })
-//     });
-//   });
-// })
-
-// Test
-// $(document).on('click', '.edit_profile_user', function () {
-
-//   $('#fileuploads_image').click();
-//   var choose_image = $('#fileuploads_image')[0].files[0];
-//   console.log('Data form choose file:', choose_image);
-//   if(!isNull(choose_image)) {
-//     update_user_profile(id)
-//   }
-
-// });
+// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 $(document).on('click', '.edit_profile_user', function () {
 
@@ -776,49 +729,38 @@ $(document).on('click', '.edit_profile_user', function () {
 
 $(function () {
 
-  $("#fileuploads_image").change(function () {
-    var reader = new FileReader();
-    var file = this.files[0];
-    console.log('Log file', file);            
-    if (file.type.indexOf('image') !=-1) {
-      reader.readAsDataURL(file);
-      reader.onload = function() {
-        $('#upload-img').attr('src', reader.result)
-      }
-    }
+  $("#fileuploads_image").change(function (event) {
+    // Select image 
+    var change_image = URL.createObjectURL(files[0]);
+    var convert_to_file = change_image.files[0];
+    console.log('convert to file', convert_to_file)
+    $("#upload-img").attr("src", change_image);
+    
+    console.log('change_image', change_image);
 
     $(document).on('click', '#user_click_update', function () {
       alert('Hello');
 
       var id = getToken().id;
-      console.log('User ID:', id)
-
+  
       var res = {
         ID: id,
-        DATA_USER_NAME: getToken().name,
+        USER_NAME: getToken().name,
         //USER_ID: getToken().id,
         USER_PASS: getToken().password,
         USER_STATUS: 1,
         USER_ROLE: getToken().role,
-        USER_IMAGE: file,
+        USER_IMAGE: change_image,
       };
   
       console.log("all : ", res);
 
-      // update_user_profile(id, res, function(resp) {
-      //   if(resp.status) {
-      //     // buldHome();
-      //   }
-      // })
+      update_user_profile(id, res, function(resp) {
+        if(resp.status) {
+          // buldHome();
+        }
+      })
     });
   });
-})
+});
 
-// $(document).on('click', '#user_click_update', function() {
-//   var choose_image = $('#fileuploads_image')[0].files[0];
-//   console.log('My file :', choose_image);
-//   update_user_profile(choose_image, $('#fileuploads_image').val(), function (resp) {
-//     var data = JSON.parse(resp);
-//     console.log('Data covert to JSON', data);
-//   })
-// })

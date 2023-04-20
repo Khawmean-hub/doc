@@ -906,7 +906,7 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
 // Update user profile
 homeRoute.post('/user_update_profile/:id', async (req, res) => {
   // default query: UPDATE public.doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0, image='';
-  var personal_user_update = await db.result(`UPDATE public.doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}' where id=${req.params.id}`);
+  var personal_user_update = await db.result(`UPDATE doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}' where id=${req.params.id}`);
   if (personal_user_update == null) {
     return res.send(new BaseRes(false, 'Error', null));
   }

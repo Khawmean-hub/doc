@@ -340,7 +340,6 @@ function update_user_profile(id, req, callBack) {
     },
     data: req,
   };
-  //console.log(settings)
   requestApi(settings, callBack);
 }
 

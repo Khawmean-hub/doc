@@ -424,7 +424,15 @@ img {
 
 .edit_profile_user {
   cursor: pointer;
-  margin-top: 20px;
+  margin-top: 25px;
 }
 
+.edit_profile_user {
+  color: #4183c4;
+  margin-top: 10px;
+}
+
+#upload-img {
+  object-fit: cover;
+}
 /*  */
