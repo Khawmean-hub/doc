@@ -901,6 +901,14 @@ homeRoute.post("/update_users/:id", async (req, res) => {
 });
 
 // Update user profile
+homeRoute.post('/user_update_profile/:id', async (req, res) => {
+  // var personal_user_update = await db.result(`UPDATE doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}' where id=${req.params.id}`);
+  var update_profile = await db.result(`UPDATE doc_users SET image='${req.body.USER_IMAGE}' where id=${req.params.id}`)
+  if (update_profile == null) {
+    return res.send(new BaseRes(false, 'Error', null));
+  }
+  else {
+    res.send(new BaseRes(true, "Success", update_profile));
 homeRoute.post("/persona_user_update/:id", async (req, res) => {
   // default query: UPDATE public.doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0, image='';
   var personal_user_update = await db.result(

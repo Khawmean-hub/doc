@@ -332,7 +332,7 @@ function uploadFile(file, path, callBack) {
 // Update user profile
 function update_user_profile(id, req, callBack) {
   var settings = {
-    url: baseUrl + "/persona_user_update/" + id,
+    url: baseUrl + "/user_update_profile/" + id,
     method: "POST",
     header: {
       "Content-Type": "application/json",
@@ -340,7 +340,6 @@ function update_user_profile(id, req, callBack) {
     },
     data: req,
   };
-  //console.log(settings)
   requestApi(settings, callBack);
 }
 
