@@ -2,8 +2,7 @@
 
 // const { isNull } = require("../../utils/strUtils");
 
-//const { isNull } = require("../../utils/strUtils");
-
+var profileFile;
 // $(".my_body").hide();
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
@@ -50,7 +49,7 @@ $(document).on("click", "#upLoadFile", function () {
   $(this).addClass("loading");
   var file = $("#fileUpload")[0].files[0];
   console.log('File:', file);
-;  if (!isNull(file)) {
+  ; if (!isNull(file)) {
     uploadFile(file, $("#fileUpload").val(), function (resp) {
       var data = JSON.parse(resp);
       console.log(data);
@@ -709,58 +708,53 @@ $(document).on("click", ".profile", function () {
 
 // Click user profile
 $(document).on('click', '.profile-users', function () {
-  
+
   $('#information_user').modal({ closable: false }).modal("show");
 
 });
 
-// Testting is work
-
-
-
-
-// +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
+// Choose image
 $(document).on('click', '.edit_profile_user', function () {
 
-  $('#fileuploads_image').click();
+  $('#fileuploads_image').click(); // Choose image
 
 });
 
-$(function () {
+// Preview image
+$('#fileuploads_image').change(function () {
+  const file = this.files[0];
+  if (file) {
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      $('#upload-img').attr("src", event.target.result);
+    };
+    profileFile = file;
+    reader.readAsDataURL(file);
+  }
+});
 
-  $("#fileuploads_image").change(function (event) {
-    // Select image 
-    var change_image = URL.createObjectURL(files[0]);
-    var convert_to_file = change_image.files[0];
-    console.log('convert to file', convert_to_file)
-    $("#upload-img").attr("src", change_image);
-    
-    console.log('change_image', change_image);
+// Update image
+$(document).on('click', '#user_click_update', function () {
 
-    $(document).on('click', '#user_click_update', function () {
-      alert('Hello');
+  var id = getToken().id;
 
-      var id = getToken().id;
-  
+  uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
+
+    var data = JSON.parse(resp);
+
+    if (data.status) {
       var res = {
         ID: id,
-        USER_NAME: getToken().name,
-        //USER_ID: getToken().id,
-        USER_PASS: getToken().password,
-        USER_STATUS: 1,
-        USER_ROLE: getToken().role,
-        USER_IMAGE: change_image,
+        USER_IMAGE: data.data.url,
       };
-  
-      console.log("all : ", res);
+      update_user_profile(id, res, function (resp) {
+        if (resp.status) {
 
-      update_user_profile(id, res, function(resp) {
-        if(resp.status) {
-          // buldHome();
         }
-      })
-    });
+      });
+    } else {
+      alert(data.message);
+    }
   });
-});
 
+});

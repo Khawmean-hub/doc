@@ -284,10 +284,9 @@ function randomNotFound() {
   );
 }
 
-// Build Acticlev
+// Build acticle
 function buildActicle(id) {
   loader();
-
   getActicle(id, function (resp) {
     if (resp.data.content_body === undefined) {
       $("#content_body").empty().append(resp.data.content_body);
@@ -299,8 +298,8 @@ function buildActicle(id) {
       } else {
         html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
       }
-      html += `<span> by ${resp.data.username} <span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span> </span> </div>`;
-      //html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span>`
+      // html += `<span> by ${resp.data.username} <span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span> </span> </div>`;
+      html += `<span> by ${resp.data.username} <div class="ui mini image"> <img src="${resp.data.image}"></div </span> </div>`;
       html += resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();
