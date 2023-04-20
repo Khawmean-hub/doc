@@ -343,3 +343,17 @@ function update_user_profile(id, req, callBack) {
   //console.log(settings)
   requestApi(settings, callBack);
 }
+
+// RESET PASSWORD
+function reset_password(req, callBack) {
+  var settings = {
+    url: baseUrl + "/doc_reset_password",
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data:req,
+  };
+  requestApi(settings, callBack);
+}
