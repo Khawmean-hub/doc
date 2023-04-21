@@ -448,7 +448,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () {}, 1500);
+        setTimeout(function () { }, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -699,7 +699,7 @@ $(document).on("click", ".profile-users", function () {
 // Click user profile
 $(document).on("click", ".profile-users", function () {
   $('#information_user').modal({ closable: false }).modal("show");
-  
+
 });
 
 // Choose image
@@ -738,22 +738,26 @@ $(document).on('click', '#user_click_update', function () {
       };
       update_user_profile(id, res, function (resp) {
         if (resp.status) {
-          $('#fileuploads_image').removeClass('loading');
-          var user_image = localStorage.getItem('b2b_user');
-          var obj = JSON.parse(user_image); // Convert to JSON
-          obj.img = data.data.url;
-          console.log("Obj :", obj);
-          localStorage.setItem('b2b_user', JSON.stringify(obj));
-          get_user_image();
-          $('#information_user').modal('hide');
+          setTimeout(function () {
+            $('#fileuploads_image').removeClass('loading');
+            var user_image = localStorage.getItem('b2b_user');
+            var obj = JSON.parse(user_image); // Convert to JSON
+            obj.img = data.data.url;
+            console.log("Obj :", obj);
+            localStorage.setItem('b2b_user', JSON.stringify(obj));
+            get_user_image();
+            $('#user_click_update').removeClass('loading');
+            $('#information_user').modal('hide');
+          }, 1000);
         }
       });
-    } 
+      // $('#user_click_update').removeClass('loading');
+    }
     else {
       alert(data.message);
     }
   });
-  
+
 });
 
 //POPUP RESET PASSWORD
@@ -784,7 +788,7 @@ $(document).on("click", "#sign_up", function () {
     };
     reset_password(req, function (resp) {
       if (resp.status) {
-    $('#change-password').modal("hide")
+        $('#change-password').modal("hide")
       } else {
         $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
       }
@@ -796,7 +800,7 @@ $(document).on("click", "#sign_up", function () {
   }
 
 });
-$(document).on('click', '.cancel_re_pwd ', function(){
+$(document).on('click', '.cancel_re_pwd ', function () {
   $(".msg_re_pwd").modal('hide')
 })
 
