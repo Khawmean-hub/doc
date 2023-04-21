@@ -726,7 +726,7 @@ $(document).on('click', '#user_click_update', function () {
   var id = getToken().id;
 
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
-
+    $(this).addClass('loading');
     var data = JSON.parse(resp);
     console.log("data :", data);
 
@@ -737,14 +737,22 @@ $(document).on('click', '#user_click_update', function () {
       };
       update_user_profile(id, res, function (resp) {
         if (resp.status) {
+          $('#fileuploads_image').removeClass('loading');
+          var user_image = localStorage.getItem('b2b_user');
+          var obj = JSON.parse(user_image); // Convert to JSON
           
+          obj.img = data.data.url;
+          console.log("Obj :", obj);
+          localStorage.setItem('b2b_user', JSON.stringify(obj));
+
         }
       });
-    } else {
+    } 
+    else {
       alert(data.message);
     }
   });
-
+  
 });
 
 // Reset passwork
