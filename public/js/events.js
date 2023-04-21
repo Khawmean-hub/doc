@@ -797,7 +797,7 @@ $(document).on("click", "#sign_up", function () {
 
 });
 $(document).on('click', '.cancel_re_pwd ', function(){
-
+  $(".msg_re_pwd").modal('hide')
 })
 
 
