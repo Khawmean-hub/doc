@@ -53,6 +53,21 @@
       </div>
     </div>
 
+    <!-- Alert Reset-password -->
+    <div class="msg_re_pwd ui modal coupled">
+      <div style="position: absolute; top: 120px; right: -450px;">
+        <div class="ui red icon message compact">
+          <i class="exclamation circle icon"></i>
+          <div class="content">
+            <div class="header">
+              Login
+            </div>
+            <p>Incorrect Current password or New password.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- login form -->
     <form class="ui form login_form" onsubmit="return false" id="loginForm" style="display: none;">
       <h2>Login</h2>
@@ -575,21 +590,21 @@
       </h4>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Current password</label>
-        <input type="text" placeholder="" class="curpwd">
+        <input type="password" placeholder="" class="curpwd">
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>New password</label>
-        <input type="text" placeholder="" class="newpwd">
+        <input type="password" placeholder="" class="newpwd">
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Confirm password</label>
-        <input type="text" placeholder="" class="conpwd">
+        <input type="password" placeholder="" class="conpwd">
       </div>
     </form>
     <br>
     <div class="actions agr">
-      <div class="ui tiny button btn_cl deny ">Cancel</div>
-      <div class="ui button tiny blue succSiUp " value="submit" id="sign_up">Sign up</div>
+      <div class="ui tiny button btn_cl deny cancel_re_pwd ">Cancel</div>
+      <div class="ui button tiny blue succSiUp " value="submit" id="sign_up">Login</div>
     </div>
 
   </div>
@@ -805,10 +820,18 @@
       <label for="user_image" class="">
         <div class="ui medium image">
           <!-- <img class="ui  circular image" id="upload-img" src=""> -->
-          <img class="ui medium circular image" id="upload-img" src="" style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
-        </div> 
-        <center> <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p> </center> <br>
-        <center> <div> <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name"></h2></div> </center> 
+          <img class="ui medium circular image" id="upload-img" src=""
+            style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
+        </div>
+        <center>
+          <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p>
+        </center> <br>
+        <center>
+          <div>
+            <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name">
+            </h2>
+          </div>
+        </center>
       </label>
       <!-- <a class="edit_profile_user" href="#" style="text-align: center;">Edit profile</a> -->
       <!-- <div class="description">
@@ -825,9 +848,9 @@
           </form>
         </div>
       </div> -->
-      
+
     </div>
-    
+
     <div class="actions">
       <input type="file" for="fileuploads" class="" id="fileuploads_image" style="display: none;">
       <button class="ui button cancel tiny" id="">Cancel</button>
