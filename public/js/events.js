@@ -782,7 +782,7 @@ $(document).on("click", "#sign_up", function () {
       ID: getToken().id,
       newPassword: $(".newpwd").val(),
     };
-    reset_password(req, function (res) {
+    reset_password(req, function (resp) {
       if (resp.status) {
     $('#change-password').modal("hide")
       } else {
