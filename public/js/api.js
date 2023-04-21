@@ -1,7 +1,7 @@
 // BASE URL
-var baseUrl = "http://192.168.178.81:88"; // Dev server 
+//var baseUrl = "http://192.168.178.81:88"; // Dev server 
 //var baseUrl = "http://192.168.178.81:81"; // Real server
-// var baseUrl = "http://localhost:4545"; // Local server
+var baseUrl = "http://localhost:4545"; // Local server
 
 // CALL API
 var isAlreadyAlert = false;

@@ -318,7 +318,7 @@ $("#btn_login").click(function () {
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
 
-        
+
 
         $(".edit_tag").show();
       } else {
@@ -452,7 +452,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () {}, 1500);
+        setTimeout(function () { }, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -692,16 +692,6 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// Get user name, pass
-// var user_name = $('#get_user_name').val(getToken().name);
-// console.log("Get user name", user_name);
-// var user_pass = $('#user_pass').val(getToken().password);
-
-// var res = {
-//   DATA_USER_NAME: user_name,
-//   DATA_USER_PASS: user_pass
-// };
-
 // Click user profile
 $(document).on("click", ".profile-users", function () {
 
@@ -715,25 +705,6 @@ $(document).on('click', '.edit_profile_user', function () {
 
   $('#fileuploads_image').click(); // Choose image
 
-// Click update
-// $(document).on('click', '#user_click_update', function () {
-
-//   var user_name_input = $('#get_user_name').val();
-
-//   var res = {
-//     DATA_USER_NAME: user_name_input,
-//     USER_ID: getToken().id,
-//     USER_PASS: getToken().password,
-//     USER_STATUS: 1,
-//     USER_ROLE: getToken().role,
-//   };
-
-//   console.log("all : ", res);
-// });
-
-// Click edit profile
-$(document).on("click", ".edit_profile_user", function () {
-  $("#fileuploads").click();
 });
 
 // Preview image
@@ -753,21 +724,13 @@ $('#fileuploads_image').change(function () {
 $(document).on('click', '#user_click_update', function () {
 
   var id = getToken().id;
-$(function () {
-  $("#fileuploads").change(function (event) {
-    // Select image
-    var change_image = URL.createObjectURL(event.target.files[0]);
-    $("#upload-img").attr("src", change_image);
-    console.log("change_image", change_image);
 
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
 
     var data = JSON.parse(resp);
+    console.log("data :", data);
 
     if (data.status) {
-    $(document).on("click", "#user_click_update", function () {
-      var user_name_input = $("#get_user_name").val();
-      var user_id = getToken().id;
       var res = {
         ID: id,
         USER_IMAGE: data.data.url,
@@ -775,16 +738,54 @@ $(function () {
       update_user_profile(id, res, function (resp) {
         if (resp.status) {
           
-          
         }
       });
     } else {
       alert(data.message);
     }
   });
-      });
-    });
-  });
+
 });
 
+// Reset passwork
+$(document).on("click", "#reset-password", function () {
+  $("#change-password")
+    .modal({ closable: false, allowMultiple: true })
+    .modal("show");
+});
+$(document).on("click", "#sign_up", function () {
+  var curpwd = $(".curpwd").val();
+  var newpwd = $(".newpwd").val();
+  var conpwd = $(".conpwd").val();
+  var id = getToken().id;
+
+  if (!isNull(curpwd) && !isNull(newpwd) && !isNull(conpwd)) {
+    if ($(".conpwd").val() == $(".newpwd").val()) {
+      $(".newpwd").parent().removeClass("error");
+      $(".conpwd").parent().removeClass("error");
+      var req = {
+        currentPassword: $(".curpwd").val(),
+        ID: getToken().id,
+        newPassword: $(".newpwd").val(),
+      };
+      reset_password(req);
+
+      $(".curpwd").val("");
+      $(".newpwd").val("");
+      $(".conpwd").val("");
+    } else {
+      $(".newpwd").parent().addClass("error");
+      $(".conpwd").parent().addClass("error");
+    }
+  }
+});
+
+$(document).on("keyup", ".newpwd", function () {
+  $(".newpwd").parent().removeClass("error");
+});
+$(document).on("keyup", ".curpwd", function () {
+  $(".curpwd").parent().removeClass("error");
+});
+$(document).on("keyup", ".conpwd", function () {
+  $(".conpwd").parent().removeClass("error");
 });

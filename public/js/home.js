@@ -293,13 +293,14 @@ function buildActicle(id) {
       randomNotFound();
     } else {
       var html = "";
-      if (!isNull(resp.data.modified_date)) {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(resp.data.modified_date).format("DD MMM YYYY")}</span>`;
-      } else {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
+      if (!isNull(resp.data.modified_date)) { // Check update acticle
+        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> by ${resp.data.username} <span style="margin-bottom: 20px;color: #afafaf;"> Modify : ${moment(resp.data.modified_date).format("DD MMM YYYY")} </span> </span>  `;
+        // html += ``;
+      } else { 
+        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> Create by ${resp.data.username} </span> <span style="margin-bottom: 20px;color: #afafaf;"><span> On : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
       }
       // html += `<span> by ${resp.data.username} <span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span> </span> </div>`;
-      html += `<span> by ${resp.data.username} <div class="ui mini image"> <img src="${resp.data.image}"></div </span> </div>`;
+      // html += `<span> by ${resp.data.username} <div class="ui mini image"> <img src="${resp.data.image}"></div </span> </div>`;
       html += resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();
@@ -520,7 +521,6 @@ function buildUserTable() {
 function get_user_information() {
   var user_name = $('#get_user_name').val(getToken().name);
   $('#get_user_name').empty().append(user_name.val());
-  // buldHome();
 }
 
 function get_user_image() {
