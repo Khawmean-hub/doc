@@ -688,51 +688,38 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// Get user name, pass
-// var user_name = $('#get_user_name').val(getToken().name);
-// console.log("Get user name", user_name);
-// var user_pass = $('#user_pass').val(getToken().password);
-
-// var res = {
-//   DATA_USER_NAME: user_name,
-//   DATA_USER_PASS: user_pass
-// };
 
 $(document).on("click", ".profile-users", function () {
   buldHome();
   get_user_information();
   $("#information_user").modal({ closable: false }).modal("show");
-
-  //$('#get_user_name').empty().append(user_name.val());
 });
 
-// Click update
-// $(document).on('click', '#user_click_update', function () {
 
-//   var user_name_input = $('#get_user_name').val();
+// Click user profile
+$(document).on("click", ".profile-users", function () {
+  $('#information_user').modal({ closable: false }).modal("show");
+  
+});
 
-//   var res = {
-//     DATA_USER_NAME: user_name_input,
-//     USER_ID: getToken().id,
-//     USER_PASS: getToken().password,
-//     USER_STATUS: 1,
-//     USER_ROLE: getToken().role,
-//   };
-
-//   console.log("all : ", res);
-// });
-
-// Click edit profile
+// Choose image
 $(document).on("click", ".edit_profile_user", function () {
-  $("#fileuploads").click();
+  $("#fileuploads_image").click(); // Choose image
 });
 
-$(function () {
-  $("#fileuploads").change(function (event) {
-    // Select image
-    var change_image = URL.createObjectURL(event.target.files[0]);
-    $("#upload-img").attr("src", change_image);
-    console.log("change_image", change_image);
+// Preview image
+$('#fileuploads_image').change(function () {
+  const file = this.files[0];
+  if (file) {
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      $('#upload-img').attr("src", event.target.result);
+    };
+    profileFile = file;
+    reader.readAsDataURL(file);
+  }
+});
+
 
 // Update image
 $(document).on('click', '#user_click_update', function () {
@@ -746,17 +733,10 @@ $(document).on('click', '#user_click_update', function () {
 
     if (data.status) {
       var res = {
-        DATA_USER_NAME: user_name_input,
-        //USER_ID: getToken().id,
-        USER_PASS: getToken().password,
-        USER_STATUS: 1,
-        USER_ROLE: getToken().role,
-        USER_IMAGE: change_image,
+        ID: id,
+        USER_IMAGE: data.data.url,
       };
-
-      console.log("all : ", res);
-
-      update_user_profile(user_id, res, function (resp) {
+      update_user_profile(id, res, function (resp) {
         if (resp.status) {
           $('#fileuploads_image').removeClass('loading');
           var user_image = localStorage.getItem('b2b_user');
