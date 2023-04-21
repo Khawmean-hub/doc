@@ -912,7 +912,6 @@ homeRoute.post('/user_update_profile/:id', async (req, res) => {
   }
 });
 
-
 // reset password
 homeRoute.post("/doc_reset_password", async (req, res) => {
   console.log(req.body)
@@ -925,7 +924,8 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
       `UPDATE public.doc_users SET password = ${req.body.newPassword} WHERE id =${req.body.ID}`
     ); 
   } else {
-    return res.send(new BaseRes(false, "Error", null));
+    return res.send(new BaseRes(false, "Incorrect Current password or New password", null));
+    
   }
 });
 

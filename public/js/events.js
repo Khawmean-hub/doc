@@ -1,5 +1,4 @@
 // $(".page-login").hide();
-var profileFile;
 // $(".my_body").hide();
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
@@ -45,8 +44,7 @@ $(".btn_upload_file").click(function () {
 $(document).on("click", "#upLoadFile", function () {
   $(this).addClass("loading");
   var file = $("#fileUpload")[0].files[0];
-  console.log('File:', file);
-  ; if (!isNull(file)) {
+  if (!isNull(file)) {
     uploadFile(file, $("#fileUpload").val(), function (resp) {
       var data = JSON.parse(resp);
       console.log(data);
@@ -318,8 +316,6 @@ $("#btn_login").click(function () {
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
 
-
-
         $(".edit_tag").show();
       } else {
         $("#msg_alert p").text(resp.message);
@@ -452,7 +448,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () { }, 1500);
+        setTimeout(function () {}, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -692,33 +688,51 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// Click user profile
+// Get user name, pass
+// var user_name = $('#get_user_name').val(getToken().name);
+// console.log("Get user name", user_name);
+// var user_pass = $('#user_pass').val(getToken().password);
+
+// var res = {
+//   DATA_USER_NAME: user_name,
+//   DATA_USER_PASS: user_pass
+// };
+
 $(document).on("click", ".profile-users", function () {
-
-  $('#information_user').modal({ closable: false }).modal("show");
   buldHome();
+  get_user_information();
+  $("#information_user").modal({ closable: false }).modal("show");
 
+  //$('#get_user_name').empty().append(user_name.val());
 });
 
-// Choose image
-$(document).on('click', '.edit_profile_user', function () {
+// Click update
+// $(document).on('click', '#user_click_update', function () {
 
-  $('#fileuploads_image').click(); // Choose image
+//   var user_name_input = $('#get_user_name').val();
 
+//   var res = {
+//     DATA_USER_NAME: user_name_input,
+//     USER_ID: getToken().id,
+//     USER_PASS: getToken().password,
+//     USER_STATUS: 1,
+//     USER_ROLE: getToken().role,
+//   };
+
+//   console.log("all : ", res);
+// });
+
+// Click edit profile
+$(document).on("click", ".edit_profile_user", function () {
+  $("#fileuploads").click();
 });
 
-// Preview image
-$('#fileuploads_image').change(function () {
-  const file = this.files[0];
-  if (file) {
-    let reader = new FileReader();
-    reader.onload = function (event) {
-      $('#upload-img').attr("src", event.target.result);
-    };
-    profileFile = file;
-    reader.readAsDataURL(file);
-  }
-});
+$(function () {
+  $("#fileuploads").change(function (event) {
+    // Select image
+    var change_image = URL.createObjectURL(event.target.files[0]);
+    $("#upload-img").attr("src", change_image);
+    console.log("change_image", change_image);
 
 // Update image
 $(document).on('click', '#user_click_update', function () {
@@ -732,10 +746,17 @@ $(document).on('click', '#user_click_update', function () {
 
     if (data.status) {
       var res = {
-        ID: id,
-        USER_IMAGE: data.data.url,
+        DATA_USER_NAME: user_name_input,
+        //USER_ID: getToken().id,
+        USER_PASS: getToken().password,
+        USER_STATUS: 1,
+        USER_ROLE: getToken().role,
+        USER_IMAGE: change_image,
       };
-      update_user_profile(id, res, function (resp) {
+
+      console.log("all : ", res);
+
+      update_user_profile(user_id, res, function (resp) {
         if (resp.status) {
           $('#fileuploads_image').removeClass('loading');
           var user_image = localStorage.getItem('b2b_user');
@@ -755,45 +776,48 @@ $(document).on('click', '#user_click_update', function () {
   
 });
 
-// Reset passwork
+//POPUP RESET PASSWORD
 $(document).on("click", "#reset-password", function () {
   $("#change-password")
     .modal({ closable: false, allowMultiple: true })
     .modal("show");
 });
+// RESET PASSWORD
 $(document).on("click", "#sign_up", function () {
   var curpwd = $(".curpwd").val();
   var newpwd = $(".newpwd").val();
   var conpwd = $(".conpwd").val();
   var id = getToken().id;
-
+  // Validation
+  if (isNull(curpwd)) $(".curpwd").parent().addClass("error");
+  else $(".curpwd").parent().removeClass("error");
+  if (isNull(newpwd)) $(".newpwd").parent().addClass("error");
+  else $(".newpwd").parent().removeClass("error");
+  if (isNull(conpwd)) $(".conpwd").parent().addClass("error");
+  else $(".conpwd").parent().removeClass("error");
   if (!isNull(curpwd) && !isNull(newpwd) && !isNull(conpwd)) {
-    if ($(".conpwd").val() == $(".newpwd").val()) {
-      $(".newpwd").parent().removeClass("error");
-      $(".conpwd").parent().removeClass("error");
-      var req = {
-        currentPassword: $(".curpwd").val(),
-        ID: getToken().id,
-        newPassword: $(".newpwd").val(),
-      };
-      reset_password(req);
-
-      $(".curpwd").val("");
-      $(".newpwd").val("");
-      $(".conpwd").val("");
-    } else {
-      $(".newpwd").parent().addClass("error");
-      $(".conpwd").parent().addClass("error");
-    }
+    $("#reset-password").addClass("loading");
+    var req = {
+      currentPassword: $(".curpwd").val(),
+      ID: getToken().id,
+      newPassword: $(".newpwd").val(),
+    };
+    reset_password(req, function (resp) {
+      if (resp.status) {
+        buldHome();
+      } else {
+        $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
+      }
+      $("#reset-password").removeClass("loading");
+    });
+    curpwd = $(".curpwd").val("");
+    newpwd = $(".newpwd").val("");
+    conpwd = $(".conpwd").val("");
   }
-});
 
-$(document).on("keyup", ".newpwd", function () {
-  $(".newpwd").parent().removeClass("error");
 });
-$(document).on("keyup", ".curpwd", function () {
-  $(".curpwd").parent().removeClass("error");
-});
-$(document).on("keyup", ".conpwd", function () {
-  $(".conpwd").parent().removeClass("error");
-});
+$(document).on('click', '.cancel_re_pwd ', function(){
+
+})
+
+
