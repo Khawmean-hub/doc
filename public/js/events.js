@@ -785,7 +785,7 @@ $(document).on("click", "#sign_up", function () {
     };
     reset_password(req, function (resp) {
       if (resp.status) {
-        buldHome();
+    $('#change-password').modal("hide")
       } else {
         $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
       }
