@@ -294,10 +294,10 @@ function buildActicle(id) {
     } else {
       var html = "";
       if (!isNull(resp.data.modified_date)) { // Check update acticle
-        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> by ${resp.data.username} <span style="margin-bottom: 20px;color: #afafaf;"> Modify : ${moment(resp.data.modified_date).format("DD MMM YYYY")} </span> </span>  `;
+        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> by ${resp.data.username} <p style="margin-left: 36px"> Modify on : ${moment(resp.data.modified_date).format("DD MMM YYYY")} </p> </span>  `;
         // html += ``;
       } else { 
-        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> Create by ${resp.data.username} </span> <span style="margin-bottom: 20px;color: #afafaf;"><span> On : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
+        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> Create by ${resp.data.username}  <p id='style_user_create_acticle'> On : ${moment(resp.data.create_date).format("DD MMM YYYY")} </p> </span>`;
       }
       // html += `<span> by ${resp.data.username} <span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span> </span> </div>`;
       // html += `<span> by ${resp.data.username} <div class="ui mini image"> <img src="${resp.data.image}"></div </span> </div>`;
