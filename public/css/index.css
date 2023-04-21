@@ -446,4 +446,25 @@ img {
 #style_user_create_acticle {
   margin-left: 36px;
 }
+
+#file_content {
+  color: #000;
+}
+
+#users_photo {
+  width: 55px;
+  height: 55px;
+}
+
+#test {
+  margin-left: 63px;
+}
+
+#information_user {
+  /* width: 306px; */
+}
+
+.sub_modified_date {
+  color: gray;
+}
 /*  */

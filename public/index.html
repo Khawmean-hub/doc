@@ -386,7 +386,10 @@
       </form>
       <!-- Content text here -->
       <textarea name="editor1" id="editor1" class="blah"></textarea>
-
+      <!-- File -->
+      <div id="file_content">
+        <span class="img_path"></span>
+      </div>
       <!-- dropdown navbar -->
       <div class="ui dropdown">
         <div class="text"></div>
@@ -439,7 +442,7 @@
           <i class="upload icon"></i>
           Upload File
         </button>
-        <input type="file" hidden class="fileType" id="fileUpload">
+        <input type="file" hidden class="fileType" id="fileUpload" multiple style="">
 
         <!-- <button id="upLoadFile">Uplaod</button> -->
         <div class="ui button tiny" id="upLoadFile">Upload</div>
@@ -814,39 +817,37 @@
   </div>
 
   <!-- Profile -->
-  <div class="ui modal" id="information_user">
-    <div class="image content" style="height: 399px;">
-      <label for="user_image" class="">
-        <div class="ui medium image">
-          <!-- <img class="ui  circular image" id="upload-img" src=""> -->
-          <img class="ui medium circular image" id="upload-img" src="" style="width: 200px; height: 200px; margin-left: auto; margin-right: auto; border: 1px solid rgb(95, 95, 128);">
-        </div> 
-        <center> <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p> </center> <br>
-        <center> <div> <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name"></h2></div> </center> 
-      </label>
-      <!-- <a class="edit_profile_user" href="#" style="text-align: center;">Edit profile</a> -->
-      <!-- <div class="description">
-        <div class="image content" style="display: block;">
-          <form class="ui form" style="align-content: center;">
-            <div class="field">
-              <label>UserName</label>
-              <input type="text" class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name">
-            </div>
-            <div class="field">
-              <label>Password</label>
-              <input type="text" pass="password" placeholder="Password" id="user_pass">
-            </div>
-          </form>
-        </div>
-      </div> -->
+  <div class="ui modal" id="information_user" style="height: 400px; width: 300px;">
+    <br>
+    <center>
+      <div class="image content">
+        <label for="user_image" class="">
+          <div class="ui medium image">
+            <!-- <img class="ui  circular image" id="upload-img" src=""> -->
+            <img class="ui medium circular image" id="upload-img" src=""
+              style="width: 200px; height: 200px; margin-left: auto; margin-right: auto; border: 1px solid rgb(95, 95, 128);">
+          </div>
+          <!-- <center> -->
+          <div>
+            <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name">
+            </h2>
+          </div>
+          <!-- </center> -->
+          <!-- <center> -->
+          <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p>
 
-    </div>
 
-    <div class="actions">
-      <input type="file" for="fileuploads" class="" id="fileuploads_image" style="display: none;">
-      <button class="ui button cancel tiny" id="">Cancel</button>
-      <button class="ui button blue tiny" type="submit" id="user_click_update">Update</button>
-    </div>
+          <div class="actions" style="margin-top: 43px;">
+            <input type="file" for="fileuploads" class="" id="fileuploads_image" style="display: none;">
+            <button class="ui button cancel medium" id="">Cancel</button>
+            <button class="ui button blue medium" type="submit" id="user_click_update"
+              style="margin-left: 60px;">Update</button>
+          </div>
+          <!-- </center> -->
+        </label>
+
+      </div>
+    </center>
   </div>
 
 
