@@ -1,8 +1,4 @@
 // $(".page-login").hide();
-<<<<<<< HEAD
-=======
-var profileFile;
->>>>>>> 0683b44398fbda8552d8fedee9a433f91374b60d
 // $(".my_body").hide();
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
@@ -320,8 +316,6 @@ $("#btn_login").click(function () {
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
 
-
-
         $(".edit_tag").show();
       } else {
         $("#msg_alert p").text(resp.message);
@@ -454,7 +448,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () { }, 1500);
+        setTimeout(function () {}, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -694,46 +688,55 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// Click user profile
-$(document).on("click", ".profile-users", function () {
+// Get user name, pass
+// var user_name = $('#get_user_name').val(getToken().name);
+// console.log("Get user name", user_name);
+// var user_pass = $('#user_pass').val(getToken().password);
 
-  $('#information_user').modal({ closable: false }).modal("show");
+// var res = {
+//   DATA_USER_NAME: user_name,
+//   DATA_USER_PASS: user_pass
+// };
+
+$(document).on("click", ".profile-users", function () {
   buldHome();
+  get_user_information();
+  $("#information_user").modal({ closable: false }).modal("show");
 
   //$('#get_user_name').empty().append(user_name.val());
 });
 
-// Choose image
-$(document).on('click', '.edit_profile_user', function () {
+// Click update
+// $(document).on('click', '#user_click_update', function () {
 
-  $('#fileuploads_image').click(); // Choose image
+//   var user_name_input = $('#get_user_name').val();
 
+//   var res = {
+//     DATA_USER_NAME: user_name_input,
+//     USER_ID: getToken().id,
+//     USER_PASS: getToken().password,
+//     USER_STATUS: 1,
+//     USER_ROLE: getToken().role,
+//   };
+
+//   console.log("all : ", res);
+// });
+
+// Click edit profile
+$(document).on("click", ".edit_profile_user", function () {
+  $("#fileuploads").click();
 });
 
-// Preview image
-$('#fileuploads_image').change(function () {
-  const file = this.files[0];
-  if (file) {
-    let reader = new FileReader();
-    reader.onload = function (event) {
-      $('#upload-img').attr("src", event.target.result);
-    };
-    profileFile = file;
-    reader.readAsDataURL(file);
-  }
-});
+$(function () {
+  $("#fileuploads").change(function (event) {
+    // Select image
+    var change_image = URL.createObjectURL(event.target.files[0]);
+    $("#upload-img").attr("src", change_image);
+    console.log("change_image", change_image);
 
-// Update image
-$(document).on('click', '#user_click_update', function () {
-
-  var id = getToken().id;
-
-  uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
-
-    var data = JSON.parse(resp);
-    console.log("data :", data);
-
-    if (data.status) {
+    $(document).on("click", "#user_click_update", function () {
+      var user_name_input = $("#get_user_name").val();
+      var user_id = getToken().id;
       var res = {
         DATA_USER_NAME: user_name_input,
         //USER_ID: getToken().id,
@@ -742,15 +745,17 @@ $(document).on('click', '#user_click_update', function () {
         USER_ROLE: getToken().role,
         USER_IMAGE: change_image,
       };
-      update_user_profile(id, res, function (resp) {
+
+      console.log("all : ", res);
+
+      update_user_profile(user_id, res, function (resp) {
         if (resp.status) {
-          
+          // buldHome();
         }
       });
-    } else {
-      alert(data.message);
-    }
+    });
   });
+});
 
 //POPUP RESET PASSWORD
 $(document).on("click", "#reset-password", function () {
@@ -759,11 +764,6 @@ $(document).on("click", "#reset-password", function () {
     .modal("show");
 });
 // RESET PASSWORD
-$(document).on("click", "#reset-password", function () {
-  $("#change-password")
-    .modal({ closable: false, allowMultiple: true })
-    .modal("show");
-});
 $(document).on("click", "#sign_up", function () {
   var curpwd = $(".curpwd").val();
   var newpwd = $(".newpwd").val();
@@ -791,10 +791,14 @@ $(document).on("click", "#sign_up", function () {
       }
       $("#reset-password").removeClass("loading");
     });
+    curpwd = $(".curpwd").val("");
+    newpwd = $(".newpwd").val("");
+    conpwd = $(".conpwd").val("");
   }
-  curpwd = $(".curpwd").val("");
-  newpwd = $(".newpwd").val("");
-  conpwd = $(".conpwd").val("");
 
 });
+$(document).on('click', '.cancel_re_pwd ', function(){
+
+})
+
 
