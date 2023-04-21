@@ -343,17 +343,16 @@ function update_user_profile(id, req, callBack) {
   requestApi(settings, callBack);
 }
 
-// function update_user_profile(file, path, callBack) {
-//   let formData = new FormData();
-//   formData.append("file", file, path);
-
-//   var settings = {
-//     url: baseUrl + "user_update_profile/",
-//     method: "POST",
-//     processData: false,
-//     contentType: false,
-//     mimeType: "multipart/form-data",
-//     data: formData,
-//   };
-//   requestApi(settings, callBack);
-// }
+// RESET PASSWORD
+function reset_password(req, callBack) {
+  var settings = {
+    url: baseUrl + "/doc_reset_password",
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data:req,
+  };
+  requestApi(settings, callBack);
+}

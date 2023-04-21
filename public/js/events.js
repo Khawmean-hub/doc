@@ -204,7 +204,6 @@ $("#Create-New-User").click(function () {
     .modal("show");
 });
 
-
 // Action login form
 $(document).on("click", ".login_btn", function () {
   $(".tiny.modal").modal("show");
@@ -329,9 +328,7 @@ $("#btn_login").click(function () {
       $("#btn_login").removeClass("loading");
     });
   }
-
 });
-
 
 // Hover articel side bar
 // Hover main article
@@ -455,7 +452,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () { }, 1500);
+        setTimeout(function () {}, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -565,7 +562,7 @@ $(document).on("click", "#btn_doc_update_users_icon", function () {
     MODIFY_USERSTATUS: $("#b2b_status").dropdown("get value"),
   };
   console.log("Update user data *", req);
-  updateUser(updateId, req, function (ress) {
+  updateUser(updateId, req, function (res) {
     buildUserTable();
   });
   $("#modal_update_user").modal("hide");
@@ -706,7 +703,7 @@ $(document).on("click", ".profile", function () {
 // };
 
 // Click user profile
-$(document).on('click', '.profile-users', function () {
+$(document).on("click", ".profile-users", function () {
 
   $('#information_user').modal({ closable: false }).modal("show");
   buldHome();
@@ -718,6 +715,25 @@ $(document).on('click', '.edit_profile_user', function () {
 
   $('#fileuploads_image').click(); // Choose image
 
+// Click update
+// $(document).on('click', '#user_click_update', function () {
+
+//   var user_name_input = $('#get_user_name').val();
+
+//   var res = {
+//     DATA_USER_NAME: user_name_input,
+//     USER_ID: getToken().id,
+//     USER_PASS: getToken().password,
+//     USER_STATUS: 1,
+//     USER_ROLE: getToken().role,
+//   };
+
+//   console.log("all : ", res);
+// });
+
+// Click edit profile
+$(document).on("click", ".edit_profile_user", function () {
+  $("#fileuploads").click();
 });
 
 // Preview image
@@ -737,12 +753,21 @@ $('#fileuploads_image').change(function () {
 $(document).on('click', '#user_click_update', function () {
 
   var id = getToken().id;
+$(function () {
+  $("#fileuploads").change(function (event) {
+    // Select image
+    var change_image = URL.createObjectURL(event.target.files[0]);
+    $("#upload-img").attr("src", change_image);
+    console.log("change_image", change_image);
 
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
 
     var data = JSON.parse(resp);
 
     if (data.status) {
+    $(document).on("click", "#user_click_update", function () {
+      var user_name_input = $("#get_user_name").val();
+      var user_id = getToken().id;
       var res = {
         ID: id,
         USER_IMAGE: data.data.url,
@@ -757,5 +782,9 @@ $(document).on('click', '#user_click_update', function () {
       alert(data.message);
     }
   });
+      });
+    });
+  });
+});
 
 });

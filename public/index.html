@@ -569,27 +569,27 @@
   </div>
 
   <!-- Reset-password -->
-  <div class=" change-password ui modal coupled" style="line-height: 2;">
+  <div class=" ui modal coupled" style="line-height: 2;" id="change-password">
     <form class="ui form form-edit">
       <h4 class="ui header" style="font-size: 16px;padding: 16px;background: #f9fafb;height: 56px;"> Reset Password
       </h4>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Current password</label>
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" class="curpwd">
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>New password</label>
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" class="newpwd">
       </div>
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Confirm password</label>
-        <input type="text" placeholder="">
+        <input type="text" placeholder="" class="conpwd">
       </div>
     </form>
     <br>
     <div class="actions agr">
       <div class="ui tiny button btn_cl deny ">Cancel</div>
-      <div class="ui button tiny blue " value="submit">Sign up</div>
+      <div class="ui button tiny blue succSiUp " value="submit" id="sign_up">Sign up</div>
     </div>
 
   </div>

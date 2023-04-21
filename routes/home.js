@@ -41,7 +41,9 @@ homeRoute.get("/doc_menu_home_r01", auth.permitAll, async (req, res, next) => {
 });
 // doc_department_u001
 homeRoute.post("/doc_department_u001", auth.permitAll, async (req, res) => {
-  var dep = await db.any(`update doc_department set dep_name ='${req.body.DEP_NAME}' where dep_id=CAST('${req.body.DEP_ID}' AS INTEGER)`);
+  var dep = await db.any(
+    `update doc_department set dep_name ='${req.body.DEP_NAME}' where dep_id=CAST('${req.body.DEP_ID}' AS INTEGER)`
+  );
   if (dep == null) {
     return res.send(new BaseRes(false, "ERROR", null));
   } else {
@@ -51,7 +53,9 @@ homeRoute.post("/doc_department_u001", auth.permitAll, async (req, res) => {
 
 // doc_department_d001
 homeRoute.post("/doc_department_d001", auth.permitAll, async (req, res) => {
-  var dep = await db.any(`UPDATE doc_department set dep_status=0 WHERE dep_id= CAST('${req.body.DEP_ID}' AS INTEGER)`);
+  var dep = await db.any(
+    `UPDATE doc_department set dep_status=0 WHERE dep_id= CAST('${req.body.DEP_ID}' AS INTEGER)`
+  );
   if (dep == null) {
     return res.send(new BaseRes(false, "ERROR", null));
   } else {
@@ -75,8 +79,11 @@ homeRoute.post(
 );
 // Doc update department
 homeRoute.post("/doc_department_u001", async (req, res, next) => {
-  var dep_update = await db.any(`UPDATE doc_department SET dep_id=nextval('doc_department_dep_id_seq'::regclass), dep_name='${DEP_TITLE}', dep_status=0;`)
-  if (!isNull(dep_update)) return res.send(new BaseRes(true, "Success", dep_update));
+  var dep_update = await db.any(
+    `UPDATE doc_department SET dep_id=nextval('doc_department_dep_id_seq'::regclass), dep_name='${DEP_TITLE}', dep_status=0;`
+  );
+  if (!isNull(dep_update))
+    return res.send(new BaseRes(true, "Success", dep_update));
   else return res.send(new BaseRes(false, "ERROR", null));
 });
 
@@ -589,7 +596,6 @@ homeRoute.post("/doc_login_r01", async (req, res, next) => {
   }
 });
 
-
 // normal user
 
 homeRoute.get("/doc_question_r01", auth.permitAll, async (req, res, next) => {
@@ -741,7 +747,6 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
 
 // Route insert article
 homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
-
   var data = await db.any(`
     INSERT INTO doc_articles
     (tag_id, title, content_body, create_date, user_id, file_article_id, dep_id, status)
@@ -789,7 +794,6 @@ homeRoute.post("/doc_tag_u01", auth.adminAndUser, async (req, res) => {
     res.send(new BaseRes(true, "Success", { TAGS: tag }));
   }
 });
-
 
 homeRoute.get("/doc_articles_r02", auth.permitAll, async (req, res) => {
   var count = await db.one(`select count(*) from doc_articles a 
@@ -882,7 +886,6 @@ homeRoute.post("/add_users", async (req, res) => {
 
 // update user
 homeRoute.post("/update_users/:id", async (req, res) => {
-
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
   console.log(
     `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
@@ -897,12 +900,6 @@ homeRoute.post("/update_users/:id", async (req, res) => {
   }
 });
 
-
-// reset password
-homeRoute.post("/doc_reset_password", async (req, res) => {
-  var pwd
-});
-
 // Update user profile
 homeRoute.post('/user_update_profile/:id', async (req, res) => {
   // var personal_user_update = await db.result(`UPDATE doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}' where id=${req.params.id}`);
@@ -912,7 +909,32 @@ homeRoute.post('/user_update_profile/:id', async (req, res) => {
   }
   else {
     res.send(new BaseRes(true, "Success", update_profile));
+homeRoute.post("/persona_user_update/:id", async (req, res) => {
+  // default query: UPDATE public.doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0, image='';
+  var personal_user_update = await db.result(
+    `UPDATE public.doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}'`
+  );
+  if (personal_user_update == null) {
+    return res.send(new BaseRes(false, "Error", null));
+  } else {
+    res.send(new BaseRes(true, "Success", personal_user_update));
   }
 });
 
 module.exports = homeRoute;
+
+// reset password
+homeRoute.post("/doc_reset_password", async (req, res) => {
+  console.log(req.body)
+  var pwd = await db.any(
+    `SELECT password FROM doc_users WHERE id =${req.body.ID};`
+  );
+  console.log('pwd:', pwd[0].password);
+  if (pwd[0].password == req.body.currentPassword) {
+    await db.any(
+      `UPDATE public.doc_users SET password = ${req.body.newPassword} WHERE id =${req.body.ID}`
+    ); 
+  } else {
+    return res.send(new BaseRes(false, "Error", null));
+  }
+});
