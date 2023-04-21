@@ -410,7 +410,7 @@ a.title {
 }
 
 .sma {
-  color: gray;
+  color: rgb(32, 4, 70);
   font-size: 80%;
 }
 
@@ -435,4 +435,5 @@ img {
 #upload-img {
   object-fit: cover;
 }
+
 /*  */

@@ -12,10 +12,10 @@ function buldHome() {
   getRecent();
   buildMenu(true, 1);
   //getMenu(true);
-  // Set user profile
-  var user_profile = $('img').attr('src', getToken().img);
-  $('#User_profile #user_image').empty().append(user_profile);
-  // buildUser()
+  // var user_profile = $('img').attr('src', getToken().img); // Set user profile
+  // $('#User_profile #user_image').empty().append(user_profile);
+  get_user_image();
+  get_user_information();
 
   // check role
   if (getToken().role == 0) {
@@ -48,7 +48,7 @@ function buldHome() {
     $("#manage-department").hide();
     $(".btn_login").show();
   }
-  get_user_information();
+  // get_user_information();
 }
 
 // On change department
@@ -517,11 +517,13 @@ function buildUserTable() {
 }
 
 // Get user name
-var user_name = $('#get_user_name').val(getToken().name);
 function get_user_information() {
+  var user_name = $('#get_user_name').val(getToken().name);
   $('#get_user_name').empty().append(user_name.val());
   // buldHome();
 }
 
-
-
+function get_user_image() {
+  var user_profile = $('img').attr('src', getToken().img); // Set user profile
+  $('#User_profile #user_image').empty().append(user_profile);
+}
