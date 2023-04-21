@@ -467,4 +467,8 @@ img {
 .sub_modified_date {
   color: gray;
 }
+
+#file_content {
+  height: 50px;
+}
 /*  */
