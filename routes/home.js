@@ -929,5 +929,4 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
   }
 });
 
-
 module.exports = homeRoute;

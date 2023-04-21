@@ -9,7 +9,11 @@ const pgp = require('pg-promise')(/* options */)
 
 const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_dev'); // Ubutu server DB for dev
 
-// const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');      // Ubutu server DB for real
+// const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_real');   // Ubutu server DB for real
+
+//const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');     
+
+
 
 db.one('SELECT $1 AS value', 123)
   .then((data) => {

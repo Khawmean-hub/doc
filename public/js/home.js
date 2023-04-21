@@ -12,10 +12,10 @@ function buldHome() {
   getRecent();
   buildMenu(true, 1);
   //getMenu(true);
-  // Set user profile
-  var user_profile = $('img').attr('src', getToken().img);
-  $('#User_profile #user_image').empty().append(user_profile);
-  // buildUser()
+  // var user_profile = $('img').attr('src', getToken().img); // Set user profile
+  // $('#User_profile #user_image').empty().append(user_profile);
+  get_user_image();
+  get_user_information();
 
   // check role
   if (getToken().role == 0) {
@@ -48,7 +48,7 @@ function buldHome() {
     $("#manage-department").hide();
     $(".btn_login").show();
   }
-  get_user_information();
+  // get_user_information();
 }
 
 // On change department
@@ -293,13 +293,14 @@ function buildActicle(id) {
       randomNotFound();
     } else {
       var html = "";
-      if (!isNull(resp.data.modified_date)) {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Modify : ${moment(resp.data.modified_date).format("DD MMM YYYY")}</span>`;
-      } else {
-        html += `<div style="margin-bottom: 20px;color: #afafaf;"><span>Created : ${moment(resp.data.create_date).format("DD MMM YYYY")}</span>`;
+      if (!isNull(resp.data.modified_date)) { // Check update acticle
+        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> by ${resp.data.username} <p style="margin-left: 36px"> Modify on : ${moment(resp.data.modified_date).format("DD MMM YYYY")} </p> </span>  `;
+        // html += ``;
+      } else { 
+        html += `<span> <img class="ui avatar image" id='users' src="${resp.data.image}"> Create by ${resp.data.username}  <p id='style_user_create_acticle'> On : ${moment(resp.data.create_date).format("DD MMM YYYY")} </p> </span>`;
       }
       // html += `<span> by ${resp.data.username} <span> <img class="ui avatar image" id='users' src="${resp.data.image}"> </span> </span> </div>`;
-      html += `<span> by ${resp.data.username} <div class="ui mini image"> <img src="${resp.data.image}"></div </span> </div>`;
+      // html += `<span> by ${resp.data.username} <div class="ui mini image"> <img src="${resp.data.image}"></div </span> </div>`;
       html += resp.data.content_body;
       $("#content_body").empty().append(html);
       hidelightCode();
@@ -517,11 +518,12 @@ function buildUserTable() {
 }
 
 // Get user name
-var user_name = $('#get_user_name').val(getToken().name);
 function get_user_information() {
+  var user_name = $('#get_user_name').val(getToken().name);
   $('#get_user_name').empty().append(user_name.val());
-  // buldHome();
 }
 
-
-
+function get_user_image() {
+  var user_profile = $('img').attr('src', getToken().img); // Set user profile
+  $('#User_profile #user_image').empty().append(user_profile);
+}

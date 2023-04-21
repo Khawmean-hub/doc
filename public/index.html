@@ -27,9 +27,9 @@
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.5.0/dist/semantic.min.js"></script>
+
   <!-- <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script> -->
-  <script src="https://cdn.tiny.cloud/1/bqhgyqvdd4wb1rpwuuve2eafsnuc3iihwg2v3wot221jolb9/tinymce/6/tinymce.min.js"
-    referrerpolicy="origin"></script>
+  <script src="js/tinymce/tinymce.min.js"></script>
 
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/monokai-sublime.min.css">
   <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
@@ -820,18 +820,10 @@
       <label for="user_image" class="">
         <div class="ui medium image">
           <!-- <img class="ui  circular image" id="upload-img" src=""> -->
-          <img class="ui medium circular image" id="upload-img" src=""
-            style="width: 200px; height: 200px; margin-left: auto; margin-right: auto;">
-        </div>
-        <center>
-          <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p>
-        </center> <br>
-        <center>
-          <div>
-            <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name">
-            </h2>
-          </div>
-        </center>
+          <img class="ui medium circular image" id="upload-img" src="" style="width: 200px; height: 200px; margin-left: auto; margin-right: auto; border: 1px solid rgb(95, 95, 128);">
+        </div> 
+        <center> <p class="edit_profile_user" href="#" style="text-align: center;"> Edit profile </p> </center> <br>
+        <center> <div> <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name"></h2></div> </center> 
       </label>
       <!-- <a class="edit_profile_user" href="#" style="text-align: center;">Edit profile</a> -->
       <!-- <div class="description">
