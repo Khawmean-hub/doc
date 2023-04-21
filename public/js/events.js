@@ -1,7 +1,4 @@
 // $(".page-login").hide();
-
-// const { isNull } = require("../../utils/strUtils");
-
 var profileFile;
 // $(".my_body").hide();
 $(document).on("click", ".active_title ", function () {
@@ -321,6 +318,8 @@ $("#btn_login").click(function () {
         console.log("resp.data: ", resp.data);
         $("#username_text").val(""), $("#password_text").val("");
         buldHome();
+
+        
 
         $(".edit_tag").show();
       } else {
@@ -710,6 +709,7 @@ $(document).on("click", ".profile", function () {
 $(document).on('click', '.profile-users', function () {
 
   $('#information_user').modal({ closable: false }).modal("show");
+  buldHome();
 
 });
 
@@ -749,7 +749,8 @@ $(document).on('click', '#user_click_update', function () {
       };
       update_user_profile(id, res, function (resp) {
         if (resp.status) {
-
+          
+          
         }
       });
     } else {
