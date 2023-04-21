@@ -923,8 +923,9 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
     await db.any(
       `UPDATE public.doc_users SET password = ${req.body.newPassword} WHERE id =${req.body.ID}`
     ); 
+    return res.send(new BaseRes(true, "Success", null));
   } else {
-    return res.send(new BaseRes(false, "Incorrect Current password or New password", null));
+    return res.send(new BaseRes(false, "Error", null));
     
   }
 });
