@@ -495,14 +495,14 @@ function buildUserTable() {
 
       if (i.role == 1) {
         // admin
-        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny role-use">Admin </a> </td>`;
+        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin </a> </td>`;
       } else if(i.role == 0) {
         // user
-        tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
+        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
       } else if(i.role == 2) {
         // viewer
         tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
-      }
+      } 
 
       if (i.status == 1) {
         // status

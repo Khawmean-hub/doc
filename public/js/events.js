@@ -64,30 +64,41 @@ $(".btn_upload_file").click(function () {
 // });
 
 // Test
-$(document).on("click", "#upLoadFile", function () {
-    $(this).addClass("loading");
-    var file = $("#fileUpload")[0].files[0];
-    if (!isNull(file)) {
-      uploadFile(file, $("#fileUpload").val(), function (resp) {
-        var file_html = '';
-        for (var i = 0; i < file; i ++) {
-          file_html += ``
-        }
-        var data = JSON.parse(resp);
-        console.log(data);
-        if (data.status) {
-          setTimeout(function () {
-            $(".img_path").text(data.data.url);
-            $("#upLoadFile").removeClass("loading");
-          }, 1000);
-        } else {
-          alert(data.message);
-        }
-      });
-    } else {
-      alert("Please upload image");
+var files = [];
+// Build file on browser
+function buildList() {
+  var html = '';
+  var imgs = '';
+  files.forEach(e => {
+    html += '<p> 👽 ' + e.name + ' <input type="button" fname="' + e.name + '" id="btn-remove" value="remove"> </p>';
+    if (e.type.includes('image')) {
+      imgs += '<img src="' + URL.createObjectURL(e) + '" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; padding-right: 10px">'
     }
-  });
+  })
+
+  $('#List_file').empty().append(html);
+  $('#imgs').empty().append(imgs);
+}
+// Event select file
+$('#fileUpload').on('change', function () {
+  $.each(this.files, function (k, e) {
+    if (files.every(a => a.name !== e.name)) {
+      files.push(e)
+    }
+  })
+
+  console.log(files);
+  buildList()
+  $(this).val('')
+})
+
+// Event remove file
+$(document).on('click', '#btn-remove', function() {
+  var fname = $(this).attr('fname')
+  var ll = files.filter(v=> v.name !== fname)
+  files = ll;
+  buildList()
+})
 
 // Upload file 02
 $(".btn_upload_file02").click(function () {
@@ -125,10 +136,10 @@ $(document).on("click", "#editor_save", function () {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
         TAG_ID: $("#menu_com").dropdown("get value"), // DROPDOW MENU
-        USER_ID: getToken().id,
+        USER_ID: getToken().id, // User ID
         CONTENT_BODY: myContent,
-        TITLE: $("#sub_title_val").val(),
-        FILE_ARTICLE_ID: Date.now(),
+        TITLE: $("#sub_title_val").val(), // Title
+        FILE_ARTICLE_ID: Date.now(), // Create date
       };
       console.log("All", req);
 
@@ -568,9 +579,10 @@ $(document).on("click", ".editUser_icon", function () {
   var get_current_user = {
     V_Name: $("#vUserName").val(data.username),
     V_Pass: $("#vUerPassword").val(data.password),
-    V_Role: $("#b2b_role").dropdown("set selected", data.role),
-    V_Status: $("#b2b_status").dropdown("set selected", data.status),
+    V_Role: $("#b2b_role").dropdown("set selected", data.role + ''),
+    V_Status: $("#b2b_status").dropdown("set selected", data.status + ''),
   };
+
   console.log("Get curent user data", get_current_user);
 });
 
@@ -739,7 +751,7 @@ $("#fileuploads_image").change(function () {
   if (file) {
     let reader = new FileReader();
     reader.onload = function (event) {
-        $("#upload-img").attr("src", event.target.result); 
+      $("#upload-img").attr("src", event.target.result);
     };
     profileFile = file;
     reader.readAsDataURL(file);
@@ -822,7 +834,7 @@ $(document).on("click", "#sign_up", function () {
           $('#sign_up').removeClass("loading");
           $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
         }, 1000);
-       
+
       }
     });
     curpwd = $(".curpwd").val("");
