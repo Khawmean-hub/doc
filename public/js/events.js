@@ -789,11 +789,17 @@ $(document).on("click", "#sign_up", function () {
     };
     reset_password(req, function (resp) {
       if (resp.status) {
-        $("#change-password").modal("hide");
-        $("#sign_up").removeClass("loading");
-        $(".msg_re_pwd").modal("hide");
+        setTimeout(function () {
+          $("#change-password").modal("hide");
+          $(".msg_re_pwd").modal("hide");
+          $('#sign_up').removeClass("loading");
+        }, 1000);
       } else {
-        $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
+        setTimeout(function () {
+          $('#sign_up').removeClass("loading");
+          $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
+        }, 1000);
+       
       }
     });
     curpwd = $(".curpwd").val("");
@@ -803,5 +809,4 @@ $(document).on("click", "#sign_up", function () {
 });
 $(document).on("click", ".cancel_re_pwd ", function () {
   $(".msg_re_pwd").modal("hide");
-  $("#sign_up").removeClass("loading");
 });
