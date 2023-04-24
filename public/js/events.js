@@ -689,13 +689,11 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-
 $(document).on("click", ".profile-users", function () {
   buldHome();
   get_user_information();
   $("#information_user").modal({ closable: false }).modal("show");
 });
-
 
 // Click user profile
 $(document).on("click", ".profile-users", function () {
@@ -709,22 +707,24 @@ $(document).on("click", ".edit_profile_user", function () {
 });
 
 // Preview image
-$('#fileuploads_image').change(function () {
+$("#fileuploads_image").change(function () {
   const file = this.files[0];
   if (file) {
     let reader = new FileReader();
     reader.onload = function (event) {
-      $('#upload-img').attr("src", event.target.result);
+      if ($("#upload-img").attr("src"=='')) {
+        alert("hello");
+      } else {
+        $("#upload-img").attr("src", event.target.result);
+      }
     };
     profileFile = file;
     reader.readAsDataURL(file);
   }
 });
 
-
 // Update image
-$(document).on('click', '#user_click_update', function () {
-
+$(document).on("click", "#user_click_update", function () {
   var id = getToken().id;
 
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
@@ -789,7 +789,7 @@ $(document).on("click", "#sign_up", function () {
     };
     reset_password(req, function (resp) {
       if (resp.status) {
-        $('#change-password').modal("hide")
+        $("#change-password").modal("hide");
       } else {
         $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
       }
@@ -799,10 +799,7 @@ $(document).on("click", "#sign_up", function () {
     newpwd = $(".newpwd").val("");
     conpwd = $(".conpwd").val("");
   }
-
 });
-$(document).on('click', '.cancel_re_pwd ', function () {
-  $(".msg_re_pwd").modal('hide')
-})
-
-
+$(document).on("click", ".cancel_re_pwd ", function () {
+  $(".msg_re_pwd").modal("hide");
+});
