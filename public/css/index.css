@@ -441,6 +441,7 @@ img {
 
 #upload-img {
   object-fit: cover;
+  margin-top: 9px;
 }
 
 #style_user_create_acticle {

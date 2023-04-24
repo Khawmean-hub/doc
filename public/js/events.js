@@ -37,6 +37,7 @@ $("#btn_add_contents").click(function () {
 });
 //tinymce.get("editor1").setContent("<p>Hello world!</p>");
 
+// Clcik choose file
 $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
