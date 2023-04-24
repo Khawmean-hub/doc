@@ -777,7 +777,7 @@ $(document).on("click", "#sign_up", function () {
   if (isNull(conpwd)) $(".conpwd").parent().addClass("error");
   else $(".conpwd").parent().removeClass("error");
   if (!isNull(curpwd) && !isNull(newpwd) && !isNull(conpwd)) {
-    $("#reset-password").addClass("loading");
+    $(this).addClass("loading");
     var req = {
       currentPassword: $(".curpwd").val(),
       ID: getToken().id,
@@ -786,10 +786,11 @@ $(document).on("click", "#sign_up", function () {
     reset_password(req, function (resp) {
       if (resp.status) {
         $("#change-password").modal("hide");
+        $("#sign_up").removeClass("loading");
+        $(".msg_re_pwd").modal("hide");
       } else {
         $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
       }
-      $("#reset-password").removeClass("loading");
     });
     curpwd = $(".curpwd").val("");
     newpwd = $(".newpwd").val("");
@@ -798,4 +799,5 @@ $(document).on("click", "#sign_up", function () {
 });
 $(document).on("click", ".cancel_re_pwd ", function () {
   $(".msg_re_pwd").modal("hide");
+  $("#sign_up").removeClass("loading");
 });
