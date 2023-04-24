@@ -441,6 +441,7 @@ img {
 
 #upload-img {
   object-fit: cover;
+  margin-top: 9px;
 }
 
 #style_user_create_acticle {
@@ -466,5 +467,13 @@ img {
 
 .sub_modified_date {
   color: gray;
+}
+
+#file_content {
+  height: 50px;
+}
+
+#file_text {
+  color: black;
 }
 /*  */

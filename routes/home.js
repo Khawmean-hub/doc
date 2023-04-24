@@ -173,22 +173,9 @@ homeRoute.post("/doc_file_c01", async (req, res, next) => {
   } else {
     res.send(new BaseRes(true, "SUCCESS", { FILE_UPLOAD: fileUpload }));
   }
-  console.log("fil.", fileUpload);
+  console.log("file.", fileUpload);
 });
 
-// Upload file
-homeRoute.post("/doc_file_c01", async (req, res, next) => {
-  // INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES(?, ?, ?, ?, ?, ?,1)
-  var fileUpload = await db.any(
-    `INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES('${req.body.FILE_ARTICLE_ID}', '${req.body.FILE_IDNT_ID}', '${req.body.FILE_NM}', '${req.body.FILE_SIZE}', '${req.body.THUM_IMG_PATH}', '${req.body.IMG_PATH}',1)`
-  );
-  if (fileUpload == null) {
-    return res.send(new BaseRes(false, "Cannot upload", null));
-  } else {
-    res.send(new BaseRes(true, "SUCCESS", { FILE_UPLOAD: fileUpload }));
-  }
-  console.log("fil.", fileUpload);
-});
 
 // Route B2B 1
 homeRoute.post("/doc_menu_r02", async (req, res, next) => {

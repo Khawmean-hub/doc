@@ -329,6 +329,9 @@ function uploadFile(file, path, callBack) {
   requestApi(settings, callBack);
 }
 
+// Upload multiple file
+
+
 // Update user profile
 function update_user_profile(id, req, callBack) {
   var settings = {

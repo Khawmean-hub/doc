@@ -37,6 +37,7 @@ $("#btn_add_contents").click(function () {
 });
 //tinymce.get("editor1").setContent("<p>Hello world!</p>");
 
+// Clcik choose file
 $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
@@ -448,7 +449,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () {}, 1500);
+        setTimeout(function () { }, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -696,7 +697,8 @@ $(document).on("click", ".profile-users", function () {
 
 // Click user profile
 $(document).on("click", ".profile-users", function () {
-  $("#information_user").modal({ closable: false }).modal("show");
+  $('#information_user').modal({ closable: false }).modal("show");
+
 });
 
 // Choose image
@@ -726,7 +728,7 @@ $(document).on("click", "#user_click_update", function () {
   var id = getToken().id;
 
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
-    $(this).addClass("loading");
+    $('#user_click_update').addClass('loading');
     var data = JSON.parse(resp);
     console.log("data :", data);
 
@@ -737,19 +739,26 @@ $(document).on("click", "#user_click_update", function () {
       };
       update_user_profile(id, res, function (resp) {
         if (resp.status) {
-          $("#fileuploads_image").removeClass("loading");
-          var user_image = localStorage.getItem("b2b_user");
-          var obj = JSON.parse(user_image); // Convert to JSON
-
-          obj.img = data.data.url;
-          console.log("Obj :", obj);
-          localStorage.setItem("b2b_user", JSON.stringify(obj));
+          setTimeout(function () {
+            $('#fileuploads_image').removeClass('loading');
+            var user_image = localStorage.getItem('b2b_user');
+            var obj = JSON.parse(user_image); // Convert to JSON
+            obj.img = data.data.url;
+            console.log("Obj :", obj);
+            localStorage.setItem('b2b_user', JSON.stringify(obj));
+            get_user_image();
+            $('#user_click_update').removeClass('loading');
+            $('#information_user').modal('hide');
+          }, 1000);
         }
       });
-    } else {
+      // $('#user_click_update').removeClass('loading');
+    }
+    else {
       alert(data.message);
     }
   });
+
 });
 
 //POPUP RESET PASSWORD
