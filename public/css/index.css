@@ -472,4 +472,8 @@ img {
 #file_content {
   height: 50px;
 }
+
+#file_text {
+  color: black;
+}
 /*  */
