@@ -313,7 +313,7 @@ function updateUser(id, req, callBack) {
   requestApi(settings, callBack);
 }
 
-// Upload file
+// Upload single file
 function uploadFile(file, path, callBack) {
   let formData = new FormData();
   formData.append("file", file, path);

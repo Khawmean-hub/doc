@@ -42,26 +42,53 @@ $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
 // Upload file 01
+// $(document).on("click", "#upLoadFile", function () {
+//   $(this).addClass("loading");
+//   var file = $("#fileUpload")[0].files[0];
+//   if (!isNull(file)) {
+//     uploadFile(file, $("#fileUpload").val(), function (resp) {
+//       var data = JSON.parse(resp);
+//       console.log(data);
+//       if (data.status) {
+//         setTimeout(function () {
+//           $(".img_path").text(data.data.url);
+//           $("#upLoadFile").removeClass("loading");
+//         }, 1000);
+//       } else {
+//         alert(data.message);
+//       }
+//     });
+//   } else {
+//     alert("Please upload image");
+//   }
+// });
+
+// Test
 $(document).on("click", "#upLoadFile", function () {
-  $(this).addClass("loading");
-  var file = $("#fileUpload")[0].files[0];
-  if (!isNull(file)) {
-    uploadFile(file, $("#fileUpload").val(), function (resp) {
-      var data = JSON.parse(resp);
-      console.log(data);
-      if (data.status) {
-        setTimeout(function () {
-          $(".img_path").text(data.data.url);
-          $("#upLoadFile").removeClass("loading");
-        }, 1000);
-      } else {
-        alert(data.message);
-      }
-    });
-  } else {
-    alert("Please upload image");
-  }
-});
+    $(this).addClass("loading");
+    var file = $("#fileUpload")[0].files[0];
+    if (!isNull(file)) {
+      uploadFile(file, $("#fileUpload").val(), function (resp) {
+        var file_html = '';
+        for (var i = 0; i < file; i ++) {
+          file_html += ``
+        }
+        var data = JSON.parse(resp);
+        console.log(data);
+        if (data.status) {
+          setTimeout(function () {
+            $(".img_path").text(data.data.url);
+            $("#upLoadFile").removeClass("loading");
+          }, 1000);
+        } else {
+          alert(data.message);
+        }
+      });
+    } else {
+      alert("Please upload image");
+    }
+  });
+
 // Upload file 02
 $(".btn_upload_file02").click(function () {
   $("#fileUpload02").click();
