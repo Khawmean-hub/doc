@@ -712,11 +712,7 @@ $("#fileuploads_image").change(function () {
   if (file) {
     let reader = new FileReader();
     reader.onload = function (event) {
-      if ($("#upload-img").attr("src"=='')) {
-        alert("hello");
-      } else {
-        $("#upload-img").attr("src", event.target.result);
-      }
+        $("#upload-img").attr("src", event.target.result); 
     };
     profileFile = file;
     reader.readAsDataURL(file);

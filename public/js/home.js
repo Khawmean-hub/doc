@@ -295,12 +295,12 @@ function buildActicle(id) {
       var html = "";
       if (!isNull(resp.data.modified_date)) { // Check update acticle
         // html += `<span> <img class="ui avatar image" id='users_photo' src="${resp.data.image}">   ${resp.data.username} <br><span id='test'>Modify on : ${moment(resp.data.modified_date).format("DD MMM YYYY")}</span>   </span>`;
-        html += `<h4 class="ui header">  <img class="ui mini circular image" src="${resp.data.image}"> </i><div class="content"> ${resp.data.username} <div class="sub header"> ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></h4>`
+        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> ${resp.data.username} <div class="sub header"> ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></h4>`
         
       } else {
 
         // html += `<span> <img class="ui avatar image" id='users_photo' src="${resp.data.image}"> Create by ${resp.data.username}  <p id='style_user_create_acticle'> On : ${moment(resp.data.create_date).format("DD MMM YYYY")} </p> </span>`;
-        html += `<h4 class="ui header">  <img class="ui mini circular image" src="${resp.data.image}"> </i><div class="content"> Create by: ${resp.data.username} <div class="sub header"> ${moment(resp.data.create_date).format("DD MMM YYYY")} </div></div></h4>`
+        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> Create by: ${resp.data.username} <div class="sub header"> ${moment(resp.data.create_date).format("DD MMM YYYY")} </div></div></h4>`
       }
       
       html += resp.data.content_body;
