@@ -67,38 +67,47 @@ $(".btn_upload_file").click(function () {
 var files = [];
 // Build file on browser
 function buildList() {
-  var html = '';
-  var imgs = '';
-  files.forEach(e => {
-    html += '<p> 👽 ' + e.name + ' <input type="button" fname="' + e.name + '" id="btn-remove" value="remove"> </p>';
-    if (e.type.includes('image')) {
-      imgs += '<img src="' + URL.createObjectURL(e) + '" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; padding-right: 10px">'
+  var html = "";
+  var imgs = "";
+  files.forEach((e) => {
+    html +=
+      "<p>" +
+      '<i class="paperclip icon grey"></i>' +
+      '<a href="#" class="blue">'+e.name+ '</a>'+
+      ' <a href="#"><i class="trash grey alternate outline icon con-size" id="btn-remove" value="remove"  fname="' +
+      e.name +
+      '"></i></a></p>';
+    if (e.type.includes("image")) {
+      imgs +=
+        '<img src="' +
+        URL.createObjectURL(e) +
+        '" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; padding-right: 10px">';
     }
-  })
+  });
 
-  $('#List_file').empty().append(html);
-  $('#imgs').empty().append(imgs);
+  $("#List_file").empty().append(html);
+  $("#imgs").empty().append(imgs);
 }
 // Event select file
-$('#fileUpload').on('change', function () {
+$("#fileUpload").on("change", function () {
   $.each(this.files, function (k, e) {
-    if (files.every(a => a.name !== e.name)) {
-      files.push(e)
+    if (files.every((a) => a.name !== e.name)) {
+      files.push(e);
     }
-  })
+  });
 
   console.log(files);
-  buildList()
-  $(this).val('')
-})
+  buildList();
+  $(this).val("");
+});
 
 // Event remove file
-$(document).on('click', '#btn-remove', function() {
-  var fname = $(this).attr('fname')
-  var ll = files.filter(v=> v.name !== fname)
+$(document).on("click", "#btn-remove", function () {
+  var fname = $(this).attr("fname");
+  var ll = files.filter((v) => v.name !== fname);
   files = ll;
-  buildList()
-})
+  buildList();
+});
 
 // Upload file 02
 $(".btn_upload_file02").click(function () {
@@ -487,7 +496,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () { }, 1500);
+        setTimeout(function () {}, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -579,8 +588,8 @@ $(document).on("click", ".editUser_icon", function () {
   var get_current_user = {
     V_Name: $("#vUserName").val(data.username),
     V_Pass: $("#vUerPassword").val(data.password),
-    V_Role: $("#b2b_role").dropdown("set selected", data.role + ''),
-    V_Status: $("#b2b_status").dropdown("set selected", data.status + ''),
+    V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
+    V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
   };
 
   console.log("Get curent user data", get_current_user);
@@ -728,16 +737,19 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-$(document).on("click", ".profile-users", function () {
-  buldHome();
-  get_user_information();
-  $("#information_user").modal({ closable: false }).modal("show");
-});
+// $(document).on("click", ".profile-users", function () {
+//   buldHome();
+//   get_user_information();
+//   // $("#information_user").modal({ closable: false }).modal("show");
+// });
 
 // Click user profile
 $(document).on("click", ".profile-users", function () {
-  $('#information_user').modal({ closable: false }).modal("show");
-
+  $("#upload-img").attr(
+    "src",
+    "https://www.google.com/imgres?imgurl=https%3A%2F%2Fcdn.pixabay.com%2Fphoto%2F2015%2F10%2F05%2F22%2F37%2Fblank-profile-picture-973460_1280.png&tbnid=H6pHpB03ZEAgeM&vet=12ahUKEwibi8nSh8T-AhU36HMBHXRRCy0QMygBegUIARDjAQ..i&imgrefurl=https%3A%2F%2Fpixabay.com%2Fvectors%2Fblank-profile-picture-mystery-man-973460%2F&docid=wg0CyFWNfK7o5M&w=1280&h=1280&q=profile&ved=2ahUKEwibi8nSh8T-AhU36HMBHXRRCy0QMygBegUIARDjAQ"
+  );
+  $("#information_user").modal({ closable: false }).modal("show");
 });
 
 // Choose image
@@ -763,7 +775,7 @@ $(document).on("click", "#user_click_update", function () {
   var id = getToken().id;
 
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
-    $('#user_click_update').addClass('loading');
+    $("#user_click_update").addClass("loading");
     var data = JSON.parse(resp);
     console.log("data :", data);
 
@@ -775,25 +787,23 @@ $(document).on("click", "#user_click_update", function () {
       update_user_profile(id, res, function (resp) {
         if (resp.status) {
           setTimeout(function () {
-            $('#fileuploads_image').removeClass('loading');
-            var user_image = localStorage.getItem('b2b_user');
+            $("#fileuploads_image").removeClass("loading");
+            var user_image = localStorage.getItem("b2b_user");
             var obj = JSON.parse(user_image); // Convert to JSON
             obj.img = data.data.url;
             console.log("Obj :", obj);
-            localStorage.setItem('b2b_user', JSON.stringify(obj));
+            localStorage.setItem("b2b_user", JSON.stringify(obj));
             get_user_image();
-            $('#user_click_update').removeClass('loading');
-            $('#information_user').modal('hide');
+            $("#user_click_update").removeClass("loading");
+            $("#information_user").modal("hide");
           }, 1000);
         }
       });
       // $('#user_click_update').removeClass('loading');
-    }
-    else {
+    } else {
       alert(data.message);
     }
   });
-
 });
 
 //POPUP RESET PASSWORD
@@ -827,14 +837,13 @@ $(document).on("click", "#sign_up", function () {
         setTimeout(function () {
           $("#change-password").modal("hide");
           $(".msg_re_pwd").modal("hide");
-          $('#sign_up').removeClass("loading");
+          $("#sign_up").removeClass("loading");
         }, 1000);
       } else {
         setTimeout(function () {
-          $('#sign_up').removeClass("loading");
+          $("#sign_up").removeClass("loading");
           $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
         }, 1000);
-
       }
     });
     curpwd = $(".curpwd").val("");
