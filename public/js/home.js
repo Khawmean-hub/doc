@@ -526,6 +526,9 @@ function get_user_information() {
 }
 
 function get_user_image() {
-  var user_profile = $('img').attr('src', getToken().img); // Set user profile
+  var user_profile = $('img').attr('src', getToken().img); 
+    
+  console.log("gggg",getToken().img);
+  // Set user profile
   $('#User_profile #user_image').empty().append(user_profile);
 }
