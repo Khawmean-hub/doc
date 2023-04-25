@@ -487,7 +487,7 @@ function buildUserTable() {
       )}">`;
       tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
 
-      tableData += `<td><img src="${i.image}" class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // User profile
+      tableData += `<td><img src="${i.image == null?'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' :i.image }"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // User profile
 
       tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // user name
 
@@ -526,7 +526,6 @@ function get_user_information() {
 }
 
 function get_user_image() {
-  var user_image;
   var user_profile = $('img').attr('src', getToken().img); // Set user profile
   $('#User_profile #user_image').empty().append(user_profile);
 }
