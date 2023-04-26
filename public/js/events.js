@@ -363,6 +363,7 @@ $("#btn_login").click(function () {
         window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
         console.log("resp.data: ", resp.data);
         $("#username_text").val(""), $("#password_text").val("");
+        get_user_image()
         buldHome();
 
         $(".edit_tag").show();
