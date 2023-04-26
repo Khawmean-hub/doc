@@ -82,8 +82,8 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
               ? true
               : false
             : i == 0
-            ? true
-            : false,
+              ? true
+              : false,
         };
 
         departmentList.push(obj);
@@ -126,12 +126,10 @@ function buildManageDepartment() {
       resp.data.forEach((v) => {
         list += `<tr>
                  <td>${(fakeId += 1)}</td>
-                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${
-          v.dep_id
-        }</td>
-                 <td dep-name='${v.dep_name}' class='dep-name'>${
-          v.dep_name
-        }</td>
+                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id
+          }</td>
+                 <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name
+          }</td>
                  <td style="text-align: right"><a href="#" style ="margin-right: 8px !important;"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
                  </a><a href="#" class="alert-depart"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
@@ -228,13 +226,13 @@ function getBuildSearchContent(srch) {
           .replace("</span>", "");
         element.append(
           "<div class=\"result-item\"><a class='acticle_con' tag_title='" +
-            tag +
-            "' act_id='" +
-            r.id +
-            "'>" +
-            r.r_title +
-            ' </a><div class="_search-contents">' +
-            r.r_contents,
+          tag +
+          "' act_id='" +
+          r.id +
+          "'>" +
+          r.r_title +
+          ' </a><div class="_search-contents">' +
+          r.r_contents,
           "</div></div>"
         );
       });
@@ -288,23 +286,42 @@ function randomNotFound() {
 function buildActicle(id) {
   loader();
   getActicle(id, function (resp) {
-    if (resp.data.content_body === undefined) {
+    if (resp.data.content_body === undefined) { // Check article is null
       $("#content_body").empty().append(resp.data.content_body);
       randomNotFound();
     } else {
       var html = "";
+      var html_file_name = "";
+      var html_file_img = "";
       if (!isNull(resp.data.modified_date)) { // Check update acticle
-        // html += `<span> <img class="ui avatar image" id='users_photo' src="${resp.data.image}">   ${resp.data.username} <br><span id='test'>Modify on : ${moment(resp.data.modified_date).format("DD MMM YYYY")}</span>   </span>`;
-        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> ${resp.data.username} <div class="sub header"> ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></h4>`
         
+        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> ${resp.data.username} <div class="sub header"> ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></h4>`
+
       } else {
 
-        // html += `<span> <img class="ui avatar image" id='users_photo' src="${resp.data.image}"> Create by ${resp.data.username}  <p id='style_user_create_acticle'> On : ${moment(resp.data.create_date).format("DD MMM YYYY")} </p> </span>`;
         html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> Create by: ${resp.data.username} <div class="sub header"> ${moment(resp.data.create_date).format("DD MMM YYYY")} </div></div></h4>`
+        
       }
-      
-      html += resp.data.content_body;
-      $("#content_body").empty().append(html);
+
+      html += resp.data.content_body; // Content
+      hidelightCode();
+
+      if (resp.data.file_id === null) { // Check file null
+        $('#File_name').hide();
+      }
+      else if (resp.data.thum_img_path === null && resp.data.img_path === null) {
+        $('.img_pathh').hide();
+        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"><a href="${resp.data.file_nm}" onclick="" >${resp.data.file_nm}</a></span> <br />`
+
+      } else if (resp.data.file_nm) {
+
+        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"><a href="${resp.data.file_nm}" onclick="" >${resp.data.file_nm}</a></span> <br />`
+
+        html_file_name += `<img class="img_pathh" src="${resp.data.thum_img_path}">`;
+      }
+
+      $("#content_body").empty().append(html, html_file_name);
+
       hidelightCode();
     }
   });
@@ -348,7 +365,7 @@ function getRecent(params) {
 }
 
 // check remove from localstorage
-function checkAndRemoveFromLocalStorage() {}
+function checkAndRemoveFromLocalStorage() { }
 
 //save recent
 function saveRecent(tag_title, acticle_id, acticle_name) {
@@ -487,7 +504,7 @@ function buildUserTable() {
       )}">`;
       tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
 
-      tableData += `<td><img src="${i.image == null?'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' :i.image }"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // User profile
+      tableData += `<td><img src="${i.image == null ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' : i.image}"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // User profile
 
       tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // user name
 
@@ -496,13 +513,13 @@ function buildUserTable() {
       if (i.role == 1) {
         // admin
         tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin </a> </td>`;
-      } else if(i.role == 0) {
+      } else if (i.role == 0) {
         // user
         tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
-      } else if(i.role == 2) {
+      } else if (i.role == 2) {
         // viewer
         tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
-      } 
+      }
 
       if (i.status == 1) {
         // status
@@ -514,7 +531,7 @@ function buildUserTable() {
       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
     </tr>`;
     });
-     
+
     $("#userData").empty().append(tableData);
   });
 }
@@ -529,3 +546,23 @@ function get_user_image() {
   var user_profile = $('img').attr('src', getToken().img); // Set user profile
   $('#User_profile #user_image').empty().append(user_profile);
 }
+
+$(document).on('click', '.img_pathh', function() {
+  alert('Hello yuth');  
+  $('#modal_preview_image').modal({ closable: false }).modal("show");
+  
+  function build_modal_image(id) {
+    getActicle(id, function(resp) {
+
+      if (resp.data.img_path && resp.data.thum_img_path) {
+        var images = `<img src='${resp.data.thum_img_path}'>`
+        $('#respone_image').append(images)
+      }
+  
+    })
+  }
+  
+  build_modal_image()
+  
+  
+})
