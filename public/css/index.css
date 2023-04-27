@@ -351,11 +351,11 @@ a.title {
   border: 2px salmon solid !important;
 }
 
-.user-profile{ 
-    width: 35px;
-    height: 35px;
-    border-radius: 50px;
-    object-fit: cover;
+.user-profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  object-fit: cover;
 }
 
 .icon-dltDpt {
@@ -476,4 +476,8 @@ h4.ui.header .sub.header {
 #List_file {
   color: black;
 }
+
+
+
+
 /*  */

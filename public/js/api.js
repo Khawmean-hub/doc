@@ -173,7 +173,7 @@ function getActicle1(id, callBack) {
   requestApi(settings, callBack);
 }
 
-// Get Acticle
+// Get login
 function getLogin(username, password, callBack) {
   var settings = {
     url: baseUrl + "/doc_login_r01",
@@ -361,7 +361,7 @@ function reset_password(req, callBack) {
 }
 
 // UPLOAD FILE 
-function upload_file (files_c, callBack){
+function upload_file (req, callBack){
 var setting = {
   url: baseUrl + "/doc_file_c01",
   method: "POST",
@@ -370,7 +370,7 @@ var setting = {
     Authorization: "Bearer" + getToken().token,
 
   },
-  data: files_c,
+  data:req,
 };
 requestApi(setting, callBack);
 }
