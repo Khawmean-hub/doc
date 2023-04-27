@@ -1,5 +1,8 @@
-// $(".page-login").hide();
-// $(".my_body").hide();
+var acticle_id;
+var tage_id;
+var vaTitle;
+var Department_ID;
+var Get_User_ID;
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
   $(".active_title").not(this).removeClass("active_link");
@@ -73,7 +76,7 @@ function buildList() {
     html +=
       "<p>" +
       '<i class="paperclip icon grey"></i>' +
-      '<a href="#" class="blue">'+e.name+ '</a>'+
+      '<a href="#" class="blue">' + e.name + '</a>' +
       ' <a href="#"><i class="trash grey alternate outline icon con-size" id="btn-remove" value="remove"  fname="' +
       e.name +
       '"></i></a></p>';
@@ -323,7 +326,9 @@ $(document).on("click", ".acticle_con", function () {
   var tag_title = $(this).attr("tag_title");
   console.log("id", id);
   console.log("tag_title", tag_title);
-  buildActicle(id);
+  buildActicle(id); // Call function buildActicle
+  // Test
+  build_real_file(id);
   saveRecent(tag_title, id, $(this).text());
   $("body .my_sidebar").find("li").removeClass("menu_active");
   $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
@@ -357,22 +362,22 @@ $("#btn_login").click(function () {
 
   if (!isNull(username) && !isNull(password)) {
     $("#btn_login").addClass("loading");
-    var defualt_img = 
-    getLogin(username, password, function (resp) {
-      if (resp.status) {
-        window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
-        console.log("resp.data: ", resp.data);
-        $("#username_text").val(""), $("#password_text").val("");
-        get_user_image()
-        buldHome();
+    var defualt_img =
+      getLogin(username, password, function (resp) {
+        if (resp.status) {
+          window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
+          console.log("resp.data: ", resp.data);
+          $("#username_text").val(""), $("#password_text").val("");
+          get_user_image()
+          buldHome();
 
-        $(".edit_tag").show();
-      } else {
-        $("#msg_alert p").text(resp.message);
-        $("#msg_alert").show();
-      }
-      $("#btn_login").removeClass("loading");
-    });
+          $(".edit_tag").show();
+        } else {
+          $("#msg_alert p").text(resp.message);
+          $("#msg_alert").show();
+        }
+        $("#btn_login").removeClass("loading");
+      });
   }
 });
 
@@ -428,16 +433,16 @@ $(document).on("click", "#update-departmentList", function () {
 
 // Update article has have
 $(document).on("click", "#modal-edit-sub-article", function () {
-  var acticle_id = $(this).attr("act_id");
-  var tage_id = $(this).attr("tag_id");
-  var vaTitle = $(this).attr("title");
-  var dept_id = $(this).attr("dep_id");
-  var avUserid = getToken().id + "";
+  acticle_id = $(this).attr("act_id");
+  tage_id = $(this).attr("tag_id");
+  vaTitle = $(this).attr("title");
+  Department_ID = $(this).attr("dep_id");
+  Get_User_ID = getToken().id;
   console.log("Acticle ID :", acticle_id);
   console.log("Tag ID :", tage_id);
   console.log("Title :", vaTitle);
-  console.log("Department ID: ", dept_id);
-  console.log("UserID", avUserid);
+  console.log("Department ID: ", Department_ID);
+  console.log("UserID", Get_User_ID);
 
   // Show content
   $(".coupled.modal").modal({
@@ -451,7 +456,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     .modal({ allowMultiple: true, closable: false })
     .modal("show");
   $(".get-article-title").val(vaTitle);
-  buildDepartment("#departmentListId4, #modal_add", dept_id);
+  buildDepartment("#departmentListId4, #modal_add", Department_ID);
   buildeMenuCombobox("#menu_com4", null, tage_id);
 
   getActicle1(acticle_id, function (resp) {
@@ -468,27 +473,27 @@ $(document).on("click", "#modal-edit-sub-article", function () {
       },
     });
   });
+});
 
-  // UPDATE SUB-ARTICLE
-  $(document).on("click", "#btn-save-update-sub-article", function () {
-    var myContent2 = tinymce.get("editor2").getContent();
-    var reqAr = {
-      TAG_ID: tage_id,
-      TITLE: $(".get-article-title").val(),
-      CONTENT_BODY: myContent2,
-      USER_ID: avUserid,
-      DEP_ID: dept_id,
-      ID: acticle_id,
-    };
-    updateArticles(reqAr, function (resp) {
-      if (resp.status) {
-        tinymce.get("editor2").setContent(""); // Clear 
-        buldHome(true);
-      }
-    });
-    buldHome(true);
-    //window.location.reload();
+// Update sub article has have 
+$(document).on("click", "#btn-save-update-sub-article", function () {
+  var myContent2 = tinymce.get("editor2").getContent();
+  var reqAr = {
+    TAG_ID: tage_id,
+    TITLE: $(".get-article-title").val(),
+    CONTENT_BODY: myContent2,
+    USER_ID: Get_User_ID,
+    DEP_ID: Department_ID,
+    ID: acticle_id,
+  };
+  updateArticles(reqAr, function (resp) {
+    if (resp.status) {
+      tinymce.get("editor2").setContent(""); // Clear 
+      buldHome(true);
+    }
   });
+  // buldHome(true);
+  //window.location.reload();
 });
 
 // DELETE MAIN ARTICLE
@@ -499,7 +504,7 @@ $(document).on("click", "#delete_thisT", function () {
     $(this).addClass("loading");
     deleteTage(id, function (resp_delete) {
       if (resp_delete.status) {
-        setTimeout(function () {}, 1500);
+        setTimeout(function () { }, 1500);
         $(".btn_delete_tage").removeClass("loading");
         buldHome(true);
         buildMenu(true);
@@ -748,7 +753,7 @@ $(document).on("click", ".profile", function () {
 
 // Click user profile
 $(document).on("click", ".profile-users", function () {
-  if(isNull($("#upload-img").attr('src'))){
+  if (isNull($("#upload-img").attr('src'))) {
     $("#upload-img").attr('src', 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg==')
   }
   $("#information_user").modal({ closable: false }).modal("show");
@@ -776,7 +781,7 @@ $("#fileuploads_image").change(function () {
 $(document).on("click", "#user_click_update", function () {
   var id = getToken().id;
 
-  uploadFile(profileFile, $("#fileuploads_image").val() , function (resp) {
+  uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
     $("#user_click_update").addClass("loading");
     var data = JSON.parse(resp);
     console.log("data :", data);

@@ -173,7 +173,7 @@ function getActicle1(id, callBack) {
   requestApi(settings, callBack);
 }
 
-// Get Acticle
+// Get login
 function getLogin(username, password, callBack) {
   var settings = {
     url: baseUrl + "/doc_login_r01",
@@ -358,4 +358,18 @@ function reset_password(req, callBack) {
     data:req,
   };
   requestApi(settings, callBack);
+}
+
+// Read file
+function read_file(id, callBack) {
+  var setting = {
+    url: baseUrl + "/doc_file_r01",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: JSON.stringify({ ID: id})
+  };
+  requestApi(setting, callBack);
 }
