@@ -3,6 +3,7 @@ var tage_id;
 var vaTitle;
 var Department_ID;
 var Get_User_ID;
+var Delete_Sub_article;
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
   $(".active_title").not(this).removeClass("active_link");
@@ -492,8 +493,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
       buldHome(true);
     }
   });
-  // buldHome(true);
-  //window.location.reload();
 });
 
 // DELETE MAIN ARTICLE
@@ -517,15 +516,22 @@ $(document).on("click", "#delete_thisT", function () {
 
 // DELETE SUB ARTICLE
 $(document).on("click", "#modale-delete-sub", function () {
-  // $(".delete_sub-title").modal("show");
   $(".delete_sub-title").modal({ closable: false }).modal("show");
-  var id = $(this).attr("va-id");
-  $(document).on("click", ".btn_delete_sub", function () {
-    deleteArticles(id);
-    buldHome(true);
-    buildMenu(true);
+  Delete_Sub_article = $(this).attr("va-id");
+  console.log("delete-sub: => ", Delete_Sub_article);
+});
+
+$(document).on("click", ".btn_delete_sub", function () {
+  $(this).addClass("loading");
+  deleteArticles(Delete_Sub_article, function(respone_delete_sub_article) {
+    if (respone_delete_sub_article.status) {
+        setTimeout(function() {
+        $(".btn_delete_sub").removeClass("loading");
+        buldHome(true);
+        buildMenu(true);
+      }, 1500);
+    }
   });
-  console.log("delete-sub: ", id);
 });
 
 // BUILD PAGE
