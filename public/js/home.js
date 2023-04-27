@@ -311,18 +311,26 @@ function buildActicle(id) {
       }
       else if (resp.data.thum_img_path === null && resp.data.img_path === null) {
         $('.img_pathh').hide();
-        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"><a href="${resp.data.file_nm}" onclick="" >${resp.data.file_nm}</a></span> <br />`
+        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"> <a href="" class="" data="${resp.data.file_nm}" download>${resp.data.file_nm}</a> </span> <br />`
 
       } else if (resp.data.file_nm) {
 
-        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"><a href="${resp.data.file_nm}" onclick="" >${resp.data.file_nm}</a></span> <br />`
+        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name3" style="margin-right:30px"><a id="download-link" href="${resp.data.file_nm}" onclick="">${resp.data.file_nm}</a></span> <br />`
 
-        html_file_name += `<img class="img_pathh" src="${resp.data.thum_img_path}">`;
+        html_file_name += `<img class="img_pathh" id="myImage" src="${resp.data.thum_img_path}">`;
       }
 
       $("#content_body").empty().append(html, html_file_name);
 
       hidelightCode();
+
+      // $('#file-name2 a').click(function() {
+      //   $('#file-name2 a').attr({
+      //     target: '_blank',
+      //     href: '_blank',
+      //     download: 'data="${resp.data.file_nm}"'
+      // })
+      // })
     }
   });
 }
@@ -550,22 +558,23 @@ function get_user_image() {
   $('#User_profile #user_image').empty().append(user_profile);
 }
 
-$(document).on('click', '.img_pathh', function() {
-  alert('Hello yuth');  
-  $('#modal_preview_image').modal({ closable: false }).modal("show");
-  
-  function build_modal_image(id) {
-    getActicle(id, function(resp) {
 
-      if (resp.data.img_path && resp.data.thum_img_path) {
-        var images = `<img src='${resp.data.thum_img_path}'>`
-        $('#respone_image').append(images)
-      }
-  
-    })
-  }
-  
-  build_modal_image()
-  
-  
+// Preview modal image
+// $(document).on('click', '.img_pathh', function() {
+//   alert('Hello yuth');  
+//   window.open($(this).attr('src'), '_blank');
+// })
+$(document).on('click', '.img_pathh', function() {
+var oo =  $('.img_pathh').attr({target: '_blank'})
+  window.open($(this).attr('src'), oo)
 })
+
+// Downlaod file
+$(document).ready(function () {
+  $("#file-name2 a").click(function (e) {
+      e.preventDefault();
+        
+      window.location.href 
+          = "File/randomfile.docx";
+  });
+});

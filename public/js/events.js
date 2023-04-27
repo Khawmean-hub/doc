@@ -482,6 +482,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     };
     updateArticles(reqAr, function (resp) {
       if (resp.status) {
+        tinymce.get("editor2").setContent(""); // Clear 
         buldHome(true);
       }
     });
@@ -855,3 +856,6 @@ $(document).on("click", "#sign_up", function () {
 $(document).on("click", ".cancel_re_pwd ", function () {
   $(".msg_re_pwd").modal("hide");
 });
+
+
+//
