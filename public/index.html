@@ -53,21 +53,6 @@
       </div>
     </div>
 
-    <!-- Alert Reset-password -->
-    <div class="msg_re_pwd ui modal coupled">
-      <div style="position: absolute; top: 120px; right: -450px;">
-        <div class="ui red icon message compact">
-          <i class="exclamation circle icon"></i>
-          <div class="content">
-            <div class="header">
-              Login
-            </div>
-            <p>Incorrect Current password or New password.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- login form -->
     <form class="ui form login_form" onsubmit="return false" id="loginForm" style="display: none;">
       <h2>Login</h2>
@@ -110,6 +95,7 @@
       </div>
       <div class="actions" style="background-color: #ffffff;">
         <!-- <button class=" blue ui black basic tiny positive" id="Create-New-User">Add new</button> -->
+        <div id="pagination-container"></div>
         <div class="ui cancel tiny button">Cancel</div>
         <div class="ui blue button tiny" id="Create-New-User">Add new</div>
 
@@ -608,6 +594,7 @@
       <div class="field " style="font-size: .92857143em; width: 94%; margin-left: 14px;">
         <label>Confirm password</label>
         <input type="password" placeholder="" class="conpwd">
+         <p class="msg_re_pwd" style="color:red; display: none;">Incorrect current password or new password!</p>
       </div>
     </form>
     <br>

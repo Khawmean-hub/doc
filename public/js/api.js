@@ -359,3 +359,18 @@ function reset_password(req, callBack) {
   };
   requestApi(settings, callBack);
 }
+
+// UPLOAD FILE 
+function upload_file (files_c, callBack){
+var setting = {
+  url: baseUrl + "/doc_file_c01",
+  method: "POST",
+  header: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer" + getToken().token,
+
+  },
+  data: files_c,
+};
+requestApi(setting, callBack);
+}

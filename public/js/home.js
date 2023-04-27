@@ -315,9 +315,9 @@ function buildActicle(id) {
 
       } else if (resp.data.file_nm) {
 
-        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"><a href="${resp.data.file_nm}" onclick="" >${resp.data.file_nm}</a></span> <br />`
+        html_file_name += `<h2 id='File_name'>File :</h2>  <span id="file-name2" style="margin-right:30px"><a href="${resp.data.file_nm}" onclick="" class="" >${resp.data.file_nm}</a></span> <br />`
 
-        html_file_name += `<img class="img_pathh" src="${resp.data.thum_img_path}">`;
+        html_file_name += `<img class="img_pathh download" src="${resp.data.thum_img_path}">`;
       }
 
       $("#content_body").empty().append(html, html_file_name);
@@ -496,10 +496,10 @@ function getTag(isFalse) {
 }
 
 function buildUserTable() {
-  userTable(function (data) {
+  userTable(function (data) { 
     var tableData = "";
     data.data.forEach((i, index) => {
-      tableData += `<tr class='allUser' data="${encodeURIComponent(
+      tableData += `<tr class='allUser list-item ' data="${encodeURIComponent(
         JSON.stringify(i)
       )}">`;
       tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
@@ -531,9 +531,10 @@ function buildUserTable() {
       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
     </tr>`;
     });
-
+   
     $("#userData").empty().append(tableData);
   });
+ 
 }
 
 // Get user name
