@@ -733,7 +733,7 @@ group by app.app_id, app.app_name,app.redmine_id, app.description`);
   }
 );
 
-// Route insert article
+// Insert article
 homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
   var data = await db.any(`
     INSERT INTO doc_articles
@@ -760,7 +760,7 @@ homeRoute.post("/doc_search_r01", auth.permitAll, async (req, res) => {
   }
 });
 
-// ROUTE CREATE NEW DOC
+// Create new doc
 homeRoute.post("/doc_tag_c01", async (req, res) => {
   var tag =
     await db.any(`INSERT INTO doc_tags(title, dep_id, create_date, modified_date, user_id, status)
@@ -917,5 +917,17 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
     
   }
 });
+
+// Delete file
+homeRoute.post("/doc_file_d01/:id", async (req, res) => {
+  // UPDATE doc_file set status=0 where file_idnt_id=?
+  var delete_file = await db.any(`UPDATE doc_file set status=0 where file_idnt_id=?`);
+  console.log();
+  if (delete_file == null) {
+    return res.send(new BaseRes(false, "Error", null));
+  } else {
+    return res.send(new BaseRes(true, "Success", delete_file))
+  }
+})
 
 module.exports = homeRoute;

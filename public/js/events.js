@@ -75,7 +75,7 @@ function buildList() {
   var imgs = "";
   files.forEach((e) => {
     html +=
-      "<p>" +
+      "<p id='content_file'>" +
       '<i class="paperclip icon grey"></i>' +
       '<a href="#" class="blue">' + e.name + '</a>' +
       ' <a href="#"><i class="trash grey alternate outline icon con-size" id="btn-remove" value="remove"  fname="' +
@@ -89,8 +89,8 @@ function buildList() {
     }
   });
 
-  $("#List_file").empty().append(html);
-  $("#imgs").empty().append(imgs);
+  $("#List_file_content").empty().append(html);
+  // $("#imgs").empty().append(imgs); // Lish file image
 }
 // Event select file
 $("#fileUpload").on("change", function () {

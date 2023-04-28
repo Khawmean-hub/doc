@@ -473,11 +473,28 @@ h4.ui.header .sub.header {
   margin-top: 5px;
 }
 
-#List_file {
+#List_file_content {
+  background-color: #f6f6f6;
+  
+}
+
+#profile_update_image {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+}
+
+#profile_crate_image {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+}
+
+#file_text_content {
   color: black;
 }
 
-
-
-
+#content_file {
+  margin: 0px;
+}
 /*  */
