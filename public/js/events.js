@@ -157,10 +157,10 @@ $(document).on("click", "#editor_save", function () {
         TITLE: $("#sub_title_val").val(), // Title
         FILE_ARTICLE_ID: Date.now(), // Create date
       };
-       // Upload Images
-      console.log("File Image for upload: ",  files_c);
-      $.each( files_c, function (i,v) {   
-          console.log("FILE_ARTICLE_ID: ", v.lastModified );
+      // Upload Images
+      console.log("File Image for upload: ", files_c);
+      $.each(files_c, function (i, v) {
+        console.log("FILE_ARTICLE_ID: ", v.lastModified);
       });
       console.log("All", req);
       $(this).addClass("loading");
@@ -378,13 +378,13 @@ $("#btn_login").click(function () {
         get_user_image();
         buldHome();
 
-          $(".edit_tag").show();
-        } else {
-          $("#msg_alert p").text(resp.message);
-          $("#msg_alert").show();
-        }
-        $("#btn_login").removeClass("loading");
-      });
+        $(".edit_tag").show();
+      } else {
+        $("#msg_alert p").text(resp.message);
+        $("#msg_alert").show();
+      }
+      $("#btn_login").removeClass("loading");
+    });
   }
 });
 
@@ -529,9 +529,9 @@ $(document).on("click", "#modale-delete-sub", function () {
 
 $(document).on("click", ".btn_delete_sub", function () {
   $(this).addClass("loading");
-  deleteArticles(Delete_Sub_article, function(respone_delete_sub_article) {
+  deleteArticles(Delete_Sub_article, function (respone_delete_sub_article) {
     if (respone_delete_sub_article.status) {
-        setTimeout(function() {
+      setTimeout(function () {
         $(".btn_delete_sub").removeClass("loading");
         buldHome(true);
         buildMenu(true);
