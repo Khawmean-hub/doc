@@ -162,7 +162,7 @@ homeRoute.post("/doc_file_r01", async (req, res, next) => {
   }
 });
 
-// Upload file
+// Insert file
 homeRoute.post("/doc_file_c01", async (req, res, next) => {
   // INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES(?, ?, ?, ?, ?, ?,1);
   
