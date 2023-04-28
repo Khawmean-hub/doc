@@ -295,11 +295,11 @@ function buildActicle(id) {
 
       if (!isNull(resp.data.modified_date)) { // Check update acticle
 
-        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> ${resp.data.username} <div class="sub header"> Modify: ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></h4>`
+        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}" id="profile_update_image"> </i><div class="content"> ${resp.data.username} <div class="sub header"> Modify: ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></h4>`
 
       } else { // Check create acticle
 
-        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}"> </i><div class="content"> ${resp.data.username} <div class="sub header"> Create: ${moment(resp.data.create_date).format("DD MMM YYYY")} </div></div></h4>`
+        html += `<h4 class="ui header">  <img class="ui circular image" src="${resp.data.image}" id="profile_crate_image"> </i><div class="content"> ${resp.data.username} <div class="sub header"> Create: ${moment(resp.data.create_date).format("DD MMM YYYY")} </div></div></h4>`
 
       }
       // Check is file have
