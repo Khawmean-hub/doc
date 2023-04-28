@@ -92,15 +92,18 @@ function buildList() {
   $("#List_file_content").empty().append(html);
   // $("#imgs").empty().append(imgs); // Lish file image
 }
+
 // Event select file
+var files_c
 $("#fileUpload").on("change", function () {
   $.each(this.files, function (k, e) {
     if (files.every((a) => a.name !== e.name)) {
       files.push(e);
     }
   });
+  files_c = files
+  console.log("File Image: ", files);
 
-  console.log(files);
   buildList();
   $(this).val("");
 });
@@ -154,8 +157,12 @@ $(document).on("click", "#editor_save", function () {
         TITLE: $("#sub_title_val").val(), // Title
         FILE_ARTICLE_ID: Date.now(), // Create date
       };
+       // Upload Images
+      console.log("File Image for upload: ",  files_c);
+      $.each( files_c, function (i,v) {   
+          console.log("FILE_ARTICLE_ID: ", v.lastModified );
+      });
       console.log("All", req);
-
       $(this).addClass("loading");
       saveContents(req, function (resp) {
         if (resp.status) {
@@ -363,14 +370,13 @@ $("#btn_login").click(function () {
 
   if (!isNull(username) && !isNull(password)) {
     $("#btn_login").addClass("loading");
-    var defualt_img =
-      getLogin(username, password, function (resp) {
-        if (resp.status) {
-          window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
-          console.log("resp.data: ", resp.data);
-          $("#username_text").val(""), $("#password_text").val("");
-          get_user_image()
-          buldHome();
+    var defualt_img = getLogin(username, password, function (resp) {
+      if (resp.status) {
+        window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
+        console.log("resp.data: ", resp.data);
+        $("#username_text").val(""), $("#password_text").val("");
+        get_user_image();
+        buldHome();
 
           $(".edit_tag").show();
         } else {
@@ -849,13 +855,13 @@ $(document).on("click", "#sign_up", function () {
       if (resp.status) {
         setTimeout(function () {
           $("#change-password").modal("hide");
-          $(".msg_re_pwd").modal("hide");
+          $(".msg_re_pwd").hid()
           $("#sign_up").removeClass("loading");
         }, 1000);
       } else {
         setTimeout(function () {
           $("#sign_up").removeClass("loading");
-          $(".msg_re_pwd").modal({ allowMultiple: true }).modal("show");
+          $(".msg_re_pwd").show()
         }, 1000);
       }
     });
@@ -865,7 +871,7 @@ $(document).on("click", "#sign_up", function () {
   }
 });
 $(document).on("click", ".cancel_re_pwd ", function () {
-  $(".msg_re_pwd").modal("hide");
+  $(".msg_re_pwd").hide()
 });
 
 

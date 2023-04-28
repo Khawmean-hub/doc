@@ -360,16 +360,17 @@ function reset_password(req, callBack) {
   requestApi(settings, callBack);
 }
 
-// Read file
-function read_file(id, callBack) {
-  var setting = {
-    url: baseUrl + "/doc_file_r01",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer" + getToken().token,
-    },
-    data: JSON.stringify({ ID: id})
-  };
-  requestApi(setting, callBack);
+// UPLOAD FILE 
+function upload_file (req, callBack){
+var setting = {
+  url: baseUrl + "/doc_file_c01",
+  method: "POST",
+  header: {
+    "Content-Type": "application/json",
+    Authorization: "Bearer" + getToken().token,
+
+  },
+  data:req,
+};
+requestApi(setting, callBack);
 }
