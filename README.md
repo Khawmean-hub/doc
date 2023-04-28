@@ -1,2 +1,2 @@
-# b2bdoc_api
-for b2b
+# dev   http://192.168.178.81:88
+# real  http://192.168.178.81:81

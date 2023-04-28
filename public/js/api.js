@@ -360,7 +360,7 @@ function reset_password(req, callBack) {
   requestApi(settings, callBack);
 }
 
-// UPLOAD FILE 
+// Insert file
 function upload_file(req, callBack) {
   var setting = {
     url: baseUrl + "/doc_file_c01",
@@ -387,4 +387,20 @@ function read_file(id, callBack) {
     data: JSON.stringify({ ID: id })
   };
   requestApi(setting, callBack);
+}
+
+// Upload multiple file
+function upload_multiple_file(file, path, callBack) {
+  let formData = new FormData();
+  formData.append("file", file, path);
+
+  var settings = {
+    url: baseUrl + "/upload_multiple_file",
+    method: "POST",
+    processData: false,
+    contentType: false,
+    mimeType: "multipart/form-data",
+    data: formData,
+  };
+  requestApi(settings, callBack);
 }
