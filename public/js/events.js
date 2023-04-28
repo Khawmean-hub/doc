@@ -4,6 +4,8 @@ var vaTitle;
 var Department_ID;
 var Get_User_ID;
 var Delete_Sub_article;
+var Delete_main_article;
+var files = [];
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
   $(".active_title").not(this).removeClass("active_link");
@@ -67,8 +69,6 @@ $(".btn_upload_file").click(function () {
 //   }
 // });
 
-// Test
-var files = [];
 // Build file on browser
 function buildList() {
   var html = "";
@@ -180,6 +180,11 @@ $(document).on("click", "#editor_save", function () {
   }
   $;
 });
+
+// Clear editor
+$(document).on('click', '#close_editor', function() {
+  
+})
 
 // ADD NEW TITEL TO DEPARTMENT
 $(document).on("click", "#add_newTitle", function () {
@@ -328,15 +333,14 @@ $(".menu_btn").click(function () {
   }
 });
 
-//click on acticle
+// Click on acticle
 $(document).on("click", ".acticle_con", function () {
   var id = $(this).attr("act_id");
   var tag_title = $(this).attr("tag_title");
   console.log("id", id);
   console.log("tag_title", tag_title);
   buildActicle(id); // Call function buildActicle
-  // Test
-  build_real_file(id);
+  build_real_file(id); // Call function read file
   saveRecent(tag_title, id, $(this).text());
   $("body .my_sidebar").find("li").removeClass("menu_active");
   $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
@@ -405,7 +409,7 @@ $(document).on("mouseleave", ".sub_t", function () {
   $("." + $(this).attr("d_est")).hide();
 });
 
-//MODAL UPDATE TAGE EX: Gradle
+// Modal update main article Ex: Gradle
 var vId, vUserid, vDepid;
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
@@ -418,6 +422,7 @@ $(document).on("click", ".edit_tag", function () {
   $(".v-title").val(vTitle);
   $(".v-title").val();
 });
+// Comfrim to update main article
 $(document).on("click", "#update-departmentList", function () {
   var reqTag = {
     DEP_ID: vDepid,
@@ -438,7 +443,7 @@ $(document).on("click", "#update-departmentList", function () {
   }, 1500);
 });
 
-// Update article has have
+// Update acticle has have
 $(document).on("click", "#modal-edit-sub-article", function () {
   acticle_id = $(this).attr("act_id");
   tage_id = $(this).attr("tag_id");
@@ -501,22 +506,24 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   });
 });
 
-// DELETE MAIN ARTICLE
+// Delete main article Ex: Jex
 $(document).on("click", "#delete_thisT", function () {
   $(".delete_tage").modal({ closable: false }).modal("show");
-  var id = $(this).attr("da-de");
-  $(document).on("click", ".btn_delete_tage ", function () {
-    $(this).addClass("loading");
-    deleteTage(id, function (resp_delete) {
-      if (resp_delete.status) {
-        setTimeout(function () { }, 1500);
-        $(".btn_delete_tage").removeClass("loading");
-        buldHome(true);
-        buildMenu(true);
-      } else {
-        alert("Error");
-      }
-    });
+  Delete_main_article = $(this).attr("da-de");
+  console.log('Delete main article => ', Delete_main_article);
+});
+// Comfrim to delete main article
+$(document).on("click", ".btn_delete_tage ", function () {
+  $(this).addClass("loading");
+  deleteTage(Delete_main_article, function (resp_delete) {
+    if (resp_delete.status) {
+      setTimeout(function () { }, 1500);
+      $(".btn_delete_tage").removeClass("loading");
+      buldHome(true);
+      buildMenu(true);
+    } else {
+      alert("Error");
+    }
   });
 });
 
@@ -526,7 +533,7 @@ $(document).on("click", "#modale-delete-sub", function () {
   Delete_Sub_article = $(this).attr("va-id");
   console.log("delete-sub: => ", Delete_Sub_article);
 });
-
+// Comfrim to delete sub article
 $(document).on("click", ".btn_delete_sub", function () {
   $(this).addClass("loading");
   deleteArticles(Delete_Sub_article, function (respone_delete_sub_article) {
