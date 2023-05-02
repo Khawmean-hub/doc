@@ -138,7 +138,7 @@ $(document).on("click", "#editor_save", function () {
       };
       // Add file
       console.log("File Image for upload: ", files_c);
-      $.each(files_c, function (i, v) {
+      $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
         var opt = {
           FILE_IDNT: v.lastModified,
           FILE_NM: v.name,
@@ -148,10 +148,11 @@ $(document).on("click", "#editor_save", function () {
           THUM_IMG_PATH: null
         }
         console.log("opt => ", opt);
-        // console.log("FILE NAME: => ", v.name);
-        // console.log("FILE SIZE: => ", v.size);
-        // console.log("FILE TYPE: => ", v.type);
-        // console.log("FILE_ARTICLE_ID: => ", v.lastModified);
+        uploadFile(files_c, function(resp) {
+          var data_file = JSON.parse(resp);
+          console.log('Data file upload: => ', data_file);
+        })
+        
       });
       console.log("Get all user input from editor => ", req);
       $(this).addClass("loading");
