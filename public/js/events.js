@@ -47,27 +47,6 @@ $("#btn_add_contents").click(function () {
 $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
-// Upload file 01
-// $(document).on("click", "#upLoadFile", function () {
-//   $(this).addClass("loading");
-//   var file = $("#fileUpload")[0].files[0];
-//   if (!isNull(file)) {
-//     uploadFile(file, $("#fileUpload").val(), function (resp) {
-//       var data = JSON.parse(resp);
-//       console.log(data);
-//       if (data.status) {
-//         setTimeout(function () {
-//           $(".img_path").text(data.data.url);
-//           $("#upLoadFile").removeClass("loading");
-//         }, 1000);
-//       } else {
-//         alert(data.message);
-//       }
-//     });
-//   } else {
-//     alert("Please upload image");
-//   }
-// });
 
 // Build file on browser
 function buildList() {
@@ -128,7 +107,7 @@ $(document).on("click", "#upLoadFile02", function () {
   if (!isNull(file)) {
     uploadFile(file, $("#fileUpload02").val(), function (resp) {
       var data = JSON.parse(resp);
-      console.log(data);
+      console.log('File choose => ',data);
       if (data.status) {
         setTimeout(function () {
           $(".img_path02").text(data.data.url);
@@ -159,23 +138,35 @@ $(document).on("click", "#editor_save", function () {
         TITLE: $("#sub_title_val").val(), // Title
         FILE_ARTICLE_ID: Date.now(), // Create date
       };
-      // Upload Images
+      // Add file
       console.log("File Image for upload: ", files_c);
       $.each(files_c, function (i, v) {
-        console.log("FILE_ARTICLE_ID: ", v.lastModified);
-      });
-      console.log("All", req);
-      $(this).addClass("loading");
-      saveContents(req, function (resp) {
-        if (resp.status) {
-          $("#editor_save").removeClass("loading");
-          $("#modal_add_contents").modal("hide");
-          $("#sub_title_val").val("");
-          tinymce.get("editor1").setContent("");
-          getRecent();
-          buildMenu(true);
+        var opt = {
+          FILE_IDNT: v.lastModified,
+          FILE_NM: v.name,
+          FILE_SIZE: v.size,
+          FILE_TYPE: v.type,
+          FILE_PATH: null,
+          THUM_IMG_PATH: null
         }
+        console.log("opt => ", opt);
+        // console.log("FILE NAME: => ", v.name);
+        // console.log("FILE SIZE: => ", v.size);
+        // console.log("FILE TYPE: => ", v.type);
+        // console.log("FILE_ARTICLE_ID: => ", v.lastModified);
       });
+      console.log("Get all user input from editor => ", req);
+      $(this).addClass("loading");
+      // saveContents(req, function (resp) {
+      //   if (resp.status) {
+      //     $("#editor_save").removeClass("loading");
+      //     $("#modal_add_contents").modal("hide");
+      //     $("#sub_title_val").val("");
+      //     tinymce.get("editor1").setContent("");
+      //     getRecent();
+      //     buildMenu(true);
+      //   }
+      // });
     } else {
       alert("No content");
     }

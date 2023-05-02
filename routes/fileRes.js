@@ -53,13 +53,15 @@ var upload = multer({ storage: storage });
 //   res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, data));
 // });
 
+// File upload
 fileRoute.post('/upload',upload.single('file') ,async (req, res) => {
- // const fileUpload = new Resize(process.env.IMG_PATH);
-  // if (!req.file) {
-  //   return res.status(401).json(new BaseRes(false, MessageEnum.UPLOAD_FAILED, null));
-  // }
   res.send(new BaseRes(true,  MessageEnum.UPLOAD_SUCCESS, {url: process.env.URL+"/image/"+ req.file.filename, fileName: req.file.filename}));
 });
+  
+// Test file upload multiple
+// fileRoute.post('/upload_multiple_file',upload.array('upLoadAllFile', 10), async (req, res) => {
+//    res.send(new BaseRes(true, MessageEnum.UPDATE_SUCCESS, {url: process.env.URL+"/image/"+ req.file.filename, fileName: req.file.filename}));
+// })
 
 // const uploadFile = async (file) => {
 //   const formData = new FormData();
@@ -67,7 +69,7 @@ fileRoute.post('/upload',upload.single('file') ,async (req, res) => {
 //   const res = await fetch(baseUrl+'/upload', {
 //     method: 'POST',
 //     body: formData
-//   })
+//   }) 
 //   return await res.json();
 // }
 
