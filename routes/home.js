@@ -913,7 +913,7 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
     ); 
     return res.send(new BaseRes(true, "Success", null));
   } else {
-    return res.send(new BaseRes(false, "Error", null));
+    return res.send(new BaseRes(false, "Incorrent current password ! ", null));
     
   }
 });
