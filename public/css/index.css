@@ -473,9 +473,20 @@ h4.ui.header .sub.header {
   margin-top: 5px;
 }
 
-#List_file_content {
+/* #List_file_content {
   background-color: #f6f6f6;
   
+}
+
+#file_text_content {
+  background-color: #f6f6f6;
+} */
+
+#content_file_all {
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  padding: 15px; 
+  /* padding រុញ​ content ចូលក្នុង */
 }
 
 #profile_update_image {
@@ -496,5 +507,9 @@ h4.ui.header .sub.header {
 
 #content_file {
   margin: 0px;
+}
+
+#btn-remove {
+  margin-left: 300px;
 }
 /*  */

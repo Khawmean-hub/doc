@@ -141,25 +141,42 @@ $(document).on("click", "#editor_save", function () {
       // Add file
       console.log("File Image for upload: ", files_c);
       
-      $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
-        files_c = $('#fileUpload')[0].files[0];
-        var opt = {
-          FILE_IDNT: v.lastModified,
-          FILE_NM: v.name,
-          FILE_SIZE: v.size,
-          FILE_TYPE: v.type,
+      // $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
+        
+      //   var opt = {
+      //     FILE_IDNT: v.lastModified,
+      //     FILE_NM: v.name,
+      //     FILE_SIZE: v.size,
+      //     FILE_TYPE: v.type,
+      //     FILE_PATH: null,
+      //     THUM_IMG_PATH: null
+      //   }
+      //   console.log("opt => ", opt);
+      //   // Loop
+       
+        
+      //   uploadFile(files_c, function(resp) {
+          
+      //     var data_file = JSON.parse(resp);
+      //     console.log('Data file upload: => ', data_file);
+      //   })
+        
+      // });
+      
+      for (var i = 0; i < files_c.length; i ++) {
+        // var new_file = files_c[i];
+        var get_files = {
+          FILE_IDNT: files_c[i].lastModified,
+          FILE_NM:  files_c[i].name,
+          FILE_SIZE: files_c[i].size,
+          FILE_TYPE: files_c[i].type,
           FILE_PATH: null,
           THUM_IMG_PATH: null
         }
-        console.log("opt => ", opt);
-        
-        uploadFile(files_c, function(resp) {
-          
-          var data_file = JSON.parse(resp);
-          console.log('Data file upload: => ', data_file);
-        })
-        
-      });
+        console.log('Get file => ', get_files)
+      
+      }
+    
       console.log("Get all user input from editor => ", req);
       $(this).addClass("loading");
       // saveContents(req, function (resp) {
