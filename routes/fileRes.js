@@ -56,6 +56,9 @@ var upload = multer({ storage: storage });
 // File upload
 fileRoute.post('/upload',upload.single('file') ,async (req, res) => {
   res.send(new BaseRes(true,  MessageEnum.UPLOAD_SUCCESS, {url: process.env.URL+"/image/"+ req.file.filename, fileName: req.file.filename}));
+  // need url and file name
+  // url http://localhost:4545/image/1682992645474-DSCF2454.JPG
+  // fileName 1682992645474-DSCF2454.JPG
 });
   
 // Test file upload multiple

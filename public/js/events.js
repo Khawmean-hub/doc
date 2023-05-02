@@ -138,7 +138,9 @@ $(document).on("click", "#editor_save", function () {
       };
       // Add file
       console.log("File Image for upload: ", files_c);
+      
       $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
+        files_c = $('#fileUpload')[0].files[0];
         var opt = {
           FILE_IDNT: v.lastModified,
           FILE_NM: v.name,
@@ -148,7 +150,9 @@ $(document).on("click", "#editor_save", function () {
           THUM_IMG_PATH: null
         }
         console.log("opt => ", opt);
+        
         uploadFile(files_c, function(resp) {
+          
           var data_file = JSON.parse(resp);
           console.log('Data file upload: => ', data_file);
         })

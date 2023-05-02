@@ -329,6 +329,9 @@ function uploadFile(file, path, callBack) {
   requestApi(settings, callBack);
 }
 
+// For test
+
+
 // Upload multiple file
 
 
