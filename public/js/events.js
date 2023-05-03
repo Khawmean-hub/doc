@@ -142,36 +142,31 @@ $(document).on("click", "#editor_save", function () {
       console.log("File Image for upload: ", files_c);
       
       $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
-        files_c = $('#fileUpload')[0].files[0];
-        var opt = {
-          FILE_IDNT: v.lastModified,
+        var req = {
+          URL: v.lastModified,
           FILE_NM: v.name,
           FILE_SIZE: v.size,
-          FILE_TYPE: v.type,
-          FILE_PATH: null,
-          THUM_IMG_PATH: null
         }
-        console.log("opt => ", opt);
-        
-        uploadFile(files_c, function(resp) {
-          
-          var data_file = JSON.parse(resp);
-          console.log('Data file upload: => ', data_file);
+        console.log("req => ", req);
+        upload_file(req, function(resp){
+          if(resp.status){
+            alert(resp.message)
+          }else{
+            alert(resp.message)
+          }
         })
-        
       });
-      console.log("Get all user input from editor => ", req);
       $(this).addClass("loading");
-      // saveContents(req, function (resp) {
-      //   if (resp.status) {
-      //     $("#editor_save").removeClass("loading");
-      //     $("#modal_add_contents").modal("hide");
-      //     $("#sub_title_val").val("");
-      //     tinymce.get("editor1").setContent("");
-      //     getRecent();
-      //     buildMenu(true);
-      //   }
-      // });
+      saveContents(req, function (resp) {
+        if (resp.status) {
+          $("#editor_save").removeClass("loading");
+          $("#modal_add_contents").modal("hide");
+          $("#sub_title_val").val("");
+          tinymce.get("editor1").setContent("");
+          getRecent();
+          buildMenu(true);
+        }
+      });
     } else {
       alert("No content");
     }
