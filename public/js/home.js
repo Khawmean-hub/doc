@@ -278,7 +278,7 @@ function deleteDocument(id) {
 
 function randomNotFound() {
   $("#content_body").append(
-    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/banner_error_404.jpg" alt="not found "></div> </div>'
+    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/not_found.png" alt="not found "></div> </div>'
   );
 }
 
@@ -305,12 +305,13 @@ function buildActicle(id) {
       // Check is file have
       if (resp.data.file_nm) {
 
-        file_name += `<h2 id='Name_file'>File :</h2>  <span id="file-name3" style="margin-right:30px"><a id="download-link" href="${resp.data.file_nm}" download="${resp.data.file_nm}">${resp.data.file_nm}</a></span> <br />`
+        file_name += `<h2 id='Name_file'>File :</h2>  <span id="file-name3" style="margin-right:30px"><a id="download-link" href="${resp.data.file_nm} link="${resp.data.file_nm}" download>${resp.data.file_nm}</a></span> <br />`
+        $('.img_pathh').hide();
       }
 
       // Check image if have
       if (resp.data.thum_img_path){
-        file_name += `<img class="img_pathh" id="myImage" src="${resp.data.thum_img_path}">`
+        file_name += `<img class="img_pathh" id="myImage" src="${resp.data.thum_img_path}" download>`
       }
 
       html += resp.data.content_body; // Content
