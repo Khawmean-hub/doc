@@ -98,10 +98,11 @@ $(document).on("click", "#btn-remove", function () {
 });
 
 // Upload file 02
-$(".btn_upload_file02").click(function () {
-  $("#fileUpload02").click();
-});
+// $(".btn_upload_file02").click(function () {
+//   $("#fileUpload02").click();
+// });
 $(document).on("click", "#upLoadFile02", function () {
+  $("#fileUpload02").click();
   $(this).addClass("loading");
   var file = $("#fileUpload02")[0].files[0];
   if (!isNull(file)) {
