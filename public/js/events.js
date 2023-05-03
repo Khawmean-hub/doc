@@ -131,6 +131,7 @@ $(document).on("click", "#editor_save", function () {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
     var file = files_c
+
     if (!isNull(myContent)) {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
@@ -140,32 +141,8 @@ $(document).on("click", "#editor_save", function () {
         TITLE: $("#sub_title_val").val(), // Title
         FILE_ARTICLE_ID: Date.now(), // Create date
       };
-      // Add file
-      console.log("File Image for upload: ", files_c);
-      files_c.forEach(e => {
-        if (!isNull(files_c)) {
-          uploadFile(e, $('').val(), function (resp) {
-            var data = JSON.parse(resp);
-            console.log(data)
-          });
-        }
-        var opt = {
-          FILE_ARTICLEZ_ID: e.lastModified,
-          FILE_IDNT: e.lastModified,
-          FILE_NM: e.name,
-          FILE_SIZE: e.size,
-          FILE_TYPE: e.type,
-          FILE_PATH: null,
-          THUM_IMG_PATH: null
-        }
-        console.log("opt => ", opt);
-
-        upload_file(opt, function(resp) {
-          alert('ok')
-        });
-      }) 
-
       console.log("Get all user input from editor => ", req);
+      
       $(this).addClass("loading");
       saveContents(req, function (resp) {
         if (resp.status) {
@@ -180,6 +157,33 @@ $(document).on("click", "#editor_save", function () {
     } else {
       alert("No content");
     }
+    // Add file
+    console.log("File Image for upload: ", files_c);
+    files_c.forEach(e => {
+      if (!isNull(files_c)) {
+        uploadFile(e, $('').val(), function (resp) {
+          var data = JSON.parse(resp);
+          var get_file_name = data.data.fileName;
+          var get_file_url = data.data.url;
+          console.log('Get data url => ', get_file_url, get_file_name);
+
+          //
+          var opt = {
+            FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
+            FILE_IDNT: e.lastModified,
+            FILE_NM: get_file_name,
+            FILE_SIZE: e.size,
+            // FILE_TYPE: e.type,
+            IMG_PATH: get_file_url,
+            THUM_IMG_PATH: get_file_url
+          }
+          console.log("opt => ", opt);
+          upload_file(opt, function (resp) {
+            alert('ok')
+          });
+        });
+      }
+    })
   }
   $;
 });

@@ -167,8 +167,9 @@ homeRoute.post("/doc_file_c01", async (req, res, next) => {
   // INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES(?, ?, ?, ?, ?, ?,1);
   
   var fileUpload = await db.any(
-    `INSERT INTO doc_file (file_article_id, file_nm, file_size, status) VALUES('${req.body.FILE_ARTICLE_ID}', '${req.body.FILE_IDNT}', '${req.body.FILE_NM}', '${req.body.FILE_TYPE}, '${req.body.FILE_SIZE}',1)`
+    `INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES('${req.body.FILE_ARTICLE_IDS}', '${req.body.FILE_IDNT}', '${req.body.THUM_IMG_PATH}', '${req.body.FILE_NM}', '${req.body.IMG_PATH}', '${req.body.FILE_SIZE}',1)`
   );
+  console.log('File upload => ', fileUpload);
   if (fileUpload == null) {
     return res.send(new BaseRes(false, "Cannot upload", null));
   } else {
@@ -180,8 +181,6 @@ homeRoute.post("/doc_file_c01", async (req, res, next) => {
 
 // Route B2B 1
 homeRoute.post("/doc_menu_r02", async (req, res, next) => {
-  //http://localhost:3000/doc_menu_r02?id=222
-
   var acticle = await db.any(
     `SELECT a.id, a.tag_id, a.file_article_id, t.title as tag_title,a.title, a.content_body, 
     a.modified_date , a.status,b.username,a.user_id,
