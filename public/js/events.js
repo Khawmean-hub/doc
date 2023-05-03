@@ -98,9 +98,9 @@ $(document).on("click", "#btn-remove", function () {
 });
 
 // Upload file 02
-// $(".btn_upload_file02").click(function () {
-//   $("#fileUpload02").click();
-// });
+$(".btn_upload_file02").click(function () {
+  $("#fileUpload02").click();
+});
 $(document).on("click", "#upLoadFile02", function () {
   $("#fileUpload02").click();
   $(this).addClass("loading");
@@ -141,10 +141,10 @@ $(document).on("click", "#editor_save", function () {
       };
       // Add file
       console.log("File Image for upload: ", files_c);
-      
+      var file = $('#fileUpload')[0].files
       $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
         var req = {
-          URL: v.lastModified,
+          IMG_PATH: v.lastModified,
           FILE_NM: v.name,
           FILE_SIZE: v.size,
         }

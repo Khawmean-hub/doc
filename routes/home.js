@@ -167,7 +167,7 @@ homeRoute.post("/doc_file_c01", async (req, res, next) => {
   // INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES(?, ?, ?, ?, ?, ?,1);
   
   var fileUpload = await db.any(
-    `INSERT INTO doc_file (file_nm, file_size, url, status) VALUES('${req.body.FILE_NM}, '${req.body.FILE_SIZE}', '${req.body.URL}',1)`
+    `INSERT INTO doc_file (file_nm, file_size, img_path, status) VALUES('${req.body.FILE_NM}, '${req.body.FILE_SIZE}', '${req.body.IMG_PATH}',1)`
   );
   if (fileUpload == null) {
     return res.send(new BaseRes(false, "Cannot upload", null));
