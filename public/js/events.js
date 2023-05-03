@@ -107,7 +107,7 @@ $(document).on("click", "#upLoadFile02", function () {
   if (!isNull(file)) {
     uploadFile(file, $("#fileUpload02").val(), function (resp) {
       var data = JSON.parse(resp);
-      console.log('File choose => ',data);
+      console.log('File choose => ', data);
       if (data.status) {
         setTimeout(function () {
           $(".img_path02").text(data.data.url);
@@ -129,6 +129,7 @@ $(document).on("click", "#editor_save", function () {
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
+    var file = files_c
     if (!isNull(myContent)) {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
@@ -140,43 +141,29 @@ $(document).on("click", "#editor_save", function () {
       };
       // Add file
       console.log("File Image for upload: ", files_c);
-      
-      // $.each(files_c, function (i, v) { // console.log("FILE NAME: => ", v.name);
-        
-      //   var opt = {
-      //     FILE_IDNT: v.lastModified,
-      //     FILE_NM: v.name,
-      //     FILE_SIZE: v.size,
-      //     FILE_TYPE: v.type,
-      //     FILE_PATH: null,
-      //     THUM_IMG_PATH: null
-      //   }
-      //   console.log("opt => ", opt);
-      //   // Loop
-       
-        
-      //   uploadFile(files_c, function(resp) {
-          
-      //     var data_file = JSON.parse(resp);
-      //     console.log('Data file upload: => ', data_file);
-      //   })
-        
-      // });
-      
-      for (var i = 0; i < files_c.length; i ++) {
-        // var new_file = files_c[i];
-        var get_files = {
-          FILE_IDNT: files_c[i].lastModified,
-          FILE_NM:  files_c[i].name,
-          FILE_SIZE: files_c[i].size,
-          FILE_TYPE: files_c[i].type,
+      files_c.forEach(e => {
+        if (!isNull(files_c)) {
+          uploadFile(e, $('').val(), function (resp) {
+            var data = JSON.parse(resp);
+            console.log(data)
+          });
+        }
+        var opt = {
+          FILE_ARTICLEZ_ID: e.lastModified,
+          FILE_IDNT: e.lastModified,
+          FILE_NM: e.name,
+          FILE_SIZE: e.size,
+          FILE_TYPE: e.type,
           FILE_PATH: null,
           THUM_IMG_PATH: null
         }
-        console.log('Get file => ', get_files)
-      
-      }
-    
+        console.log("opt => ", opt);
+
+        upload_file(opt, function(resp) {
+          alert('ok')
+        });
+      }) 
+
       console.log("Get all user input from editor => ", req);
       $(this).addClass("loading");
       // saveContents(req, function (resp) {
@@ -197,7 +184,7 @@ $(document).on("click", "#editor_save", function () {
 });
 
 // Clear editor
-$(document).on("click", "#close_editor", function () {});
+$(document).on("click", "#close_editor", function () { });
 
 // ADD NEW TITEL TO DEPARTMENT
 $(document).on("click", "#add_newTitle", function () {
@@ -530,7 +517,7 @@ $(document).on("click", ".btn_delete_tage ", function () {
   $(this).addClass("loading");
   deleteTage(Delete_main_article, function (resp_delete) {
     if (resp_delete.status) {
-      setTimeout(function () {}, 1500);
+      setTimeout(function () { }, 1500);
       $(".btn_delete_tage").removeClass("loading");
       buldHome(true);
       buildMenu(true);

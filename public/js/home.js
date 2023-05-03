@@ -278,7 +278,7 @@ function deleteDocument(id) {
 
 function randomNotFound() {
   $("#content_body").append(
-    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/banner_error_404.jpg" alt="not found "></div> </div>'
+    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/not_found.png" alt="not found "></div> </div>'
   );
 }
 

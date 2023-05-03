@@ -15,6 +15,7 @@ function requestApi(settings, callBack) {
       if (data.status == 401 || data.status == 403) {
         if (!isAlreadyAlert) {
           isAlreadyAlert = true;
+          buildLogin();
           alert("Your token is expired please login again.");
         }
 
@@ -329,7 +330,21 @@ function uploadFile(file, path, callBack) {
   requestApi(settings, callBack);
 }
 
-// For test
+// For test upload multi file
+// function upload_multi_file(file, callBack) {
+//   let formData = new FormData();
+//   formData.append("file", file);
+
+//   var settings = {
+//     url: baseUrl + "/uploads",
+//     method: "POST",
+//     processData: false,
+//     contentType: false,
+//     mimeType: "multipart/form-data",
+//     data: formData,
+//   };
+//   requestApi(settings, callBack);
+// }
 
 
 // Upload multiple file
@@ -393,17 +408,17 @@ function read_file(id, callBack) {
 }
 
 // Upload multiple file
-function upload_multiple_file(file, path, callBack) {
-  let formData = new FormData();
-  formData.append("file", file, path);
+// function upload_multiple_file(file, path, callBack) {
+//   let formData = new FormData();
+//   formData.append("file", file, path);
 
-  var settings = {
-    url: baseUrl + "/upload_multiple_file",
-    method: "POST",
-    processData: false,
-    contentType: false,
-    mimeType: "multipart/form-data",
-    data: formData,
-  };
-  requestApi(settings, callBack);
-}
+//   var settings = {
+//     url: baseUrl + "/upload_multiple_file",
+//     method: "POST",
+//     processData: false,
+//     contentType: false,
+//     mimeType: "multipart/form-data",
+//     data: formData,
+//   };
+//   requestApi(settings, callBack);
+// }

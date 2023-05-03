@@ -9,6 +9,8 @@ $(document).ready(function () {
     if(isNull(user)){
         buildLogin();
         $("#loginForm").show();
+        // Test
+        $(".page-login").show();
     }else{
         buldHome();
         
