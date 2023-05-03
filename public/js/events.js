@@ -166,16 +166,16 @@ $(document).on("click", "#editor_save", function () {
 
       console.log("Get all user input from editor => ", req);
       $(this).addClass("loading");
-      // saveContents(req, function (resp) {
-      //   if (resp.status) {
-      //     $("#editor_save").removeClass("loading");
-      //     $("#modal_add_contents").modal("hide");
-      //     $("#sub_title_val").val("");
-      //     tinymce.get("editor1").setContent("");
-      //     getRecent();
-      //     buildMenu(true);
-      //   }
-      // });
+      saveContents(req, function (resp) {
+        if (resp.status) {
+          $("#editor_save").removeClass("loading");
+          $("#modal_add_contents").modal("hide");
+          $("#sub_title_val").val("");
+          tinymce.get("editor1").setContent("");
+          getRecent();
+          buildMenu(true);
+        }
+      });
     } else {
       alert("No content");
     }

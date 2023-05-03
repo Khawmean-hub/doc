@@ -159,7 +159,7 @@ homeRoute.post("/doc_file_r01", async (req, res, next) => {
       ress = acticle[0];
     }
     res.send(new BaseRes(true, "Success", ress));
-  }
+  }  
 });
 
 // Insert file
