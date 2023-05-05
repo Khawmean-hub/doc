@@ -108,7 +108,7 @@ $(document).on("click", "#upLoadFile02", function () {
   if (!isNull(file)) {
     uploadFile(file, $("#fileUpload02").val(), function (resp) {
       var data = JSON.parse(resp);
-      console.log('File choose => ', data);
+      console.log("File choose => ", data);
       if (data.status) {
         setTimeout(function () {
           $(".img_path02").text(data.data.url);
@@ -130,7 +130,7 @@ $(document).on("click", "#editor_save", function () {
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
-    var file = files_c
+    var file = files_c;
 
     if (!isNull(myContent)) {
       var req = {
@@ -159,13 +159,13 @@ $(document).on("click", "#editor_save", function () {
     }
     // Add file
     console.log("File Image for upload: ", files_c);
-    files_c.forEach(e => {
+    files_c.forEach((e) => {
       if (!isNull(files_c)) {
-        uploadFile(e, $('').val(), function (resp) {
+        uploadFile(e, $("").val(), function (resp) {
           var data = JSON.parse(resp);
           var get_file_name = data.data.fileName;
           var get_file_url = data.data.url;
-          console.log('Get data url => ', get_file_url, get_file_name);
+          console.log("Get data url => ", get_file_url, get_file_name);
 
           //
           var opt = {
@@ -175,21 +175,23 @@ $(document).on("click", "#editor_save", function () {
             FILE_SIZE: e.size,
             // FILE_TYPE: e.type,
             IMG_PATH: get_file_url,
-            THUM_IMG_PATH: get_file_url
-          }
+            THUM_IMG_PATH: get_file_url,
+          };
           console.log("opt => ", opt);
           upload_file(opt, function (resp) {
-            alert('ok')
+            if (resp.status) {
+              $("#List_file_content").empty();
+            }
           });
         });
       }
-    })
+    });
   }
   $;
 });
 
 // Clear editor
-$(document).on("click", "#close_editor", function () { });
+$(document).on("click", "#close_editor", function () {});
 
 // ADD NEW TITEL TO DEPARTMENT
 $(document).on("click", "#add_newTitle", function () {
@@ -522,7 +524,7 @@ $(document).on("click", ".btn_delete_tage ", function () {
   $(this).addClass("loading");
   deleteTage(Delete_main_article, function (resp_delete) {
     if (resp_delete.status) {
-      setTimeout(function () { }, 1500);
+      setTimeout(function () {}, 1500);
       $(".btn_delete_tage").removeClass("loading");
       buldHome(true);
       buildMenu(true);
@@ -876,7 +878,7 @@ $(document).on("click", "#sign_up", function () {
             $("#sign_up").removeClass("loading");
           }, 1000);
         } else {
-          alert(resp.message)
+          alert(resp.message);
           setTimeout(function () {
             $("#sign_up").removeClass("loading");
             $(".msg_re_pwd1").show();
