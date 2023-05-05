@@ -98,9 +98,9 @@ $(document).on("click", "#btn-remove", function () {
 });
 
 // Upload file 02
-// $(".btn_upload_file02").click(function () {
-//   $("#fileUpload02").click();
-// });
+$(".btn_upload_file02").click(function () {
+  $("#fileUpload02").click();
+});
 $(document).on("click", "#upLoadFile02", function () {
   $("#fileUpload02").click();
   $(this).addClass("loading");
@@ -142,7 +142,7 @@ $(document).on("click", "#editor_save", function () {
         FILE_ARTICLE_ID: Date.now(), // Create date
       };
       console.log("Get all user input from editor => ", req);
-      
+
       $(this).addClass("loading");
       saveContents(req, function (resp) {
         if (resp.status) {
