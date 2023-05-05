@@ -142,7 +142,7 @@ $(document).on("click", "#editor_save", function () {
         FILE_ARTICLE_ID: Date.now(), // Create date
       };
       console.log("Get all user input from editor => ", req);
-      
+
       $(this).addClass("loading");
       saveContents(req, function (resp) {
         if (resp.status) {
