@@ -70,13 +70,13 @@ function buildList() {
     }
   });
 
-  $("#List_file_content").empty().append(html);
+  $("#List_file_content, #List_file_content_update").empty().append(html);
   // $("#imgs").empty().append(imgs); // Lish file image
 }
 
 // Event select file
 var files_c;
-$("#fileUpload").on("change", function () {
+$("#fileUpload, #fileUpload02").on("change", function () {
   $.each(this.files, function (k, e) {
     if (files.every((a) => a.name !== e.name)) {
       files.push(e);
@@ -97,31 +97,32 @@ $(document).on("click", "#btn-remove", function () {
   buildList();
 });
 
-// Upload file 02
+//Upload file 02
 $(".btn_upload_file02").click(function () {
   $("#fileUpload02").click();
 });
-$(document).on("click", "#upLoadFile02", function () {
-  $("#fileUpload02").click();
-  $(this).addClass("loading");
-  var file = $("#fileUpload02")[0].files[0];
-  if (!isNull(file)) {
-    uploadFile(file, $("#fileUpload02").val(), function (resp) {
-      var data = JSON.parse(resp);
-      console.log('File choose => ', data);
-      if (data.status) {
-        setTimeout(function () {
-          $(".img_path02").text(data.data.url);
-          $("#upLoadFile02").removeClass("loading");
-        }, 1000);
-      } else {
-        alert(data.message);
-      }
-    });
-  } else {
-    alert("Please upload image");
-  }
-});
+
+// $(document).on("click", "#upLoadFile02", function () {
+//   $("#fileUpload02").click();
+//   $(this).addClass("loading");
+//   var file = $("#fileUpload02")[0].files[0];
+//   if (!isNull(file)) {
+//     uploadFile(file, $("#fileUpload02").val(), function (resp) {
+//       var data = JSON.parse(resp);
+//       console.log('File choose => ', data);
+//       if (data.status) {
+//         setTimeout(function () {
+//           $(".img_path02").text(data.data.url);
+//           $("#upLoadFile02").removeClass("loading");
+//         }, 1000);
+//       } else {
+//         alert(data.message);
+//       }
+//     });
+//   } else {
+//     alert("Please upload image");
+//   }
+// });
 
 // save text editor when click button save
 $(document).on("click", "#editor_save", function () {
@@ -159,9 +160,34 @@ $(document).on("click", "#editor_save", function () {
     }
     // Add file
     console.log("File Image for upload: ", files_c);
-    files_c.forEach(e => {
-      if (!isNull(files_c)) {
-        uploadFile(e, $('').val(), function (resp) {
+    // files_c.forEach(e => {
+    //   if (!isNull(files_c)) {
+    //     uploadFile(e, $('').val(), function (resp) {
+    //       var data = JSON.parse(resp);
+    //       var get_file_name = data.data.fileName;
+    //       var get_file_url = data.data.url;
+    //       console.log('Get data url => ', get_file_url, get_file_name);
+
+    //       //
+    //       var opt = {
+    //         FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
+    //         FILE_IDNT: e.lastModified,
+    //         FILE_NM: get_file_name,
+    //         FILE_SIZE: e.size,
+    //         // FILE_TYPE: e.type,
+    //         IMG_PATH: get_file_url,
+    //         THUM_IMG_PATH: get_file_url
+    //       }
+    //       console.log("opt => ", opt);
+    //       upload_file(opt, function (resp) {
+    //         alert('ok')
+    //       });
+    //     });
+    //   }
+    // })
+    for (let i = 0; i < files_c.length; i++) {
+      if (!isNull(files_c[i])) {
+        uploadFile(files_c[i], $('').val(), function (resp) {
           var data = JSON.parse(resp);
           var get_file_name = data.data.fileName;
           var get_file_url = data.data.url;
@@ -170,10 +196,10 @@ $(document).on("click", "#editor_save", function () {
           //
           var opt = {
             FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
-            FILE_IDNT: e.lastModified,
+            FILE_IDNT: files_c[i].lastModified,
             FILE_NM: get_file_name,
-            FILE_SIZE: e.size,
-            // FILE_TYPE: e.type,
+            FILE_SIZE: files_c[i].size,
+            // FILE_TYPE: files_c[i].type,
             IMG_PATH: get_file_url,
             THUM_IMG_PATH: get_file_url
           }
@@ -183,13 +209,17 @@ $(document).on("click", "#editor_save", function () {
           });
         });
       }
-    })
+    }
   }
   $;
 });
 
 // Clear editor
-$(document).on("click", "#close_editor", function () { });
+$(document).on("click", "#close_editor", function () {
+  $("#sub_title_val").val("");
+  tinymce.get("editor1").setContent("");
+  $('#List_file_content').empty();
+});
 
 // ADD NEW TITEL TO DEPARTMENT
 $(document).on("click", "#add_newTitle", function () {
@@ -490,7 +520,9 @@ $(document).on("click", "#modal-edit-sub-article", function () {
       },
     });
   });
+
 });
+build_real_file();
 
 // Update sub article has have
 $(document).on("click", "#btn-save-update-sub-article", function () {
@@ -901,4 +933,7 @@ $(document).on("click", ".cancel_re_pwd ", function () {
   curpwd = $(".curpwd").val("");
 });
 
-//
+// delete file
+$(document).on('click', '#deleteFile', function () {
+  alert('file delete')
+})

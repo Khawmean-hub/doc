@@ -52,6 +52,7 @@ function getMenuHome(callBack) {
     callBack(response);
   });
 }
+
 function deleteDepartment(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_d001",
@@ -407,18 +408,16 @@ function read_file(id, callBack) {
   requestApi(setting, callBack);
 }
 
-// Upload multiple file
-// function upload_multiple_file(file, path, callBack) {
-//   let formData = new FormData();
-//   formData.append("file", file, path);
+// delete file
+function deleteFile() {
+  var settings = {
+    url: baseUrl + "/doc_file_d01" + id,
+    method: "DELETE",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    }
+  }
+  requestApi(settings, callBack);
+}
 
-//   var settings = {
-//     url: baseUrl + "/upload_multiple_file",
-//     method: "POST",
-//     processData: false,
-//     contentType: false,
-//     mimeType: "multipart/form-data",
-//     data: formData,
-//   };
-//   requestApi(settings, callBack);
-// }
