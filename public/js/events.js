@@ -131,7 +131,7 @@ $(document).on("click", "#editor_save", function () {
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
-    var file = files_c;
+    var file = files_c
 
     if (!isNull(myContent)) {
       var req = {
@@ -191,7 +191,7 @@ $(document).on("click", "#editor_save", function () {
           var data = JSON.parse(resp);
           var get_file_name = data.data.fileName;
           var get_file_url = data.data.url;
-          console.log("Get data url => ", get_file_url, get_file_name);
+          console.log('Get data url => ', get_file_url, get_file_name);
 
           //
           var opt = {
@@ -201,13 +201,11 @@ $(document).on("click", "#editor_save", function () {
             FILE_SIZE: files_c[i].size,
             // FILE_TYPE: files_c[i].type,
             IMG_PATH: get_file_url,
-            THUM_IMG_PATH: get_file_url,
-          };
+            THUM_IMG_PATH: get_file_url
+          }
           console.log("opt => ", opt);
           upload_file(opt, function (resp) {
-            if (resp.status) {
-              $("#List_file_content").empty();
-            }
+            alert('ok')
           });
         });
       }
@@ -556,7 +554,7 @@ $(document).on("click", ".btn_delete_tage ", function () {
   $(this).addClass("loading");
   deleteTage(Delete_main_article, function (resp_delete) {
     if (resp_delete.status) {
-      setTimeout(function () {}, 1500);
+      setTimeout(function () { }, 1500);
       $(".btn_delete_tage").removeClass("loading");
       buldHome(true);
       buildMenu(true);
@@ -910,7 +908,7 @@ $(document).on("click", "#sign_up", function () {
             $("#sign_up").removeClass("loading");
           }, 1000);
         } else {
-          alert(resp.message);
+          alert(resp.message)
           setTimeout(function () {
             $("#sign_up").removeClass("loading");
             $(".msg_re_pwd1").show();
