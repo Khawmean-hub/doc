@@ -110,7 +110,6 @@ h6 {
 
 .item {
   padding: 10px 0px;
-
 }
 
 .sub-title {
@@ -515,5 +514,13 @@ h4.ui.header .sub.header {
 
 .img_pathh { 
   height: 85px;
+}
+
+#List_file_content_update {
+  color: black;
+}
+
+#deleteFile {
+  margin-left: 85px;
 }
 /*  */

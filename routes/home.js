@@ -142,7 +142,7 @@ homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
   }
 });
 
-// Read all file
+// Read file
 homeRoute.post("/doc_file_r01", async (req, res, next) => {
   var acticle = await db.any(
     `select f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path 
