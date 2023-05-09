@@ -565,6 +565,7 @@ homeRoute.post("/doc_login_r01", async (req, res, next) => {
       password: login[0].password,
       role: login[0].role,
       status: login[0].status,
+      dept_id: login[0].dept_id,
     };
     let asseccToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "1d",
@@ -836,7 +837,7 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
 // user
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
-    `SELECT id, username, "password", status, "role", image FROM doc_users;`
+    `SELECT id, username, "password", status, "role", image, dept_id FROM doc_users;`
   );
   if (userImformation == null) {
     return res.send(new BaseRes(false, "ERROR", null));
