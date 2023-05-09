@@ -936,4 +936,4 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 // delete file
 $(document).on('click', '#deleteFile', function () {
   alert('file delete')
-})
+}) 
