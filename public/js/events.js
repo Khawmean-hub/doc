@@ -369,13 +369,17 @@ $("#btn_login").click(function () {
         $("#username_text").val(""), $("#password_text").val("");
         get_user_image();
         buldHome();
-
-        $(".edit_tag").show();
+        $(".edit_tag").show(); 
       } else {
         $("#msg_alert p").text(resp.message);
         $("#msg_alert").show();
       }
       $("#btn_login").removeClass("loading");
+      // welcome text
+      if (localStorage.getItem('act_recent') === null || localStorage.getItem('act_recent') === 'undefined') {
+        welcome_pannel();
+        
+      }
     });
   }
 });

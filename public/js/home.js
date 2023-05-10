@@ -383,7 +383,7 @@ function getRecent(params) {
 // check remove from localstorage
 function checkAndRemoveFromLocalStorage() { }
 
-//save recent
+// save recent
 function saveRecent(tag_title, acticle_id, acticle_name) {
   var recentList = [
     {
@@ -598,3 +598,8 @@ $(document).ready(function () {
 //     }
 //   })
 // }
+
+// build welcome pannel
+function welcome_pannel() {
+  $('#content_body').empty().append(`<h2 class='welcome-pannel'>Welcome</h2>`);
+}
