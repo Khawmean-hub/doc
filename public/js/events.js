@@ -97,32 +97,10 @@ $(document).on("click", "#btn-remove", function () {
   buildList();
 });
 
-//Upload file 02
+// click open file for update
 $(".btn_upload_file02").click(function () {
   $("#fileUpload02").click();
 });
-
-// $(document).on("click", "#upLoadFile02", function () {
-//   $("#fileUpload02").click();
-//   $(this).addClass("loading");
-//   var file = $("#fileUpload02")[0].files[0];
-//   if (!isNull(file)) {
-//     uploadFile(file, $("#fileUpload02").val(), function (resp) {
-//       var data = JSON.parse(resp);
-//       console.log('File choose => ', data);
-//       if (data.status) {
-//         setTimeout(function () {
-//           $(".img_path02").text(data.data.url);
-//           $("#upLoadFile02").removeClass("loading");
-//         }, 1000);
-//       } else {
-//         alert(data.message);
-//       }
-//     });
-//   } else {
-//     alert("Please upload image");
-//   }
-// });
 
 // save text editor when click button save
 $(document).on("click", "#editor_save", function () {
@@ -160,31 +138,6 @@ $(document).on("click", "#editor_save", function () {
     }
     // Add file
     console.log("File Image for upload: ", files_c);
-    // files_c.forEach(e => {
-    //   if (!isNull(files_c)) {
-    //     uploadFile(e, $('').val(), function (resp) {
-    //       var data = JSON.parse(resp);
-    //       var get_file_name = data.data.fileName;
-    //       var get_file_url = data.data.url;
-    //       console.log('Get data url => ', get_file_url, get_file_name);
-
-    //       //
-    //       var opt = {
-    //         FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
-    //         FILE_IDNT: e.lastModified,
-    //         FILE_NM: get_file_name,
-    //         FILE_SIZE: e.size,
-    //         // FILE_TYPE: e.type,
-    //         IMG_PATH: get_file_url,
-    //         THUM_IMG_PATH: get_file_url
-    //       }
-    //       console.log("opt => ", opt);
-    //       upload_file(opt, function (resp) {
-    //         alert('ok')
-    //       });
-    //     });
-    //   }
-    // })
     for (let i = 0; i < files_c.length; i++) {
       if (!isNull(files_c[i])) {
         uploadFile(files_c[i], $('').val(), function (resp) {
