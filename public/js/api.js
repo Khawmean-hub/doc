@@ -23,6 +23,7 @@ function requestApi(settings, callBack) {
         $(".page-login").show();
         $(".my_body").hide();
       }
+      
       console.log("error");
       callBack(data);
     });
