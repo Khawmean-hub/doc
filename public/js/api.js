@@ -409,14 +409,15 @@ function read_file(id, callBack) {
 }
 
 // delete file
-function deleteFile() {
+function deleteFile(dlFile, callBack) {
   var settings = {
-    url: baseUrl + "/doc_file_d01" + id,
+    url: baseUrl + "/doc_file_d01",
     method: "DELETE",
     header: {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
-    }
+    },
+    data: JSON.stringify({FILE_IDNT_ID : dlFile}),
   }
   requestApi(settings, callBack);
 }
