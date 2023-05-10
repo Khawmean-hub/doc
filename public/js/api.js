@@ -92,7 +92,7 @@ function updateDepartment(req, callBack) {
 }
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Doc department
-function getDepartment(callBack) {
+function getDepartment(dept_id,callBack) {
   var settings = {
     url: baseUrl + "/doc_department_r001",
     method: "POST",
@@ -100,6 +100,7 @@ function getDepartment(callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
+    data: JSON.stringify({DEPT_ID: dept_id})
   };
   requestApi(settings, callBack);
 }

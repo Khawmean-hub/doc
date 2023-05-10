@@ -513,7 +513,7 @@ h4.ui.header .sub.header {
 }
 
 .img_pathh { 
-  height: 85px;
+  height: 180px;
 }
 
 #List_file_content_update {
@@ -522,5 +522,9 @@ h4.ui.header .sub.header {
 
 #deleteFile {
   margin-left: 85px;
+}
+
+.tox-promotion {
+  display: none;
 }
 /*  */

@@ -10,10 +10,12 @@ function buldHome() {
   buildDepartment();
   buildeMenuCobobox();
   getRecent();
-  buildMenu(true, 1);
-  //getMenu(true);
-  // var user_profile = $('img').attr('src', getToken().img); // Set user profile
-  // $('#User_profile #user_image').empty().append(user_profile);
+  if(getToken().role != 1){
+    buildMenu(true, getToken().dept_id);
+  }else{
+    buildMenu(true, 1);
+  }
+  
   get_user_image();
   get_user_information();
 
@@ -68,12 +70,20 @@ function loaderSide() {
   );
 }
 
-//build depart on
+// build department
 function buildDepartment(id = "#departmentListId", defaultSelect) {
-  getDepartment(function (resp) {
+
+  var dept_id;
+  if(getToken().role != 1){
+    dept_id = getToken().dept_id;
+  }
+  console.log(">>>>> ", dept_id)
+  getDepartment(dept_id ,function (resp) {
+
     let departmentList = [];
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((e, i) => {
+
         var obj = {
           name: e.dep_name,
           value: e.dep_id,
@@ -102,7 +112,7 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
         onChangeDepartment
       );
     }
-    //
+
     if (id.includes("departmentListId3")) {
       $("#departmentListId3").dropdown(
         "setting",
@@ -112,14 +122,18 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     }
 
     $(id).removeClass("loading");
-    //$(id).dropdown();
   });
 }
 
 function buildManageDepartment() {
   var htmlLoad = `<tr><td colspan="3" style="height: 206px;"><div class="ui active centered inline loader my-loader"></div></td></tr>`;
   $(".listBody").empty().append(htmlLoad);
-  getDepartment(function (resp) {
+  var dept_id;
+  if(getToken().role != 1){
+    dept_id = getToken().dept_id;
+  }
+  console.log(">>>>>22 ", dept_id)
+  getDepartment(dept_id, function (resp) {
     var list = "";
     var fakeId = 0;
     if (!isNull(resp) && resp.status) {
