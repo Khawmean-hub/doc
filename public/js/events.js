@@ -490,9 +490,9 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   };
  deleteFile(dlFile , function(resp){
   if(resp.status){
-    alert("Hello")
+    alert(resp.message)
   }else{
-    alert('No Hello')
+    alert(resp.message)
   }
  })
 

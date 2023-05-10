@@ -92,7 +92,7 @@ function updateDepartment(req, callBack) {
 }
 // ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Doc department
-function getDepartment(dept_id,callBack) {
+function getDepartment(callBack) {
   var settings = {
     url: baseUrl + "/doc_department_r001",
     method: "POST",
@@ -100,7 +100,6 @@ function getDepartment(dept_id,callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
-    data: JSON.stringify({DEPT_ID: dept_id})
   };
   requestApi(settings, callBack);
 }
@@ -418,7 +417,7 @@ function deleteFile(dlFile, callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
     },
-    data: JSON.stringify({FILE_IDNT_ID : dlFile}),
+    data: JSON.stringify({FILE_IDNT_ID :dlFile}),
   }
   requestApi(settings, callBack);
 }
