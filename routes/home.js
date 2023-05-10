@@ -88,10 +88,25 @@ homeRoute.post("/doc_department_u001", async (req, res, next) => {
 });
 
 // Doc department ex: B2B Content B2B1
+// homeRoute.post("/doc_department_r001", async (req, res, next) => {
+//   var data = await db.any(
+//     `select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`
+//   );
+//   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
+//   else return res.send(new BaseRes(false, "Error", null));
+// });
+
+// test department
 homeRoute.post("/doc_department_r001", async (req, res, next) => {
+  console.log(">>>> " , req.body)
+  var dept_id = '';
+  if(!isNull(req.body.DEPT_ID)){
+    dept_id = 'where dep_id=' + req.body.DEPT_ID;
+  }
   var data = await db.any(
-    `select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`
+    `select dep_id, dep_name from doc_department ${dept_id}`
   );
+  console.log(data);
   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
   else return res.send(new BaseRes(false, "Error", null));
 });
@@ -110,7 +125,7 @@ homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
   var tags = await db.any(
     `SELECT id, title, dep_id  FROM doc_tags where status=1 ${dynamic}  ORDER BY title`
   );
-
+ 
   if (acticle == null || tags == null) {
     return res.send(new BaseRes(false, "Error", null));
   } else {
