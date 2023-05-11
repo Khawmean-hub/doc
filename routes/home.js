@@ -88,10 +88,25 @@ homeRoute.post("/doc_department_u001", async (req, res, next) => {
 });
 
 // Doc department ex: B2B Content B2B1
+// homeRoute.post("/doc_department_r001", async (req, res, next) => {
+//   var data = await db.any(
+//     `select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`
+//   );
+//   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
+//   else return res.send(new BaseRes(false, "Error", null));
+// });
+
+// get department by user dep_id
 homeRoute.post("/doc_department_r001", async (req, res, next) => {
+  console.log(">>>> ", req.body)
+  var dept_id = '';
+  if (!isNull(req.body.DEPT_ID)) {
+    dept_id = 'where dep_id=' + req.body.DEPT_ID;
+  }
   var data = await db.any(
-    `select dep_id, dep_name from doc_department where dep_status = 1 order by dep_id`
+    `select dep_id, dep_name from doc_department ${dept_id}`
   );
+  console.log(data);
   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
   else return res.send(new BaseRes(false, "Error", null));
 });
@@ -159,17 +174,17 @@ homeRoute.post("/doc_file_r01", async (req, res, next) => {
       ress = acticle[0];
     }
     res.send(new BaseRes(true, "Success", ress));
-  }  
+  }
 });
 
 // Insert file
 homeRoute.post("/doc_file_c01", async (req, res, next) => {
   // INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES(?, ?, ?, ?, ?, ?,1);
-  
+
   var fileUpload = await db.any(
     `INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES('${req.body.FILE_ARTICLE_IDS}', '${req.body.FILE_IDNT}', '${req.body.THUM_IMG_PATH}', '${req.body.FILE_NM}', '${req.body.IMG_PATH}', '${req.body.FILE_SIZE}',1)`
   );
-  console.log('File upload => ', fileUpload);
+  console.log("File upload => ", fileUpload);
   if (fileUpload == null) {
     return res.send(new BaseRes(false, "Cannot upload", null));
   } else {
@@ -177,7 +192,6 @@ homeRoute.post("/doc_file_c01", async (req, res, next) => {
   }
   console.log("file.", fileUpload);
 });
-
 
 // Route B2B 1
 homeRoute.post("/doc_menu_r02", async (req, res, next) => {
@@ -284,8 +298,9 @@ homeRoute.post("/api_0002_r001", auth.permitAll, async (req, res, next) => {
   var api = await db.any(`SELECT /* MAP_ID(API_0002_R001) */
                                API.API_ID,
                                PR.PRJ_NM,
-                               ( SELECT URL FROM B2B_API_MODE WHERE API_ID = API.API_ID AND   MD_TYPE = '${req.body.MD_TYPE
-    }' ) AS URL,--1:DEV, 2:REAL
+                               ( SELECT URL FROM B2B_API_MODE WHERE API_ID = API.API_ID AND   MD_TYPE = '${
+                                 req.body.MD_TYPE
+                               }' ) AS URL,--1:DEV, 2:REAL
                                API.REQ_METHOD,
                                API.REQ_DATA,
                                API.CONTENT_TYPE,
@@ -300,26 +315,35 @@ homeRoute.post("/api_0002_r001", auth.permitAll, async (req, res, next) => {
                            LEFT JOIN B2B_API_PRJ_INFO PR ON PR.PRJ_ID = API.PRJ_ID
                            WHERE  1=1
                            AND (  
-                               API.API_ID         ILIKE '%' || '${req.body.SRCH_WORD
-    }' || '%'
-                               OR PR.PRJ_NM       ILIKE '%' || '${req.body.SRCH_WORD
-    }' || '%'
-                               OR API.API_NM      ILIKE '%' || '${req.body.SRCH_WORD
-    }' || '%'
-                               OR API.REQ_DATA    ILIKE '%' || '${req.body.SRCH_WORD
-    }' || '%'
-                               OR API.DESCRIPTION ILIKE '%' || '${req.body.SRCH_WORD
-    }' || '%'
+                               API.API_ID         ILIKE '%' || '${
+                                 req.body.SRCH_WORD
+                               }' || '%'
+                               OR PR.PRJ_NM       ILIKE '%' || '${
+                                 req.body.SRCH_WORD
+                               }' || '%'
+                               OR API.API_NM      ILIKE '%' || '${
+                                 req.body.SRCH_WORD
+                               }' || '%'
+                               OR API.REQ_DATA    ILIKE '%' || '${
+                                 req.body.SRCH_WORD
+                               }' || '%'
+                               OR API.DESCRIPTION ILIKE '%' || '${
+                                 req.body.SRCH_WORD
+                               }' || '%'
                            )
                            AND (    COALESCE('${req.body.PRJ_ID}','')  = '' 
-                               OR( COALESCE('${req.body.PRJ_ID
-    }','')  <> '' AND cast(API.PRJ_ID as varchar)= '${req.body.PRJ_ID
-    }' )  
+                               OR( COALESCE('${
+                                 req.body.PRJ_ID
+                               }','')  <> '' AND cast(API.PRJ_ID as varchar)= '${
+    req.body.PRJ_ID
+  }' )  
                            )  
                            AND (   COALESCE('${req.body.REQ_METHOD}','')  = '' 
-                            or (COALESCE('${req.body.REQ_METHOD
-    }','')  <> '' AND API.REQ_METHOD = '${req.body.REQ_METHOD
-    }')  --P : POST, G: GET
+                            or (COALESCE('${
+                              req.body.REQ_METHOD
+                            }','')  <> '' AND API.REQ_METHOD = '${
+    req.body.REQ_METHOD
+  }')  --P : POST, G: GET
                            ) 
                            ORDER BY  API.API_ID, API.PRJ_ID ASC
                            LIMIT ${page.limit} OFFSET ${page.getOffset()}`);
@@ -835,7 +859,7 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
   }
 });
 
-// user
+// users
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
     `SELECT id, username, "password", status, "role", image, dept_id FROM doc_users;`
@@ -846,6 +870,21 @@ homeRoute.get("/doc_users", async (req, res) => {
     return res.send(new BaseRes(true, "SUCCESS", userImformation));
   }
 });
+
+// just test users
+// homeRoute.get("/doc_users", async (req, res) => {
+//   var dept_id = '';
+//   dept_id += req.body.DEPT_ID;
+  
+//   const userImformation = await db.any(
+//     `SELECT id, username, "password", status, "role", image, FROM doc_users WHRER dept_id=${dept_id}`
+//   );
+//   if (userImformation == null) {
+//     return res.send(new BaseRes(false, "ERROR", null));
+//   } else {
+//     return res.send(new BaseRes(true, "SUCCESS", userImformation));
+//   }
+// });
 
 // delete user
 homeRoute.delete("/delete_users/:id", async (req, res) => {
@@ -890,48 +929,45 @@ homeRoute.post("/update_users/:id", async (req, res) => {
 });
 
 // Update user profile
-homeRoute.post('/user_update_profile/:id', async (req, res) => {
+homeRoute.post("/user_update_profile/:id", async (req, res) => {
   // var personal_user_update = await db.result(`UPDATE doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}' where id=${req.params.id}`);
-  var update_profile = await db.result(`UPDATE doc_users SET image='${req.body.USER_IMAGE}' where id=${req.params.id}`)
+  var update_profile = await db.result(
+    `UPDATE doc_users SET image='${req.body.USER_IMAGE}' where id=${req.params.id}`
+  );
   if (update_profile == null) {
-    return res.send(new BaseRes(false, 'Error', null));
-  }
-  else {
+    return res.send(new BaseRes(false, "Error", null));
+  } else {
     res.send(new BaseRes(true, "Success", update_profile));
   }
 });
 
 // reset password
 homeRoute.post("/doc_reset_password", async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
   var pwd = await db.any(
     `SELECT password FROM doc_users WHERE id =${req.body.ID};`
   );
-  console.log('pwd:', pwd[0].password);
+  console.log("pwd:", pwd[0].password);
   if (pwd[0].password == req.body.currentPassword) {
     await db.any(
       `UPDATE public.doc_users SET password = ${req.body.newPassword} WHERE id =${req.body.ID}`
-    ); 
+    );
     return res.send(new BaseRes(true, "Success", null));
   } else {
     return res.send(new BaseRes(false, "Incorrent current password ! ", null));
-    
   }
 });
 
 // Delete file
-homeRoute.post("/doc_file_d01/:id", async (req, res) => {
-  // UPDATE doc_file set status=0 where file_idnt_id=?
-  var delete_file = await db.any(`UPDATE doc_file set status=0 where file_idnt_id=?`);
-  console.log();
-  if (delete_file == null) {
-    return res.send(new BaseRes(false, "Error", null));
+homeRoute.post("/doc_file_d01", async (req, res) => {
+  var file = await db.any(
+    `DELETE FROM doc_file WHERE file_idnt_id= ${req.body.FILE_IDNT_ID}`
+  );
+  if (file == null) {
+    return res.send(new BaseRes(false, "ERROR", null));
   } else {
-    return res.send(new BaseRes(true, "Success", delete_file))
+    return res.send(new BaseRes(true, "Success", file));
   }
 });
-
-// test
-// homeRoute.post('/upload_multiple', uplo)
 
 module.exports = homeRoute;

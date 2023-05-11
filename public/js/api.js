@@ -1,4 +1,4 @@
-// BASE URL
+// base URL
 //var baseUrl = "http://192.168.178.81:88"; // Dev server 
 //var baseUrl = "http://192.168.178.81:81"; // Real server
 var baseUrl = "http://localhost:4545"; // Local server
@@ -23,6 +23,7 @@ function requestApi(settings, callBack) {
         $(".page-login").show();
         $(".my_body").hide();
       }
+      
       console.log("error");
       callBack(data);
     });
@@ -78,6 +79,7 @@ function insertDepartment(req, callBack) {
   };
   requestApi(settings, callBack);
 }
+
 function updateDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_u001",
@@ -90,9 +92,9 @@ function updateDepartment(req, callBack) {
   };
   requestApi(settings, callBack);
 }
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Doc department
-function getDepartment(callBack) {
+
+// doc department
+function getDepartment(dept_id,callBack) {
   var settings = {
     url: baseUrl + "/doc_department_r001",
     method: "POST",
@@ -100,6 +102,7 @@ function getDepartment(callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
+    data: JSON.stringify({DEPT_ID: dept_id})
   };
   requestApi(settings, callBack);
 }
@@ -118,7 +121,7 @@ function getMenu(deptId, callBack) {
   requestApi(settings, callBack);
 }
 
-//save text editor
+// save text editor
 function saveContents(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_article_c01",
@@ -132,7 +135,7 @@ function saveContents(req, callBack) {
   requestApi(settings, callBack);
 }
 
-//serch contents
+// serch content
 function getSearch(srch, callBack) {
   var settings = {
     url: baseUrl + "/doc_search_r01",
@@ -231,6 +234,7 @@ function deleteArticles(id, callBack) {
   };
   requestApi(settings, callBack);
 }
+
 // Update article has have
 function updateArticles(req, callBack) {
   // doc_articles_u01
@@ -272,6 +276,20 @@ function userTable(callBack) {
   };
   requestApi(settings, callBack);
 }
+
+// test users
+// function userTable(dept_id, callBack) {
+//   var settings = {
+//     url: baseUrl + "/doc_users",
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer " + getToken().token,
+//     },
+//     data: JSON.stringify({DEPT_ID: dept_id})
+//   };
+//   requestApi(settings, callBack);
+// }
 
 // delete user
 function delete_User(id, callBack) {
@@ -409,14 +427,15 @@ function read_file(id, callBack) {
 }
 
 // delete file
-function deleteFile() {
+function deleteFile(dlFile, callBack) {
   var settings = {
-    url: baseUrl + "/doc_file_d01" + id,
+    url: baseUrl + "/doc_file_d01",
     method: "DELETE",
     header: {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
-    }
+    },
+    data: JSON.stringify({FILE_IDNT_ID :dlFile}),
   }
   requestApi(settings, callBack);
 }
