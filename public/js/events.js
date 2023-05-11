@@ -492,6 +492,14 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     DEP_ID: Department_ID,
     ID: acticle_id,
   };
+ deleteFile(dlFile , function(resp){
+  if(resp.status){
+    alert(resp.message)
+  }else{
+    alert(resp.message)
+  }
+ })
+
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
@@ -891,6 +899,16 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 });
 
 // delete file
+var dlFile
 $(document).on('click', '#deleteFile', function () {
-  alert('file delete')
+  dlFile = $(this).attr("file_idnt_id")
+  console.log("file_idnt_id:", dlFile);
+  $('#List_file_content_update').empty()
+  // deleteFile(req, function(resp){
+  //   if (resp.status) {
+  //   build_real_file()
+  //   }else{
+  //     alert(resp.message)
+  //   }
+  // })
 }) 
