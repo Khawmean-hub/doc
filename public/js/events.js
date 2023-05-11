@@ -327,27 +327,31 @@ $(document).on("click", ".acticle_con", function () {
   var tag_title = $(this).attr("tag_title");
   console.log("id", id);
   console.log("tag_title", tag_title);
-  $('.acticle_con a').removeClass('active_link')
-  $('.acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
-  $('.acticle_con[act_id="'+id+'"] a').addClass('active_link')
+  
   buildActicle(id); // Call function buildActicle
   build_real_file(id); // Call function read file
   saveRecent(tag_title, id, $(this).text());
-  $("body .my_sidebar").find("li").removeClass("menu_active");
-  $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
-  $("body .my_sidebar").find(`[act_id='${id}']`).parent().removeClass("hidden");
-  $("body .my_sidebar").find(`[act_id='${id}']`).parent().addClass("visible");
-  $("body .my_sidebar")
-    .find(`[act_id='${id}']`)
-    .parent()
-    .parent()
-    .addClass("active");
-  $("body .my_sidebar")
-    .find(`[act_id='${id}']`)
-    .parent()
-    .parent()
-    .siblings()
-    .addClass("active");
+
+  $('.acticle_con a').removeClass('active_link')
+  if(!$('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').hasClass('active')){
+    $('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
+  }
+  $('.acticle_con[act_id="'+id+'"] a').addClass('active_link')
+  // $("body .my_sidebar").find("li").removeClass("menu_active");
+  // $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
+  // $("body .my_sidebar").find(`[act_id='${id}']`).parent().removeClass("hidden");
+  // $("body .my_sidebar").find(`[act_id='${id}']`).parent().addClass("visible");
+  // $("body .my_sidebar")
+  //   .find(`[act_id='${id}']`)
+  //   .parent()
+  //   .parent()
+  //   .addClass("active");
+  // $("body .my_sidebar")
+  //   .find(`[act_id='${id}']`)
+  //   .parent()
+  //   .parent()
+  //   .siblings()
+  //   .addClass("active");
   //
 });
 // LOGIN
@@ -915,3 +919,13 @@ $(document).on('click', '#deleteFile', function () {
   //   }
   // })
 }) 
+
+$(document).on('click', '.copy_link', function () {
+  var actId = $(this).attr('act_id');
+  var link = window.location.origin + '?id=' + actId;
+  $('#copy_clip').val(link)
+  var copyText = document.getElementById("copy_clip");
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); // For mobile devices
+  navigator.clipboard.writeText(copyText.value);
+})
