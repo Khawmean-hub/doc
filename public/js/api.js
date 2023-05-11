@@ -1,4 +1,4 @@
-// BASE URL
+// base URL
 //var baseUrl = "http://192.168.178.81:88"; // Dev server 
 //var baseUrl = "http://192.168.178.81:81"; // Real server
 var baseUrl = "http://localhost:4545"; // Local server
@@ -79,6 +79,7 @@ function insertDepartment(req, callBack) {
   };
   requestApi(settings, callBack);
 }
+
 function updateDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_u001",
@@ -91,9 +92,9 @@ function updateDepartment(req, callBack) {
   };
   requestApi(settings, callBack);
 }
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Doc department
-function getDepartment(callBack) {
+
+// doc department
+function getDepartment(dept_id,callBack) {
   var settings = {
     url: baseUrl + "/doc_department_r001",
     method: "POST",
@@ -101,6 +102,7 @@ function getDepartment(callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
+    data: JSON.stringify({DEPT_ID: dept_id})
   };
   requestApi(settings, callBack);
 }
@@ -119,7 +121,7 @@ function getMenu(deptId, callBack) {
   requestApi(settings, callBack);
 }
 
-//save text editor
+// save text editor
 function saveContents(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_article_c01",
@@ -133,7 +135,7 @@ function saveContents(req, callBack) {
   requestApi(settings, callBack);
 }
 
-//serch contents
+// serch content
 function getSearch(srch, callBack) {
   var settings = {
     url: baseUrl + "/doc_search_r01",
@@ -232,6 +234,7 @@ function deleteArticles(id, callBack) {
   };
   requestApi(settings, callBack);
 }
+
 // Update article has have
 function updateArticles(req, callBack) {
   // doc_articles_u01
