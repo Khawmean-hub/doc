@@ -171,7 +171,7 @@ homeRoute.post("/doc_file_r01", async (req, res, next) => {
   } else {
     var ress = [];
     if (acticle.length > 0) {
-      ress = acticle[0];
+      ress = acticle;
     }
     res.send(new BaseRes(true, "Success", ress));
   }
