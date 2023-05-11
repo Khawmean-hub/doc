@@ -327,6 +327,9 @@ $(document).on("click", ".acticle_con", function () {
   var tag_title = $(this).attr("tag_title");
   console.log("id", id);
   console.log("tag_title", tag_title);
+  $('.acticle_con a').removeClass('active_link')
+  $('.acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
+  $('.acticle_con[act_id="'+id+'"] a').addClass('active_link')
   buildActicle(id); // Call function buildActicle
   build_real_file(id); // Call function read file
   saveRecent(tag_title, id, $(this).text());
