@@ -196,7 +196,7 @@ $(document).on("click", "#editor_save", function () {
           //
           var opt = {
             FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
-            FILE_IDNT: files_c[i].lastModified,
+            FILE_IDNT: files_c[i].lastModified + Date.now(),
             FILE_NM: get_file_name,
             FILE_SIZE: files_c[i].size,
             // FILE_TYPE: files_c[i].type,
