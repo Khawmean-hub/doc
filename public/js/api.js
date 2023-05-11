@@ -275,6 +275,20 @@ function userTable(callBack) {
   requestApi(settings, callBack);
 }
 
+// test users
+// function userTable(dept_id, callBack) {
+//   var settings = {
+//     url: baseUrl + "/doc_users",
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer " + getToken().token,
+//     },
+//     data: JSON.stringify({DEPT_ID: dept_id})
+//   };
+//   requestApi(settings, callBack);
+// }
+
 // delete user
 function delete_User(id, callBack) {
   var settings = {

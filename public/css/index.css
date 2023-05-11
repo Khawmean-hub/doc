@@ -530,6 +530,7 @@ h4.ui.header .sub.header {
 
 .welcome-pannel {
   text-align: center;
-  
+  text-transform: uppercase;
+  color: midnightblue;
 }
 /*  */

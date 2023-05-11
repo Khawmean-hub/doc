@@ -23,7 +23,7 @@ function buldHome() {
   if (getToken().role == 0) {
     // user
     $("#btn_add_contents").show();
-    $("#btn_manage-user").hide();
+    $("#btn_manage-user").show();
     $(".edit_tag2").show();
     $(".btn_logout").show();
     $(".btn_login").hide();

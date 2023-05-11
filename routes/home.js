@@ -850,7 +850,7 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
   }
 });
 
-// user
+// users
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
     `SELECT id, username, "password", status, "role", image, dept_id FROM doc_users;`
@@ -861,6 +861,21 @@ homeRoute.get("/doc_users", async (req, res) => {
     return res.send(new BaseRes(true, "SUCCESS", userImformation));
   }
 });
+
+// just test users
+// homeRoute.get("/doc_users", async (req, res) => {
+//   var dept_id = '';
+//   dept_id += req.body.DEPT_ID;
+  
+//   const userImformation = await db.any(
+//     `SELECT id, username, "password", status, "role", image, FROM doc_users WHRER dept_id=${dept_id}`
+//   );
+//   if (userImformation == null) {
+//     return res.send(new BaseRes(false, "ERROR", null));
+//   } else {
+//     return res.send(new BaseRes(true, "SUCCESS", userImformation));
+//   }
+// });
 
 // delete user
 homeRoute.delete("/delete_users/:id", async (req, res) => {
