@@ -934,11 +934,24 @@ $(document).on('click', '#deleteFile', function () {
 }) 
 
 $(document).on('click', '.copy_link', function () {
+
+ 
   var actId = $(this).attr('act_id');
   var link = window.location.origin + '?id=' + actId;
-  $('#copy_clip').val(link)
+  $("body").append('<input type="text" id="copy_clip" value="'+link+'">');
+  
   var copyText = document.getElementById("copy_clip");
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); // For mobile devices
-  navigator.clipboard.writeText(copyText.value);
+      copyText.focus();
+      copyText.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+    console.log('Copying text command was ' + msg);
+  } catch (err) {
+    console.log('Oops, unable to copy');
+  }
+  
+  $('#copy_clip').remove()
+  //navigator.clipboard.writeText(copyText.value);
 })
