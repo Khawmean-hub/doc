@@ -440,3 +440,17 @@ function deleteFile(dlFile, callBack) {
   requestApi(settings, callBack);
 }
 
+// read file content
+function FileContent(id, callBack) {
+  var setting = {
+    url: baseUrl + "/doc_file_r02",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: JSON.stringify({ ID: id })
+  };
+  requestApi(setting, callBack);
+}
+

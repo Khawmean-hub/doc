@@ -970,4 +970,24 @@ homeRoute.post("/doc_file_d01", async (req, res) => {
   }
 });
 
+// read file content
+homeRoute.post("/doc_file_r02", async (req, res, next) => {
+  var acticle = await db.any(
+    `select f.file_id,f.file_idnt_id,f.file_nm,f.file_size,f.thum_img_path,f.img_path 
+    from doc_file as f 
+    inner join doc_articles as a on f.file_article_id = a.file_article_id
+    where a.id=cast($1 as INTEGER) and a.status = 1 and f.status = 1`,
+    [req.body.ID]
+  );
+  if (acticle == null) {
+    return res.send(new BaseRes(false, "Error", null));
+  } else {
+    var ress = [];
+    if (acticle.length > 0) {
+      ress = acticle;
+    }
+    res.send(new BaseRes(true, "Success", ress));
+  }
+});
+
 module.exports = homeRoute;

@@ -328,8 +328,10 @@ $(document).on("click", ".acticle_con", function () {
   console.log("id", id);
   console.log("tag_title", tag_title);
   
-  buildActicle(id); // Call function buildActicle
-  build_real_file(id); // Call function read file
+  buildActicle(id); // call buildActicle
+  build_real_file(id); // call read file
+  ReadFIleContetn(id) // call file contetn
+  ReadImage(id) // call read image
   saveRecent(tag_title, id, $(this).text());
 
   $('.acticle_con a').removeClass('active_link')
