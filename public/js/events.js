@@ -335,11 +335,11 @@ $(document).on("click", ".acticle_con", function () {
   ReadImage(id) // call read image
   saveRecent(tag_title, id, $(this).text());
 
-  $('.acticle_con a').removeClass('active_link')
+  $('.acticle_con a').removeClass('active_link');
   if(!$('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').hasClass('active')){
     $('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
   }
-  $('.acticle_con[act_id="'+id+'"] a').addClass('active_link')
+  $('.acticle_con[act_id="'+id+'"] a').addClass('active_link');
   // $("body .my_sidebar").find("li").removeClass("menu_active");
   // $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
   // $("body .my_sidebar").find(`[act_id='${id}']`).parent().removeClass("hidden");
