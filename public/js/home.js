@@ -23,14 +23,13 @@ function buldHome() {
   if (getToken().role == 0) {
     // user
     $("#btn_add_contents").show();
-    $("#btn_manage-user").show();
+    $("#btn_manage-user").hide();
     $(".edit_tag2").show();
     $(".btn_logout").show();
     $(".btn_login").hide();
     $("#Create-New-User").hide();
     $("#manage-department").hide();
 
-    // hide button add contents or department
   } else if (getToken().role == 1) {
     // admin
     $("#btn_manage-user").show();
@@ -59,7 +58,7 @@ function buldHome() {
       if(!$('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').hasClass('active')){
         $('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
       }
-      $('.acticle_con[act_id="'+id+'"] a').addClass('active_link')
+      $('.acticle_con[act_id="'+id+'"] a').addClass('active_link');
     }, 200)
   }else{
     getRecent();
@@ -311,10 +310,12 @@ function randomNotFound() {
 
 // Build acticle
 function buildActicle(id) {
+  updateFile(id);
   loader();
+  
   getActicle(id, function (resp) {
-    var buttonshare = "";
-    buttonshare += `<button class="ui button" act_id='${id}'>Share</button>`;
+    
+    
     if (resp.data.content_body === undefined) {
       // Check article is null
       $("#content_body").empty().append(resp.data.content_body);
@@ -358,13 +359,16 @@ function buildActicle(id) {
       }
       // Check is file have
       if (resp.data.file_nm) {
+        
         //  file_name += `<h2 id='Name_file'>File :</h2>  <span id="file-name3" style="margin-right:30px"><a id="download-link" href="${resp.data.file_nm} link="${resp.data.file_nm}" download>${resp.data.file_nm}</a></span> <br />`;
         file_name += `<h2 id='Name_file'>File :</h2> <br />`;
-        $(".img_pathh").hide();
+        ReadFIleContetn(id) // call file contetn
+        // $(".myImage").hide();
       }
 
       // Check image if have
-      if (resp.data.thum_img_path) {
+      if (resp.data.img_path === null) {
+        // ReadImage(id) // call read image
         // file_name += `<img class="img_pathh" id="myImage" src="${resp.data.thum_img_path}" download>`;
         // file_name += `<br />`
       }
@@ -377,17 +381,17 @@ function buildActicle(id) {
   });
 }
 
-// Build read file for update
-function build_real_file(id) {
-  read_file(id, function (resp) {
-    var build_file = "";
-    if (isNull(resp.data.file_nm)) {
-      $("#List_file_content_update").empty();
-    } else {
-      build_file += `<p> <i class="paperclip icon grey"></i> ${resp.data.file_nm}  <a href="#"><i class="trash grey alternate outline icon con-size deleteFile"  value=""  fname="' + e.name + + '" id="deleteFile" file_idnt_id= " ${resp.data.file_idnt_id}"></i></a> </P>`;
-      $("#List_file_content_update").empty().append(build_file);
+// update file
+function updateFile(id) {
+  read_file(id, function(resp) {
+    var fileContentUpdate = '';
+    if (!isNull(resp) && resp.status) {
+      resp.data.forEach((v) => {
+        fileContentUpdate += `<p> <i class="paperclip icon grey" style="margin-right: 15px;"></i> ${v.file_nm}  <a href="#"><i class="trash grey alternate outline icon con-size deleteFile"  value=""  fname="' + e.name + + '" id="deleteFile" file_idnt_id= ""> </i> </a> </P>`
+        $("#List_file_content_update").empty().append(fileContentUpdate);
+      })
     }
-  });
+  })
 }
 
 // Get acticle for update
@@ -618,10 +622,6 @@ function get_user_image() {
 }
 
 // Preview modal image
-// $(document).on('click', '.img_pathh', function() {
-//   alert('Hello yuth');
-//   window.open($(this).attr('src'), '_blank');
-// })
 $(document).on("click", ".img_pathh", function () {
   var oo = $(".img_pathh").attr({ target: "_blank" });
   window.open($(this).attr("src"), oo);
@@ -651,29 +651,19 @@ function buttonshare() {
 // file content
 function ReadFIleContetn(id){
   FileContent(id, function (resp) {
-    var fileContet = '';
+    var images = '';
     var fileContet1 = '';
     // fileContet += `<h2 id='Name_file'>File :</h2>`;
     if (!isNull(resp) && resp.status) {
-      
+ 
       resp.data.forEach((v) => {
-        
-        fileContet1 += `<span id="file-name3" style="margin-right:30px"><a id="" download>${v.file_nm}</a></span> <br />`
-      })
-    }
-    $('#content_body').append(fileContet1);
+        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"><a download>${v.file_nm}</a> </span> </p>`
+        images += `<span> <img class="img_pathh" id="myImage" src="${v.img_path}" download> </span>`
+      });  
+    } 
+    $('#content_body').append(fileContet1, images);
+    
+  
   })
 }
 
-// image content
-function ReadImage(id) {
-  FileContent(id, function (resp) {
-    var images = '';
-    if (!isNull(resp) && resp.status) {
-      resp.data.forEach((v) => {
-        images += `<img class="img_pathh" id="myImage" src="${v.img_path}" download>`
-      })
-    }
-    $('#content_body').append(images);
-  })
-}

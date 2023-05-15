@@ -277,20 +277,6 @@ function userTable(callBack) {
   requestApi(settings, callBack);
 }
 
-// test users
-// function userTable(dept_id, callBack) {
-//   var settings = {
-//     url: baseUrl + "/doc_users",
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: "Bearer " + getToken().token,
-//     },
-//     data: JSON.stringify({DEPT_ID: dept_id})
-//   };
-//   requestApi(settings, callBack);
-// }
-
 // delete user
 function delete_User(id, callBack) {
   var settings = {
@@ -348,26 +334,6 @@ function uploadFile(file, path, callBack) {
   };
   requestApi(settings, callBack);
 }
-
-// For test upload multi file
-// function upload_multi_file(file, callBack) {
-//   let formData = new FormData();
-//   formData.append("file", file);
-
-//   var settings = {
-//     url: baseUrl + "/uploads",
-//     method: "POST",
-//     processData: false,
-//     contentType: false,
-//     mimeType: "multipart/form-data",
-//     data: formData,
-//   };
-//   requestApi(settings, callBack);
-// }
-
-
-// Upload multiple file
-
 
 // Update user profile
 function update_user_profile(id, req, callBack) {

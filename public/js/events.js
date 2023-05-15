@@ -322,17 +322,13 @@ $(".menu_btn").click(function () {
   }
 });
 
-// Click on acticle
+// Click on acticle side bar
 $(document).on("click", ".acticle_con", function () {
   var id = $(this).attr("act_id");
   var tag_title = $(this).attr("tag_title");
   console.log("id", id);
   console.log("tag_title", tag_title);
-  
   buildActicle(id); // call buildActicle
-  build_real_file(id); // call read file
-  ReadFIleContetn(id) // call file contetn
-  ReadImage(id) // call read image
   saveRecent(tag_title, id, $(this).text());
 
   $('.acticle_con a').removeClass('active_link');
@@ -447,6 +443,7 @@ $(document).on("click", "#update-departmentList", function () {
 
 // Update acticle has have
 $(document).on("click", "#modal-edit-sub-article", function () {
+  
   acticle_id = $(this).attr("act_id");
   tage_id = $(this).attr("tag_id");
   vaTitle = $(this).attr("title");
@@ -473,6 +470,8 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   buildDepartment("#departmentListId4, #modal_add", Department_ID);
   buildeMenuCombobox("#menu_com4", null, tage_id);
 
+  
+
   getActicle1(acticle_id, function (resp) {
     tinymce.remove("#editor2");
     tinymce.init({
@@ -486,10 +485,10 @@ $(document).on("click", "#modal-edit-sub-article", function () {
         inst.setContent(resp.data.content_body);
       },
     });
+    
   });
-
 });
-build_real_file();
+
 
 // Update sub article has have
 $(document).on("click", "#btn-save-update-sub-article", function () {
@@ -954,4 +953,8 @@ $(document).on('click', '.copy_link', function () {
   
   $('#copy_clip').remove()
   //navigator.clipboard.writeText(copyText.value);
+})
+
+$(document).on('click', '#btn-cancel-update-article', function() {
+  $('#List_file_content_update p').empty();
 })
