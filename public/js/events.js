@@ -6,6 +6,7 @@ var Get_User_ID;
 var Delete_Sub_article;
 var Delete_main_article;
 var files = [];
+var file_for_up = [];
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
   $(".active_title").not(this).removeClass("active_link");
@@ -70,30 +71,66 @@ function buildList() {
     }
   });
   //
-  $("#List_file_content").empty().append(html);
-  $('#List_file_content_update').append(html);
+  $("#List_file_content").empty().append(html); // list file
+  // $('#List_file_content_update').append(html);
   // $("#imgs").empty().append(imgs); // Lish file image
 }
+function buildListFileUpdate() {
+  var html = "";
+  var imgs = "";
+  files.forEach((e) => {
+    html +=
+      "<p id='content_file'>" +
+      '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' +
+      '<a href="#" class="blue" data-value="new_file">' +
+      e.name +
+      "</a>" +
+      ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove-file-update" value="remove"  fname="' +
+      e.name +
+      '"></i></a></p>';
+    if (e.type.includes("image")) {
+      imgs +=
+        '<img src="' +
+        URL.createObjectURL(e) +
+        '" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; padding-right: 10px">';
+    }
+  });
+  //
+  // $("#List_file_content").empty().append(html); // list file
+  
+  $('#List_file_content_update').append(html);
 
+}
 // Event select file
 var files_c;
-$("#fileUpload, #fileUpload02").on("change", function () {
+$("#fileUpload").on("change", function () {
   $.each(this.files, function (k, e) {
     if (files.every((a) => a.name !== e.name)) {
       files.push(e);
     }
   });
   files_c = files;
-  console.log("File Image: ", files);
-
+  console.log("list file: ", files);
   buildList();
   $(this).val("");
 });
+// event select file update 
+var file_c_update
+$("#fileUpload02").on("change", function () {
+  $.each(this.files, function (k, e) {
+    if (files.every((a) => a.name !== e.name)) {
+      files.push(e);
+    }
+  });
+  file_c_update = files;
+  console.log("list file update: ", files);
+  buildListFileUpdate();
+  // $(this).val("");
+});
 
 // event remove file
-var fname;
 $(document).on("click", "#btn-remove", function () {
-
+  var fname;
   fname = $(this).attr("fname");
   console.log('fanme => ', fname)
   var ll = files.filter((v) => v.name !== fname);
@@ -101,6 +138,16 @@ $(document).on("click", "#btn-remove", function () {
   buildList();
 });
 
+// event remove file update
+$(document).on("click", "#btn-remove-file-update", function () {
+  alert('Hello')
+  var fname;
+  fname = $(this).attr("fname");
+  console.log('fanme => ', fname)
+  var ll = files.filter((v) => v.name !== fname);
+  files = ll;
+  buildListFileUpdate();
+});
 
 // click open file for update
 $(".btn_upload_file02").click(function () {
@@ -340,10 +387,10 @@ $(document).on("click", ".acticle_con", function () {
   saveRecent(tag_title, id, $(this).text());
 
   $('.acticle_con a').removeClass('active_link');
-  if(!$('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').hasClass('active')){
-    $('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
+  if (!$('#menu_body .acticle_con[act_id="' + id + '"]').parent().parent().parent().parent().find('.title').hasClass('active')) {
+    $('#menu_body .acticle_con[act_id="' + id + '"]').parent().parent().parent().parent().find('.title').click()
   }
-  $('.acticle_con[act_id="'+id+'"] a').addClass('active_link');
+  $('.acticle_con[act_id="' + id + '"] a').addClass('active_link');
   // $("body .my_sidebar").find("li").removeClass("menu_active");
   // $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
   // $("body .my_sidebar").find(`[act_id='${id}']`).parent().removeClass("hidden");
@@ -383,7 +430,7 @@ $("#btn_login").click(function () {
         $("#username_text").val(""), $("#password_text").val("");
         get_user_image();
         buldHome();
-        $(".edit_tag").show(); 
+        $(".edit_tag").show();
       } else {
         $("#msg_alert p").text(resp.message);
         $("#msg_alert").show();
@@ -392,7 +439,7 @@ $("#btn_login").click(function () {
       // welcome text
       if (localStorage.getItem('act_recent') === null || localStorage.getItem('act_recent') === 'undefined') {
         welcome_pannel();
-        
+
       }
     });
   }
@@ -478,7 +525,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   buildDepartment("#departmentListId4, #modal_add", Department_ID);
   buildeMenuCombobox("#menu_com4", null, tage_id);
 
-  
+
 
   getActicle1(acticle_id, function (resp) {
     tinymce.remove("#editor2");
@@ -493,7 +540,6 @@ $(document).on("click", "#modal-edit-sub-article", function () {
         inst.setContent(resp.data.content_body);
       },
     });
-    
   });
 });
 
@@ -509,13 +555,13 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     DEP_ID: Department_ID,
     ID: acticle_id,
   };
-//  deleteFile(dlFile , function(resp){
-//   if(resp.status){
-//     alert(resp.message)
-//   }else{
-//     alert(resp.message)
-//   }
-//  })
+  //  deleteFile(dlFile , function(resp){
+  //   if(resp.status){
+  //     alert(resp.message)
+  //   }else{
+  //     alert(resp.message)
+  //   }
+  //  })
 
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
@@ -792,7 +838,7 @@ $(document).on("click", ".profile-users", function () {
       "src",
       "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg=="
     );
-  }else{
+  } else {
     $("#upload-img").attr(
       "src",
       getToken().img
@@ -841,7 +887,7 @@ $(document).on("click", "#user_click_update", function () {
             var obj = JSON.parse(user_image); // Convert to JSON
             obj.img = data.data.url;
             console.log("Obj :", obj);
-            if($('#profile_update_image').attr('src')==getToken().img){
+            if ($('#profile_update_image').attr('src') == getToken().img) {
               $('#profile_update_image').attr('src', data.data.url)
             }
             localStorage.setItem("b2b_user", JSON.stringify(obj));
@@ -923,30 +969,33 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 var dlFile;
 var file_opt;
 $(document).on('click', '#deleteFile', function () {
-  alert('Delete file');
+
   dlFile = $(this).attr("file_idnt_id")
   console.log("file_idnt_id:", dlFile);
 
-  
+
   file_opt = {
     FILE_IDNT_ID: dlFile
   }
-  console.log('delete file => ' ,file_opt);
+  console.log('delete file => ', file_opt);
 
-  deleteFile(dlFile, function(resp) {
-    alert('file has delete')
+  deleteFile(file_opt, function (resp) {
+    if (resp.status) {
+      alert('file has delete');
+
+    }
   })
-  
-}) 
+
+})
 
 $(document).on('click', '.copy_link', function () {
   var actId = $(this).attr('act_id');
   var link = window.location.origin + '?id=' + actId;
-  $("body").append('<input type="text" id="copy_clip" value="'+link+'">');
-  
+  $("body").append('<input type="text" id="copy_clip" value="' + link + '">');
+
   var copyText = document.getElementById("copy_clip");
-      copyText.focus();
-      copyText.select();
+  copyText.focus();
+  copyText.select();
 
   try {
     var successful = document.execCommand('copy');
@@ -955,11 +1004,11 @@ $(document).on('click', '.copy_link', function () {
   } catch (err) {
     console.log('Oops, unable to copy');
   }
-  
+
   $('#copy_clip').remove()
   //navigator.clipboard.writeText(copyText.value);
 })
 
-$(document).on('click', '#btn-cancel-update-article', function() {
+$(document).on('click', '#btn-cancel-update-article', function () {
   $('#List_file_content_update p').empty();
 });

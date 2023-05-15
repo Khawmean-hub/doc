@@ -393,16 +393,16 @@ function read_file(id, callBack) {
 }
 
 // delete file
-function deleteFile(dlFile, callBack) {
+function deleteFile(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_file_d01",
-    method: "DELETE",
+    method: "POST",
     header: {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
     },
-    data: JSON.stringify({FILE_IDNT_ID :dlFile}),
-  }
+    data: JSON.stringify({ID: id}),
+  };
   requestApi(settings, callBack);
 }
 

@@ -972,7 +972,9 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
 
 // test delete file
 homeRoute.post("/doc_file_d01", async (req, res) => {
-  var delete_files = await db.any(`UPDATE doc_file set status=0 where file_idnt_id=${req.body.FILE_IDNT_ID}`);
+  // var delete_files = await db.any(`UPDATE doc_file set status=0 where file_idnt_id='${req.body.FILE_IDNT_ID}`);
+  var delete_files = await db.any(`DELETE FROM doc_file WHERE file_idnt_id='${req.body.FILE_IDNT_ID}'`)
+  console.log('delete file => ', delete_files);
   if (delete_files == null) {
     return res.send(new BaseRes(false, "ERROR", null));
   } 
