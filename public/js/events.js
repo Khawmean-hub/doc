@@ -55,11 +55,11 @@ function buildList() {
   files.forEach((e) => {
     html +=
       "<p id='content_file'>" +
-      '<i class="paperclip icon grey"></i>' +
-      '<a href="#" class="blue">' +
+      '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' +
+      '<a href="#" class="blue" data-value="new_file">' +
       e.name +
       "</a>" +
-      ' <a href="#"><i class="trash grey alternate outline icon con-size" id="btn-remove" value="remove"  fname="' +
+      ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove" value="remove"  fname="' +
       e.name +
       '"></i></a></p>';
     if (e.type.includes("image")) {
@@ -69,8 +69,9 @@ function buildList() {
         '" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; padding-right: 10px">';
     }
   });
-
-  $("#List_file_content, #List_file_content_update").empty().append(html);
+  //
+  $("#List_file_content").empty().append(html);
+  $('#List_file_content_update').append(html);
   // $("#imgs").empty().append(imgs); // Lish file image
 }
 
@@ -89,13 +90,17 @@ $("#fileUpload, #fileUpload02").on("change", function () {
   $(this).val("");
 });
 
-// Event remove file
+// event remove file
+var fname;
 $(document).on("click", "#btn-remove", function () {
-  var fname = $(this).attr("fname");
+
+  fname = $(this).attr("fname");
+  console.log('fanme => ', fname)
   var ll = files.filter((v) => v.name !== fname);
   files = ll;
   buildList();
 });
+
 
 // click open file for update
 $(".btn_upload_file02").click(function () {
@@ -172,9 +177,12 @@ $(document).on("click", "#close_editor", function () {
   $("#sub_title_val").val("");
   tinymce.get("editor1").setContent("");
   $('#List_file_content').empty();
+  files = [];
+  $('#List_file_content_update').empty();
+
 });
 
-// ADD NEW TITEL TO DEPARTMENT
+// add new title to department 
 $(document).on("click", "#add_newTitle", function () {
   var req = {
     TITLE: $("#titleView").val(),
@@ -443,7 +451,7 @@ $(document).on("click", "#update-departmentList", function () {
 
 // Update acticle has have
 $(document).on("click", "#modal-edit-sub-article", function () {
-  
+
   acticle_id = $(this).attr("act_id");
   tage_id = $(this).attr("tag_id");
   vaTitle = $(this).attr("title");
@@ -490,7 +498,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 });
 
 
-// Update sub article has have
+// update sub content article
 $(document).on("click", "#btn-save-update-sub-article", function () {
   var myContent2 = tinymce.get("editor2").getContent();
   var reqAr = {
@@ -501,13 +509,13 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     DEP_ID: Department_ID,
     ID: acticle_id,
   };
- deleteFile(dlFile , function(resp){
-  if(resp.status){
-    alert(resp.message)
-  }else{
-    alert(resp.message)
-  }
- })
+//  deleteFile(dlFile , function(resp){
+//   if(resp.status){
+//     alert(resp.message)
+//   }else{
+//     alert(resp.message)
+//   }
+//  })
 
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
@@ -681,7 +689,7 @@ $("#manage-department").click(function () {
 });
 
 var dep_idd;
-// DELETE DEPARTMENT
+// delete department
 $(document).on("click", ".alert-depart", function () {
   dep_idd = $(this).parent().siblings(".dep-id").attr("dep_id");
   $(".alert-delete")
@@ -701,7 +709,7 @@ $(document).on("click", "#delete-depart", function () {
 });
 
 var btnUpdateID;
-// EDIT DEPARTMENT
+// edit department
 $(document).on("click", "#icon-update-dep", function () {
   $(".txtIs .btn-update-css").remove();
   $(".txtIs").append(
@@ -714,7 +722,7 @@ $(document).on("click", "#icon-update-dep", function () {
   $(".txtIsertD").val(dep_name);
 });
 
-// UPDATE DEPARTMENT
+// update department
 $(document).on("click", ".btn-update-css ", function () {
   var update = $(".txtIsertD").val();
 
@@ -760,7 +768,7 @@ $(".table-scroll").scroll(function () {
   oldScrollLeft = $(".table-scroll").scrollLeft();
 });
 
-// Name profile who login
+// name profile who login
 $(document).on("click", ".profile", function () {
   var html = "";
   var data = JSON.parse(window.localStorage.getItem("b2b_user"));
@@ -775,13 +783,7 @@ $(document).on("click", ".profile", function () {
   $("#profile-use").empty().append(html);
 });
 
-// $(document).on("click", ".profile-users", function () {
-//   buldHome();
-//   get_user_information();
-//   // $("#information_user").modal({ closable: false }).modal("show");
-// });
-
-// Click user profile
+// click user profile
 $(document).on("click", ".profile-users", function () {
 
 
@@ -856,13 +858,13 @@ $(document).on("click", "#user_click_update", function () {
   });
 });
 
-//POPUP RESET PASSWORD
+// popup reset password
 $(document).on("click", "#reset-password", function () {
   $("#change-password")
     .modal({ closable: false, allowMultiple: true })
     .modal("show");
 });
-// RESET PASSWORD
+// reset password
 $(document).on("click", "#sign_up", function () {
   var curpwd = $(".curpwd").val();
   var newpwd = $(".newpwd").val();
@@ -918,23 +920,26 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 });
 
 // delete file
-var dlFile
+var dlFile;
+var file_opt;
 $(document).on('click', '#deleteFile', function () {
+  alert('Delete file');
   dlFile = $(this).attr("file_idnt_id")
   console.log("file_idnt_id:", dlFile);
-  $('#List_file_content_update').empty()
-  // deleteFile(req, function(resp){
-  //   if (resp.status) {
-  //   build_real_file()
-  //   }else{
-  //     alert(resp.message)
-  //   }
-  // })
+
+  
+  file_opt = {
+    FILE_IDNT_ID: dlFile
+  }
+  console.log('delete file => ' ,file_opt);
+
+  deleteFile(dlFile, function(resp) {
+    alert('file has delete')
+  })
+  
 }) 
 
 $(document).on('click', '.copy_link', function () {
-
- 
   var actId = $(this).attr('act_id');
   var link = window.location.origin + '?id=' + actId;
   $("body").append('<input type="text" id="copy_clip" value="'+link+'">');
@@ -957,4 +962,4 @@ $(document).on('click', '.copy_link', function () {
 
 $(document).on('click', '#btn-cancel-update-article', function() {
   $('#List_file_content_update p').empty();
-})
+});

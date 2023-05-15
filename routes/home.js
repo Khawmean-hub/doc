@@ -958,17 +958,28 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
   }
 });
 
-// Delete file
+// delete file
+// homeRoute.post("/doc_file_d01", async (req, res) => {
+//   var file = await db.any(
+//     `DELETE FROM doc_file WHERE file_idnt_id= ${req.body.FILE_IDNT_ID}`
+//   );
+//   if (file == null) {
+//     return res.send(new BaseRes(false, "ERROR", null));
+//   } else {
+//     return res.send(new BaseRes(true, "Success", file));
+//   }
+// });
+
+// test delete file
 homeRoute.post("/doc_file_d01", async (req, res) => {
-  var file = await db.any(
-    `DELETE FROM doc_file WHERE file_idnt_id= ${req.body.FILE_IDNT_ID}`
-  );
-  if (file == null) {
+  var delete_files = await db.any(`UPDATE doc_file set status=0 where file_idnt_id=${req.body.FILE_IDNT_ID}`);
+  if (delete_files == null) {
     return res.send(new BaseRes(false, "ERROR", null));
-  } else {
-    return res.send(new BaseRes(true, "Success", file));
+  } 
+  else {
+    return res.send(new BaseRes(true, "Success", delete_files))
   }
-});
+})
 
 // read file content
 homeRoute.post("/doc_file_r02", async (req, res, next) => {

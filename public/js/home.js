@@ -387,7 +387,7 @@ function updateFile(id) {
     var fileContentUpdate = '';
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
-        fileContentUpdate += `<p> <i class="paperclip icon grey" style="margin-right: 15px;"></i> ${v.file_nm}  <a href="#"><i class="trash grey alternate outline icon con-size deleteFile"  value=""  fname="' + e.name + + '" id="deleteFile" file_idnt_id= ""> </i> </a> </P>`
+        fileContentUpdate += `<p> <i class="paperclip icon grey" style="margin-right: 15px;"></i> ${v.file_nm}  <a href="#"> <i class="trash grey alternate outline icon con-size deleteFile" value=""  fname="' + e.name + + '" id="deleteFile" file_idnt_id="${v.file_idnt_id}" data-value="old_file"> </i> </a> </P>`
         $("#List_file_content_update").empty().append(fileContentUpdate);
       })
     }
