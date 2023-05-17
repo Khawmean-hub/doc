@@ -763,7 +763,7 @@ homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
   var data = await db.any(`
     INSERT INTO doc_articles
     (tag_id, title, content_body, create_date, user_id, file_article_id, dep_id, status)
-    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
+    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY.replaceAll("'","\\'")}', now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
     `);
 
   if (data == null) {
@@ -836,7 +836,7 @@ limit $1 offset $2`,
 // Update article has have
 homeRoute.post("/doc_article_u01", auth.adminAndUser, async (req, res) => {
   var article = await db.any(`UPDATE doc_articles
-    SET tag_id=CAST('${req.body.TAG_ID}' AS INTEGER), title='${req.body.TITLE}', content_body='${req.body.CONTENT_BODY}', modified_date=now(), user_id=CAST( '${req.body.USER_ID}' AS INTEGER), dep_id='${req.body.DEP_ID}' where id=CAST( '${req.body.ID}' AS INTEGER)`);
+    SET tag_id=CAST('${req.body.TAG_ID}' AS INTEGER), title='${req.body.TITLE}', content_body='${req.body.CONTENT_BODY.replaceAll("'", "\\'")}', modified_date=now(), user_id=CAST( '${req.body.USER_ID}' AS INTEGER), dep_id='${req.body.DEP_ID}' where id=CAST( '${req.body.ID}' AS INTEGER)`);
 
   var tag = await db.any(`
     UPDATE doc_tags
