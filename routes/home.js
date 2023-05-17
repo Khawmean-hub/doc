@@ -862,7 +862,8 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
 // users
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
-    `SELECT id, username, "password", status, "role", image, dept_id FROM doc_users;`
+    `SELECT du.id, du.username, du."password", du.status, du."role", du.image, du.dept_id, dd.dep_name FROM doc_users du 
+    left join doc_department dd on dd.dep_id = du.dept_id ;`
   );
   if (userImformation == null) {
     return res.send(new BaseRes(false, "ERROR", null));
