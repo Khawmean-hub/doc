@@ -763,7 +763,7 @@ homeRoute.post("/doc_article_c01", auth.adminAndUser, async (req, res) => {
   var data = await db.any(`
     INSERT INTO doc_articles
     (tag_id, title, content_body, create_date, user_id, file_article_id, dep_id, status)
-    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY}', now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
+    VALUES(CAST(${req.body.TAG_ID} AS INTEGER),'${req.body.TITLE}','${req.body.CONTENT_BODY.replaceAll("'","\\'")}', now(), CAST(${req.body.USER_ID} AS INTEGER), ${req.body.FILE_ARTICLE_ID}, ${req.body.DEP_ID}, 1)
     `);
 
   if (data == null) {
@@ -836,7 +836,7 @@ limit $1 offset $2`,
 // Update article has have
 homeRoute.post("/doc_article_u01", auth.adminAndUser, async (req, res) => {
   var article = await db.any(`UPDATE doc_articles
-    SET tag_id=CAST('${req.body.TAG_ID}' AS INTEGER), title='${req.body.TITLE}', content_body='${req.body.CONTENT_BODY}', modified_date=now(), user_id=CAST( '${req.body.USER_ID}' AS INTEGER), dep_id='${req.body.DEP_ID}' where id=CAST( '${req.body.ID}' AS INTEGER)`);
+    SET tag_id=CAST('${req.body.TAG_ID}' AS INTEGER), title='${req.body.TITLE}', content_body='${req.body.CONTENT_BODY.replaceAll("'", "\\'")}', modified_date=now(), user_id=CAST( '${req.body.USER_ID}' AS INTEGER), dep_id='${req.body.DEP_ID}' where id=CAST( '${req.body.ID}' AS INTEGER)`);
 
   var tag = await db.any(`
     UPDATE doc_tags
@@ -862,7 +862,8 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
 // users
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
-    `SELECT id, username, "password", status, "role", image, dept_id FROM doc_users;`
+    `SELECT du.id, du.username, du."password", du.status, du."role", du.image, du.dept_id, dd.dep_name FROM doc_users du 
+    left join doc_department dd on dd.dep_id = du.dept_id ;`
   );
   if (userImformation == null) {
     return res.send(new BaseRes(false, "ERROR", null));
@@ -915,11 +916,8 @@ homeRoute.post("/add_users", async (req, res) => {
 // update user
 homeRoute.post("/update_users/:id", async (req, res) => {
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
-  console.log(
-    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
-  );
   var upDateUser = await db.result(
-    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
+    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', dept_id='${req.body.DEPT_ID}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
   );
   if (upDateUser == null) {
     return res.send(new BaseRes(false, "ERROR", null));
