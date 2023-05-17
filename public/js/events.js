@@ -97,7 +97,7 @@ function buildListFileUpdate() {
   });
   //
   // $("#List_file_content").empty().append(html); // list file
-  
+
   $('#List_file_content_update').append(html);
 
 }
@@ -430,7 +430,7 @@ $("#btn_login").click(function () {
         $("#username_text").val(""), $("#password_text").val("");
         get_user_image();
         buldHome();
-        $(".edit_tag").show();
+        // $(".edit_tag").show();
       } else {
         $("#msg_alert p").text(resp.message);
         $("#msg_alert").show();
@@ -555,18 +555,29 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     DEP_ID: Department_ID,
     ID: acticle_id,
   };
-  //  deleteFile(dlFile , function(resp){
-  //   if(resp.status){
-  //     alert(resp.message)
-  //   }else{
-  //     alert(resp.message)
-  //   }
-  //  })
 
+  //
+  file_opt = {
+    FILE_IDNT_ID: myOldFile
+  }
+  console.log('Delete old files => ', file_opt)
+  var convertArray = JSON.stringify(file_opt.FILE_IDNT_ID);
+  console.log('convert => ', convertArray)
+  
+
+  // 
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
-      buldHome(true);
+      // buldHome(true);
+      deleteFile(file_opt, function (resp) {
+        if (resp.status) {
+
+          alert('ok')
+        } else {
+          alert('error')
+        }
+      })
     }
   });
 });
@@ -666,10 +677,16 @@ $(document).on("click", "#btn_doc_add_users", function () {
 // UPDATE USER
 var updateId;
 var updatePwd;
+var dept_id;
 $(document).on("click", ".editUser_icon", function () {
+
   $("#modal_update_user")
     .modal({ closable: false, allowMultiple: true })
     .modal("show");
+
+  // dept_id = $("#user_department").dropdown("get value");
+  // console.log('get user department => ', dept_id);
+  // buildDepartment("#user_department", dept_id); // Call department
 
   var data = JSON.parse(decodeURIComponent($(this).closest("tr").attr("data")));
   updateId = data.id;
@@ -682,12 +699,17 @@ $(document).on("click", ".editUser_icon", function () {
     V_Pass: $("#vUerPassword").val(data.password),
     V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
     V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
+    V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
   };
+
+  dept_id = $("#user_department").dropdown("get value");
+  console.log('get user department => ', dept_id);
+  buildDepartment("#user_department", dept_id); // 
 
   console.log("Get curent user data", get_current_user);
 });
 
-// Click to confirmation update user
+// click to comfirmation update user
 $(document).on("click", "#btn_doc_update_users_icon", function () {
   //updateId    // staic
   var req = {
@@ -697,6 +719,7 @@ $(document).on("click", "#btn_doc_update_users_icon", function () {
     MODIFY_USERPASS: $("#vUerPassword").val(),
     MODIFY_USERROLE: $("#b2b_role").dropdown("get value"),
     MODIFY_USERSTATUS: $("#b2b_status").dropdown("get value"),
+    MODIFY_USER_DEPARTMENT: $("#user_department").dropdown("get value"),
   };
   console.log("Update user data *", req);
   updateUser(updateId, req, function (res) {
@@ -968,23 +991,28 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 // delete file
 var dlFile;
 var file_opt;
+var myOldFile = [];
 $(document).on('click', '#deleteFile', function () {
 
-  dlFile = $(this).attr("file_idnt_id")
-  console.log("file_idnt_id:", dlFile);
+  // dlFile = $(this).attr("file_idnt_id")
+  // console.log("file_idnt_id:", dlFile);
 
 
-  file_opt = {
-    FILE_IDNT_ID: dlFile
-  }
-  console.log('delete file => ', file_opt);
+  var file_idnt_id = $(this).attr("file_idnt_id");
+  myOldFile.push(file_idnt_id);
+  console.log('delete old file => ', myOldFile);
 
-  deleteFile(file_opt, function (resp) {
-    if (resp.status) {
-      alert('file has delete');
 
-    }
-  })
+  // file_opt = {
+  //   FILE_IDNT_ID: myOldFile
+  // }
+  // console.log('delete file => ', file_opt);
+
+  // deleteFile(file_opt, function (resp) {
+  //   if (resp.status) {
+  //     alert('file has delete');
+  //   }
+  // })
 
 })
 

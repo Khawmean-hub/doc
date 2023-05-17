@@ -917,7 +917,7 @@ homeRoute.post("/add_users", async (req, res) => {
 homeRoute.post("/update_users/:id", async (req, res) => {
   // default query: UPDATE doc_users SET id=nextval('doc_users_id_seq'::regclass), username='', "password"='', status=0, "role"=0;
   var upDateUser = await db.result(
-    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', dept_id='${req.body.DEPT_ID}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
+    `UPDATE doc_users set username='${req.body.MODIFY_USERNAME}', "password"='${req.body.MODIFY_USERPASS}', dept_id='${req.body.MODIFY_USER_DEPARTMENT}', status=${req.body.MODIFY_USERSTATUS}, "role"=${req.body.MODIFY_USERROLE} where id=${req.params.id} ;`
   );
   if (upDateUser == null) {
     return res.send(new BaseRes(false, "ERROR", null));
@@ -957,21 +957,8 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
 });
 
 // delete file
-// homeRoute.post("/doc_file_d01", async (req, res) => {
-//   var file = await db.any(
-//     `DELETE FROM doc_file WHERE file_idnt_id= ${req.body.FILE_IDNT_ID}`
-//   );
-//   if (file == null) {
-//     return res.send(new BaseRes(false, "ERROR", null));
-//   } else {
-//     return res.send(new BaseRes(true, "Success", file));
-//   }
-// });
-
-// test delete file
 homeRoute.post("/doc_file_d01", async (req, res) => {
-  // var delete_files = await db.any(`UPDATE doc_file set status=0 where file_idnt_id='${req.body.FILE_IDNT_ID}`);
-  var delete_files = await db.any(`DELETE FROM doc_file WHERE file_idnt_id='${req.body.FILE_IDNT_ID}'`)
+  var delete_files = await db.any(`DELETE FROM public.doc_file WHERE file_idnt_id='${req.body.FILE_IDNT_ID}';`)
   console.log('delete file => ', delete_files);
   if (delete_files == null) {
     return res.send(new BaseRes(false, "ERROR", null));

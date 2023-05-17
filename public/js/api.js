@@ -393,6 +393,20 @@ function read_file(id, callBack) {
 }
 
 // delete file
+// function deleteFile(id, callBack) {
+//   var settings = {
+//     url: baseUrl + "/doc_file_d01",
+//     method: "POST",
+//     header: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer" + getToken().token,
+//     },
+//     data: JSON.stringify({ID: id}),
+//   };
+//   requestApi(settings, callBack);
+// }
+
+// test delte file
 function deleteFile(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_file_d01",

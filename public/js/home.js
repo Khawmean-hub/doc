@@ -89,7 +89,7 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
   if (getToken().role != 1) {
     dept_id = getToken().dept_id;
   }
-  console.log(">>>>> ", dept_id)
+  
   getDepartment(dept_id, function (resp) {
 
     let departmentList = [];
@@ -127,6 +127,14 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
 
     if (id.includes("departmentListId3")) {
       $("#departmentListId3").dropdown(
+        "setting",
+        "onChange",
+        onChangeDepartment
+      );
+    }
+
+    if (id.includes("user_department")) {
+      $("#user_department").dropdown(
         "setting",
         "onChange",
         onChangeDepartment
@@ -591,12 +599,14 @@ function buildUserTable() {
         tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
       }
 
-      if (i.status == 1) {
-        // status
-        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`;
-      } else if (i.status == 0) {
-        tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
-      }
+      // if (i.status == 1) {
+      //   // status
+      //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`;
+      // } else if (i.status == 0) {
+      //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
+      // }
+
+      tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`;       
 
       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
     </tr>`;
@@ -655,7 +665,6 @@ function ReadFIleContetn(id){
     var fileContet1 = '';
     // fileContet += `<h2 id='Name_file'>File :</h2>`;
     if (!isNull(resp) && resp.status) {
- 
       resp.data.forEach((v) => {
         // fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"><a download href="">${v.file_nm}</a> <i class="download icon" download href="${v.img_path}"></i> </span> </p>`
         fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"> <a> ${v.file_nm} </a> <a download href="${v.img_path}" > <i class="download icon" > </i> </a> </span> </p>`
