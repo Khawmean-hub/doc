@@ -542,4 +542,8 @@ h4.ui.header .sub.header {
   max-height: 150px;
   overflow-y: auto;
 }
+
+.download {
+  cursor: pointer;
+}
 /*  */
