@@ -658,13 +658,11 @@ function ReadFIleContetn(id){
  
       resp.data.forEach((v) => {
         // fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"><a download href="">${v.file_nm}</a> <i class="download icon" download href="${v.img_path}"></i> </span> </p>`
-        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"> <a> ${v.file_nm} </a><a download href="${v.img_path}" ><i class="download icon" ></i></a> </span> </p>`
+        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"> <a> ${v.file_nm} </a> <a download href="${v.img_path}" > <i class="download icon" > </i> </a> </span> </p>`
         images += `<span> <img class="img_pathh" id="myImage" src="${v.img_path}" download> </span>`
       });  
     } 
     $('#content_body').append(fileContet1, images);
-    
-  
   })
 }
 
