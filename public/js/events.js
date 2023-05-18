@@ -1001,7 +1001,7 @@ $(document).on('click', '#deleteFile', function () {
   var file_idnt_id = $(this).attr("file_idnt_id");
   myOldFile.push(file_idnt_id);
   console.log('delete old file => ', myOldFile);
-
+$(this).addClass('blue')
 
   // file_opt = {
   //   FILE_IDNT_ID: myOldFile
