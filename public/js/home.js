@@ -605,8 +605,8 @@ function buildUserTable() {
       // } else if (i.status == 0) {
       //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
       // }
-
-      tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`;       
+      
+      tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`; // department
 
       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
     </tr>`;
