@@ -407,7 +407,7 @@ function read_file(id, callBack) {
 // }
 
 // test delte file
-function deleteFile(id, callBack) {
+function deleteFile(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_file_d01",
     method: "POST",
@@ -415,7 +415,7 @@ function deleteFile(id, callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
     },
-    data: JSON.stringify({ID: id}),
+    data: req,
   };
   requestApi(settings, callBack);
 }

@@ -498,7 +498,7 @@ $(document).on("click", "#update-departmentList", function () {
 
 // Update acticle has have
 $(document).on("click", "#modal-edit-sub-article", function () {
-
+     
   acticle_id = $(this).attr("act_id");
   tage_id = $(this).attr("tag_id");
   vaTitle = $(this).attr("title");
@@ -541,6 +541,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
       },
     });
   });
+
 });
 
 
@@ -557,20 +558,20 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   };
 
   //
-  file_opt = {
-    FILE_IDNT_ID: myOldFile
+   req = {
+    ID: oldFile
   }
-  console.log('Delete old files => ', file_opt)
-  var convertArray = JSON.stringify(file_opt.FILE_IDNT_ID);
-  console.log('convert => ', convertArray)
+  // console.log('Delete old files => ', myOldFile)
+  // var convertArray = JSON.stringify(req.FILE_IDNT_ID);
+  // console.log('convert => ', convertArray)
   
 
-  // 
+  // // 
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
       // buldHome(true);
-      deleteFile(file_opt, function (resp) {
+      deleteFile(req, function (resp) {
         if (resp.status) {
 
           alert('ok')
@@ -991,18 +992,14 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 // delete file
 var dlFile;
 var file_opt;
-var myOldFile = [];
+var oldFile 
+var file_idnt_ids = []
 $(document).on('click', '#deleteFile', function () {
-
-  // dlFile = $(this).attr("file_idnt_id")
-  // console.log("file_idnt_id:", dlFile);
-
-
-  var file_idnt_id = $(this).attr("file_idnt_id");
-  myOldFile.push(file_idnt_id);
-  console.log('delete old file => ', myOldFile);
-$(this).addClass('blue')
-
+  var file_idnt_id = $(this).attr("file_idnt_id")
+  file_idnt_ids.push(file_idnt_id)
+  file_idnt_ids.join("','")+"'"
+  oldFile = "'"+ file_idnt_ids.join("','")+"'"
+  console.log('delete old file => ',oldFile);
   // file_opt = {
   //   FILE_IDNT_ID: myOldFile
   // }

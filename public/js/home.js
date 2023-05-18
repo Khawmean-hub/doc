@@ -673,5 +673,5 @@ function ReadFIleContetn(id){
     } 
     $('#content_body').append(fileContet1, images);
   })
-}
 
+}

@@ -958,7 +958,9 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
 
 // delete file
 homeRoute.post("/doc_file_d01", async (req, res) => {
-  var delete_files = await db.any(`DELETE FROM public.doc_file WHERE file_idnt_id='${req.body.FILE_IDNT_ID}';`)
+  var delete_files = await db.any(`DELETE FROM public.doc_file WHERE file_idnt_id IN(${req.body.ID})`)
+  console.log('delete file1 => ', `DELETE FROM public.doc_file WHERE file_idnt_id IN(${req.body.ID})`);
+
   console.log('delete file => ', delete_files);
   if (delete_files == null) {
     return res.send(new BaseRes(false, "ERROR", null));
