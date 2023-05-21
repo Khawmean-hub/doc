@@ -872,21 +872,6 @@ homeRoute.get("/doc_users", async (req, res) => {
   }
 });
 
-// just test users
-// homeRoute.get("/doc_users", async (req, res) => {
-//   var dept_id = '';
-//   dept_id += req.body.DEPT_ID;
-  
-//   const userImformation = await db.any(
-//     `SELECT id, username, "password", status, "role", image, FROM doc_users WHRER dept_id=${dept_id}`
-//   );
-//   if (userImformation == null) {
-//     return res.send(new BaseRes(false, "ERROR", null));
-//   } else {
-//     return res.send(new BaseRes(true, "SUCCESS", userImformation));
-//   }
-// });
-
 // delete user
 homeRoute.delete("/delete_users/:id", async (req, res) => {
   var userDeleteIndex = await db.result(
@@ -927,8 +912,7 @@ homeRoute.post("/update_users/:id", async (req, res) => {
 });
 
 // Update user profile
-homeRoute.post("/user_update_profile/:id", async (req, res) => {
-  // var personal_user_update = await db.result(`UPDATE doc_users set username='${req.body.DATA_USER_NAME}', "password"='${req.body.USER_PASS}', status=1, "role"=0, image='${req.body.USER_IMAGE}' where id=${req.params.id}`);
+homeRoute.post("/user_update_profile/:id", async (req, res) => { 
   var update_profile = await db.result(
     `UPDATE doc_users SET image='${req.body.USER_IMAGE}' where id=${req.params.id}`
   );

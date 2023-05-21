@@ -475,14 +475,14 @@ h4.ui.header .sub.header {
 #content_file_all {
   background-color: #f6f6f6;
   border-radius: 5px;
-  padding: 15px; 
+  padding: 15px;
   /* padding រុញ​ content ចូលក្នុង */
 }
 
 #content_file_all02 {
   background-color: #f6f6f6;
   border-radius: 5px;
-  padding: 15px; 
+  padding: 15px;
   /* padding រុញ​ content ចូលក្នុង */
 }
 
@@ -516,7 +516,7 @@ h4.ui.header .sub.header {
   margin-left: 5px;
 }
 
-.img_pathh { 
+.img_pathh {
   height: 180px;
 }
 
@@ -546,6 +546,5 @@ h4.ui.header .sub.header {
 .download {
   cursor: pointer;
 }
-
 
 /*  */

@@ -104,7 +104,7 @@ $("#fileUpload").on("change", function () {
   $(this).val("");
 });
 
-// select file update 
+// select file for update 
 var file_c_update
 $("#fileUpload02").on("change", function () {
   $.each(this.files, function (k, e) {
@@ -131,8 +131,6 @@ $(document).on("click", "#btn-remove", function () {
 $(document).on("click", "#btn-remove-file-update", function () {
   var attr = $(this).attr("UpdateFileName");
   $('#content_file [attr="' + attr + '"]').parent().parent().remove();
-  // $("#content_file").remove();
-
 });
 
 // click open file for update
@@ -147,8 +145,6 @@ $(document).on("click", "#editor_save", function () {
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
-    var file = files_c
-
     if (!isNull(myContent)) {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
@@ -183,7 +179,6 @@ $(document).on("click", "#editor_save", function () {
           var get_file_name = data.data.fileName;
           var get_file_url = data.data.url;
           console.log('Get data url => ', get_file_url, get_file_name);
-
           //
           var opt = {
             FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
@@ -196,13 +191,13 @@ $(document).on("click", "#editor_save", function () {
           }
           console.log("opt => ", opt);
           upload_file(opt, function (resp) {
-            alert('ok')
           });
         });
       }
     }
   }
-  $;
+  $('#List_file_content').empty();
+  files = [];
 });
 
 // Clear editor
@@ -489,7 +484,7 @@ $(document).on("click", "#update-departmentList", function () {
 
 // Update acticle has have
 $(document).on("click", "#modal-edit-sub-article", function () {
-     
+
   acticle_id = $(this).attr("act_id");
   tage_id = $(this).attr("tag_id");
   vaTitle = $(this).attr("title");
@@ -539,6 +534,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 // update sub content article
 $(document).on("click", "#btn-save-update-sub-article", function () {
 
+
   var myContent2 = tinymce.get("editor2").getContent();
   var reqAr = {
     TAG_ID: tage_id,
@@ -546,28 +542,56 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     CONTENT_BODY: myContent2,
     USER_ID: Get_User_ID,
     DEP_ID: Department_ID,
-    ID: acticle_id,
+    ID: acticle_id, // tuk tver tsa
   };
-
-  //
-   req = {
-    ID: oldFile
-  }
- 
+  console.log('get update :',reqAr)
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
-      // buldHome(true);
-      deleteFile(req, function (resp) {
-        if (resp.status) {
-
-          alert('ok')
-        } else {
-          alert('error')
-        }
-      })
+      buldHome(true);
     }
   });
+
+  // update file
+  console.log("file or image for update :", file_c_update);
+  for (let i = 0; i < file_c_update.length; i++) {
+    if (!isNull(file_c_update[i])) {
+      uploadFile(file_c_update[i], $('').val(), function (resp) {
+        var data = JSON.parse(resp);
+        var get_file_name = data.data.fileName;
+        var get_file_url = data.data.url;
+        console.log('Get data url => ', get_file_url, get_file_name);
+
+        // var FILE_ARTICLE_ID = Date.now()
+        var opt = {
+          FILE_ARTICLE_IDS: Date.now(),
+          FILE_IDNT: file_c_update[i].lastModified + Date.now(),
+          FILE_NM: get_file_name,
+          FILE_SIZE: file_c_update[i].size,
+          IMG_PATH: get_file_url,
+          THUM_IMG_PATH: get_file_url
+        }
+        console.log("update file => ", opt);
+        upload_file(opt, function (resp) {
+        });
+      });
+
+    }
+  }
+
+  // delete file
+  // req = {
+  //   ID: oldFile
+  // }
+
+  // deleteFile(req, function (resp) {
+  //   if (resp.status) {
+
+  //     alert('ok')
+  //   } else {
+  //     alert('error')
+  //   }
+  // })
 });
 
 // Delete main article Ex: Jex
@@ -984,14 +1008,14 @@ $(document).on("click", ".cancel_re_pwd ", function () {
 // delete file
 var dlFile;
 var file_opt;
-var oldFile 
+var oldFile
 var file_idnt_ids = []
 $(document).on('click', '#deleteFile', function () {
   var file_idnt_id = $(this).attr("file_idnt_id")
   file_idnt_ids.push(file_idnt_id)
-  file_idnt_ids.join("','")+"'"
-  oldFile = "'"+ file_idnt_ids.join("','")+"'"
-  console.log('delete old file => ',oldFile);
+  file_idnt_ids.join("','") + "'"
+  oldFile = "'" + file_idnt_ids.join("','") + "'"
+  console.log('delete old file => ', oldFile);
   // file_opt = {
   //   FILE_IDNT_ID: myOldFile
   // }
