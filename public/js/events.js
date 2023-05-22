@@ -544,7 +544,7 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     DEP_ID: Department_ID,
     ID: acticle_id, // tuk tver tsa
   };
-  console.log('get update :',reqAr)
+  console.log('get update :', reqAr)
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
@@ -579,19 +579,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     }
   }
 
-  // delete file
-  // req = {
-  //   ID: oldFile
-  // }
-
-  // deleteFile(req, function (resp) {
-  //   if (resp.status) {
-
-  //     alert('ok')
-  //   } else {
-  //     alert('error')
-  //   }
-  // })
 });
 
 // delete main article 
@@ -1013,16 +1000,16 @@ $(document).on('click', '#deleteFile', function () {
   file_idnt_ids.join("','") + "'"
   oldFile = "'" + file_idnt_ids.join("','") + "'"
   console.log('delete old file => ', oldFile);
-  // file_opt = {
-  //   FILE_IDNT_ID: myOldFile
-  // }
-  // console.log('delete file => ', file_opt);
+  file_opt = {
+    FILE_IDNT_ID: oldFile
+  }
+  console.log('delete file => ', file_opt);
 
-  // deleteFile(file_opt, function (resp) {
-  //   if (resp.status) {
-  //     alert('file has delete');
-  //   }
-  // })
+  deleteFile(file_opt, function (resp) {
+    if (resp.status) {
+      alert('file has delete');
+    }
+  })
 
   alert('OK');
   var file_idnt_id = $(this).attr("file_idnt_id");
