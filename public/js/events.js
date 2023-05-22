@@ -113,6 +113,7 @@ $("#fileUpload02").on("change", function () {
   file_c_update = files;
   console.log("list file update: ", files);
   buildListFileUpdate();
+  files = [] // clear
 });
 
 // remove file
@@ -571,6 +572,7 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
       });
     }
   }
+  
   // delete file
   var req = {
     ID: oldFile,
@@ -1035,5 +1037,5 @@ $(document).on('click', '.copy_link', function () {
 })
 
 $(document).on('click', '#btn-cancel-update-article', function () {
-  $('#List_file_content_update p').empty();
+  $('#List_file_content_update .rm-file').empty();
 });
