@@ -594,13 +594,13 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   // })
 });
 
-// Delete main article Ex: Jex
+// delete main article 
 $(document).on("click", "#delete_thisT", function () {
   $(".delete_tage").modal({ closable: false }).modal("show");
   Delete_main_article = $(this).attr("da-de");
   console.log("Delete main article => ", Delete_main_article);
 });
-// Comfrim to delete main article
+// comfrim delete main article
 $(document).on("click", ".btn_delete_tage ", function () {
   $(this).addClass("loading");
   deleteTage(Delete_main_article, function (resp_delete) {
@@ -636,10 +636,7 @@ $(document).on("click", ".btn_delete_sub", function () {
   });
 });
 
-// BUILD PAGE
-$(document).ready(function () {
-  //getLogin();
-});
+
 
 // USER
 let userB2b = [];
@@ -794,8 +791,8 @@ $(document).on("click", "#delete-depart", function () {
   });
 });
 
-var btnUpdateID;
 // edit department
+var btnUpdateID;
 $(document).on("click", "#icon-update-dep", function () {
   $(".txtIs .btn-update-css").remove();
   $(".txtIs").append(

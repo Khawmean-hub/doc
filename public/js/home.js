@@ -439,9 +439,6 @@ function getRecent(params) {
   }
 }
 
-// check remove from localstorage
-function checkAndRemoveFromLocalStorage() { }
-
 // save recent
 function saveRecent(tag_title, acticle_id, acticle_name) {
   var recentList = [

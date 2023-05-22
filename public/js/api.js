@@ -1,9 +1,9 @@
 // base URL
-//var baseUrl = "http://192.168.178.81:88"; // Dev server 
-//var baseUrl = "http://192.168.178.81:81"; // Real server
-var baseUrl = "http://localhost:4545"; // Local server
+//var baseUrl = "http://192.168.178.81:88"; // Dev 
+//var baseUrl = "http://192.168.178.81:81"; // Real 
+var baseUrl = "http://localhost:4545"; // Local 
 
-// CALL API
+// call api
 var isAlreadyAlert = false;
 function requestApi(settings, callBack) {
   $.ajax(settings)
@@ -23,12 +23,13 @@ function requestApi(settings, callBack) {
         $(".page-login").show();
         $(".my_body").hide();
       }
-      
+
       console.log("error");
       callBack(data);
     });
 }
 
+// token
 function getToken() {
   var data = window.localStorage.getItem("b2b_user");
   if (isNull(data)) {
@@ -54,6 +55,7 @@ function getMenuHome(callBack) {
   });
 }
 
+// delete department
 function deleteDepartment(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_d001",
@@ -66,7 +68,8 @@ function deleteDepartment(id, callBack) {
   };
   requestApi(settings, callBack);
 }
-// doc_department_c001
+
+// insert department
 function insertDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_c001",
@@ -80,6 +83,7 @@ function insertDepartment(req, callBack) {
   requestApi(settings, callBack);
 }
 
+// update departmrnt
 function updateDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_u001",
@@ -93,8 +97,8 @@ function updateDepartment(req, callBack) {
   requestApi(settings, callBack);
 }
 
-// doc department
-function getDepartment(dept_id,callBack) {
+// get department
+function getDepartment(dept_id, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_r001",
     method: "POST",
@@ -102,7 +106,7 @@ function getDepartment(dept_id,callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
-    data: JSON.stringify({DEPT_ID: dept_id})
+    data: JSON.stringify({ DEPT_ID: dept_id })
   };
   requestApi(settings, callBack);
 }
@@ -149,7 +153,7 @@ function getSearch(srch, callBack) {
   requestApi(settings, callBack);
 }
 
-// Get acticle
+// get acticle
 function getActicle(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_article_r01",
@@ -178,7 +182,7 @@ function getActicle1(id, callBack) {
   requestApi(settings, callBack);
 }
 
-// Get login
+// login
 function getLogin(username, password, callBack) {
   var settings = {
     url: baseUrl + "/doc_login_r01",
@@ -235,9 +239,8 @@ function deleteArticles(id, callBack) {
   requestApi(settings, callBack);
 }
 
-// Update article has have
+// update acticle
 function updateArticles(req, callBack) {
-  // doc_articles_u01
   var settings = {
     url: baseUrl + "/doc_article_u01",
     method: "POST",
@@ -349,7 +352,7 @@ function update_user_profile(id, req, callBack) {
   requestApi(settings, callBack);
 }
 
-// RESET PASSWORD
+// reset new password
 function reset_password(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_reset_password",
@@ -363,7 +366,7 @@ function reset_password(req, callBack) {
   requestApi(settings, callBack);
 }
 
-// Insert file
+// insert file
 function upload_file(req, callBack) {
   var setting = {
     url: baseUrl + "/doc_file_c01",
@@ -378,7 +381,7 @@ function upload_file(req, callBack) {
   requestApi(setting, callBack);
 }
 
-// Read file
+// read file
 function read_file(id, callBack) {
   var setting = {
     url: baseUrl + "/doc_file_r01",
@@ -393,20 +396,6 @@ function read_file(id, callBack) {
 }
 
 // delete file
-// function deleteFile(id, callBack) {
-//   var settings = {
-//     url: baseUrl + "/doc_file_d01",
-//     method: "POST",
-//     header: {
-//       "Content-Type": "application/json",
-//       Authorization: "Bearer" + getToken().token,
-//     },
-//     data: JSON.stringify({ID: id}),
-//   };
-//   requestApi(settings, callBack);
-// }
-
-// test delte file
 function deleteFile(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_file_d01",
