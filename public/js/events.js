@@ -50,7 +50,7 @@ $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
 
-// Build file on browser
+// build file on browser
 function buildList() {
   var html = "";
   var imgs = "";
@@ -73,8 +73,6 @@ function buildList() {
   });
   //
   $("#List_file_content").empty().append(html); // list file
-  // $('#List_file_content_update').append(html);
-  // $("#imgs").empty().append(imgs); // Lish file image
 }
 
 // list file update
@@ -82,11 +80,11 @@ function buildListFileUpdate() {
   var html = "";
   files.forEach((e) => {
     html +=
-      "<p id='content_file'>" + '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' + '<a href="#" class="blue" data-value="new_file">' + e.name + "</a>" +
-      ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove-file-update" attr="' + e.name + '"  UpdateFileName="' + e.name + '"></i></a></p>';
+      "<p id='content_file'>" + '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' + '<a href="#" class="blue" data-value="new_file">' + e.name + "</a> " +
+      ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove-file-update" attr="' + e.name + '"  UpdateFileName="' + e.name + '"></i></a> <a class="ui tag label mini">New</a></p> ';
+
   });
   //
-  // $("#List_file_content").empty().append(html); // list file
   $('#List_file_content_update').append(html);
 
 }
@@ -104,8 +102,8 @@ $("#fileUpload").on("change", function () {
   $(this).val("");
 });
 
-// select file for update 
-var file_c_update
+// select file update 
+var file_c_update = [];
 $("#fileUpload02").on("change", function () {
   $.each(this.files, function (k, e) {
     if (files.every((a) => a.name !== e.name)) {
@@ -145,6 +143,8 @@ $(document).on("click", "#editor_save", function () {
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
+    var file = files_c
+
     if (!isNull(myContent)) {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
@@ -152,7 +152,7 @@ $(document).on("click", "#editor_save", function () {
         USER_ID: getToken().id, // User ID
         CONTENT_BODY: myContent,
         TITLE: $("#sub_title_val").val(), // Title
-        FILE_ARTICLE_ID: Date.now(), // Create date
+        FILE_ARTICLE_ID: Date.now(), // get acticle id ex => 1683789816910
       };
       console.log("Get all user input from editor => ", req);
 
@@ -179,13 +179,11 @@ $(document).on("click", "#editor_save", function () {
           var get_file_name = data.data.fileName;
           var get_file_url = data.data.url;
           console.log('Get data url => ', get_file_url, get_file_name);
-          //
           var opt = {
             FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
             FILE_IDNT: files_c[i].lastModified + Date.now(),
             FILE_NM: get_file_name,
             FILE_SIZE: files_c[i].size,
-            // FILE_TYPE: files_c[i].type,
             IMG_PATH: get_file_url,
             THUM_IMG_PATH: get_file_url
           }
@@ -482,7 +480,8 @@ $(document).on("click", "#update-departmentList", function () {
   }, 1500);
 });
 
-// Update acticle has have
+// update contetn or acticle
+var UpdateNewFile;
 $(document).on("click", "#modal-edit-sub-article", function () {
 
   acticle_id = $(this).attr("act_id");
@@ -496,7 +495,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   console.log("Department ID: ", Department_ID);
   console.log("UserID", Get_User_ID);
 
-  // Show content 
+  // show conent
   $(".coupled.modal").modal({
     allowMultiple: true,
   });
@@ -514,6 +513,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 
   updateFile(acticle_id);
   getActicle1(acticle_id, function (resp) {
+    UpdateNewFile = resp.data.file_article_id;
     tinymce.remove("#editor2");
     tinymce.init({
       selector: "#editor2",
@@ -530,11 +530,8 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 
 });
 
-
 // update sub content article
 $(document).on("click", "#btn-save-update-sub-article", function () {
-
-
   var myContent2 = tinymce.get("editor2").getContent();
   var reqAr = {
     TAG_ID: tage_id,
@@ -542,7 +539,7 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     CONTENT_BODY: myContent2,
     USER_ID: Get_User_ID,
     DEP_ID: Department_ID,
-    ID: acticle_id, // tuk tver tsa
+    ID: acticle_id,
   };
   console.log('get update :', reqAr)
   updateArticles(reqAr, function (resp) {
@@ -551,7 +548,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
       buldHome(true);
     }
   });
-
   // update file
   console.log("file or image for update :", file_c_update);
   for (let i = 0; i < file_c_update.length; i++) {
@@ -561,10 +557,8 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
         var get_file_name = data.data.fileName;
         var get_file_url = data.data.url;
         console.log('Get data url => ', get_file_url, get_file_name);
-
-        // var FILE_ARTICLE_ID = Date.now()
         var opt = {
-          FILE_ARTICLE_IDS: Date.now(),
+          FILE_ARTICLE_IDS: UpdateNewFile,
           FILE_IDNT: file_c_update[i].lastModified + Date.now(),
           FILE_NM: get_file_name,
           FILE_SIZE: file_c_update[i].size,
@@ -575,10 +569,23 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
         upload_file(opt, function (resp) {
         });
       });
-
     }
   }
-
+  // delete file
+  var req = {
+    ID: oldFile,
+  };
+  console.log('==>', req);
+  if (!isNull(oldFile)) { // check file
+    deleteFile(req, function (resp) {
+      if (resp.status) {
+        alert(resp.message);
+        buldHome(true);
+      } else {
+        alert(resp.message);
+      }
+    });
+  }
 });
 
 // delete main article 
@@ -587,7 +594,7 @@ $(document).on("click", "#delete_thisT", function () {
   Delete_main_article = $(this).attr("da-de");
   console.log("Delete main article => ", Delete_main_article);
 });
-// comfrim delete main article
+// comfrim to delete main article
 $(document).on("click", ".btn_delete_tage ", function () {
   $(this).addClass("loading");
   deleteTage(Delete_main_article, function (resp_delete) {
@@ -622,8 +629,6 @@ $(document).on("click", ".btn_delete_sub", function () {
     }
   });
 });
-
-
 
 // USER
 let userB2b = [];
@@ -778,8 +783,8 @@ $(document).on("click", "#delete-depart", function () {
   });
 });
 
-// edit department
 var btnUpdateID;
+// edit department
 $(document).on("click", "#icon-update-dep", function () {
   $(".txtIs .btn-update-css").remove();
   $(".txtIs").append(
@@ -871,12 +876,12 @@ $(document).on("click", ".profile-users", function () {
   $("#information_user").modal({ closable: false }).modal("show");
 });
 
-// Choose image
+// choose image
 $(document).on("click", ".edit_profile_user", function () {
   $("#fileuploads_image").click(); // Choose image
 });
 
-// Preview image
+// preview image
 $("#fileuploads_image").change(function () {
   const file = this.files[0];
   if (file) {
@@ -889,7 +894,7 @@ $("#fileuploads_image").change(function () {
   }
 });
 
-// Update image
+// update image
 $(document).on("click", "#user_click_update", function () {
   var id = getToken().id;
 
@@ -994,28 +999,19 @@ var dlFile;
 var file_opt;
 var oldFile
 var file_idnt_ids = []
-$(document).on('click', '#deleteFile', function () {
-  var file_idnt_id = $(this).attr("file_idnt_id")
-  file_idnt_ids.push(file_idnt_id)
-  file_idnt_ids.join("','") + "'"
-  oldFile = "'" + file_idnt_ids.join("','") + "'"
-  console.log('delete old file => ', oldFile);
-  file_opt = {
-    FILE_IDNT_ID: oldFile
-  }
-  console.log('delete file => ', file_opt);
-
-  deleteFile(file_opt, function (resp) {
-    if (resp.status) {
-      alert('file has delete');
-    }
-  })
-
-  alert('OK');
+$(document).on("click", "#deleteFile", function () {
+  // Multiple delete catch:file_idnt_id use array,push, join and extract to what us want.
   var file_idnt_id = $(this).attr("file_idnt_id");
-  console.log('old file => ', file_idnt_id);
+  file_idnt_ids.push(file_idnt_id);
+  file_idnt_ids.join("','") + "'";
+  oldFile = "'" + file_idnt_ids.join("','") + "'";
+  console.log("delete old file => ", oldFile);
+
+  // Remove file by used parent and like beleve
+  console.log("old file => ", file_idnt_id);
   $('#List_file_content_update [file_idnt_id="' + file_idnt_id + '"]').parent().parent().remove();
-})
+});
+
 
 $(document).on('click', '.copy_link', function () {
   var actId = $(this).attr('act_id');
