@@ -10,7 +10,7 @@ function buldHome() {
   buildDepartment();
   buildeMenuCobobox();
 
-  if(getToken().role != 1){
+  if (getToken().role != 1) {
     buildMenu(true, getToken().dept_id);
   } else {
     buildMenu(true, 1);
@@ -51,16 +51,16 @@ function buldHome() {
   }
   // get_user_information();
 
-  if(!isNull(window.location.search)){
+  if (!isNull(window.location.search)) {
     var id = window.location.search.split('id=')[1];
     buildActicle(id)
     setTimeout(function () {
-      if(!$('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').hasClass('active')){
-        $('#menu_body .acticle_con[act_id="'+id+'"]').parent().parent().parent().parent().find('.title').click()
+      if (!$('#menu_body .acticle_con[act_id="' + id + '"]').parent().parent().parent().parent().find('.title').hasClass('active')) {
+        $('#menu_body .acticle_con[act_id="' + id + '"]').parent().parent().parent().parent().find('.title').click()
       }
-      $('.acticle_con[act_id="'+id+'"] a').addClass('active_link');
+      $('.acticle_con[act_id="' + id + '"] a').addClass('active_link');
     }, 200)
-  }else{
+  } else {
     getRecent();
   }
 }
@@ -70,7 +70,7 @@ var onChangeDepartment = (id, text) => {
   buildeMenuCombobox("#menu_com", id);
 };
 
-// Build content loader
+// Build content loader 
 function loader() {
   $("#content_body").append(
     '<div class="ui active inverted dimmer"><div class="ui text loader">Loading</div> </div>'
@@ -89,7 +89,7 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
   if (getToken().role != 1) {
     dept_id = getToken().dept_id;
   }
-  
+
   getDepartment(dept_id, function (resp) {
 
     let departmentList = [];
@@ -320,10 +320,10 @@ function randomNotFound() {
 function buildActicle(id) {
   updateFile(id);
   loader();
-  
+
   getActicle(id, function (resp) {
-    
-    
+
+
     if (resp.data.content_body === undefined) {
       // Check article is null
       $("#content_body").empty().append(resp.data.content_body);
@@ -334,14 +334,7 @@ function buildActicle(id) {
 
       if (!isNull(resp.data.modified_date)) {
         // Check update acticle
-
-        html += `<h4 class="ui header" style="display: flex; justify-content: space-between;align-items: center"><div style="display: flex; align-items: center;">  <img class="ui circular image" src="${
-          resp.data.image
-        }" id="profile_update_image"> </i><div class="content" style="margin-left: 10px;"> ${
-          resp.data.username
-        } <div class="sub header"> Modify: ${moment(
-          resp.data.modified_date
-        ).format("DD MMM YYYY")} </div></div></div> <div><div class="ui icon top left pointing dropdown">
+        html += `<h4 class="ui header" style="display: flex; justify-content: space-between;align-items: center;"><div style="display: flex; align-items: center;">  <img class="ui circular image" src="${resp.data.image}" id="profile_update_image"> </i><div class="content" style="margin-left: 10px; font-family: monospace!important;"> ${resp.data.username} <div class="sub header" style="font-family: monospace!important;"> Modify: ${moment(resp.data.modified_date).format("DD MMM YYYY")} </div></div></div> <div><div class="ui icon top left pointing dropdown">
         <i class="share alternate icon blue"></i>
         <div class="menu">
           <div class="item copy_link" act_id="${id}">Copy link</div>
@@ -349,16 +342,7 @@ function buildActicle(id) {
       </div></div></h4> <br>`;
       } else {
         // Check create acticle
-
-        html += `<h4 class="ui header" style="display: flex; justify-content: space-between;align-items: center"><div style="display: flex; align-items: center;"><img class="ui circular image" src="${
-          resp.data.image == null
-            ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg=="
-            : resp.data.image
-        }" id="profile_crate_image"> </i><div class="content" style="margin-left: 10px;"> ${
-          resp.data.username
-        } <div class="sub header"> Create: ${moment(
-          resp.data.create_date
-        ).format("DD MMM YYYY")} </div></div></div> <div><div class="ui icon top left pointing dropdown">
+        html += `<h4 class="ui header" style="display: flex; justify-content: space-between;align-items: center;"><div style="display: flex; align-items: center;"><img class="ui circular image" src="${resp.data.image == null ? "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg==" : resp.data.image}" id="profile_crate_image"> </i><div class="content" style="margin-left: 10px; font-family: monospace!important;"> ${resp.data.username} <div class="sub header" style="font-family: monospace!important;"> Create: ${moment(resp.data.create_date).format("DD MMM YYYY")} </div></div></div> <div><div class="ui icon top left pointing dropdown">
         <i class="share alternate icon blue"></i>
         <div class="menu">
           <div class="item copy_link" act_id="${id}">Copy link</div>
@@ -367,11 +351,8 @@ function buildActicle(id) {
       }
       // Check is file have
       if (resp.data.file_nm) {
-        
-        //  file_name += `<h2 id='Name_file'>File :</h2>  <span id="file-name3" style="margin-right:30px"><a id="download-link" href="${resp.data.file_nm} link="${resp.data.file_nm}" download>${resp.data.file_nm}</a></span> <br />`;
         file_name += `<h2 id='Name_file'>File :</h2> <br />`;
         ReadFIleContetn(id) // call file contetn
-        // $(".myImage").hide();
       }
 
       // Check image if have
@@ -391,7 +372,7 @@ function buildActicle(id) {
 
 // list update file
 function updateFile(id) {
-  read_file(id, function(resp) {
+  read_file(id, function (resp) {
     var fileContentUpdate = '';
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
@@ -420,7 +401,7 @@ function getRecent(params) {
   var recentLs = window.localStorage.getItem("act_recent");
   if (!isNull(recentLs)) {
     var ls = JSON.parse(recentLs);
-    $("#content_body").append("<h3>Recents</h3>");
+    $("#content_body").append("<h3 style='font-family: Gill Sans !important;'>Recents</h3>");
     var html = "";
     ls.forEach((v) => {
       html +=
@@ -571,19 +552,14 @@ function buildUserTable() {
   userTable(function (data) {
     var tableData = "";
     data.data.forEach((i, index) => {
-      tableData += `<tr class='allUser list-item ' data="${encodeURIComponent(
-        JSON.stringify(i)
-      )}">`;
+      tableData += `<tr class='allUser list-item ' data="${encodeURIComponent(JSON.stringify(i))}">`;
       tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
 
-      tableData += `<td><img src="${i.image == null
-          ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-          : i.image
-        }"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // User profile
+      tableData += `<td><img src="${i.image == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : i.image}"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // profile
 
-      tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // user name
+      tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // name
 
-      tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>`; // user passwork
+      tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>`; // passwork
 
       if (i.role == 1) {
         // admin
@@ -602,7 +578,7 @@ function buildUserTable() {
       // } else if (i.status == 0) {
       //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
       // }
-      
+
       tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`; // department
 
       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
@@ -656,18 +632,21 @@ function buttonshare() {
 }
 
 // file content
-function ReadFIleContetn(id){
+function ReadFIleContetn(id) {
   FileContent(id, function (resp) {
     var images = '';
     var fileContet1 = '';
-    // fileContet += `<h2 id='Name_file'>File :</h2>`;
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
-        // fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"><a download href="">${v.file_nm}</a> <i class="download icon" download href="${v.img_path}"></i> </span> </p>`
         fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"> <a> ${v.file_nm} </a> <a download href="${v.img_path}" > <i class="download icon" > </i> </a> </span> </p>`
-        images += `<span> <img class="img_pathh" id="myImage" src="${v.img_path}" download> </span>`
-      });  
-    } 
+        var ext = v.file_nm.split(".")[1];
+        ext = ext.toLowerCase()
+        if (ext == 'png' || ext == 'jpg' || ext == 'jpeg' || ext == 'gif') {
+          images += `<span> <img class="img_pathh" id="myImage" src="${v.img_path}" download> </span>`
+        }
+      });
+
+    }
     $('#content_body').append(fileContet1, images);
   })
 

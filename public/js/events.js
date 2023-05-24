@@ -12,7 +12,7 @@ $(document).on("click", ".active_title ", function () {
   $(".active_title").not(this).removeClass("active_link");
 });
 $("#btn_add_contents").click(function () {
-  buldHome();
+  // buldHome();
   $(".coupled.modal").modal({
     allowMultiple: true,
     closable: false,
@@ -281,12 +281,12 @@ $("#btn_manage-user").click(function () {
 
 // Action and new user
 $("#Create-New-User").click(function () {
-  $("#New-User")
-    .modal({
-      allowMultiple: true,
-      closable: false,
-    })
-    .modal("show");
+  $("#New-User").modal({allowMultiple: true,closable: false,}).modal("show");
+  $('#username, #password').on('input', function() {
+    var value = $(this).val();
+    value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    $(this).val(value);
+  })
 });
 
 // Action login form
@@ -484,17 +484,12 @@ $(document).on("click", "#update-departmentList", function () {
 // update contetn or acticle
 var UpdateNewFile;
 $(document).on("click", "#modal-edit-sub-article", function () {
-
-  acticle_id = $(this).attr("act_id");
+  
+  acticle_id = $(this).attr("act_id"); // acticle id
   tage_id = $(this).attr("tag_id");
   vaTitle = $(this).attr("title");
   Department_ID = $(this).attr("dep_id");
   Get_User_ID = getToken().id;
-  console.log("Acticle ID :", acticle_id);
-  console.log("Tag ID :", tage_id);
-  console.log("Title :", vaTitle);
-  console.log("Department ID: ", Department_ID);
-  console.log("UserID", Get_User_ID);
 
   // show conent
   $(".coupled.modal").modal({
@@ -504,15 +499,15 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     "attach events",
     "#modal-edit-update-sub-title.modal #btn_add_title"
   );
-
-  $("#modal-edit-update-sub-title")
-    .modal({ allowMultiple: true, closable: false })
-    .modal("show");
+  
+  // content tinymce
+  $("#modal-edit-update-sub-title").modal({ allowMultiple: true, closable: false }).modal("show"); 
+  
   $(".get-article-title").val(vaTitle);
   buildDepartment("#departmentListId4, #modal_add", Department_ID);
   buildeMenuCombobox("#menu_com4", null, tage_id);
 
-  updateFile(acticle_id);
+  // updateFile(acticle_id);
   getActicle1(acticle_id, function (resp) {
     UpdateNewFile = resp.data.file_article_id;
     tinymce.remove("#editor2");
@@ -528,6 +523,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
       },
     });
   });
+  updateFile(acticle_id); // list old file
 
 });
 
@@ -546,7 +542,10 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
-      buldHome(true);
+      // buldHome(true);
+      if(isNull(file_c_update)){
+        buildActicle(acticle_id)
+      }
     }
   });
   // update file
@@ -568,6 +567,9 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
         }
         console.log("update file => ", opt);
         upload_file(opt, function (resp) {
+          if(file_c_update.length-1 == i){
+            buildActicle(acticle_id)
+          }
         });
       });
     }
@@ -581,10 +583,9 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   if (!isNull(oldFile)) { // check file
     deleteFile(req, function (resp) {
       if (resp.status) {
-        alert(resp.message);
-        buldHome(true);
+    
       } else {
-        alert(resp.message);
+      
       }
     });
   }
@@ -662,10 +663,7 @@ $(document).on("click", "#btn_doc_add_users", function () {
   var req = {
     USER_NAME: $("#username").val(),
     USER_PASSWORD: $("#password").val(),
-    USER_ROLE: $("#b2b_role1")
-      .siblings(".menu")
-      .children(".item.selected")
-      .attr("data-value"),
+    USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value"),
   };
   addB2bUser(req, function (resp) {
     if (resp.status) {
@@ -676,6 +674,8 @@ $(document).on("click", "#btn_doc_add_users", function () {
       $("#New-User").modal("hide");
       buildUserTable();
       alert("Add successfully");
+      // clear
+      $('#username, #password').val('');
     } else {
       alert("Error");
     }
@@ -687,10 +687,13 @@ var updateId;
 var updatePwd;
 var dept_id;
 $(document).on("click", ".editUser_icon", function () {
+  $('#vUserName, #vUerPassword').on('input', function() {
+    var value = $(this).val();
+    value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    $(this).val(value);
+  })
 
-  $("#modal_update_user")
-    .modal({ closable: false, allowMultiple: true })
-    .modal("show");
+  $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal("show");
 
   // dept_id = $("#user_department").dropdown("get value");
   // console.log('get user department => ', dept_id);
@@ -701,20 +704,16 @@ $(document).on("click", ".editUser_icon", function () {
   updatePwd = data.password;
   var id = $(this).attr("userRole");
   console.log("ID ^", id);
-
-  var get_current_user = {
-    V_Name: $("#vUserName").val(data.username),
-    V_Pass: $("#vUerPassword").val(data.password),
-    V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
-    V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
-    V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
-  };
-
-  dept_id = $("#user_department").dropdown("get value");
-  console.log('get user department => ', dept_id);
-  buildDepartment("#user_department", dept_id); // 
-
-  console.log("Get curent user data", get_current_user);
+    var get_current_user = {
+      V_Name: $("#vUserName").val(data.username),
+      V_Pass: $("#vUerPassword").val(data.password),
+      V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
+      V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
+      V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
+    };
+    console.log('get user department => ', dept_id);
+    buildDepartment("#user_department", data.dept_id); 
+    console.log("Get curent user data", get_current_user);
 });
 
 // click to comfirmation update user

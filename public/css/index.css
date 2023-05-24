@@ -416,7 +416,7 @@ a.title {
 }
 
 .sma {
-  color: rgb(32, 4, 70);
+  color: rgb(125, 44, 238);
   font-size: 80%;
 }
 
@@ -456,9 +456,6 @@ img {
   margin-left: 63px;
 }
 
-#information_user {
-  /* width: 306px; */
-}
 
 .sub_modified_date {
   color: gray;
@@ -525,7 +522,7 @@ h4.ui.header .sub.header {
 }
 
 #deleteFile {
-  margin-left: 85px;
+  margin-left: 20px;
 }
 
 .tox-promotion {
@@ -545,6 +542,23 @@ h4.ui.header .sub.header {
 
 .download {
   cursor: pointer;
+}
+
+#file-name3 {
+  font-size: 15px;
+  line-height: 8px
+}
+
+#Name_file {
+  font-family: Georgia !important;
+}
+
+#List-Department {
+  font-family: monospace !important;
+}
+
+#get_user_name {
+  color: #6262be;
 }
 
 /*  */
