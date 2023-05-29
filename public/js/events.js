@@ -82,11 +82,8 @@ function buildListFileUpdate() {
     html +=
       "<p id='content_file'>" + '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' + '<a href="#" class="blue" data-value="new_file">' + e.name + "</a> " +
       ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove-file-update" attr="' + e.name + '"  UpdateFileName="' + e.name + '"></i></a> <a class="ui tag label mini">New</a></p> ';
-
   });
-  //
-  $('#List_file_content_update').append(html);
-
+  $('#List_file_content_update').empty().append(html);
 }
 // select file
 var files_c;
@@ -110,11 +107,13 @@ $("#fileUpload02").on("change", function () {
       files.push(e);
     }
   });
-  file_c_update = files;
+  file_c_update = file_c_update.concat(files)
   console.log("list file update: ", files);
   buildListFileUpdate();
-  files = [] // clear
+  // files = [] // clear
+  // file_c_update = []
 });
+
 
 // remove file
 $(document).on("click", "#btn-remove", function () {
@@ -129,7 +128,15 @@ $(document).on("click", "#btn-remove", function () {
 // remove file update
 $(document).on("click", "#btn-remove-file-update", function () {
   var attr = $(this).attr("UpdateFileName");
+  // var getDataOldFile = $(this).attr('file_idnt_id');
+
+
+  // $('#listOldFile [attr="' + getDataOldFile + '"]').parent().parent().remove();
   $('#content_file [attr="' + attr + '"]').parent().parent().remove();
+  $('#List_file_content_update [attr="' + attr + '"]').parent().parent().remove();
+  files = []
+  // file_c_update = []
+
 });
 
 // click open file for update
@@ -144,7 +151,7 @@ $(document).on("click", "#editor_save", function () {
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
     var myContent = tinymce.get("editor1").getContent();
-    var file = files_c
+    // var file = files_c
 
     if (!isNull(myContent)) {
       var req = {
@@ -209,7 +216,7 @@ $(document).on("click", "#close_editor", function () {
 
 });
 
-// add new title to department 
+// new title to deparment
 $(document).on("click", "#add_newTitle", function () {
   var req = {
     TITLE: $("#titleView").val(),
@@ -281,8 +288,8 @@ $("#btn_manage-user").click(function () {
 
 // Action and new user
 $("#Create-New-User").click(function () {
-  $("#New-User").modal({allowMultiple: true,closable: false,}).modal("show");
-  $('#username, #password').on('input', function() {
+  $("#New-User").modal({ allowMultiple: true, closable: false, }).modal("show");
+  $('#username, #password').on('input', function () {
     var value = $(this).val();
     value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
     $(this).val(value);
@@ -484,7 +491,7 @@ $(document).on("click", "#update-departmentList", function () {
 // update contetn or acticle
 var UpdateNewFile;
 $(document).on("click", "#modal-edit-sub-article", function () {
-  
+
   acticle_id = $(this).attr("act_id"); // acticle id
   tage_id = $(this).attr("tag_id");
   vaTitle = $(this).attr("title");
@@ -499,13 +506,17 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     "attach events",
     "#modal-edit-update-sub-title.modal #btn_add_title"
   );
-  
+
   // content tinymce
-  $("#modal-edit-update-sub-title").modal({ allowMultiple: true, closable: false }).modal("show"); 
-  
+  $("#modal-edit-update-sub-title").modal({ allowMultiple: true, closable: false }).modal("show");
+
   $(".get-article-title").val(vaTitle);
   buildDepartment("#departmentListId4, #modal_add", Department_ID);
   buildeMenuCombobox("#menu_com4", null, tage_id);
+
+  $('#content_file').empty();
+  files = [] // clear 
+
 
   // updateFile(acticle_id);
   getActicle1(acticle_id, function (resp) {
@@ -522,8 +533,14 @@ $(document).on("click", "#modal-edit-sub-article", function () {
         inst.setContent(resp.data.content_body);
       },
     });
+    if (resp.data.file_id === null) {
+      $('#listOldFile').hide()
+    } else {
+      $('#listOldFile').show()
+    }
   });
   updateFile(acticle_id); // list old file
+
 
 });
 
@@ -543,39 +560,82 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
       // buldHome(true);
-      if(isNull(file_c_update)){
+      if (isNull(file_c_update)) {
+        buildActicle(acticle_id)
+      } else {
         buildActicle(acticle_id)
       }
     }
   });
   // update file
-  console.log("file or image for update :", file_c_update);
-  for (let i = 0; i < file_c_update.length; i++) {
-    if (!isNull(file_c_update[i])) {
-      uploadFile(file_c_update[i], $('').val(), function (resp) {
+  // console.log("file or image for update :", file_c_update);
+  // for (let i = 0; i < file_c_update.length; i++) {
+  //   if (!isNull(file_c_update[i])) {
+  //     uploadFile(file_c_update[i], $('').val(), function (resp) {
+  //       var data = JSON.parse(resp);
+  //       var get_file_name = data.data.fileName;
+  //       var get_file_url = data.data.url;
+  //       console.log('Get data url => ', get_file_url, get_file_name);
+  //       var opt = {
+  //         FILE_ARTICLE_IDS: UpdateNewFile,
+  //         FILE_IDNT: file_c_update[i].lastModified + Date.now(),
+  //         FILE_NM: get_file_name,
+  //         FILE_SIZE: file_c_update[i].size,
+  //         IMG_PATH: get_file_url,
+  //         THUM_IMG_PATH: get_file_url
+  //       }
+  //       console.log("update file => ", opt);
+  //       upload_file(opt, function (resp) {
+
+  //         if (file_c_update.length - 1 == i) {
+  //           buildActicle(acticle_id);
+  //         } else {
+
+  //         }
+  //         if (i == file_c_update.length - 1) {
+  //           file_c_update = [];
+  //         }
+  //       });
+  //     });
+
+  //   }
+
+  // }
+
+  // test update file
+  console.log("file or image for update :", files);
+  for (let i = 0; i < files.length; i++) {
+    if (!isNull(files[i])) {
+      uploadFile(files[i], $('').val(), function (resp) {
         var data = JSON.parse(resp);
         var get_file_name = data.data.fileName;
         var get_file_url = data.data.url;
         console.log('Get data url => ', get_file_url, get_file_name);
         var opt = {
           FILE_ARTICLE_IDS: UpdateNewFile,
-          FILE_IDNT: file_c_update[i].lastModified + Date.now(),
+          FILE_IDNT: files[i].lastModified + Date.now(),
           FILE_NM: get_file_name,
-          FILE_SIZE: file_c_update[i].size,
+          FILE_SIZE: files[i].size,
           IMG_PATH: get_file_url,
           THUM_IMG_PATH: get_file_url
         }
         console.log("update file => ", opt);
         upload_file(opt, function (resp) {
-          if(file_c_update.length-1 == i){
-            buildActicle(acticle_id)
+          buildActicle(acticle_id);
+          if (files.length - 1 == i) {
+            // buildActicle(acticle_id);
+          } else {
+
+          }
+          if (i == files.length - 1) {
+            files = [];
           }
         });
       });
     }
   }
-  
-  // delete file
+
+  // delete old file
   var req = {
     ID: oldFile,
   };
@@ -583,9 +643,8 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   if (!isNull(oldFile)) { // check file
     deleteFile(req, function (resp) {
       if (resp.status) {
-    
       } else {
-      
+        // file_idnt_ids = []
       }
     });
   }
@@ -682,12 +741,12 @@ $(document).on("click", "#btn_doc_add_users", function () {
   });
 });
 
-// UPDATE USER
+// update user
 var updateId;
 var updatePwd;
 var dept_id;
 $(document).on("click", ".editUser_icon", function () {
-  $('#vUserName, #vUerPassword').on('input', function() {
+  $('#vUserName, #vUerPassword').on('input', function () {
     var value = $(this).val();
     value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
     $(this).val(value);
@@ -704,19 +763,19 @@ $(document).on("click", ".editUser_icon", function () {
   updatePwd = data.password;
   var id = $(this).attr("userRole");
   console.log("ID ^", id);
-    var get_current_user = {
-      V_Name: $("#vUserName").val(data.username),
-      V_Pass: $("#vUerPassword").val(data.password),
-      V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
-      V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
-      V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
-    };
-    console.log('get user department => ', dept_id);
-    buildDepartment("#user_department", data.dept_id); 
-    console.log("Get curent user data", get_current_user);
+  var get_current_user = {
+    V_Name: $("#vUserName").val(data.username),
+    V_Pass: $("#vUerPassword").val(data.password),
+    V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
+    V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
+    V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
+  };
+  console.log('get user department => ', dept_id);
+  buildDepartment("#user_department", data.dept_id);
+  console.log("Get curent user data", get_current_user);
 });
 
-// click to comfirmation update user
+// comfirmation update user
 $(document).on("click", "#btn_doc_update_users_icon", function () {
   //updateId    // staic
   var req = {
@@ -1001,16 +1060,13 @@ var file_opt;
 var oldFile
 var file_idnt_ids = []
 $(document).on("click", "#deleteFile", function () {
-  // Multiple delete catch:file_idnt_id use array,push, join and extract to what us want.
   var file_idnt_id = $(this).attr("file_idnt_id");
   file_idnt_ids.push(file_idnt_id);
   file_idnt_ids.join("','") + "'";
   oldFile = "'" + file_idnt_ids.join("','") + "'";
   console.log("delete old file => ", oldFile);
-
-  // Remove file by used parent and like beleve
-  console.log("old file => ", file_idnt_id);
-  $('#List_file_content_update [file_idnt_id="' + file_idnt_id + '"]').parent().parent().remove();
+  console.log("old file => ", file_idnt_id); // Remove file by used parent and like beleve
+  $('#listOldFile [file_idnt_id="' + file_idnt_id + '"]').parent().parent().remove(); // remove old file
 });
 
 
@@ -1036,5 +1092,6 @@ $(document).on('click', '.copy_link', function () {
 })
 
 $(document).on('click', '#btn-cancel-update-article', function () {
-  $('#List_file_content_update .rm-file').empty();
+  file_c_update = []
+  $('#List_file_content_update, #content_file').empty();
 });

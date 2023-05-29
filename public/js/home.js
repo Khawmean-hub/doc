@@ -370,14 +370,14 @@ function buildActicle(id) {
   });
 }
 
-// list update file
+// list old file
 function updateFile(id) {
   read_file(id, function (resp) {
     var fileContentUpdate = '';
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         fileContentUpdate += `<p class="rm-file"> <i class="paperclip icon grey" style="margin-right: 15px;"></i><a class='blue'> ${v.file_nm} </a><a href="#"> <i class="trash grey alternate outline icon con-size" value=""  fname="' + e.name + + '" id="deleteFile" file_idnt_id="${v.file_idnt_id}" data-value="old_file"> </i> </a> </P>`
-        $("#List_file_content_update").empty().append(fileContentUpdate);
+        $("#listOldFile").empty().append(fileContentUpdate);
       })
     }
   })
@@ -638,7 +638,7 @@ function ReadFIleContetn(id) {
     var fileContet1 = '';
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
-        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px"> <a> ${v.file_nm} </a> <a download href="${v.img_path}" > <i class="download icon" > </i> </a> </span> </p>`
+        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.img_path}" > <i class="download icon" > </i> </a> </span> </p>`
         var ext = v.file_nm.split(".")[1];
         ext = ext.toLowerCase()
         if (ext == 'png' || ext == 'jpg' || ext == 'jpeg' || ext == 'gif') {

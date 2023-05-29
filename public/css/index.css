@@ -507,6 +507,7 @@ h4.ui.header .sub.header {
 
 #content_file {
   margin: 0px;
+  margin-top: 10px;
 }
 
 #btn-remove {
@@ -544,9 +545,11 @@ h4.ui.header .sub.header {
   cursor: pointer;
 }
 
-#file-name3 {
+#file-name3 a{
   font-size: 15px;
-  line-height: 8px
+  line-height: 8px;
+  color: #353f2b !important;
+  
 }
 
 #Name_file {

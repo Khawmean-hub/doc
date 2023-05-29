@@ -11,7 +11,7 @@ const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_dev'); /
 
 // const db = pgp('postgresql://postgres:pg12!@@192.168.178.81:5432/b2bdoc_real');   // Ubutu server DB for real
 
-//const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');     
+//const db = pgp('postgresql://postgres:pg12!@@localhost:5432/b2bdoc_dev');      
 
 
 

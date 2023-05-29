@@ -1,7 +1,7 @@
 const e = require("express");
 var express = require("express");
 const auth = require("../config/auth");
-const db = require("../config/db");
+const db = require("../config/db"); // link form folder config/db.js
 const Paging = require("../utils/Paging");
 var homeRoute = express.Router();
 const BaseRes = require("../utils/Response");
@@ -731,25 +731,11 @@ homeRoute.get(
 );
 
 homeRoute.get(
-  "/dashboard_list_app_r001",
-  auth.permitAll,
-  async (req, res, next) => {
-    // http://localhost:3000/dashboard_list_app_r001
-    var dashboard = await db.any(`select 
-
-    app .app_id
-  , app.app_name
-  , app.redmine_id
-  , app.descriptionL
-  , string_agg(sub.subapp_name, ',') as subapp_name
-  , string_agg(sub.link_url, ',') as link_url
-  , Max(uv.uploadeddate) as uploadeddate
-
-from tbl_app app
-
-left join tbl_subapp sub on app.app_id = sub.app_id 
-left join tbl_uploadversion uv on app.app_id = uv.app_id 
-group by app.app_id, app.app_name,app.redmine_id, app.description`);
+  "/dashboard_list_app_r001", async (req, res, next) => {// http://localhost:3000/dashboard_list_app_r001
+    var dashboard = await db.any(`select app .app_id, app.app_name, app.redmine_id, app.descriptionL, string_agg(sub.subapp_name, ',') as subapp_name, string_agg(sub.link_url, ',') as link_url, Max(uv.uploadeddate) as uploadeddate from tbl_app app
+    left join tbl_subapp sub on app.app_id = sub.app_id 
+    left join tbl_uploadversion uv on app.app_id = uv.app_id 
+    group by app.app_id, app.app_name,app.redmine_id, app.description`);
     if (dashboard == null) {
       return res.send(new BaseRes(false, "ERROR", null));
     } else {
