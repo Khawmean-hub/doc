@@ -714,11 +714,7 @@ homeRoute.post("/doc_answer_c01", auth.adminAndUser, async (req, res, next) => {
   }
 });
 
-homeRoute.get(
-  "/doc_answer_amount_r01",
-  auth.permitAll,
-  async (req, res, next) => {
-    // http://localhost:3000/doc_answer_amount_r01
+homeRoute.get("/doc_answer_amount_r01", auth.permitAll, async (req, res, next) => { // http://localhost:4545/doc_answer_amount_r01
     var answer = await db.any(
       `select count(answer_content) as answer_count from doc_answer where question_id = '${req.body.QUESTION_ID}'`
     );
@@ -730,18 +726,30 @@ homeRoute.get(
   }
 );
 
-homeRoute.get(
-  "/dashboard_list_app_r001", async (req, res, next) => {// http://localhost:3000/dashboard_list_app_r001
-    var dashboard = await db.any(`select app .app_id, app.app_name, app.redmine_id, app.descriptionL, string_agg(sub.subapp_name, ',') as subapp_name, string_agg(sub.link_url, ',') as link_url, Max(uv.uploadeddate) as uploadeddate from tbl_app app
+// dashboard 
+// homeRoute.post("/dashboard_list_app_r001", async (req, res, next) => {// http://localhost:3000/dashboard_list_app_r001
+//     var dashboard = await db.any(`select app .app_id, app.app_name, app.redmine_id, app.description, string_agg(sub.subapp_name, ',') as subapp_name, string_agg(sub.link_url, ',') as link_url, Max(uv.uploadeddate) as uploadeddate from tbl_app app
+//     left join tbl_subapp sub on app.app_id = sub.app_id 
+//     left join tbl_uploadversion uv on app.app_id = uv.app_id 
+//     group by app.app_id, app.app_name,app.redmine_id, app.description`);
+//     if (dashboard == null) {
+//       return res.send(new BaseRes(false, "ERROR", null));
+//     } else {
+//       return res.send(new BaseRes(true, "Success", { DASHBOARD: dashboard }));
+//     }
+//   } 
+// );
+homeRoute.post("/dashboard_list_app_r001", async (req, res, next) => {// http://localhost:3000/dashboard_list_app_r001
+  var dashboard = await db.any(`select app .app_id, app.app_name, app.redmine_id, app.description, string_agg(sub.subapp_name, ',') as subapp_name, string_agg(sub.link_url, ',') as link_url, Max(uv.uploadeddate) as uploadeddate from tbl_app app
     left join tbl_subapp sub on app.app_id = sub.app_id 
     left join tbl_uploadversion uv on app.app_id = uv.app_id 
     group by app.app_id, app.app_name,app.redmine_id, app.description`);
-    if (dashboard == null) {
-      return res.send(new BaseRes(false, "ERROR", null));
-    } else {
-      return res.send(new BaseRes(true, "Success", { DASHBOARD: dashboard }));
-    }
+  if (dashboard == null) {
+    return res.send(new BaseRes(false, "ERROR", null));
+  } else {
+    return res.send(new BaseRes(true, "Success", { DASHBOARD: dashboard }));
   }
+} 
 );
 
 // Insert article

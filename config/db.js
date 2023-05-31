@@ -23,4 +23,4 @@ db.one('SELECT $1 AS value', 123)
     console.log('ERROR:', error)
   })
 
-module.exports = db;  
+module.exports = db;    

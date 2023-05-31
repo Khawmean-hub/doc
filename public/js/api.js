@@ -423,3 +423,17 @@ function FileContent(id, callBack) {
   requestApi(setting, callBack);
 }
 
+// Dashboard
+function dashboard(id, callBack) {
+  var setting = {
+    url: baseUrl + "/dashboard_list_app_r001",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: JSON.stringify({ ID: id })
+  }
+  requestApi(setting, callBack);
+}
+

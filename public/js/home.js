@@ -312,7 +312,7 @@ function deleteDocument(id) {
 
 function randomNotFound() {
   $("#content_body").append(
-    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/not_found.png" alt="not found "></div> </div>'
+    '<div class="ui active inverted dimmer"><div class="ui text"><img class="ui medium image" src="image/noresults_bvatnd.png" alt="not found "></div> </div>'
   );
 }
 
@@ -320,15 +320,16 @@ function randomNotFound() {
 function buildActicle(id) {
   updateFile(id);
   loader();
+  
 
   getActicle(id, function (resp) {
-
 
     if (resp.data.content_body === undefined) {
       // Check article is null
       $("#content_body").empty().append(resp.data.content_body);
       randomNotFound();
     } else {
+
       var html = "";
       var file_name = "";
 
@@ -355,14 +356,15 @@ function buildActicle(id) {
         ReadFIleContetn(id) // call file contetn
       }
 
-      // Check image if have
-      if (resp.data.img_path === null) {
-        // ReadImage(id) // call read image
-        // file_name += `<img class="img_pathh" id="myImage" src="${resp.data.thum_img_path}" download>`;
-        // file_name += `<br />`
+      // Check dachboard
+      if (resp.data.id == 251) {
+        ReadDashboard(id);
       }
+      else {
 
+      }
       html += resp.data.content_body; // content
+      // $("#content_body").empty().append(html, file_name); // Test
       $("#content_body").empty().append(html, file_name);
       $('.ui.icon.top.left.pointing.dropdown').dropdown();
       hidelightCode(); // Call function hidelight code
@@ -651,3 +653,62 @@ function ReadFIleContetn(id) {
   })
 
 }
+
+//
+function ReadDashboard(id) {
+  dashboard(id, function(resp) {
+    var variable = "";
+    if(!isNull(resp) && resp.status) {
+      
+      variable += `<table class="ui fixed single line celled table">`
+      variable += `<thead style="text-align: center;">`
+      variable += `<tr> <th colspan='2'  rowspan='2' style='width:30%'>Name</th> <th style='width:15%'>Last update</th> <th>Description</th> <th>Option</th> </tr>`
+
+      variable += `<tbody>`
+
+      resp.data.DASHBOARD.forEach((v) => {
+        variable += `<tr style="text-align: center;">`
+
+        variable += `<td><img class="ui tiny image" src="/images/wireframe/image.png"></td>`
+        variable += `<td style="color: blue; cursor: pointer" class='app_detail'><a href='javascript:' data-id='${v.redmine_id}' id='${v.app_id}'>${v.app_name}</a></td>`
+        
+
+        variable += `<td>${v.uploadeddate.substring(0, 10)}</td>`
+
+        variable += `<td>${v.description}</td>`
+
+        variable += `<td>`
+        if (v.subapp_name != null && v.subapp_name !="") {
+          var arrSubApp = v.subapp_name.split(',');
+          $.each(arrSubApp, function(i,e){
+            variable += `<a href='${v.link_url}'>${e}</a>`
+          })
+          
+        }
+        variable += `</td>`
+
+        // variable += `<td><a style="color: blue; cursor: pointer">${v.subapp_name}</a></td>`
+          
+  
+        variable += `</tr>`
+      })
+
+     
+      variable += `</tbody>` 
+
+      variable += `</thead>`
+      variable += ` </table>`
+
+      
+    }
+    $('#content_body').append(variable);
+  }) 
+}
+
+// Show detail app
+$(document).on('click','.app_detail', function() {
+  alert('app_detail');
+   
+
+  
+})

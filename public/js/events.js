@@ -189,7 +189,7 @@ $(document).on("click", "#editor_save", function () {
           console.log('Get data url => ', get_file_url, get_file_name);
           var opt = {
             FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
-            FILE_IDNT: files_c[i].lastModified + Date.now(),
+            FILE_IDNT: files_c[i].lastModified + Date.now(),  
             FILE_NM: get_file_name,
             FILE_SIZE: files_c[i].size,
             IMG_PATH: get_file_url,
@@ -486,10 +486,10 @@ $(document).on("click", "#update-departmentList", function () {
     $("#update-departmentList").removeClass("loading");
     $(".tage_editT").modal("hide");
   }, 1500);
-});
-
+}); 
+ 
 // update contetn or acticle
-var UpdateNewFile;
+var UpdateNewFile; 
 $(document).on("click", "#modal-edit-sub-article", function () {
 
   acticle_id = $(this).attr("act_id"); // acticle id
@@ -1095,3 +1095,5 @@ $(document).on('click', '#btn-cancel-update-article', function () {
   file_c_update = []
   $('#List_file_content_update, #content_file').empty();
 });
+
+

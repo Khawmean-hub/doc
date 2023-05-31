@@ -7,6 +7,13 @@
 	root/b2broot
 - Postgresql
 	postgres/pg12!@
+- Restart
+	- pm2 stop
+	- pm2 start
+	- pm2 0 = dev
+	- pm2 1 = real
+	- pm2 app = dev + real
+	- pm2 status = មើល​ status app 
 
 Database dev
 Host: 192.168.178.81
