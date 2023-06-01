@@ -79,8 +79,8 @@
       <div class="image content table-scroll" style="background-color: #e2e2e263;">
         <table class="ui table" id="">
           <thead>
-            <tr class="tb-head" >
-              <th >No</th>
+            <tr class="tb-head">
+              <th>No</th>
               <th>Profile</th>
               <th>Username</th>
               <th>Password</th>
@@ -111,7 +111,8 @@
         <form class="ui form" style="align-content: center;">
           <div class="field">
             <label>UserName</label>
-            <input type="text" name="name" placeholder="UserName" id="username" class="vUserName" style="font-family: monospace!important;">
+            <input type="text" name="name" placeholder="UserName" id="username" class="vUserName"
+              style="font-family: monospace!important;">
           </div>
           <div class="field">
             <label>Password</label>
@@ -128,6 +129,13 @@
             <label>Role</label>
             <input type="text" name="role" placeholder="Role" id="role">
           </div> -->
+          <div class="field">
+            <label>Department</label>
+            <div class="ui selection dropdown loading" id="new_user_dep">
+              <div class="text"></div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div>
           <div class="field">
             <label>Role</label>
             <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
@@ -246,7 +254,9 @@
           </div>
         </div>
 
-        <a id="manage-department" class="item add"><i class="sun outline icon"></i></a>
+        <!-- <a id="manage-department" class="item add"> new department <i class="sun outline icon"></i></a> -->
+        <a id="manage-department" class="item add"> <div class="ui label"></i> new department</div></i></a>
+        
 
         <!-- Button add content -->
         <a class="item add" id="btn_add_contents">
@@ -805,7 +815,7 @@
       </table>
     </div>
     <div class="actions">
-      <div class="ui tiny button btn_cl deny ">Cancel</div>
+      <div class="ui tiny button btn_cl deny ">Ok</div>
     </div>
   </div>
 
@@ -844,12 +854,15 @@
           </div>
           <!-- <center> -->
           <div>
-            <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name" style="font-family: Georgia, 'Times New Roman', Times, serif !important;">
+            <h2 class="user_name" name="name_user" data-value="user_name" placeholder="UserName" id="get_user_name"
+              style="font-family: Georgia, 'Times New Roman', Times, serif !important;">
             </h2>
           </div>
           <!-- </center> -->
           <!-- <center> -->
-          <p class="edit_profile_user" href="#" style="text-align: center; font-family: Georgia, 'Times New Roman', Times, serif !important;" > Edit profile </p>
+          <p class="edit_profile_user" href="#"
+            style="text-align: center; font-family: Georgia, 'Times New Roman', Times, serif !important;"> Edit profile
+          </p>
           <div class="actions" style="margin-top: 43px;">
             <input type="file" for="fileuploads" class="" id="fileuploads_image" style="display: none;">
             <button class="ui button cancel medium" id="">Cancel</button>

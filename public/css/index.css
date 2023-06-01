@@ -564,4 +564,8 @@ h4.ui.header .sub.header {
   color: #6262be;
 }
 
+.ui.tiny.image {
+  margin-left: 21px;
+}
+
 /*  */

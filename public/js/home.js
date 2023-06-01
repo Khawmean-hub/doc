@@ -69,6 +69,10 @@ function buldHome() {
 var onChangeDepartment = (id, text) => {
   buildeMenuCombobox("#menu_com", id);
 };
+// test
+var onChangeDepartment = (id, text) => {
+  buildeMenuCombobox("#menu_com4", id);
+};
 
 // Build content loader 
 function loader() {
@@ -135,6 +139,14 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
 
     if (id.includes("user_department")) {
       $("#user_department").dropdown(
+        "setting",
+        "onChange",
+        onChangeDepartment
+      );
+    }
+
+    if (id.includes("new_user_dep")) {
+      $("#new_user_dep").dropdown(
         "setting",
         "onChange",
         onChangeDepartment
@@ -669,7 +681,7 @@ function ReadDashboard(id) {
       resp.data.DASHBOARD.forEach((v) => {
         variable += `<tr style="text-align: center;">`
 
-        variable += `<td><img class="ui tiny image" src="/images/wireframe/image.png"></td>`
+        variable += `<td style="text-align: center;"><img class="ui tiny circular image" onerror="myErrorImage(this)" src=""></td>`
         variable += `<td style="color: blue; cursor: pointer" class='app_detail'><a href='javascript:' data-id='${v.redmine_id}' id='${v.app_id}'>${v.app_name}</a></td>`
         
 
@@ -712,3 +724,9 @@ $(document).on('click','.app_detail', function() {
 
   
 })
+
+
+function myErrorImage(image) {
+  image.src = 'image/not_found.png';
+  return true;
+}

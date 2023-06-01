@@ -7,12 +7,17 @@ var Delete_Sub_article;
 var Delete_main_article;
 var files = [];
 var file_for_up = [];
+var dep_for_add_user;
+
 $(document).on("click", ".active_title ", function () {
   $(this).addClass("active_link");
   $(".active_title").not(this).removeClass("active_link");
 });
+
 $("#btn_add_contents").click(function () {
-  // buldHome();
+  
+  
+  
   $(".coupled.modal").modal({
     allowMultiple: true,
     closable: false,
@@ -23,8 +28,19 @@ $("#btn_add_contents").click(function () {
   );
 
   $("#modal_add_contents").modal().modal({ closable: false }).modal("show");
+  
+  buildeMenuCobobox();
+
   var dept_id = $("#departmentListId").dropdown("get value");
-  buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
+  // buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
+  buildDepartment("#departmentListId2, #modal_add", dept_id); // Test
+  
+  console.log('Department select :', dept_id)
+
+
+  // var dept_id = $("#departmentListId").dropdown("get value");
+  // buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
+  // console.log('Department select', dept_id)
 
   tinymce.init({
     selector: "#editor1",
@@ -50,7 +66,7 @@ $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
 
-// build file on browser
+// Build file on browser
 function buildList() {
   var html = "";
   var imgs = "";
@@ -289,11 +305,29 @@ $("#btn_manage-user").click(function () {
 // Action and new user
 $("#Create-New-User").click(function () {
   $("#New-User").modal({ allowMultiple: true, closable: false, }).modal("show");
-  $('#username, #password').on('input', function () {
+
+  dep_for_add_user = $('#departmentListId').dropdown('get value');
+  buildDepartment('#new_user_dep', dep_for_add_user);
+  console.log('Get department', dep_for_add_user);
+  
+  
+  $('#username').on('input', function () {
+    // var value = $(this).val();
+    // value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    // $(this).val(value);
     var value = $(this).val();
-    value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-    $(this).val(value);
+    var regex = /^[a-zA-Z\s\u1780-\u17FF]+$/gi; // u1780-u17FF range represents Khmer characters
+    if (!regex.test(value)) {
+      $(this).val(value.replace(/[^a-zA-Z\s\u1780-\u17FF]/gi, ''));
+    }
   })
+
+});
+// Select department for add user
+var select_user_new_dep;
+$(document).on('click', '#new_user_dep .item', function() {
+  select_user_new_dep = $(this).attr('data-value');
+  console.log('yuth', select_user_new_dep);
 });
 
 // Action login form
@@ -348,6 +382,21 @@ $(document).on("click", "#departmentListId2 .item", function () {
   buildeMenuCombobox((id = "#menu_com"), dep2);
   console.log("dep2:", dep2);
 });
+
+// Test
+$(document).on("click", "#departmentListId4 .item", function () {
+  var dep2 = $(this).attr("data-value");
+  console.log('yuth :', dep2)
+  buildeMenuCobobox((id = "#menu_com4"), dep2);
+  buildMenu(true);
+});
+$(document).on("click", "#departmentListId4 .item", function () {
+  console.log($(this).attr("data-value"));
+  var dep2 = $(this).attr("data-value");
+  buildeMenuCombobox((id = "#menu_com4"), dep2);
+  console.log("dep2:", dep2);
+});
+// End test
 
 $(document).on("click", "#departmentListId3 .item", function () {
   console.log($(this).attr("data-value"));
@@ -423,6 +472,7 @@ $("#btn_login").click(function () {
         get_user_image();
         buldHome();
         // $(".edit_tag").show();
+        localStorage.removeItem('act_recent');
       } else {
         $("#msg_alert p").text(resp.message);
         $("#msg_alert").show();
@@ -491,11 +541,19 @@ $(document).on("click", "#update-departmentList", function () {
 // update contetn or acticle
 var UpdateNewFile; 
 $(document).on("click", "#modal-edit-sub-article", function () {
+  
 
+  
+  
   acticle_id = $(this).attr("act_id"); // acticle id
+  
   tage_id = $(this).attr("tag_id");
+  console.log('yuth ::::', acticle_id)
+  
   vaTitle = $(this).attr("title");
+  
   Department_ID = $(this).attr("dep_id");
+  console.log('dep_id :' , Department_ID)
   Get_User_ID = getToken().id;
 
   // show conent
@@ -510,9 +568,23 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   // content tinymce
   $("#modal-edit-update-sub-title").modal({ allowMultiple: true, closable: false }).modal("show");
 
+  // $('#departmentListId4 .item').parent().parent().parent().parent().parent().parent().parent().click()
+  
+
+  // $(".get-article-title").val(vaTitle);
+  // buildDepartment("#departmentListId4, #modal_add", Department_ID);
+  // buildeMenuCombobox("#menu_com4", null, tage_id);
+
+  // Test
   $(".get-article-title").val(vaTitle);
+  // buildeMenuCombobox("#menu_com4", null, tage_id)
   buildDepartment("#departmentListId4, #modal_add", Department_ID);
-  buildeMenuCombobox("#menu_com4", null, tage_id);
+  buildeMenuCombobox("#menu_com4", null, Department_ID);
+  buildDepartment(Department_ID)
+  // $('.ui.dropdown .menu .selected.item').click()
+
+  // buildeMenuCobobox(Department_ID); // Test
+  // buldHome()
 
   $('#content_file').empty();
   files = [] // clear 
@@ -718,12 +790,17 @@ $(document).on("click", "#comfim-delete-user", function () {
 
 // add user
 $(document).on("click", "#btn_doc_add_users", function () {
+
   $(this).addClass("loading");
   var req = {
     USER_NAME: $("#username").val(),
     USER_PASSWORD: $("#password").val(),
     USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value"),
+    USER_DEP: select_user_new_dep // test
   };
+
+
+  console.log('Add new user data', req)
   addB2bUser(req, function (resp) {
     if (resp.status) {
       setTimeout(function () {
@@ -746,10 +823,15 @@ var updateId;
 var updatePwd;
 var dept_id;
 $(document).on("click", ".editUser_icon", function () {
-  $('#vUserName, #vUerPassword').on('input', function () {
+  $('#vUserName').on('input', function () {
+    // var value = $(this).val();
+    // value = value.replace(/[^a-zA-Z0-9]/, '').toLowerCase();
+    // $(this).val(value);
     var value = $(this).val();
-    value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-    $(this).val(value);
+    var regex = /^[a-zA-Z\s\u1780-\u17FF]+$/gi; // u1780-u17FF range represents Khmer characters
+    if (!regex.test(value)) {
+      $(this).val(value.replace(/[^a-zA-Z\s\u1780-\u17FF]/gi, ''));
+    }
   })
 
   $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal("show");

@@ -111,7 +111,7 @@ homeRoute.post("/doc_department_r001", async (req, res, next) => {
   else return res.send(new BaseRes(false, "Error", null));
 });
 
-// Route get department menu All
+// Get add menu ex: Javascript Gradle
 homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
   var dynamic = "";
   if (!isNull(req.body.DEPT_ID)) {
@@ -132,6 +132,7 @@ homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { ARTICLES: acticle, TAGS: tags }));
   }
 });
+
 
 // Doc article
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {
@@ -217,8 +218,7 @@ homeRoute.post("/doc_menu_r02", async (req, res, next) => {
   }
 });
 
-homeRoute.post("/doc_tags_r02", auth.permitAll, async (req, res, next) => {
-  //http://localhost:3000/doc_tags_r02
+homeRoute.post("/doc_tags_r02", async (req, res, next) => { //http://localhost:3000/doc_tags_r02
   var tags = await db.any(
     `select t.id,t.title,t.modified_date,t.user_id,u.username from doc_tags t left join doc_users u on t.user_id = u.id where t.status = 2;`
   );
@@ -228,6 +228,7 @@ homeRoute.post("/doc_tags_r02", auth.permitAll, async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { TAGS: tags }));
   }
 });
+
 
 homeRoute.post("/api_0001_c001", auth.permitAll, async (req, res, next) => {
   //http://localhost:3000/api_0001_c001
@@ -883,7 +884,7 @@ homeRoute.delete("/delete_users/:id", async (req, res) => {
 homeRoute.post("/add_users", async (req, res) => {
   console.log("API route add is working");
   var addUser = db.result(
-    `INSERT INTO doc_users (username, "password", status, "role") VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, ${req.body.USER_ROLE})`
+    `INSERT INTO doc_users (username, "password", status, "role", dept_id) VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, ${req.body.USER_ROLE}, ${req.body.USER_DEP})`
   );
   if (addUser.rowCount < 1) {
     return res.send(new BaseRes(false, "ERROR", null));
