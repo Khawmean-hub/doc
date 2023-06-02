@@ -96,16 +96,13 @@ homeRoute.post("/doc_department_u001", async (req, res, next) => {
 //   else return res.send(new BaseRes(false, "Error", null));
 // });
 
-// get department by user dep_id
+// Get department by user ID
 homeRoute.post("/doc_department_r001", async (req, res, next) => {
-  console.log(">>>> ", req.body)
   var dept_id = '';
   if (!isNull(req.body.DEPT_ID)) {
     dept_id = 'where dep_id=' + req.body.DEPT_ID;
   }
-  var data = await db.any(
-    `select dep_id, dep_name from doc_department ${dept_id}`
-  );
+  var data = await db.any(`select dep_id, dep_name from doc_department ${dept_id}`);
   console.log(data);
   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
   else return res.send(new BaseRes(false, "Error", null));
@@ -117,14 +114,10 @@ homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
   if (!isNull(req.body.DEPT_ID)) {
     dynamic = "and dep_id='" + req.body.DEPT_ID + "' ";
   }
-
-  var acticle = await db.any(`SELECT a.id, a.tag_id, a.title
-    FROM doc_articles a right join doc_tags t on a.tag_id = t.id  where a.status=1 and t.status = 1 
-    order by a.title;`);
-
-  var tags = await db.any(
-    `SELECT id, title, dep_id  FROM doc_tags where status=1 ${dynamic}  ORDER BY title`
-  );
+  // Acticle
+  var acticle = await db.any(`SELECT a.id, a.tag_id, a.title FROM doc_articles a right join doc_tags t on a.tag_id = t.id  where a.status=1 and t.status = 1 order by a.title;`);
+  // Tags 
+  var tags = await db.any(`SELECT id, title, dep_id  FROM doc_tags where status=1 ${dynamic}  ORDER BY title`);
 
   if (acticle == null || tags == null) {
     return res.send(new BaseRes(false, "Error", null));
@@ -132,7 +125,6 @@ homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
     res.send(new BaseRes(true, "Success", { ARTICLES: acticle, TAGS: tags }));
   }
 });
-
 
 // Doc article
 homeRoute.post("/doc_article_r01", auth.permitAll, async (req, res, next) => {

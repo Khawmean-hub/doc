@@ -208,10 +208,10 @@ ul {
   width: 348px;
 }
 
-.icon-size {
+/* .icon-size {
   font-size: x-small !important;
   color: rgb(20, 21, 22);
-}
+} */
 
 a.title {
   padding: 1px 1px !important;
@@ -512,6 +512,7 @@ h4.ui.header .sub.header {
 
 #btn-remove {
   margin-left: 5px;
+  color: red !important;
 }
 
 .img_pathh {
@@ -524,6 +525,7 @@ h4.ui.header .sub.header {
 
 #deleteFile {
   margin-left: 20px;
+  color: red !important;
 }
 
 .tox-promotion {
@@ -568,4 +570,12 @@ h4.ui.header .sub.header {
   margin-left: 21px;
 }
 
+#btn-remove-file-update {
+  color: red !important;
+}
+
+#icon_add_content {
+  /* font-size: x-small !important; */
+  color: #21ba45 !important;
+}
 /*  */

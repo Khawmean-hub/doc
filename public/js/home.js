@@ -321,6 +321,31 @@ function buildeMenuCobobox(id = "#menu_com") {
 function deleteDocument(id) {
   buildMenu();
 }
+// Test
+function buildeMenuCoboboxs(id = "#menu_com4") {
+  getMenu($("#departmentListId").dropdown("get value"), function (resp) {
+    let departmentList = [];
+    if (!isNull(resp) && resp.status) {
+      resp.data.TAGS.forEach((e, i) => {
+        var obj = {
+          name: e.title,
+          value: e.id,
+          selected: i == 0 ? true : false,
+        };
+
+        departmentList.push(obj);
+      });
+    }
+
+    $(id).dropdown({
+      values: departmentList,
+      setting: { onChange: onChangeDepartment },
+      showOnFocus: false,
+    });
+    $(id).removeClass("loading");
+  });
+}
+// End test
 
 function randomNotFound() {
   $("#content_body").append(
@@ -518,10 +543,14 @@ function buildMenu(isFalse, dept_id) {
             html += `     <li> <a href="javascript:" class="${va.id} h_st">`;
             if (getToken().role == 1) {
               //  Icon update, delete sub articel
+              // Test
+              html += `    <i class="plus circle icon" id="icon_add_content"></i>`
               html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
               html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`;
             } else if (getToken().role == 0) {
+              html += `    <i class="plus circle icon" id="icon_add_content"></i>`
               html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
+              
             }
 
             html += `    </a>`;
@@ -650,9 +679,17 @@ function ReadFIleContetn(id) {
   FileContent(id, function (resp) {
     var images = '';
     var fileContet1 = '';
+    var link;
+    var src;
+    
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
-        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.img_path}" > <i class="download icon" > </i> </a> </span> </p>`
+        link = `_WE_DRIVER.download('${v.file_idnt_id}')`
+
+        // Old
+        // fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.img_path}"  onclick="_WE_DRIVER.download('${v.file_idnt_id}')"> <i class="download icon" > </i> </a> </span> </p>`
+        // New test
+        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.file_idnt_id}" onclick="${link}"> <i class="download icon" > </i> </a> </span> </p>`
         var ext = v.file_nm.split(".")[1];
         ext = ext.toLowerCase()
         if (ext == 'png' || ext == 'jpg' || ext == 'jpeg' || ext == 'gif') {

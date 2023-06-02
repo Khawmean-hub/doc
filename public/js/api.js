@@ -323,6 +323,21 @@ function updateUser(id, req, callBack) {
 }
 
 // Upload single file
+// function uploadFile(file, path, callBack) {
+//   let formData = new FormData();
+//   formData.append("file", file, path);
+
+//   var settings = {
+//     url: baseUrl + "/upload",
+//     method: "POST",
+//     processData: false,
+//     contentType: false,
+//     mimeType: "multipart/form-data",
+//     data: formData,
+//   };
+//   requestApi(settings, callBack);
+// }
+// Test
 function uploadFile(file, path, callBack) {
   let formData = new FormData();
   formData.append("file", file, path);
@@ -330,13 +345,19 @@ function uploadFile(file, path, callBack) {
   var settings = {
     url: baseUrl + "/upload",
     method: "POST",
+    headers: {
+      Authorization: "Bearer " + getToken().token,
+    },
     processData: false,
     contentType: false,
-    mimeType: "multipart/form-data",
     data: formData,
+    mimeType: "multipart/form-data",
+    charset: 'utf-8'
   };
   requestApi(settings, callBack);
 }
+// End test
+
 
 // Update user profile
 function update_user_profile(id, req, callBack) {

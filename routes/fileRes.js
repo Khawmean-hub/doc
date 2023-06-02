@@ -11,16 +11,27 @@ var fileRoute = express.Router();
 image upload code using multer
 --------------------------------------------
 --------------------------------------------*/
+// var storage = multer.diskStorage({
+//    destination: function (req, file, cb) {
+//       cb(null, process.env.IMG_PATH);
+//    },
+//    filename: function (req, file, cb) {
+//       cb(null, Date.now() + '-' + file.originalname);
+//    }
+// });
+// var upload = multer({ storage: storage });
+
+// Test
 var storage = multer.diskStorage({
    destination: function (req, file, cb) {
       cb(null, process.env.IMG_PATH);
    },
    filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' + file.originalname);
+      cb(null, file.originalname);
    }
 });
 var upload = multer({ storage: storage });
-
+// End test
 
 // Handel file or image size
 // const fileSizeLimitHandler = (err, req, res, next) => {
@@ -60,6 +71,15 @@ fileRoute.post('/upload', upload.single('file'), async (req, res) => {
    // url http://localhost:4545/image/1682992645474-DSCF2454.JPG
    // fileName 1682992645474-DSCF2454.JPG
 });
+
+// Test
+// fileRoute.post('/upload', upload.single('file'), async (req, res) => {
+//    res.send(new BaseRes(true, MessageEnum.UPLOAD_SUCCESS, { url: process.env.URL + "/image/" + req.file.filename, fileName: req.file.filename}));
+//    // need url and file name
+//    // url http://localhost:4545/image/1682992645474-DSCF2454.JPG
+//    // fileName 1682992645474-DSCF2454.JPG
+// });
+// End test
 
 
 

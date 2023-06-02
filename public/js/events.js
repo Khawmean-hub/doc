@@ -387,7 +387,7 @@ $(document).on("click", "#departmentListId2 .item", function () {
 $(document).on("click", "#departmentListId4 .item", function () {
   var dep2 = $(this).attr("data-value");
   console.log('yuth :', dep2)
-  buildeMenuCobobox((id = "#menu_com4"), dep2);
+  buildeMenuCoboboxs((id = "#menu_com4"), dep2);
   buildMenu(true);
 });
 $(document).on("click", "#departmentListId4 .item", function () {
@@ -537,23 +537,22 @@ $(document).on("click", "#update-departmentList", function () {
     $(".tage_editT").modal("hide");
   }, 1500);
 }); 
- 
+//
+
 // update contetn or acticle
 var UpdateNewFile; 
 $(document).on("click", "#modal-edit-sub-article", function () {
   
-
-  
   
   acticle_id = $(this).attr("act_id"); // acticle id
   
-  tage_id = $(this).attr("tag_id");
+  tage_id = $(this).attr("tag_id"); // Get tags
   console.log('yuth ::::', acticle_id)
   
   vaTitle = $(this).attr("title");
   
-  Department_ID = $(this).attr("dep_id");
-  console.log('dep_id :' , Department_ID)
+  Department_ID = $(this).attr("dep_id"); // Get department
+  console.log('dep_id :' , Department_ID);
   Get_User_ID = getToken().id;
 
   // show conent
@@ -567,24 +566,17 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 
   // content tinymce
   $("#modal-edit-update-sub-title").modal({ allowMultiple: true, closable: false }).modal("show");
-
-  // $('#departmentListId4 .item').parent().parent().parent().parent().parent().parent().parent().click()
   
-
+  // Old
   // $(".get-article-title").val(vaTitle);
   // buildDepartment("#departmentListId4, #modal_add", Department_ID);
   // buildeMenuCombobox("#menu_com4", null, tage_id);
 
   // Test
-  $(".get-article-title").val(vaTitle);
-  // buildeMenuCombobox("#menu_com4", null, tage_id)
-  buildDepartment("#departmentListId4, #modal_add", Department_ID);
-  buildeMenuCombobox("#menu_com4", null, Department_ID);
-  buildDepartment(Department_ID)
-  // $('.ui.dropdown .menu .selected.item').click()
-
-  // buildeMenuCobobox(Department_ID); // Test
-  // buldHome()
+  buildeMenuCoboboxs();
+  $(".get-article-title").val(vaTitle); // Append to sub title box
+  // buildeMenuCombobox("#menu_com4",null,Department_ID);
+  buildDepartment("#departmentListId4, #modal_add", Department_ID); // Append to department box
 
   $('#content_file').empty();
   files = [] // clear 
@@ -693,7 +685,9 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
         }
         console.log("update file => ", opt);
         upload_file(opt, function (resp) {
-          buildActicle(acticle_id);
+          // buildActicle(acticle_id)
+          buildActicle(acticle_id) = true; // Test
+
           if (files.length - 1 == i) {
             // buildActicle(acticle_id);
           } else {
@@ -1177,5 +1171,10 @@ $(document).on('click', '#btn-cancel-update-article', function () {
   file_c_update = []
   $('#List_file_content_update, #content_file').empty();
 });
+
+
+$(document).on('click', '#icon_add_content', function() {
+  $('#btn_add_contents').click();
+})
 
 
