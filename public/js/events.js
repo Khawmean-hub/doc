@@ -1127,9 +1127,7 @@ $(document).on('click', '#btn-cancel-update-article', function () {
   $('#List_file_content_update, #content_file').empty();
 });
 
-
-$(document).on('click', '#icon_add_content', function() {
+$(document).on('click', '#icon_add_Title', function() {
   $('#btn_add_contents').click();
 })
-
 
