@@ -515,7 +515,7 @@ function buildMenu(isFalse, dept_id) {
         // main articles
         html += `<div class="item" d_et="${v.id}">`;
         html += `<a  href="javascript:"  class=" ${v.id} a_ab h_et" > `;
-        if (getToken().role == 1) {
+        if (getToken().role == 1 || getToken().role == 0) {
           //  Icone update, delete main articel
           html += `    <i class="plus circle icon green" id="icon_add_Title" style="margin-right:6px"></i>`
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`;
