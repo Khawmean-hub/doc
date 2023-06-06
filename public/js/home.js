@@ -164,7 +164,6 @@ function buildManageDepartment() {
   if (getToken().role != 1) {
     dept_id = getToken().dept_id;
   }
-  console.log(">>>>>22 ", dept_id)
   getDepartment(dept_id, function (resp) {
     var list = "";
     var fakeId = 0;
@@ -427,9 +426,7 @@ function getActicleForUpdate(id) {
   loader();
   getActicle1(id, function (resp) {
     var currentActicle = $(this).attr("va.id");
-    console.log("Data content body :", currentActicle);
 
-    console.log("acticlce:", resp.data.content_body);
   });
 }
 
