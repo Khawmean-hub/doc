@@ -164,7 +164,6 @@ function buildManageDepartment() {
   if (getToken().role != 1) {
     dept_id = getToken().dept_id;
   }
-  console.log(">>>>>22 ", dept_id)
   getDepartment(dept_id, function (resp) {
     var list = "";
     var fakeId = 0;
@@ -427,9 +426,7 @@ function getActicleForUpdate(id) {
   loader();
   getActicle1(id, function (resp) {
     var currentActicle = $(this).attr("va.id");
-    console.log("Data content body :", currentActicle);
 
-    console.log("acticlce:", resp.data.content_body);
   });
 }
 
@@ -520,6 +517,7 @@ function buildMenu(isFalse, dept_id) {
         html += `<a  href="javascript:"  class=" ${v.id} a_ab h_et" > `;
         if (getToken().role == 1) {
           //  Icone update, delete main articel
+          html += `    <i class="plus circle icon green" id="icon_add_Title" style="margin-right:6px"></i>`
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`;
           html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`;
         } else if (getToken().role == 0) {
@@ -544,11 +542,11 @@ function buildMenu(isFalse, dept_id) {
             if (getToken().role == 1) {
               //  Icon update, delete sub articel
               // Test
-              html += `    <i class="plus circle icon" id="icon_add_content"></i>`
+              // html += `    <i class="plus circle icon" id="icon_add_content"></i>`
               html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
               html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`;
             } else if (getToken().role == 0) {
-              html += `    <i class="plus circle icon" id="icon_add_content"></i>`
+              // html += `    <i class="plus circle icon" id="icon_add_content"></i>`
               html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
               
             }

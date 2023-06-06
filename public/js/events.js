@@ -35,7 +35,6 @@ $("#btn_add_contents").click(function () {
   // buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
   buildDepartment("#departmentListId2, #modal_add", dept_id); // Test
   
-  console.log('Department select :', dept_id)
 
 
   // var dept_id = $("#departmentListId").dropdown("get value");
@@ -110,7 +109,7 @@ $("#fileUpload").on("change", function () {
     }
   });
   files_c = files;
-  console.log("list file: ", files);
+  ("list file: ", files);
   buildList();
   $(this).val("");
 });
@@ -124,7 +123,6 @@ $("#fileUpload02").on("change", function () {
     }
   });
   file_c_update = file_c_update.concat(files)
-  console.log("list file update: ", files);
   buildListFileUpdate();
   // files = [] // clear
   // file_c_update = []
@@ -135,7 +133,6 @@ $("#fileUpload02").on("change", function () {
 $(document).on("click", "#btn-remove", function () {
   var fname;
   fname = $(this).attr("fname");
-  console.log('fanme => ', fname)
   var ll = files.filter((v) => v.name !== fname);
   files = ll;
   buildList();
@@ -178,7 +175,6 @@ $(document).on("click", "#editor_save", function () {
         TITLE: $("#sub_title_val").val(), // Title
         FILE_ARTICLE_ID: Date.now(), // get acticle id ex => 1683789816910
       };
-      console.log("Get all user input from editor => ", req);
 
       $(this).addClass("loading");
       saveContents(req, function (resp) {
@@ -195,14 +191,12 @@ $(document).on("click", "#editor_save", function () {
       alert("No content");
     }
     // Add file
-    console.log("File Image for upload: ", files_c);
     for (let i = 0; i < files_c.length; i++) {
       if (!isNull(files_c[i])) {
         uploadFile(files_c[i], $('').val(), function (resp) {
           var data = JSON.parse(resp);
           var get_file_name = data.data.fileName;
           var get_file_url = data.data.url;
-          console.log('Get data url => ', get_file_url, get_file_name);
           var opt = {
             FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
             FILE_IDNT: files_c[i].lastModified + Date.now(),  
@@ -211,7 +205,6 @@ $(document).on("click", "#editor_save", function () {
             IMG_PATH: get_file_url,
             THUM_IMG_PATH: get_file_url
           }
-          console.log("opt => ", opt);
           upload_file(opt, function (resp) {
           });
         });
@@ -308,7 +301,6 @@ $("#Create-New-User").click(function () {
 
   dep_for_add_user = $('#departmentListId').dropdown('get value');
   buildDepartment('#new_user_dep', dep_for_add_user);
-  console.log('Get department', dep_for_add_user);
   
   
   $('#username').on('input', function () {
@@ -327,7 +319,6 @@ $("#Create-New-User").click(function () {
 var select_user_new_dep;
 $(document).on('click', '#new_user_dep .item', function() {
   select_user_new_dep = $(this).attr('data-value');
-  console.log('yuth', select_user_new_dep);
 });
 
 // Action login form
@@ -377,31 +368,24 @@ $(document).on("click", "#departmentListId .item", function () {
 
 // SELECT DEPARTMENT LIST
 $(document).on("click", "#departmentListId2 .item", function () {
-  console.log($(this).attr("data-value"));
   var dep2 = $(this).attr("data-value");
   buildeMenuCombobox((id = "#menu_com"), dep2);
-  console.log("dep2:", dep2);
 });
 
 // Test
 $(document).on("click", "#departmentListId4 .item", function () {
   var dep2 = $(this).attr("data-value");
-  console.log('yuth :', dep2)
   buildeMenuCoboboxs((id = "#menu_com4"), dep2);
   buildMenu(true);
 });
 $(document).on("click", "#departmentListId4 .item", function () {
-  console.log($(this).attr("data-value"));
   var dep2 = $(this).attr("data-value");
   buildeMenuCombobox((id = "#menu_com4"), dep2);
-  console.log("dep2:", dep2);
 });
 // End test
 
 $(document).on("click", "#departmentListId3 .item", function () {
-  console.log($(this).attr("data-value"));
   var dep3 = $(this).attr("data-value");
-  console.log("dep3:", dep3);
 });
 
 // CLICK HUMBERGER BUTTON
@@ -417,12 +401,9 @@ $(".menu_btn").click(function () {
 var idActicle;
 $(document).on("click", ".acticle_con", function () {
   idActicle = $(this).attr("act_id");
-  console.log('id acticle side bar ', idActicle)
   var id = $(this).attr("act_id");
-  console.log("id", id);
   var tag_title = $(this).attr("tag_title");
 
-  console.log("tag_title", tag_title);
   buildActicle(id); // call buildActicle
   saveRecent(tag_title, id, $(this).text());
 
@@ -453,8 +434,6 @@ $(document).on("click", ".acticle_con", function () {
 $("#btn_login").click(function () {
   var username = $("#username_text").val();
   var password = $("#password_text").val();
-  console.log("username: ", username);
-  console.log("password: ", password);
 
   // VALIDATION
   if (isNull(username)) $("#username_text").parent().addClass("error");
@@ -467,7 +446,6 @@ $("#btn_login").click(function () {
     var defualt_img = getLogin(username, password, function (resp) {
       if (resp.status) {
         window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
-        console.log("resp.data: ", resp.data);
         $("#username_text").val(""), $("#password_text").val("");
         get_user_image();
         buldHome();
@@ -547,12 +525,10 @@ $(document).on("click", "#modal-edit-sub-article", function () {
   acticle_id = $(this).attr("act_id"); // acticle id
   
   tage_id = $(this).attr("tag_id"); // Get tags
-  console.log('yuth ::::', acticle_id)
   
   vaTitle = $(this).attr("title");
   
   Department_ID = $(this).attr("dep_id"); // Get department
-  console.log('dep_id :' , Department_ID);
   Get_User_ID = getToken().id;
 
   // show conent
@@ -619,7 +595,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
     DEP_ID: Department_ID,
     ID: acticle_id,
   };
-  console.log('get update :', reqAr)
   updateArticles(reqAr, function (resp) {
     if (resp.status) {
       tinymce.get("editor2").setContent(""); // Clear
@@ -667,14 +642,12 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   // }
 
   // test update file
-  console.log("file or image for update :", files);
   for (let i = 0; i < files.length; i++) {
     if (!isNull(files[i])) {
       uploadFile(files[i], $('').val(), function (resp) {
         var data = JSON.parse(resp);
         var get_file_name = data.data.fileName;
         var get_file_url = data.data.url;
-        console.log('Get data url => ', get_file_url, get_file_name);
         var opt = {
           FILE_ARTICLE_IDS: UpdateNewFile,
           FILE_IDNT: files[i].lastModified + Date.now(),
@@ -683,7 +656,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
           IMG_PATH: get_file_url,
           THUM_IMG_PATH: get_file_url
         }
-        console.log("update file => ", opt);
         upload_file(opt, function (resp) {
           // buildActicle(acticle_id)
           buildActicle(acticle_id) = true; // Test
@@ -705,7 +677,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
   var req = {
     ID: oldFile,
   };
-  console.log('==>', req);
   if (!isNull(oldFile)) { // check file
     deleteFile(req, function (resp) {
       if (resp.status) {
@@ -720,7 +691,6 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
 $(document).on("click", "#delete_thisT", function () {
   $(".delete_tage").modal({ closable: false }).modal("show");
   Delete_main_article = $(this).attr("da-de");
-  console.log("Delete main article => ", Delete_main_article);
 });
 // comfrim to delete main article
 $(document).on("click", ".btn_delete_tage ", function () {
@@ -741,7 +711,6 @@ $(document).on("click", ".btn_delete_tage ", function () {
 $(document).on("click", "#modale-delete-sub", function () {
   $(".delete_sub-title").modal({ closable: false }).modal("show");
   Delete_Sub_article = $(this).attr("va-id");
-  console.log("delete-sub: => ", Delete_Sub_article);
 });
 
 // comfrim delete 
@@ -769,7 +738,6 @@ $(document).on("click", ".delete_user_icon", function () {
     .modal("show");
   //$("#modal-delete-user").modal("show");
   idUser = $(this).attr("userRole");
-  console.log('delete user : ', idUser);
 
 });
 
@@ -794,7 +762,6 @@ $(document).on("click", "#btn_doc_add_users", function () {
   };
 
 
-  console.log('Add new user data', req)
   addB2bUser(req, function (resp) {
     if (resp.status) {
       setTimeout(function () {
@@ -838,7 +805,6 @@ $(document).on("click", ".editUser_icon", function () {
   updateId = data.id;
   updatePwd = data.password;
   var id = $(this).attr("userRole");
-  console.log("ID ^", id);
   var get_current_user = {
     V_Name: $("#vUserName").val(data.username),
     V_Pass: $("#vUerPassword").val(data.password),
@@ -846,9 +812,7 @@ $(document).on("click", ".editUser_icon", function () {
     V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
     V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
   };
-  console.log('get user department => ', dept_id);
   buildDepartment("#user_department", data.dept_id);
-  console.log("Get curent user data", get_current_user);
 });
 
 // comfirmation update user
@@ -863,7 +827,6 @@ $(document).on("click", "#btn_doc_update_users_icon", function () {
     MODIFY_USERSTATUS: $("#b2b_status").dropdown("get value"),
     MODIFY_USER_DEPARTMENT: $("#user_department").dropdown("get value"),
   };
-  console.log("Update user data *", req);
   updateUser(updateId, req, function (res) {
     buildUserTable();
   });
@@ -895,7 +858,6 @@ $("#manage-department").click(function () {
       $(".txtIs").addClass("error");
     }
     $("#insert-manage-department").val("");
-    console.log("IMD:", imd);
   });
 });
 
@@ -908,7 +870,6 @@ $(document).on("click", ".alert-depart", function () {
     .modal("show");
 });
 $(document).on("click", "#delete-depart", function () {
-  console.log("delete id: ", dep_idd);
   deleteDepartment(dep_idd, function (resp) {
     if (resp.status) {
       buildDepartment();
@@ -1037,7 +998,6 @@ $(document).on("click", "#user_click_update", function () {
   uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
     $("#user_click_update").addClass("loading");
     var data = JSON.parse(resp);
-    console.log("data :", data);
 
     if (data.status) {
       var res = {
@@ -1051,7 +1011,6 @@ $(document).on("click", "#user_click_update", function () {
             var user_image = localStorage.getItem("b2b_user");
             var obj = JSON.parse(user_image); // Convert to JSON
             obj.img = data.data.url;
-            console.log("Obj :", obj);
             if ($('#profile_update_image').attr('src') == getToken().img) {
               $('#profile_update_image').attr('src', data.data.url)
             }
@@ -1140,8 +1099,6 @@ $(document).on("click", "#deleteFile", function () {
   file_idnt_ids.push(file_idnt_id);
   file_idnt_ids.join("','") + "'";
   oldFile = "'" + file_idnt_ids.join("','") + "'";
-  console.log("delete old file => ", oldFile);
-  console.log("old file => ", file_idnt_id); // Remove file by used parent and like beleve
   $('#listOldFile [file_idnt_id="' + file_idnt_id + '"]').parent().parent().remove(); // remove old file
 });
 
@@ -1158,9 +1115,7 @@ $(document).on('click', '.copy_link', function () {
   try {
     var successful = document.execCommand('copy');
     var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Copying text command was ' + msg);
   } catch (err) {
-    console.log('Oops, unable to copy');
   }
 
   $('#copy_clip').remove()
@@ -1172,9 +1127,7 @@ $(document).on('click', '#btn-cancel-update-article', function () {
   $('#List_file_content_update, #content_file').empty();
 });
 
-
-$(document).on('click', '#icon_add_content', function() {
+$(document).on('click', '#icon_add_Title', function() {
   $('#btn_add_contents').click();
 })
-
 

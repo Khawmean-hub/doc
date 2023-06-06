@@ -103,7 +103,6 @@ homeRoute.post("/doc_department_r001", async (req, res, next) => {
     dept_id = 'where dep_id=' + req.body.DEPT_ID;
   }
   var data = await db.any(`select dep_id, dep_name from doc_department ${dept_id}`);
-  console.log(data);
   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
   else return res.send(new BaseRes(false, "Error", null));
 });
@@ -177,13 +176,11 @@ homeRoute.post("/doc_file_c01", async (req, res, next) => {
   var fileUpload = await db.any(
     `INSERT INTO doc_file (file_article_id, file_idnt_id, thum_img_path, file_nm, img_path, file_size, status) VALUES('${req.body.FILE_ARTICLE_IDS}', '${req.body.FILE_IDNT}', '${req.body.THUM_IMG_PATH}', '${req.body.FILE_NM}', '${req.body.IMG_PATH}', '${req.body.FILE_SIZE}',1)`
   );
-  console.log("File upload => ", fileUpload);
   if (fileUpload == null) {
     return res.send(new BaseRes(false, "Cannot upload", null));
   } else {
     res.send(new BaseRes(true, "SUCCESS", { FILE_UPLOAD: fileUpload }));
   }
-  console.log("file.", fileUpload);
 });
 
 // Route B2B 1
@@ -864,7 +861,6 @@ homeRoute.delete("/delete_users/:id", async (req, res) => {
   var userDeleteIndex = await db.result(
     `DELETE FROM doc_users WHERE id=${+req.params.id}`
   );
-  console.log("User has been delete:", userDeleteIndex);
   if (userDeleteIndex.rowCount < 1) {
     return res.send(new BaseRes(false, "ERROR", null));
   } else {
@@ -874,7 +870,6 @@ homeRoute.delete("/delete_users/:id", async (req, res) => {
 
 // add user
 homeRoute.post("/add_users", async (req, res) => {
-  console.log("API route add is working");
   var addUser = db.result(
     `INSERT INTO doc_users (username, "password", status, "role", dept_id) VALUES('${req.body.USER_NAME}', '${req.body.USER_PASSWORD}', 1, ${req.body.USER_ROLE}, ${req.body.USER_DEP})`
   );
@@ -912,11 +907,9 @@ homeRoute.post("/user_update_profile/:id", async (req, res) => {
 
 // reset password
 homeRoute.post("/doc_reset_password", async (req, res) => {
-  console.log(req.body);
   var pwd = await db.any(
     `SELECT password FROM doc_users WHERE id =${req.body.ID};`
   );
-  console.log("pwd:", pwd[0].password);
   if (pwd[0].password == req.body.currentPassword) {
     await db.any(
       `UPDATE public.doc_users SET password = ${req.body.newPassword} WHERE id =${req.body.ID}`
@@ -930,9 +923,7 @@ homeRoute.post("/doc_reset_password", async (req, res) => {
 // delete file
 homeRoute.post("/doc_file_d01", async (req, res) => {
   var delete_files = await db.any(`DELETE FROM public.doc_file WHERE file_idnt_id IN(${req.body.ID})`)
-  console.log('delete file1 => ', `DELETE FROM public.doc_file WHERE file_idnt_id IN(${req.body.ID})`);
 
-  console.log('delete file => ', delete_files);
   if (delete_files == null) {
     return res.send(new BaseRes(false, "ERROR", null));
   } 
