@@ -338,11 +338,11 @@ function updateUser(id, req, callBack) {
 //   requestApi(settings, callBack);
 // }
 // Test
-function uploadFile(file, path, callBack) {
-  let formData = new FormData();
-  formData.append("file", file, path);
+function uploadFile(file, filename, callback) {
+  const formData = new FormData();
+  formData.append("file", file, encodeURIComponent(filename));
 
-  var settings = {
+  const settings = {
     url: baseUrl + "/upload",
     method: "POST",
     headers: {
@@ -351,10 +351,9 @@ function uploadFile(file, path, callBack) {
     processData: false,
     contentType: false,
     data: formData,
-    mimeType: "multipart/form-data",
-    charset: 'utf-8'
   };
-  requestApi(settings, callBack);
+
+  requestApi(settings, callback);
 }
 // End test
 
