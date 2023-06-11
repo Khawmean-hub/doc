@@ -48,6 +48,14 @@ function buldHome() {
     // $('.btn_login').show();
     $("#manage-department").hide();
     $(".btn_login").show();
+    // root
+  } else if (getToken().role == 3) {
+    $("#btn_manage-user").show();
+    $(".btn_login").hide();
+    $(".btn_logout").show();
+    $("#Create-New-User").show();
+    $("#btn_add_contents").show();
+    $("#manage-department").hide();
   }
   // get_user_information();
 
@@ -99,7 +107,7 @@ function buildDepartment(id = "#departmentListId", defaultSelect) {
     let departmentList = [];
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((e, i) => {
-
+        console.log('e= ',e,'i = ',i )
         var obj = {
           name: e.dep_name,
           value: e.dep_id,
@@ -171,10 +179,8 @@ function buildManageDepartment() {
       resp.data.forEach((v) => {
         list += `<tr>
                  <td>${(fakeId += 1)}</td>
-                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id
-          }</td>
-                 <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name
-          }</td>
+                 <td class="dep-id hide-thId" dep_id='${v.dep_id}'>${v.dep_id}</td>
+                 <td dep-name='${v.dep_name}' class='dep-name'>${v.dep_name}</td>
                  <td style="text-align: right"><a href="#" style ="margin-right: 8px !important;"><i class="edit outline icon con-size" id='icon-update-dep'></i></a><a href="#" class="act-u"><i class="times circle icon"></i>
                  </a><a href="#" class="alert-depart"><i class=" icon-dltDpt trash alternate outline icon"></i></a></td>
                </tr>`;
@@ -186,11 +192,13 @@ function buildManageDepartment() {
 
 // build depart on
 function buildeMenuCombobox(id = "#menu_com", depId, select_id) {
-  getMenu(null, function (resp) {
+  console.log('select id', select_id)
+  getMenu(depId, function (resp) {
     let departmentList = [];
 
     if (!isNull(resp) && resp.status) {
       resp.data.TAGS.forEach((e, i) => {
+        // console.log('yuth', e ,'yuth1', i)
         var selec = false;
         if (!isNull(depId)) {
           selec = true;
@@ -206,7 +214,7 @@ function buildeMenuCombobox(id = "#menu_com", depId, select_id) {
           value: e.id,
           selected: selec,
         };
-        if (!isNull(depId)) {
+        if (!isNull(depId)) { 
           if (depId == e.dep_id) {
             departmentList.push(obj);
           }
@@ -356,7 +364,7 @@ function randomNotFound() {
 function buildActicle(id) {
   updateFile(id);
   loader();
-  
+
 
   getActicle(id, function (resp) {
 
@@ -484,9 +492,7 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
 }
 // BUILD SIDE BAR MENU
 function buildMenu(isFalse, dept_id) {
-  var depID = isNull(dept_id)
-    ? $("#departmentListId").dropdown("get value")
-    : dept_id;
+  var depID = isNull(dept_id) ? $("#departmentListId").dropdown("get value") : dept_id;
   getMenu(depID, function (resp) {
     if (resp.status) {
       var html = "";
@@ -515,12 +521,13 @@ function buildMenu(isFalse, dept_id) {
         // main articles
         html += `<div class="item" d_et="${v.id}">`;
         html += `<a  href="javascript:"  class=" ${v.id} a_ab h_et" > `;
-        if (getToken().role == 1 || getToken().role == 0) {
-          //  Icone update, delete main articel
+        if (getToken().role == 1 || getToken().role == 3) {
+          //  Icon update, delete main articel
           html += `    <i class="plus circle icon green" id="icon_add_Title" style="margin-right:6px"></i>`
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`;
-          html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" ></i>`;
-        } else if (getToken().role == 0) {
+          html += `<i class=" trash alternate outline icon con-size data_delete_tage red" id="delete_thisT" da-de='${v.id}' title="Delete Document" get-main-title='${v.title}'></i>`;
+        } else if (getToken().role == 0) { // User
+          html += `    <i class="plus circle icon green" id="icon_add_Title" style="margin-right:6px"></i>`
           html += `<i class="edit outline icon con-size  edit_tag" title="Update Title" v.user_id="${v.user_id}" v.dep_id="${v.dep_id}"  v.id="${v.id}" v.title="${v.title}"> </i>`;
         }
 
@@ -539,16 +546,16 @@ function buildMenu(isFalse, dept_id) {
             html += `    </a>`;
             html += `    </li>`;
             html += `     <li> <a href="javascript:" class="${va.id} h_st">`;
-            if (getToken().role == 1) {
+            if (getToken().role == 1 || getToken().role == 3) {
+
               //  Icon update, delete sub articel
-              // Test
-              // html += `    <i class="plus circle icon" id="icon_add_content"></i>`
               html += `    <i class="edit blue outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
-              html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel'></i>`;
+              html += `    <i class="trash red alternate outline icon icon-size" id="modale-delete-sub" va-id="${va.id}" title='delete articel' get-name='${va.title}'></i>`;
             } else if (getToken().role == 0) {
+
               // html += `    <i class="plus circle icon" id="icon_add_content"></i>`
               html += `    <i class="edit outline icon icon-size " id="modal-edit-sub-article" dep_id="${v.dep_id}" tag_id="${va.tag_id}" act_id="${va.id}"  title="${va.title}"></i>`;
-              
+
             }
 
             html += `    </a>`;
@@ -588,47 +595,106 @@ function getTag(isFalse) {
     }
   });
 }
+// Old
+// function buildUserTable() {
+//   userTable(function (data) {
+//     var tableData = "";
+//     data.data.forEach((i, index) => {
+//       tableData += `<tr class='allUser list-item ' data="${encodeURIComponent(JSON.stringify(i))}">`;
+//       tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
 
+//       tableData += `<td><img src="${i.image == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : i.image}"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // profile
+
+//       tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // name
+
+//       tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>`; // passwork
+
+//       if (i.role == 1) {
+//         // admin
+//         tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Manager </a> </td>`;
+//       } else if (i.role == 0) {
+//         // user
+//         tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
+//       } else if (i.role == 2) {
+//         // viewer
+//         tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
+//         // root
+//       } else if (i.role == 3) {
+//         tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui green label tiny"> Admin </a> </td>`;
+//       }
+
+//       // if (i.status == 1) {
+//       //   // status
+//       //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`;
+//       // } else if (i.status == 0) {
+//       //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
+//       // }
+
+//       tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`; // department
+
+//       tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
+//     </tr>`;
+//     });
+
+//     $("#userData").empty().append(tableData);
+//   });
+// }
+
+// Test
 function buildUserTable() {
+  
   userTable(function (data) {
+
     var tableData = "";
+    const isRoot = getToken().role == 1; // if root  // true
     data.data.forEach((i, index) => {
-      tableData += `<tr class='allUser list-item ' data="${encodeURIComponent(JSON.stringify(i))}">`;
-      tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
+      const checkDep = (getToken().dept_id == i.dept_id) && !isRoot; 
+      if (!checkDep && !isRoot) return;
 
-      tableData += `<td><img src="${i.image == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : i.image}"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // profile
+        tableData += `<tr class='allUser list-item ' data="${encodeURIComponent(JSON.stringify(i))}">`;
 
-      tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // name
+        tableData += `<td userRole='${i.id}' class='v-id'>${index + 1}</td>`; // id
 
-      tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>`; // passwork
+        tableData += `<td><img src="${i.image == null ? "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png" : i.image}"   class="ui mini rounded image" style="height: 40px; height: 40px; object-fit: cover;"></td>`; // profile
 
-      if (i.role == 1) {
-        // admin
-        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Admin </a> </td>`;
-      } else if (i.role == 0) {
-        // user
-        tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
-      } else if (i.role == 2) {
-        // viewer
-        tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
-      }
+        tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>`; // name
 
-      // if (i.status == 1) {
-      //   // status
-      //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui blue  empty circular label tiny" style="margin-right: 5px">  </a> Active </td>`;
-      // } else if (i.status == 0) {
-      //   tableData += `<td style="" userStatus='${i.status}' class='v-status' > <a class="ui red empty circular label tiny" style="margin-right: 5px"></a> Disable </td>`;
-      // }
+        tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>`; // passwork
 
-      tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`; // department
+        if (i.role == 1) {
+          
+            $(document).ready(function(){
+              $('#all-icon').hide()
+            })
+          
+          // admin
+          tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui red label tiny">Manager </a> </td>`;
+          
+        } else if (i.role == 0) {
+          // user
+          tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui blue label tiny"> User </a> </td>`;
+        } else if (i.role == 2) {
+          // viewer
+          tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui yellow label tiny"> Viewer </a> </td>`;
+          // root
+        } else if (i.role == 3) {
+          tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui green label tiny"> Admin </a> </td>`;
+          
+        }
 
-      tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
+        tableData += `<td userName='${i.dep_name}' class='v-username'>${i.dep_name}</td>`; // department
+
+        tableData += `<td id="all-icon"> <i class="edit blue outlinee icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit' style="margin-right: 20px"> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
     </tr>`;
     });
 
+
+
     $("#userData").empty().append(tableData);
   });
+
 }
+// End test
 
 // Get user name
 function get_user_information() {
@@ -679,15 +745,17 @@ function ReadFIleContetn(id) {
     var fileContet1 = '';
     var link;
     var src;
-    
+
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((v) => {
         link = `_WE_DRIVER.download('${v.file_idnt_id}')`
-
         // Old
         // fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.img_path}"  onclick="_WE_DRIVER.download('${v.file_idnt_id}')"> <i class="download icon" > </i> </a> </span> </p>`
-        // New test
-        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.file_idnt_id}" onclick="${link}"> <i class="download icon" > </i> </a> </span> </p>`
+        // New test download use we driver
+        // fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.file_idnt_id}" onclick="${link}"> <i class="download icon" > </i> </a> </span> </p>`
+        fileContet1 += `<p> <span id="file-name3" style="margin-right:30px;"> <a> ${v.file_nm} </a> <a download href="${v.img_path}"> <i class="download icon" > </i> </a> </span> </p>`
+        // Download use href
+
         var ext = v.file_nm.split(".")[1];
         ext = ext.toLowerCase()
         if (ext == 'png' || ext == 'jpg' || ext == 'jpeg' || ext == 'gif') {
@@ -703,10 +771,10 @@ function ReadFIleContetn(id) {
 
 //
 function ReadDashboard(id) {
-  dashboard(id, function(resp) {
+  dashboard(id, function (resp) {
     var variable = "";
-    if(!isNull(resp) && resp.status) {
-      
+    if (!isNull(resp) && resp.status) {
+
       variable += `<table class="ui fixed single line celled table">`
       variable += `<thead style="text-align: center;">`
       variable += `<tr> <th colspan='2'  rowspan='2' style='width:30%'>Name</th> <th style='width:15%'>Last update</th> <th>Description</th> <th>Option</th> </tr>`
@@ -718,50 +786,91 @@ function ReadDashboard(id) {
 
         variable += `<td style="text-align: center;"><img class="ui tiny circular image" onerror="myErrorImage(this)" src=""></td>`
         variable += `<td style="color: blue; cursor: pointer" class='app_detail'><a href='javascript:' data-id='${v.redmine_id}' id='${v.app_id}'>${v.app_name}</a></td>`
-        
+
 
         variable += `<td>${v.uploadeddate.substring(0, 10)}</td>`
 
         variable += `<td>${v.description}</td>`
 
         variable += `<td>`
-        if (v.subapp_name != null && v.subapp_name !="") {
+        if (v.subapp_name != null && v.subapp_name != "") {
           var arrSubApp = v.subapp_name.split(',');
-          $.each(arrSubApp, function(i,e){
+          $.each(arrSubApp, function (i, e) {
             variable += `<a href='${v.link_url}'>${e}</a>`
           })
-          
+
         }
         variable += `</td>`
 
         // variable += `<td><a style="color: blue; cursor: pointer">${v.subapp_name}</a></td>`
-          
-  
+
+
         variable += `</tr>`
       })
 
-     
-      variable += `</tbody>` 
+
+      variable += `</tbody>`
 
       variable += `</thead>`
       variable += ` </table>`
 
-      
+
     }
     $('#content_body').append(variable);
-  }) 
+  })
 }
 
 // Show detail app
-$(document).on('click','.app_detail', function() {
+$(document).on('click', '.app_detail', function () {
   alert('app_detail');
-   
 
-  
+
+
 })
-
 
 function myErrorImage(image) {
   image.src = 'image/not_found.png';
   return true;
+}
+
+// Build dropdow role
+function role(id = '#b2b_role1', defaultSelect) {
+
+  var roleList = []
+  var dept_id;
+  if (getToken().role != 1) {
+    dept_id = getToken().dept_id;
+  }
+
+  var role = [
+    { name: 'user', value: 0 },
+    { name: 'viewer', value: 2 },
+    { name: 'admin', value: 3 }
+
+  ]
+
+  role.forEach((e, i) => {
+
+    if (getToken().role != 1 && e.name == 'admin') return;
+    console.log('role= ', e, 'i = ', i)
+    var obj = {
+      name: e.name,
+      value: e.value,
+      selected: e.value === defaultSelect ? true : false
+    };
+    console.log('obj', obj)
+    roleList.push(obj)
+    console.log('defult', defaultSelect)
+    console.log('e', e.value)
+  });
+
+  $(id).dropdown({
+    values: roleList,
+
+    showOnFocus: false,
+  }, "setting",
+    "onChange",
+    onChangeDepartment);
+  $(id).removeClass("loading");
+
 }

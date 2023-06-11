@@ -97,15 +97,42 @@ homeRoute.post("/doc_department_u001", async (req, res, next) => {
 // });
 
 // Get department by user ID
+// homeRoute.post("/doc_department_r001", async (req, res, next) => { 
+//   var dept_id = '';
+//   if (!isNull(req.body.DEPT_ID)) { 
+//     dept_id = 'where dep_id=' + req.body.DEPT_ID;
+//   }
+//   var data = await db.any(`select dep_id, dep_name from doc_department ${dept_id}`);
+//   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
+//   else return res.send(new BaseRes(false, "Error", null));
+// });
+
+// Test 
+// homeRoute.post("/doc_department_r001", async (req, res, next) => {
+//   var dept_id = '';
+//   if (!isNull(req.body.DEPT_ID)) {
+//     dept_id = 'where dep_id=' + req.body.DEPT_ID;
+//   }
+//   var data = await db.any(`select dep_id, dep_name from doc_department ${dept_id} dep_status=1`);
+//   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
+//   else return res.send(new BaseRes(false, "Error", null));
+// });
+
+// Get department by department by user department ID and status = 0
 homeRoute.post("/doc_department_r001", async (req, res, next) => {
-  var dept_id = '';
+  var dept_id = 'where dep_status = 1';
   if (!isNull(req.body.DEPT_ID)) {
-    dept_id = 'where dep_id=' + req.body.DEPT_ID;
+    dept_id = 'where dep_id=' + req.body.DEPT_ID + 'and dep_status=1';
+  } else {
+
   }
   var data = await db.any(`select dep_id, dep_name from doc_department ${dept_id}`);
   if (!isNull(data)) return res.send(new BaseRes(true, "Success", data));
   else return res.send(new BaseRes(false, "Error", null));
 });
+ 
+// End test
+
 
 // Get add menu ex: Javascript Gradle
 homeRoute.post("/doc_menu_r01", auth.permitAll, async (req, res, next) => {
@@ -844,10 +871,22 @@ homeRoute.post("/doc_articles_d01", auth.adminAndUser, async (req, res) => {
 });
 
 // users
+// homeRoute.get("/doc_users", async (req, res) => {
+//   const userImformation = await db.any(
+//     `SELECT du.id, du.username, du."password", du.status, du."role", du.image, du.dept_id, dd.dep_name FROM doc_users du 
+//     left join doc_department dd on dd.dep_id = du.dept_id ;`
+//   );
+//   if (userImformation == null) {
+//     return res.send(new BaseRes(false, "ERROR", null));
+//   } else {
+//     return res.send(new BaseRes(true, "SUCCESS", userImformation));
+//   }
+// });
+
+// Test 
 homeRoute.get("/doc_users", async (req, res) => {
   const userImformation = await db.any(
-    `SELECT du.id, du.username, du."password", du.status, du."role", du.image, du.dept_id, dd.dep_name FROM doc_users du 
-    left join doc_department dd on dd.dep_id = du.dept_id ;`
+    `SELECT du.id, du.username, du."password", du.status, du."role", du.image, du.dept_id, dd.dep_name FROM doc_users du left join doc_department dd on dd.dep_id = du.dept_id;`
   );
   if (userImformation == null) {
     return res.send(new BaseRes(false, "ERROR", null));
@@ -855,6 +894,8 @@ homeRoute.get("/doc_users", async (req, res) => {
     return res.send(new BaseRes(true, "SUCCESS", userImformation));
   }
 });
+
+// End test
 
 // delete user
 homeRoute.delete("/delete_users/:id", async (req, res) => {

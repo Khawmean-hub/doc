@@ -78,7 +78,9 @@
 
     <!-- modal table add new -->
     <div class="ui modal coupled mini" id="btn_manage-user-pop" style="width: 812px;">
-      <h4 class="header">USER</h4>
+      <i class="close icon"></i>
+      <h4 class="header">USER  <div class="ui blue button tiny" id="Create-New-User" style="margin-left: 625px;">Add new</div></h4>
+      
       <div class="image content table-scroll" style="background-color: #e2e2e263;">
         <table class="ui table" id="">
           <thead>
@@ -100,8 +102,8 @@
       <div class="actions" style="background-color: #ffffff;">
         <!-- <button class=" blue ui black basic tiny positive" id="Create-New-User">Add new</button> -->
         <div id="pagination-container"></div>
-        <div class="ui cancel tiny button">Cancel</div>
-        <div class="ui blue button tiny" id="Create-New-User">Add new</div>
+        <!-- <div class="ui cancel tiny button">Cancel</div> -->
+        <!-- <div class="ui blue button tiny" id="Create-New-User">Add new</div> -->
 
       </div>
     </div>
@@ -114,12 +116,12 @@
         <form class="ui form" style="align-content: center;">
           <div class="field">
             <label>UserName</label>
-            <input type="text" name="name" placeholder="UserName" id="username" class="vUserName"
+            <input type="text" name="new_username" placeholder="UserName" id="username" class="vUserName"
               style="font-family: monospace!important;">
           </div>
           <div class="field">
-            <label>Password</label>
-            <input type="text" name="password" placeholder="Password" id="password">
+            <label for="pwd">Password</label>
+            <input type="password" name="new_password" placeholder="Password" id="password">
           </div>
           <!-- <div class="field">
             <label>Status</label>
@@ -132,6 +134,14 @@
             <label>Role</label>
             <input type="text" name="role" placeholder="Role" id="role">
           </div> -->
+          <!-- Test -->
+          <!-- <div class="field">
+            <label>Department</label>
+            <div class="ui selection dropdown loading" id="new_user_dep">
+              <div class="text"></div>
+              <i class="dropdown icon"></i>
+            </div>
+          </div> -->
           <div class="field">
             <label>Department</label>
             <div class="ui selection dropdown loading" id="new_user_dep">
@@ -139,14 +149,23 @@
               <i class="dropdown icon"></i>
             </div>
           </div>
-          <div class="field">
+
+          <!-- <div class="field">
             <label>Role</label>
-            <!-- <input type="text" name="role" placeholder="Role" id="vUserRole"> -->
-            <select class="ui search dropdown" id="b2b_role1">
-              <option value="1">admin</option>
+            
+            <select class="ui selection dropdown" id="b2b_role1">
               <option value="0">user</option>
               <option value="2">viewer</option>
+              <option value="3" id="for_admin_control">admin</option>
             </select>
+          </div> -->
+
+          <div class="field">
+            <label>Role</label>
+            <div class="ui selection dropdown loading" id="b2b_role1">
+              <div class="text"></div>
+              <i class="dropdown icon"></i>
+            </div>
           </div>
           <!-- <div class="field">
             <label>Status</label>
@@ -159,7 +178,7 @@
         </form>
       </div>
       <div class="actions">
-        <button class="ui tiny cancel button">Cancel</button>
+        <button class="ui tiny cancel button">Close</button>
         <button class="ui blue tiny button" type="submit" id="btn_doc_add_users">Add</button>
 
       </div>
@@ -184,7 +203,7 @@
               <i class="dropdown icon"></i>
               <div class="default text">Select</div>
               <div class="menu">
-                <div class="item" data-value="1">
+                <div class="item" data-value="3">
                   Admin
                 </div>
                 <div class="item" data-value="0">
@@ -228,7 +247,7 @@
       </div>
       <div class="actions">
         <!-- <button class="ui button" id="back_to_user_table" type="submit">Back</button> -->
-        <button class="ui button cancel tiny" id="cancel_update_user">Cancel</button>
+        <button class="ui button cancel tiny" id="cancel_update_user">Close</button>
         <button class="ui button blue tiny" type="submit" id="btn_doc_update_users_icon">Update</button>
       </div>
     </div>
@@ -260,10 +279,11 @@
         <!-- <a id="manage-department" class="item add"> new department <i class="sun outline icon"></i></a> -->
         <a id="manage-department" class="item add"> <i class="settings icon"></i><div class="content">Department</div></a>
         
-        <!-- Button add content -->
-        <a class="item add" id="btn_add_contents">
+        <!-- Button add document -->
+        <!-- <a class="item add" id="btn_add_contents">
           <i class="plus icon small"></i>
-        </a>
+        </a> -->
+        <a id="btn_add_contents" class="item add"> <i class="plus icon"></i><div class="content">Add document</div></a>
 
 
       </div>
@@ -687,10 +707,10 @@
 
     <div class="content dt_et">
       <div>
-        <i class="check icon "></i>
+        <!-- <i class="check icon "></i> -->
       </div>
       <div>
-        <h4> Are you sure?</h4>
+        <h4> Are you sure <span id="get-main-title"></span> ?</h4>
       </div>
 
     </div>
@@ -711,7 +731,7 @@
         <i class="check icon "></i>
       </div>
       <div>
-        <h4> Are you sure?</h4>
+        <h4> Are you sure to delete <span id="get_dep_name"></span> ?</h4>
       </div>
 
     </div>
@@ -728,10 +748,10 @@
 
     <div class="content dt_et">
       <div>
-        <i class="check icon "></i>
+        <!-- <i class="check icon "></i> -->
       </div>
       <div>
-        <h4> Are you sure?</h4>
+        <h4> Are you sure to delete <span id="get-sub-title-name"></span>?</h4>
       </div>
 
     </div>

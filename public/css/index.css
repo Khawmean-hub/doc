@@ -578,4 +578,12 @@ h4.ui.header .sub.header {
   /* font-size: x-small !important; */
   color: #21ba45 !important;
 }
+
+#get_dep_name {
+  color: blue ;
+}
+
+#get-sub-title-name ,#get-main-title{
+  color: red;
+}
 /*  */

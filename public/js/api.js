@@ -321,38 +321,38 @@ function updateUser(id, req, callBack) {
 }
 
 // Upload single file
-// function uploadFile(file, path, callBack) {
-//   let formData = new FormData();
-//   formData.append("file", file, path);
+function uploadFile(file, path, callBack) {
+  let formData = new FormData();
+  formData.append("file", file, path);
 
-//   var settings = {
-//     url: baseUrl + "/upload",
-//     method: "POST",
-//     processData: false,
-//     contentType: false,
-//     mimeType: "multipart/form-data",
-//     data: formData,
-//   };
-//   requestApi(settings, callBack);
-// }
-// Test
-function uploadFile(file, filename, callback) {
-  const formData = new FormData();
-  formData.append("file", file, encodeURIComponent(filename));
-
-  const settings = {
+  var settings = {
     url: baseUrl + "/upload",
     method: "POST",
-    headers: {
-      Authorization: "Bearer " + getToken().token,
-    },
     processData: false,
     contentType: false,
+    mimeType: "multipart/form-data",
     data: formData,
   };
-
-  requestApi(settings, callback);
+  requestApi(settings, callBack);
 }
+// Test
+// function uploadFile(file, filename, callback) {
+//   const formData = new FormData();
+//   formData.append("file", file, encodeURIComponent(filename));
+
+//   const settings = {
+//     url: baseUrl + "/upload",
+//     method: "POST",
+//     headers: {
+//       Authorization: "Bearer " + getToken().token,
+//     },
+//     processData: false,
+//     contentType: false,
+//     data: formData,
+//   };
+
+//   requestApi(settings, callback);
+// }
 // End test
 
 
