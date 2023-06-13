@@ -7,7 +7,7 @@ function buildLogin() {
 function buldHome() {
   $(".page-login").hide();
   $(".my_body").show();
-  buildDepartment();
+  buildDepartment("#departmentListId", null, true);
   buildeMenuCobobox();
 
   if (getToken().role != 1) {
@@ -95,23 +95,32 @@ function loaderSide() {
 }
 
 // build department
-function buildDepartment(id = "#departmentListId", defaultSelect) {
+function buildDepartment(id = "#departmentListId", defaultSelect, isAll=false) {
 
-  var dept_id;
-  if (getToken().role != 1) {
+  var dept_id="";
+  if (getToken().role != 1 && !isAll) {
     dept_id = getToken().dept_id;
   }
 
   getDepartment(dept_id, function (resp) {
 
     let departmentList = [];
+    if(isAll){
+      departmentList.push({
+        name: "All",
+        value: "",
+        selected: true
+      });
+    }
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((e, i) => {
         console.log('e= ',e,'i = ',i )
+
+
         var obj = {
           name: e.dep_name,
           value: e.dep_id,
-          selected: !isNull(defaultSelect)
+          selected: isAll? false : !isNull(defaultSelect)
             ? e.dep_id == defaultSelect
               ? true
               : false
