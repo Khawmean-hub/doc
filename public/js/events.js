@@ -501,16 +501,38 @@ $(document).on("mouseleave", ".sub_t", function () {
 
 // Modal update main article Ex: Gradle
 var vId, vUserid, vDepid;
+// $(document).on("click", ".edit_tag", function () {
+//   $(".tage_editT").modal("show");
+//   var dept_id = $("#departmentListId3").dropdown("get value");
+//   buildDepartment("#departmentListId3", dept_id); // Call department to list box
+  
+//   vTitle = $(this).attr("v.title"); // Title
+//   vDepid = $(this).attr("v.dep_id"); // Department ID
+//   vUserid = getToken().id + ""; // User ID
+//   vId = $(this).attr("v.id"); // ID
+//   $(".v-title").val(vTitle);
+//   $(".v-title").val();
+//   console.log('title', vTitle);
+//   console.log('dep_id', vDepid);
+//   console.log('v.id',vId)
+// });
+// Test
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
-  var dept_id = $("#departmentListId").dropdown("get value");
-  buildDepartment("#departmentListId3", dept_id); // Call department
-  vTitle = $(this).attr("v.title");
-  vDepid = $(this).attr("v.dep_id");
-  vUserid = getToken().id + "";
-  vId = $(this).attr("v.id");
+  buildDepartment("#departmentListId3", dept_id); // Call department to list box
+  var dept_id1 = $("#departmentListId3").dropdown("get value");
+  console.log('select department id => ', dept_id1)
+  
+  
+  vTitle = $(this).attr("v.title"); // Title
+  vDepid = $(this).attr("v.dep_id"); // Department ID
+  vUserid = getToken().id + ""; // User ID
+  vId = $(this).attr("v.id"); // ID
   $(".v-title").val(vTitle);
   $(".v-title").val();
+  console.log('title', vTitle);
+  console.log('dep_id', vDepid);
+  console.log('v.id',vId)
 });
 // Comfrim to update main article
 $(document).on("click", "#update-departmentList", function () {
@@ -520,17 +542,18 @@ $(document).on("click", "#update-departmentList", function () {
     USER_ID: vUserid,
     TITLE: $(".v-title").val(),
   };
+  console.log('get all data update => ',reqTag)
   $("#update-departmentList").addClass("loading");
-  updateTag(reqTag, function () {
-    if (reqTag.status) {
-      buildMenu();
-    }
-  });
-  buildMenu(true);
-  setTimeout(function () {
-    $("#update-departmentList").removeClass("loading");
-    $(".tage_editT").modal("hide");
-  }, 1000);
+  // updateTag(reqTag, function () {
+  //   if (reqTag.status) {
+  //     buildMenu();
+  //   }
+  // });
+  // buildMenu(true);
+  // setTimeout(function () {
+  //   $("#update-departmentList").removeClass("loading");
+  //   $(".tage_editT").modal("hide");
+  // }, 1000);
 }); 
 //
 
@@ -649,8 +672,8 @@ $(document).on("click", "#btn-save-update-sub-article", function () {
           THUM_IMG_PATH: get_file_url
         }
         upload_file(opt, function (resp) {
-          // buildActicle(acticle_id)
-          buildActicle(acticle_id) = true; // Test
+          buildActicle(acticle_id)
+          // buildActicle(acticle_id) = true; // Test
 
           if (files.length - 1 == i) {
             // buildActicle(acticle_id);
@@ -686,8 +709,6 @@ $(document).on("click", "#delete_thisT", function () {
   Delete_main_article = $(this).attr("da-de");
   GET_TITLE_NAME = $(this).attr('get-main-title');
   $("#get-main-title").empty().append(GET_TITLE_NAME);
-
-  console.log('Title name =>', GET_TITLE_NAME)
 });
 // comfrim to delete main article
 $(document).on("click", ".btn_delete_tage ", function () {

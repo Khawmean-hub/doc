@@ -490,13 +490,13 @@ function saveRecent(tag_title, acticle_id, acticle_name) {
 
   window.localStorage.setItem("act_recent", JSON.stringify(saveList));
 }
-// BUILD SIDE BAR MENU
+// Side bar nenu
 function buildMenu(isFalse, dept_id) {
   var depID = isNull(dept_id) ? $("#departmentListId").dropdown("get value") : dept_id;
   getMenu(depID, function (resp) {
     if (resp.status) {
       var html = "";
-
+      // Loop
       resp.data.TAGS.forEach((v) => {
         html += `<div class="item">
                         <a class="title" style="font-size: 15px;font-weight: 500;margin-top: 10px;">
@@ -504,13 +504,11 @@ function buildMenu(isFalse, dept_id) {
                         </a>
                         <div class="content">
                         <ul class="sub-menu">`;
-
         resp.data.ARTICLES.forEach((va) => {
           if (va.tag_id == v.id) {
             html += `<li class="sub-title acticle_con" tag_title="${v.title}" act_id="${va.id}"><a href="javascript:">${va.title}</a></li>`;
           }
         });
-
         html += `</ul> </div></div>`;
       });
     }

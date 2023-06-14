@@ -645,7 +645,7 @@ homeRoute.get("/doc_question_r01", auth.permitAll, async (req, res, next) => {
   }
 });
 
-homeRoute.get("/doc_question_r02", auth.permitAll, async (req, res, next) => {
+homeRoute.get("/doc_question_r02", auth.permitAll, async (req, res, next) => { 
   // http://localhost:3000/doc_question_r02
   var login =
     await db.any(`select dq.id,dq.user_id, du.username, dq.question_id, dq.title_id, dq.title, dq.content_question, dq.vote_id, dq.view_id, dq.question_date, 
@@ -656,7 +656,7 @@ homeRoute.get("/doc_question_r02", auth.permitAll, async (req, res, next) => {
     left join doc_vote as dvo on dvo.vote_id = dq.vote_id
     where dq.status = 1`);
   if (login == null) {
-    return res.send(new BaseRes(false, "Error", null));
+    return res.send(new BaseRes(false, "Error", null)); 
   } else {
     res.send(new BaseRes(true, "Success", { LOGIN: login }));
   }
