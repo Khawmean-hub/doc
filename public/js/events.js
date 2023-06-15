@@ -949,11 +949,14 @@ $(document).on("click", ".profile", function () {
   var data = JSON.parse(window.localStorage.getItem("b2b_user"));
   html += `<p class="user-css">${data.name}</p>`;
   if (data.role == 1) {
-    html += `<small class="sma">Admin</small>`;
+    // html += `<small class="sma">manager</small>`;
+    html += ` <small class="sma"><a class="ui grey mini basic label">manager</a></small>`
   } else if (data.role == 2) {
-    html += `<small class="sma">Viever</small>`;
+    html += `<small class="sma"><a class="ui grey mini basic label">Viever</a></small>`;
   } else if (data.role == 0) {
-    html += `<small class="sma">User</small>`;
+    html += `<small class="sma"><a class="ui grey mini basic label">User</a></small>`;
+  } else if (data.role == 3) {
+    html += `<small class="sma"><a class="ui grey mini basic label">Admin</a></small>`;
   }
   $("#profile-use").empty().append(html);
 });
