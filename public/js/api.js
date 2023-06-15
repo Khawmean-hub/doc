@@ -321,38 +321,55 @@ function updateUser(id, req, callBack) {
 }
 
 // Upload single file
-function uploadFile(file, path, callBack) {
-  let formData = new FormData();
-  formData.append("file", file, path);
+// function uploadFile(file, path, callBack) {
+//   let formData = new FormData();
+//   formData.append("file", file, path);
 
-  var settings = {
-    url: baseUrl + "/upload",
-    method: "POST",
-    processData: false,
-    contentType: false,
-    mimeType: "multipart/form-data",
-    data: formData,
-  };
-  requestApi(settings, callBack);
-}
-// Test
-// function uploadFile(file, filename, callback) {
-//   const formData = new FormData();
-//   formData.append("file", file, encodeURIComponent(filename));
-
-//   const settings = {
+//   var settings = {
 //     url: baseUrl + "/upload",
 //     method: "POST",
-//     headers: {
-//       Authorization: "Bearer " + getToken().token,
-//     },
 //     processData: false,
 //     contentType: false,
+//     mimeType: "multipart/form-data",
 //     data: formData,
 //   };
-
-//   requestApi(settings, callback);
+//   requestApi(settings, callBack);
 // }
+
+// Test
+function uploadFile(file, path, callBack) {
+  // let formData = new FormData();
+  // const encodedFileName = encodeURIComponent(file.name)
+  // formData.append("file", file, path=encodedFileName);
+
+  // var settings = {
+  //   url: baseUrl + "/upload",
+  //   method: "POST",
+  //   processData: false,
+  //   contentType: false,
+  //   mimeType: "multipart/form-data",
+  //   data: formData,
+  // };
+  
+  // // Convert encodedFileName back to original name:
+  // const originalFileName = decodeURIComponent(encodedFileName);
+  // console.log(`Uploading file: ${originalFileName}`);
+
+  // requestApi(settings, callBack);
+
+  let formData = new FormData();
+    formData.append("file", file, path);
+  
+    var settings = {
+      url: baseUrl + "/upload",
+      method: "POST",
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data",
+      data: formData,
+    };
+    requestApi(settings, callBack);
+}
 // End test
 
 

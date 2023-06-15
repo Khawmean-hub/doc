@@ -501,28 +501,10 @@ $(document).on("mouseleave", ".sub_t", function () {
 
 // Modal update main article Ex: Gradle
 var vId, vUserid, vDepid;
-// $(document).on("click", ".edit_tag", function () {
-//   $(".tage_editT").modal("show");
-//   var dept_id = $("#departmentListId3").dropdown("get value");
-//   buildDepartment("#departmentListId3", dept_id); // Call department to list box
-  
-//   vTitle = $(this).attr("v.title"); // Title
-//   vDepid = $(this).attr("v.dep_id"); // Department ID
-//   vUserid = getToken().id + ""; // User ID
-//   vId = $(this).attr("v.id"); // ID
-//   $(".v-title").val(vTitle);
-//   $(".v-title").val();
-//   console.log('title', vTitle);
-//   console.log('dep_id', vDepid);
-//   console.log('v.id',vId)
-// });
-// Test
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
+  var dept_id = $("#departmentListId3").dropdown("get value");
   buildDepartment("#departmentListId3", dept_id); // Call department to list box
-  var dept_id1 = $("#departmentListId3").dropdown("get value");
-  console.log('select department id => ', dept_id1)
-  
   
   vTitle = $(this).attr("v.title"); // Title
   vDepid = $(this).attr("v.dep_id"); // Department ID

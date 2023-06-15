@@ -95,32 +95,101 @@ function loaderSide() {
 }
 
 // build department
-function buildDepartment(id = "#departmentListId", defaultSelect, isAll=false) {
+// function buildDepartment(id = "#departmentListId", defaultSelect, isAll = false) {
 
-  var dept_id="";
-  if (getToken().role != 1 && !isAll) {
+//   var dept_id = "";
+//   if (getToken().role != 1 && !isAl) { // != 1
+//     dept_id = getToken().dept_id;
+//   }
+
+//   getDepartment(dept_id, function (resp) {
+
+//     let departmentList = [];
+//     if(isAll){
+//       departmentList.push({
+//         name: "All",
+//         value: "", 
+//         selected: true
+//       });
+//     }
+//     if (!isNull(resp) && resp.status) {
+//       resp.data.forEach((e, i) => {
+
+//         var obj = {
+//           name: e.dep_name,
+//           value: e.dep_id,
+//           selected: isAll? false : !isNull(defaultSelect)
+//             ? e.dep_id == defaultSelect
+//               ? true
+//               : false
+//             : i == 0
+//               ? true
+//               : false,
+//         };
+
+//         departmentList.push(obj);
+//       });
+//     }
+
+//     $(id).dropdown({
+//       values: departmentList,
+//       showOnFocus: false,
+//     });
+
+//     if (id.includes("departmentListId2")) {
+//       $("#departmentListId2").dropdown(
+//         "setting",
+//         "onChange",
+//         onChangeDepartment
+//       );
+//     }
+
+//     if (id.includes("departmentListId3")) {
+//       $("#departmentListId3").dropdown(
+//         "setting",
+//         "onChange",
+//         onChangeDepartment
+//       );
+//     }
+
+//     if (id.includes("user_department")) {
+//       $("#user_department").dropdown(
+//         "setting",
+//         "onChange",
+//         onChangeDepartment
+//       );
+//     }
+
+//     if (id.includes("new_user_dep")) {
+//       $("#new_user_dep").dropdown(
+//         "setting",
+//         "onChange",
+//         onChangeDepartment
+//       );
+//     }
+
+//     $(id).removeClass("loading");
+//   });
+// }
+
+// Old build department
+function buildDepartment(id = "#departmentListId", defaultSelect) {
+
+  var dept_id;
+  if (getToken().role != 1) {
     dept_id = getToken().dept_id;
   }
 
   getDepartment(dept_id, function (resp) {
 
     let departmentList = [];
-    if(isAll){
-      departmentList.push({
-        name: "All",
-        value: "",
-        selected: true
-      });
-    }
     if (!isNull(resp) && resp.status) {
       resp.data.forEach((e, i) => {
         console.log('e= ',e,'i = ',i )
-
-
         var obj = {
           name: e.dep_name,
           value: e.dep_id,
-          selected: isAll? false : !isNull(defaultSelect)
+          selected: !isNull(defaultSelect)
             ? e.dep_id == defaultSelect
               ? true
               : false
