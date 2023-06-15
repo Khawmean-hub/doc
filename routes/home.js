@@ -809,7 +809,7 @@ homeRoute.post("/doc_tag_c01", async (req, res) => {
 });
 
 // Update doc
-homeRoute.post("/doc_tag_u01", auth.adminAndUser, async (req, res) => {
+homeRoute.post("/doc_tag_u01", async (req, res) => {
   var tag = await db.any(`UPDATE doc_tags
                             set title= '${req.body.TITLE}',modified_date=now(), user_id=cast( '${req.body.USER_ID}' as integer), dep_id='${req.body.DEP_ID}' where id =cast( '${req.body.ID}' as integer)`);
   if (tag == null) {

@@ -526,16 +526,16 @@ $(document).on("click", "#update-departmentList", function () {
   };
   console.log('get all data update => ',reqTag)
   $("#update-departmentList").addClass("loading");
-  // updateTag(reqTag, function () {
-  //   if (reqTag.status) {
-  //     buildMenu();
-  //   }
-  // });
-  // buildMenu(true);
-  // setTimeout(function () {
-  //   $("#update-departmentList").removeClass("loading");
-  //   $(".tage_editT").modal("hide");
-  // }, 1000);
+  updateTag(reqTag, function () {
+    if (reqTag.status) {
+      buildMenu();
+    }
+  });
+  buildMenu(true);
+  setTimeout(function () {
+    $("#update-departmentList").removeClass("loading");
+    $(".tage_editT").modal("hide");
+  }, 1000);
 }); 
 //
 
