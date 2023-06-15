@@ -7,7 +7,8 @@ function buildLogin() {
 function buldHome() {
   $(".page-login").hide();
   $(".my_body").show();
-  buildDepartment("#departmentListId", null, true);
+  //buildDepartment("#departmentListId", null, true);
+  buildDepartment();
   buildeMenuCobobox();
 
   if (getToken().role != 1) {

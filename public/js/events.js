@@ -503,18 +503,14 @@ $(document).on("mouseleave", ".sub_t", function () {
 var vId, vUserid, vDepid;
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
-  var dept_id = $("#departmentListId3").dropdown("get value");
-  buildDepartment("#departmentListId3", dept_id); // Call department to list box
-  
-  vTitle = $(this).attr("v.title"); // Title
-  vDepid = $(this).attr("v.dep_id"); // Department ID
-  vUserid = getToken().id + ""; // User ID
-  vId = $(this).attr("v.id"); // ID
+  var dept_id = $("#departmentListId").dropdown("get value");
+  buildDepartment("#departmentListId3", dept_id); // Call department
+  vTitle = $(this).attr("v.title");
+  vDepid = $(this).attr("v.dep_id");
+  vUserid = getToken().id + "";
+  vId = $(this).attr("v.id");
   $(".v-title").val(vTitle);
   $(".v-title").val();
-  console.log('title', vTitle);
-  console.log('dep_id', vDepid);
-  console.log('v.id',vId)
 });
 // Comfrim to update main article
 $(document).on("click", "#update-departmentList", function () {
@@ -524,7 +520,6 @@ $(document).on("click", "#update-departmentList", function () {
     USER_ID: vUserid,
     TITLE: $(".v-title").val(),
   };
-  console.log('get all data update => ',reqTag)
   $("#update-departmentList").addClass("loading");
   updateTag(reqTag, function () {
     if (reqTag.status) {
@@ -537,7 +532,7 @@ $(document).on("click", "#update-departmentList", function () {
     $(".tage_editT").modal("hide");
   }, 1000);
 }); 
-//
+
 
 // update contetn or acticle
 var UpdateNewFile; 

@@ -1,6 +1,7 @@
 body {
   margin: 0 !important;
   background-color: #f7f9ff;
+  overflow: hidden;
 
 }
 
@@ -38,6 +39,7 @@ h6 {
   background: #373755 !important;
 }
 
+/* Custom navbar */
 .main_nav {
   border-radius: 0px !important;
   background-color: #1b1b2f !important;
@@ -45,6 +47,11 @@ h6 {
   grid-template-columns: 30% 40% 30%;
 }
 
+.my_body {
+  height: 100% !important;
+}
+
+/* Custom search navbar */
 .search_items {
   margin: 0 auto !important;
 }
