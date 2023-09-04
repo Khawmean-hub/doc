@@ -4,3 +4,11 @@
     padding: 1px 5px !important;
     border-radius: 5px !important;
 }
+
+    code {
+        font-family: monospace,monospace;
+        font-size: 1em;
+        background: #e5e5e5;
+        border-radius: 3px;
+        padding: 0px 5px;
+    }

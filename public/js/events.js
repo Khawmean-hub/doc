@@ -91,7 +91,8 @@ $(document).on("click", "#editor_save", function () {
     $("#sub_title_val").parent(".field").addClass("error");
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
-    var myContent = tinymce.get("editor1").getContent();
+    //var myContent = tinymce.get("editor1").getContent();
+    var myContent = $('#tinymce').innerHTML
     if (!isNull(myContent)) {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
@@ -430,7 +431,7 @@ $(document).on("click", "#modal-edit-sub-article", function () {
 
   // UPDATE SUB-ARTICLE
   $(document).on("click", "#btn-save-update-sub-article", function () {
-    var myContent2 = tinymce.get("editor2").getContent();
+    var myContent2 = $('#tinymce').innerHTML
     var reqAr = {
       TAG_ID: tage_id,
       TITLE: $(".get-article-title").val(),
