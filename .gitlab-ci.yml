@@ -9,6 +9,7 @@ unit-test-job:   # This job runs in the test stage.
     DEPLOY_CURL_COMMAND: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendMessage -H "Content-Type: application/json" --data $DEPLOY_CURL_COMMAND_BODY'
     DEPLOY_CURL_COMMAND_IMG: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendPhoto -H "Content-Type: multipart/form-data" -F chat_id="-984104160" -F photo=@$FILE_PA'
   script: 
+    - echo "$DEPLOY_CURL_COMMAND_IMG"
     - 'eval "$DEPLOY_CURL_COMMAND_IMG"'
 
 lint-test-job:   # This job also runs in the test stage.
