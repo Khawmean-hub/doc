@@ -3,10 +3,14 @@ stages:          # List of stages for jobs, and their order of execution
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   variables:
+    TOKEN: '6417666770:AAFZEnvMLKSgu0HTKWpnN2aXvYkvpVffTz4'
+    FILE_PA: '/home/b2bdoc/b2b_doc_imgs/d14twsr-c939fa75-9c7a-447b-b73e-4cdfec4e9f3b.jpg'
     DEPLOY_CURL_COMMAND_BODY: "'{\"chat_id\":-984104160,\"text\":\"Deplooy to git\"}'"
-    DEPLOY_CURL_COMMAND: 'curl -X POST https://api.telegram.org/bot6417666770:AAFZEnvMLKSgu0HTKWpnN2aXvYkvpVffTz4/sendMessage -H "Content-Type: application/json" --data $DEPLOY_CURL_COMMAND_BODY'
+    DEPLOY_CURL_COMMAND: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendMessage -H "Content-Type: application/json" --data $DEPLOY_CURL_COMMAND_BODY'
+    DEPLOY_CURL_COMMAND_IMG: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendPhoto -H "Content-Type: multipart/form-data" -F chat_id="-984104160" -F photo=@"$FILE_PA"'
   script: 
     - 'eval "$DEPLOY_CURL_COMMAND"'
+    - 'eval "$DEPLOY_CURL_COMMAND_IMG"'
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
