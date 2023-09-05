@@ -1,7 +1,8 @@
 body {
   margin: 0 !important;
   background-color: #f7f9ff;
-  
+  overflow: hidden;
+
 }
 
 body,
@@ -15,8 +16,7 @@ h4,
 h5,
 h6,
 div {
-  font-family: "Google Sans","Roboto",sans-serif !important;
-
+  font-family: "Google Sans", "Roboto", sans-serif !important;
 }
 
 h1,
@@ -27,16 +27,19 @@ h5,
 h6 {
   color: #2b2b2b;
 }
-.item.test{
+
+.item.test {
   margin: 0px 0px !important;
   padding: 0px 0px !important;
 }
+
 .nav_searchbox input {
   color: white !important;
   width: 300px;
   background: #373755 !important;
 }
 
+/* Custom navbar */
 .main_nav {
   border-radius: 0px !important;
   background-color: #1b1b2f !important;
@@ -44,11 +47,16 @@ h6 {
   grid-template-columns: 30% 40% 30%;
 }
 
+.my_body {
+  height: 100% !important;
+}
+
+/* Custom search navbar */
 .search_items {
   margin: 0 auto !important;
 }
 
-/* width */
+/* Scrollbar */
 ::-webkit-scrollbar {
   width: 5px !important;
 }
@@ -109,7 +117,6 @@ h6 {
 
 .item {
   padding: 10px 0px;
-
 }
 
 .sub-title {
@@ -118,11 +125,13 @@ h6 {
 }
 
 .active_title {
-color: #000 !important;
+  color: #000 !important;
 }
-.active_title:hover{
+
+.active_title:hover {
   color: #2185d0 !important;
-  }
+}
+
 ul {
   list-style-type: none;
   margin-block-start: 1em;
@@ -188,10 +197,10 @@ ul {
   background: #e2e7eb none;
 }
 
-label {
+/* label {
   padding: 3px;
   margin-right: 10px;
-}
+} */
 
 .ui.modal {
   width: 729px;
@@ -203,13 +212,13 @@ label {
 }
 
 .ui.modal {
-  width: 476px;
+  width: 348px;
 }
 
-.icon-size {
+/* .icon-size {
   font-size: x-small !important;
   color: rgb(20, 21, 22);
-}
+} */
 
 a.title {
   padding: 1px 1px !important;
@@ -243,9 +252,11 @@ a.title {
   display: flex;
   align-items: center;
 }
-.active_link{
+
+.active_link {
   color: #1389fd !important;
 }
+
 /* Hover article */
 /* .co:hover {
   color: rgb(34, 80, 177) !important;
@@ -302,14 +313,22 @@ a.title {
   background-color: #4183c4;
 }
 
-
 .editUser_icon {
   cursor: pointer;
+
 }
+
+/* i.icon.outline{
+  font-family: outline-icons;
+  margin-left: 20px;
+} */
 
 
 .delete_user_icon {
+  margin-right: 20%;
   cursor: pointer;
+
+
 }
 
 .delete_user_icon:hover {
@@ -320,53 +339,258 @@ a.title {
   color: #000;
 }
 
-.img_path, .img_path02{
+.img_path,
+.img_path02 {
   color: #000;
 }
 
-.x {
-  cursor: pointer;
+.txtIs {
+  width: 100% !important;
 }
-.txtIsertD{
-  padding: 5px 5px !important;
-  width: 70% !important;
-}
- .txtIsertD[type="text"] {
-    font-size: smaller !important;
-}
-.btn-add-css{
-  padding: 9px 19px !important;
-  margin-left: 5px !important;
- 
-}
-.btn-success{
+
+
+.btn-success {
   background-color: #21ba45 !important;
 }
-.txtWarning{
-border: 2px salmon solid !important;
+
+.txtWarning {
+  border: 2px salmon solid !important;
 }
-.icon-dltDpt{
-  color:salmon !important;
+
+.user-profile {
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  object-fit: cover;
 }
-.hide-thId{
+
+.icon-dltDpt {
+  color: salmon !important;
+}
+
+.hide-thId {
   display: none !important;
 }
-.btn-info{
+
+.btn-info {
   background-color: #2185d0;
 
 }
 
-.btn-update-css{
+.btn-update-css {
   background-color: #21ba45 !important;
-  padding: 9px 19px !important;
-  margin-left: 5px !important;
 }
 
-.act-u{
-  margin-right:7px !important;
+.act-u {
+  margin-right: 7px !important;
   display: none;
 }
 
-#btn_manage-user{
+#btn_manage-user {
   margin-right: 45%;
 }
+
+#user_profile {
+  margin-right: 45%;
+}
+
+.my-loader:before {
+  border-color: rgb(214 214 214 / 15%) !important;
+}
+
+.my-loader:after {
+  border-color: #e2e2e2 transparent transparent !important;
+}
+
+
+.table-scroll>.table>tbody>tr>td,
+.table-scroll>.table>tfoot>tr>td,
+.table-scroll>.table>thead>tr>td,
+.table-scroll>.table>thead>tr>th {
+  white-space: nowrap !important;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.table-scroll {
+  max-height: 500px !important;
+  overflow-y: scroll;
+}
+
+.user-css {
+  line-height: 0;
+  font-size: 1rem;
+}
+
+.sma {
+  color: rgb(125, 44, 238);
+  font-size: 80%;
+}
+
+img {
+  cursor: pointer;
+}
+
+#fileuploads {
+  margin-right: 162px;
+}
+
+.edit_profile_user {
+  cursor: pointer;
+  margin-top: 25px;
+}
+
+.edit_profile_user {
+  color: #4183c4;
+  margin-top: 10px;
+}
+
+#upload-img {
+  object-fit: cover;
+  margin-top: 9px;
+}
+
+#style_user_create_acticle {
+  margin-left: 36px;
+}
+
+#users_photo {
+  width: 55px;
+  height: 55px;
+}
+
+#test {
+  margin-left: 63px;
+}
+
+
+.sub_modified_date {
+  color: gray;
+}
+
+#file_text {
+  color: black;
+}
+
+h4.ui.header .sub.header {
+  margin-top: 5px;
+}
+
+#content_file_all {
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  padding: 15px;
+  /* padding រុញ​ content ចូលក្នុង */
+}
+
+#content_file_all02 {
+  background-color: #f6f6f6;
+  border-radius: 5px;
+  padding: 15px;
+  /* padding រុញ​ content ចូលក្នុង */
+}
+
+#List_file_content {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+
+#profile_update_image {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+}
+
+#profile_crate_image {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+}
+
+#file_text_content {
+  color: black;
+}
+
+#content_file {
+  margin: 0px;
+  margin-top: 10px;
+}
+
+#btn-remove {
+  margin-left: 5px;
+  color: red !important;
+}
+
+.img_pathh {
+  height: 180px;
+}
+
+#List_file_content_update {
+  color: black;
+}
+
+#deleteFile {
+  margin-left: 20px;
+  color: red !important;
+}
+
+.tox-promotion {
+  display: none;
+}
+
+.welcome-pannel {
+  text-align: center;
+  text-transform: uppercase;
+  color: midnightblue;
+}
+
+#List_file_content_update {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.download {
+  cursor: pointer;
+}
+
+#file-name3 a{
+  font-size: 15px;
+  line-height: 8px;
+  color: #353f2b !important;
+  
+}
+
+#Name_file {
+  font-family: Georgia !important;
+}
+
+#List-Department {
+  font-family: monospace !important;
+}
+
+#get_user_name {
+  color: #6262be;
+}
+
+.ui.tiny.image {
+  margin-left: 21px;
+}
+
+#btn-remove-file-update {
+  color: red !important;
+}
+
+#icon_add_content {
+  /* font-size: x-small !important; */
+  color: #21ba45 !important;
+}
+
+#get_dep_name {
+  color: blue ;
+}
+
+#get-sub-title-name ,#get-main-title{
+  color: red;
+}
+/*  */

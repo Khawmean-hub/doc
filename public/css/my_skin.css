@@ -5,6 +5,7 @@
     border-radius: 5px !important;
 }
 
+<<<<<<< HEAD
     code {
         font-family: monospace,monospace;
         font-size: 1em;
@@ -12,3 +13,14 @@
         border-radius: 3px;
         padding: 0px 5px;
     }
+=======
+p code {
+    background-color: #efefef;
+    border-radius: 3px;
+    padding: 2px 11px;  
+}
+
+.hljs {
+    border-radius: 5px;
+}
+>>>>>>> 0f1dea8ccb876e0900c25c815291751f53a5b700

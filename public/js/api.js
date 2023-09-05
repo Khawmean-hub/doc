@@ -1,18 +1,20 @@
-// BASE URL
-var baseUrl = "http://192.168.178.81:88"; // LOCAL SERVER
-//var baseUrl = "http://54.251.201.192:4545"; // HOSTING SERVER
-// CALL API
+// base URL
+//var baseUrl = "http://192.168.178.81:88"; // Dev 
+//var baseUrl = "http://192.168.178.81:81"; // Real 
+var baseUrl = "http://localhost:4545"; // Local 
+
+// call api
 var isAlreadyAlert = false;
 function requestApi(settings, callBack) {
   $.ajax(settings)
     .done(function (response) {
-      console.log("response :", response);
       callBack(response);
     })
     .fail(function (data, textStatus, xhr) {
       if (data.status == 401 || data.status == 403) {
         if (!isAlreadyAlert) {
           isAlreadyAlert = true;
+          buildLogin();
           alert("Your token is expired please login again.");
         }
 
@@ -20,11 +22,12 @@ function requestApi(settings, callBack) {
         $(".page-login").show();
         $(".my_body").hide();
       }
-      console.log("error");
+
       callBack(data);
     });
 }
 
+// token
 function getToken() {
   var data = window.localStorage.getItem("b2b_user");
   if (isNull(data)) {
@@ -49,7 +52,9 @@ function getMenuHome(callBack) {
     callBack(response);
   });
 }
-function deleteDepartment(id, callBack){
+
+// delete department
+function deleteDepartment(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_d001",
     method: "POST",
@@ -57,23 +62,26 @@ function deleteDepartment(id, callBack){
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
-    data: JSON.stringify({DEP_ID: id}),
+    data: JSON.stringify({ DEP_ID: id }),
   };
   requestApi(settings, callBack);
 }
-// doc_department_c001
+
+// insert department
 function insertDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_c001",
     method: "POST",
     headers: {
-      "Content-Type": "application/json",  
+      "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
     data: JSON.stringify(req),
   };
   requestApi(settings, callBack);
 }
+
+// update departmrnt
 function updateDepartment(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_u001",
@@ -86,9 +94,9 @@ function updateDepartment(req, callBack) {
   };
   requestApi(settings, callBack);
 }
-// ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-// Doc department
-function getDepartment(callBack) {
+
+// get department
+function getDepartment(dept_id, callBack) {
   var settings = {
     url: baseUrl + "/doc_department_r001",
     method: "POST",
@@ -96,22 +104,10 @@ function getDepartment(callBack) {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getToken().token,
     },
+    data: JSON.stringify({ DEPT_ID: dept_id })
   };
   requestApi(settings, callBack);
 }
-
-// get department menu
-// function getMenu(callBack) {
-//   var settings = {
-//     url: baseUrl + "/doc_menu_r01",
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: "Bearer " + getToken().token,
-//     },
-//   };
-//   requestApi(settings, callBack);
-// }
 
 // get department menu
 function getMenu(deptId, callBack) {
@@ -127,7 +123,7 @@ function getMenu(deptId, callBack) {
   requestApi(settings, callBack);
 }
 
-//save text editor
+// save text editor
 function saveContents(req, callBack) {
   var settings = {
     url: baseUrl + "/doc_article_c01",
@@ -141,7 +137,7 @@ function saveContents(req, callBack) {
   requestApi(settings, callBack);
 }
 
-//serch contents
+// serch content
 function getSearch(srch, callBack) {
   var settings = {
     url: baseUrl + "/doc_search_r01",
@@ -155,7 +151,7 @@ function getSearch(srch, callBack) {
   requestApi(settings, callBack);
 }
 
-// Get acticle
+// get acticle
 function getActicle(id, callBack) {
   var settings = {
     url: baseUrl + "/doc_article_r01",
@@ -184,7 +180,7 @@ function getActicle1(id, callBack) {
   requestApi(settings, callBack);
 }
 
-// Get Acticle
+// login
 function getLogin(username, password, callBack) {
   var settings = {
     url: baseUrl + "/doc_login_r01",
@@ -240,9 +236,9 @@ function deleteArticles(id, callBack) {
   };
   requestApi(settings, callBack);
 }
-// Update article has have
+
+// update acticle
 function updateArticles(req, callBack) {
-  // doc_articles_u01
   var settings = {
     url: baseUrl + "/doc_article_u01",
     method: "POST",
@@ -269,28 +265,15 @@ function updateTag(reqTag, callBack) {
   requestApi(settings, callBack);
 }
 
-// user
-// function b2BUser(id) {
-//   var settings = {
-//     url: baseUrl + '/doc_users',
-//     method: 'GET',
-//     headers: {
-//       'Content-Type': 'application/json',
-//       Authorization: "Bearer " + getToken().token,
-//     },
-//     data: JSON.stringify({ID: id})
-//   };
-//   requestApi(settings)
-// };
-function b2BUser(id, callBack) {
+// User
+function userTable(callBack) {
   var settings = {
     url: baseUrl + "/doc_users",
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer" + getToken().token,
-    },
-    data: JSON.stringify({ ID: id }),
+    }
   };
   requestApi(settings, callBack);
 }
@@ -323,7 +306,7 @@ function addB2bUser(req, callBack) {
 }
 
 // update user
-function updateUser(id, req) {
+function updateUser(id, req, callBack) {
   var settings = {
     url: baseUrl + "/update_users/" + id,
     method: "POST",
@@ -334,13 +317,13 @@ function updateUser(id, req) {
     data: req,
   };
   //console.log(settings)
-  requestApi(settings, () => { });
+  requestApi(settings, callBack);
 }
 
-// Upload file
+// Upload single file
 // function uploadFile(file, path, callBack) {
 //   let formData = new FormData();
-//   formData.append("image", file, path);
+//   formData.append("file", file, path);
 
 //   var settings = {
 //     url: baseUrl + "/upload",
@@ -353,18 +336,139 @@ function updateUser(id, req) {
 //   requestApi(settings, callBack);
 // }
 
-// Test file upload
+// Test
 function uploadFile(file, path, callBack) {
-  let formData = new FormData();
-  formData.append("file", file, path);
+  // let formData = new FormData();
+  // const encodedFileName = encodeURIComponent(file.name)
+  // formData.append("file", file, path=encodedFileName);
 
+  // var settings = {
+  //   url: baseUrl + "/upload",
+  //   method: "POST",
+  //   processData: false,
+  //   contentType: false,
+  //   mimeType: "multipart/form-data",
+  //   data: formData,
+  // };
+  
+  // // Convert encodedFileName back to original name:
+  // const originalFileName = decodeURIComponent(encodedFileName);
+  // console.log(`Uploading file: ${originalFileName}`);
+
+  // requestApi(settings, callBack);
+
+  let formData = new FormData();
+    formData.append("file", file, path);
+  
+    var settings = {
+      url: baseUrl + "/upload",
+      method: "POST",
+      processData: false,
+      contentType: false,
+      mimeType: "multipart/form-data",
+      data: formData,
+    };
+    requestApi(settings, callBack);
+}
+// End test
+
+
+// Update user profile
+function update_user_profile(id, req, callBack) {
   var settings = {
-    url: baseUrl + "/upload",
+    url: baseUrl + "/user_update_profile/" + id,
     method: "POST",
-    processData: false,
-    contentType: false,
-    mimeType: "multipart/form-data",
-    data: formData,
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: req,
   };
   requestApi(settings, callBack);
 }
+
+// reset new password
+function reset_password(req, callBack) {
+  var settings = {
+    url: baseUrl + "/doc_reset_password",
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: req,
+  };
+  requestApi(settings, callBack);
+}
+
+// insert file
+function upload_file(req, callBack) {
+  var setting = {
+    url: baseUrl + "/doc_file_c01",
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+
+    },
+    data: req,
+  };
+  requestApi(setting, callBack);
+}
+
+// read file
+function read_file(id, callBack) {
+  var setting = {
+    url: baseUrl + "/doc_file_r01",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: JSON.stringify({ ID: id })
+  };
+  requestApi(setting, callBack);
+}
+
+// delete file
+function deleteFile(req, callBack) {
+  var settings = {
+    url: baseUrl + "/doc_file_d01",
+    method: "POST",
+    header: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: req,
+  };
+  requestApi(settings, callBack);
+}
+
+// read file content
+function FileContent(id, callBack) {
+  var setting = {
+    url: baseUrl + "/doc_file_r02",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: JSON.stringify({ ID: id })
+  };
+  requestApi(setting, callBack);
+}
+
+// Dashboard
+function dashboard(id, callBack) {
+  var setting = {
+    url: baseUrl + "/dashboard_list_app_r001",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer" + getToken().token,
+    },
+    data: JSON.stringify({ ID: id })
+  }
+  requestApi(setting, callBack);
+}
+

@@ -11,7 +11,7 @@ var auth = {
         if (token == null) return res.sendStatus(401)
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-            if (err || user.role != "2") return res.sendStatus(403)
+            if (err || user.role != "2" || user.role != "0") return res.sendStatus(403)
             req.user = user
             next()
         })
@@ -28,7 +28,7 @@ var auth = {
             if (err || user.role != "1") return res.sendStatus(403)
             req.user = user
             next()
-        }) 
+        })
     },
 
     adminAndUser: function authenticateToken(req, res, next) {
@@ -44,8 +44,6 @@ var auth = {
                 next()
             } else
                 return res.sendStatus(403)
-
-
         })
     },
 
@@ -71,9 +69,9 @@ var auth = {
         if (token == null) return res.sendStatus(401)
 
         jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-            if (err || user.role != "1" || user.role != "2" || user.role !="0") return res.sendStatus(403)
+            if (err || user.role != "1" || user.role != "2" || user.role != "0") return res.sendStatus(403)
             req.user = user
-            next()  
+            next()
         })
     },
 }

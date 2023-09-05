@@ -1,21 +1,45 @@
-$(".page-login").hide();
-$(document).on('click', '.active_title ', function () {
-  $(this).addClass('active_link');
-  $('.active_title').not(this).removeClass('active_link');
-})
-$("#btn_add_contents").click(function () {
-  $(".coupled.modal").modal({
-    allowMultiple: true, closable: false,
+var acticle_id;
+var tage_id;
+var vaTitle;
+var Department_ID;
+var Get_User_ID;
+var Delete_Sub_article;
+var Delete_main_article;
+var files = [];
+var file_for_up = [];
+var dep_for_add_user;
 
+$(document).on("click", ".active_title ", function () {
+  $(this).addClass("active_link");
+  $(".active_title").not(this).removeClass("active_link");
+});
+
+$("#btn_add_contents").click(function () {
+  
+  
+  
+  $(".coupled.modal").modal({
+    allowMultiple: true,
+    closable: false,
   });
   $("#modal_add_title").modal(
     "attach events",
     "#modal_add_contents.modal #btnAdd"
   );
 
-  $("#modal_add_contents").modal().modal({ closable: false }).modal('show');
+  $("#modal_add_contents").modal().modal({ closable: false }).modal("show");
+  
+  buildeMenuCobobox();
+
   var dept_id = $("#departmentListId").dropdown("get value");
-  buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
+  // buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
+  buildDepartment("#departmentListId2, #modal_add", dept_id); // Test
+  
+
+
+  // var dept_id = $("#departmentListId").dropdown("get value");
+  // buildDepartment("#departmentListId2, #modal_add", dept_id); // B2B Content B2B1
+  // console.log('Department select', dept_id)
 
   tinymce.init({
     selector: "#editor1",
@@ -36,53 +60,101 @@ $("#btn_add_contents").click(function () {
 });
 //tinymce.get("editor1").setContent("<p>Hello world!</p>");
 
+// Clcik choose file
 $(".btn_upload_file").click(function () {
   $("#fileUpload").click();
 });
-// Upload file 01
-$(document).on("click", "#upLoadFile", function () {
-  $(this).addClass("loading");
-  var file = $("#fileUpload")[0].files[0];
-  if (!isNull(file)) {
-    uploadFile(file, $("#fileUpload").val(), function (resp) {
-      var data = JSON.parse(resp);
-      console.log(data);
-      if (data.status) {
-        setTimeout(function () {
-          $(".img_path").text(data.data.url);
-          $("#upLoadFile").removeClass("loading");
-        }, 1000);
-      } else {
-        alert(data.message);
-      }
-    });
-  } else {
-    alert("Please upload image");
-  }
+
+// Build file on browser
+function buildList() {
+  var html = "";
+  var imgs = "";
+  files.forEach((e) => {
+    html +=
+      "<p id='content_file'>" +
+      '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' +
+      '<a href="#" class="blue" data-value="new_file">' +
+      e.name +
+      "</a>" +
+      ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove" value="remove"  fname="' +
+      e.name +
+      '"></i></a></p>';
+    if (e.type.includes("image")) {
+      imgs +=
+        '<img src="' +
+        URL.createObjectURL(e) +
+        '" alt="" style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px; padding-right: 10px">';
+    }
+  });
+  //
+  $("#List_file_content").empty().append(html); // list file
+}
+
+// list file update
+function buildListFileUpdate() {
+  var html = "";
+  files.forEach((e) => {
+    html +=
+      "<p id='content_file'>" + '<i class="paperclip icon grey" style="margin-right: 15px;"></i>' + '<a href="#" class="blue" data-value="new_file">' + e.name + "</a> " +
+      ' <a href="#"><i class="trash grey alternate outline icon con-size delete_filess" id="btn-remove-file-update" attr="' + e.name + '"  UpdateFileName="' + e.name + '"></i></a> <a class="ui tag label mini">New</a></p> ';
+  });
+  $('#List_file_content_update').empty().append(html);
+}
+// select file
+var files_c;
+$("#fileUpload").on("change", function () {
+  $.each(this.files, function (k, e) {
+    if (files.every((a) => a.name !== e.name)) {
+      files.push(e);
+    }
+  });
+  files_c = files;
+  ("list file: ", files);
+  buildList();
+  $(this).val("");
 });
-// Upload file 02
+
+// select file update 
+var file_c_update = [];
+$("#fileUpload02").on("change", function () {
+  $.each(this.files, function (k, e) {
+    if (files.every((a) => a.name !== e.name)) {
+      files.push(e);
+    }
+  });
+  file_c_update = file_c_update.concat(files)
+  buildListFileUpdate();
+  // files = [] // clear
+  // file_c_update = []
+});
+
+
+// remove file
+$(document).on("click", "#btn-remove", function () {
+  var fname;
+  fname = $(this).attr("fname");
+  var ll = files.filter((v) => v.name !== fname);
+  files = ll;
+  buildList();
+});
+
+// remove file update
+$(document).on("click", "#btn-remove-file-update", function () {
+  var attr = $(this).attr("UpdateFileName");
+  // var getDataOldFile = $(this).attr('file_idnt_id');
+
+
+  // $('#listOldFile [attr="' + getDataOldFile + '"]').parent().parent().remove();
+  $('#content_file [attr="' + attr + '"]').parent().parent().remove();
+  $('#List_file_content_update [attr="' + attr + '"]').parent().parent().remove();
+  files = []
+  // file_c_update = []
+
+});
+
+// click open file for update
 $(".btn_upload_file02").click(function () {
   $("#fileUpload02").click();
-});
-$(document).on("click", "#upLoadFile02", function () {
-  $(this).addClass("loading");
-  var file = $("#fileUpload02")[0].files[0];
-  if (!isNull(file)) {
-    uploadFile(file, $("#fileUpload02").val(), function (resp) {
-      var data = JSON.parse(resp);
-      console.log(data);
-      if (data.status) {
-        setTimeout(function () {
-          $(".img_path02").text(data.data.url);
-          $("#upLoadFile02").removeClass("loading");
-        }, 1000);
-      } else {
-        alert(data.message);
-      }
-    });
-  } else {
-    alert("Please upload image");
-  }
 });
 
 // save text editor when click button save
@@ -91,18 +163,23 @@ $(document).on("click", "#editor_save", function () {
     $("#sub_title_val").parent(".field").addClass("error");
   } else {
     $("#sub_title_val").parent(".field").removeClass("error");
+<<<<<<< HEAD
     //var myContent = tinymce.get("editor1").getContent();
     var myContent = $('#tinymce').innerHTML
+=======
+    var myContent = tinymce.get("editor1").getContent();
+    // var file = files_c
+
+>>>>>>> 0f1dea8ccb876e0900c25c815291751f53a5b700
     if (!isNull(myContent)) {
       var req = {
         DEP_ID: $("#departmentListId2").dropdown("get value"),
         TAG_ID: $("#menu_com").dropdown("get value"), // DROPDOW MENU
-        USER_ID: 4,
+        USER_ID: getToken().id, // User ID
         CONTENT_BODY: myContent,
-        TITLE: $("#sub_title_val").val(),
-        FILE_ARTICLE_ID: Date.now(),
+        TITLE: $("#sub_title_val").val(), // Title
+        FILE_ARTICLE_ID: Date.now(), // get acticle id ex => 1683789816910
       };
-      console.log("All", req);
 
       $(this).addClass("loading");
       saveContents(req, function (resp) {
@@ -118,16 +195,49 @@ $(document).on("click", "#editor_save", function () {
     } else {
       alert("No content");
     }
+
+    // Add file
+    if (files_c?.length > 0) {
+      for (let i = 0; i < files_c.length; i++) {
+        if (!isNull(files_c[i])) {
+          uploadFile(files_c[i], $('').val(), function (resp) {
+            var data = JSON.parse(resp);
+            var get_file_name = data.data.fileName;
+            var get_file_url = data.data.url;
+            var opt = {
+              FILE_ARTICLE_IDS: req.FILE_ARTICLE_ID,
+              FILE_IDNT: files_c[i].lastModified + Date.now(),  
+              FILE_NM: get_file_name,
+              FILE_SIZE: files_c[i].size,
+              IMG_PATH: get_file_url,
+              THUM_IMG_PATH: get_file_url
+            }
+            upload_file(opt, function (resp) {
+            });
+          });
+        }
+      }
+    } else {
+      
+    }
+   
+
   }
-  $;
-
-  // $('#departmentListId2 .item').click(function () {
-  //   buildMenu()
-
-  // })
+  $('#List_file_content').empty();
+  files = [];
 });
 
-// ADD NEW TITEL TO DEPARTMENT
+// Clear editor
+$(document).on("click", "#close_editor", function () {
+  $("#sub_title_val").val("");
+  tinymce.get("editor1").setContent("");
+  $('#List_file_content').empty();
+  files = [];
+  $('#List_file_content_update').empty();
+
+});
+
+// new title to deparment
 $(document).on("click", "#add_newTitle", function () {
   var req = {
     TITLE: $("#titleView").val(),
@@ -194,25 +304,43 @@ loadSementicFunction();
 // Action management user
 $("#btn_manage-user").click(function () {
   $("#btn_manage-user-pop").modal({ closable: false }).modal("show");
+  // buildUserTable();
+  buildUserTable();
+  
 });
 
 // Action and new user
 $("#Create-New-User").click(function () {
-  $("#New-User").modal({
-    allowMultiple: true,
-    closable: false
-  }).modal('show')
+  $("#New-User").modal({ allowMultiple: true, closable: false, }).modal("show");
+
+  role('#b2b_role1', 2)
+
+  // Test check role admin
+  // if (getToken().role = 1) {
+    
+  // }
+  //   $("#b2b_role1 option[value='3']").hide();
+ 
+  // End check role admin
+
+  dep_for_add_user = $('#departmentListId').dropdown('get value');
+  buildDepartment('#new_user_dep', dep_for_add_user);
+  
+  
+  $('#username').on('input', function () {
+    // var value = $(this).val();
+    // value = value.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    // $(this).val(value);
+    var value = $(this).val();
+    var regex = /^[a-zA-Z\s\u1780-\u17FF]+$/gi; // u1780-u17FF range represents Khmer characters
+    if (!regex.test(value)) {
+      $(this).val(value.replace(/[^a-zA-Z\s\u1780-\u17FF]/gi, ''));
+    }
+  })
+
 });
-
-// Action delete user
-// $('.trash').click(function () {
-//   alert('hi')
-//   $('#modal-delete-user').modal({
-//     allowMultiple: true,
-//     closable: false,
-//   }).modal('show')
-// })
-
+// Select department for add user
+// var select_user_new_dep = 1; // Default = B2b content is not click
 
 
 // Action login form
@@ -227,16 +355,17 @@ $(document).on("click", ".menu_btn", function () {
 
 // Logout
 $(".btn_logout").click(function () {
-  $("#Logout-modal").modal("show");
+  $("#Logout-modal")
+    .modal({ allowMultiple: true, closable: false })
+    .modal("show");
   // $('.sign').transition('slide right');
-  $("#Logout-comfim").click(function () {
-    window.localStorage.removeItem("b2b_user");
-    $(".page-login").show();
-    $(".my_body").hide();
-  });
-  // window.localStorage.removeItem("b2b_user");
-  // $(".page-login").show();
-  // $(".my_body").hide();
+});
+
+$("#Logout-comfim").click(function () {
+  window.localStorage.removeItem("b2b_user");
+  $(".page-login").show();
+  $(".my_body").hide();
+  $("#loginForm").show();
 });
 
 //  Add
@@ -246,12 +375,6 @@ $(document).on("click", ".add", function () {
 
 $(document).on("click", ".btn-checkbox", function () {
   $(this).toggle();
-});
-
-// Cancel update article button
-$(document).on("click", "#btn-cancel-update-article", function () {
-  // buldHome();
-  // location.href = "index.html";
 });
 
 $(document).on("click", ".btn_login", function () {
@@ -267,16 +390,24 @@ $(document).on("click", "#departmentListId .item", function () {
 
 // SELECT DEPARTMENT LIST
 $(document).on("click", "#departmentListId2 .item", function () {
-  console.log($(this).attr("data-value"));
   var dep2 = $(this).attr("data-value");
   buildeMenuCombobox((id = "#menu_com"), dep2);
-  console.log("dep2:", dep2);
 });
 
+// Test
+$(document).on("click", "#departmentListId4 .item", function () {
+  var dep2 = $(this).attr("data-value");
+  buildeMenuCoboboxs((id = "#menu_com4"), dep2);
+  buildMenu(true);
+});
+$(document).on("click", "#departmentListId4 .item", function () {
+  var dep2 = $(this).attr("data-value");
+  buildeMenuCombobox((id = "#menu_com4"), dep2);
+});
+// End test
+
 $(document).on("click", "#departmentListId3 .item", function () {
-  console.log($(this).attr("data-value"));
   var dep3 = $(this).attr("data-value");
-  console.log("dep3:", dep3);
 });
 
 // CLICK HUMBERGER BUTTON
@@ -288,37 +419,44 @@ $(".menu_btn").click(function () {
   }
 });
 
-//click on acticle
+// click on acticle menu side bar
+var idActicle;
 $(document).on("click", ".acticle_con", function () {
+  idActicle = $(this).attr("act_id");
   var id = $(this).attr("act_id");
   var tag_title = $(this).attr("tag_title");
-  console.log("id", id);
-  console.log("tag_title", tag_title);
-  buildActicle(id);
+
+  buildActicle(id); // call buildActicle
   saveRecent(tag_title, id, $(this).text());
-  $("body .my_sidebar").find("li").removeClass("menu_active");
-  $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
-  $("body .my_sidebar").find(`[act_id='${id}']`).parent().removeClass("hidden");
-  $("body .my_sidebar").find(`[act_id='${id}']`).parent().addClass("visible");
-  $("body .my_sidebar")
-    .find(`[act_id='${id}']`)
-    .parent()
-    .parent()
-    .addClass("active");
-  $("body .my_sidebar")
-    .find(`[act_id='${id}']`)
-    .parent()
-    .parent()
-    .siblings()
-    .addClass("active");
+
+  $('.acticle_con a').removeClass('active_link');
+  if (!$('#menu_body .acticle_con[act_id="' + id + '"]').parent().parent().parent().parent().find('.title').hasClass('active')) {
+    $('#menu_body .acticle_con[act_id="' + id + '"]').parent().parent().parent().parent().find('.title').click()
+  }
+  $('.acticle_con[act_id="' + id + '"] a').addClass('active_link');
+  // $("body .my_sidebar").find("li").removeClass("menu_active");
+  // $("body .my_sidebar").find(`[act_id='${id}']`).addClass("menu_active");
+  // $("body .my_sidebar").find(`[act_id='${id}']`).parent().removeClass("hidden");
+  // $("body .my_sidebar").find(`[act_id='${id}']`).parent().addClass("visible");
+  // $("body .my_sidebar")
+  //   .find(`[act_id='${id}']`)
+  //   .parent()
+  //   .parent()
+  //   .addClass("active");
+  // $("body .my_sidebar")
+  //   .find(`[act_id='${id}']`)
+  //   .parent()
+  //   .parent()
+  //   .siblings()
+  //   .addClass("active");
+  //
 });
 
 // LOGIN
 $("#btn_login").click(function () {
   var username = $("#username_text").val();
   var password = $("#password_text").val();
-  console.log("username: ", username);
-  console.log("password: ", password);
+
   // VALIDATION
   if (isNull(username)) $("#username_text").parent().addClass("error");
   else $("#username_text").parent().removeClass("error");
@@ -327,29 +465,38 @@ $("#btn_login").click(function () {
 
   if (!isNull(username) && !isNull(password)) {
     $("#btn_login").addClass("loading");
-    getLogin(username, password, function (resp) {
+    var defualt_img = getLogin(username, password, function (resp) {
       if (resp.status) {
         window.localStorage.setItem("b2b_user", JSON.stringify(resp.data));
-        console.log("resp.data: ", resp.data);
         $("#username_text").val(""), $("#password_text").val("");
+        get_user_image();
         buldHome();
-        $(".edit_tag").show();
+        // $(".edit_tag").show();
+        localStorage.removeItem('act_recent');
       } else {
         $("#msg_alert p").text(resp.message);
         $("#msg_alert").show();
       }
       $("#btn_login").removeClass("loading");
+      // welcome text
+      if (localStorage.getItem('act_recent') === null || localStorage.getItem('act_recent') === 'undefined') {
+        welcome_pannel();
+
+      }
     });
   }
 });
 
-// LOG OUT SIDEBAR
-$(document).on("mouseenter", "#menu_body .item", function () {
+// Hover articel side bar
+// Hover main article
+$(document).on("mouseover", "#menu_body .item", function () {
   $("." + $(this).attr("d_et")).show();
 });
-$(document).on("mouseleave", "#menu_body .item", function () {
+$(document).on("mouseout", "#menu_body .item", function () {
   $("." + $(this).attr("d_et")).hide();
 });
+
+// Hove sub article
 $(document).on("mouseenter", ".sub_t", function () {
   $("." + $(this).attr("d_est")).show();
 });
@@ -357,51 +504,59 @@ $(document).on("mouseleave", ".sub_t", function () {
   $("." + $(this).attr("d_est")).hide();
 });
 
-// MODAL UPDATE TAGE EX: Gradle
+// Modal update main article Ex: Gradle
+var vId, vUserid, vDepid;
 $(document).on("click", ".edit_tag", function () {
   $(".tage_editT").modal("show");
   var dept_id = $("#departmentListId").dropdown("get value");
-  buildDepartment("#departmentListId3", dept_id);
-  var vTitle = $(this).attr("v.title"); // Throw in new title
-  var vDepid = $(this).attr("v.dep_id"); // Department ID
-  var vUserid = getToken().id + "";
-  var vId = $(this).attr("v.id");
+  buildDepartment("#departmentListId3", dept_id); // Call department
+  vTitle = $(this).attr("v.title");
+  vDepid = $(this).attr("v.dep_id");
+  vUserid = getToken().id + "";
+  vId = $(this).attr("v.id");
   $(".v-title").val(vTitle);
-  $(document).on("click", ".alert-edit-department", function () {
-    $(".modal-alert-edit-department").modal("show");
-    $(document).on("click", ".btn-up-tag", function () {
-      var reqTag = {
-        DEP_ID: vDepid,
-        ID: vId,
-        USER_ID: vUserid,
-        TITLE: $(".v-title").val(),
-      };
-      updateTag(reqTag, function () {
-        if(reqTag.status) {
-          buildMenu()
-        }
-      });
-      buildMenu(true);
-      
-    });
-  });
-
+  $(".v-title").val();
 });
+// Comfrim to update main article
+$(document).on("click", "#update-departmentList", function () {
+  var reqTag = {
+    DEP_ID: vDepid,
+    ID: vId,
+    USER_ID: vUserid,
+    TITLE: $(".v-title").val(),
+  };
+  $("#update-departmentList").addClass("loading");
+  updateTag(reqTag, function () {
+    if (reqTag.status) {
+      buildMenu();
+    }
+  });
+  buildMenu(true);
+  setTimeout(function () {
+    $("#update-departmentList").removeClass("loading");
+    $(".tage_editT").modal("hide");
+  }, 1000);
+}); 
 
-// Update article has have
+
+// update contetn or acticle
+var UpdateNewFile; 
+// var tage_id;
 $(document).on("click", "#modal-edit-sub-article", function () {
-  var acticle_id = $(this).attr("act_id");
-  var tage_id = $(this).attr("tag_id");
-  var vaTitle = $(this).attr("title");
-  var dept_id = $(this).attr("dep_id");
-  var avUserid = getToken().id + "";
-  console.log("Acticle ID :", acticle_id);
-  console.log("Tag ID :", tage_id);
-  console.log("Title :", vaTitle);
-  console.log("Department ID: ", dept_id);
-  console.log("UserID", avUserid);
+  
+  
+  acticle_id = $(this).attr("act_id"); // acticle id
+  
+  tage_id = $(this).attr("tag_id"); // Get tags
+  
+  vaTitle = $(this).attr("title");
+  
+  Department_ID = $(this).attr("dep_id"); // Get department
+  Get_User_ID = getToken().id;
 
-  // Show content
+  console.log('acticle id',acticle_id, 'tage id', tage_id, 'department id', Department_ID);
+
+  // show conent
   $(".coupled.modal").modal({
     allowMultiple: true,
   });
@@ -409,12 +564,28 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     "attach events",
     "#modal-edit-update-sub-title.modal #btn_add_title"
   );
-  $("#modal-edit-update-sub-title").modal({allowMultiple: true, closable: false,}).modal('show');
-  $(".get-article-title").val(vaTitle);
-  buildDepartment("#departmentListId4, #modal_add", dept_id);
-  buildeMenuCombobox("#menu_com4", null, tage_id);
 
+  // content tinymce
+  $("#modal-edit-update-sub-title").modal({ allowMultiple: true, closable: false }).modal("show");
+  
+  // Old
+  // $(".get-article-title").val(vaTitle);
+  // buildDepartment("#departmentListId4, #modal_add", Department_ID);
+  // buildeMenuCombobox("#menu_com4", null, tage_id);
+
+  // Test
+  buildeMenuCoboboxs();
+  $(".get-article-title").val(vaTitle); // Append to sub title box
+  buildDepartment("#departmentListId4, #modal_add",Department_ID); // Append to department box
+  buildeMenuCombobox("#menu_com4",Department_ID,tage_id);
+
+  $('#content_file').empty();
+  files = [] // clear 
+
+
+  // updateFile(acticle_id);
   getActicle1(acticle_id, function (resp) {
+    UpdateNewFile = resp.data.file_article_id;
     tinymce.remove("#editor2");
     tinymce.init({
       selector: "#editor2",
@@ -427,8 +598,16 @@ $(document).on("click", "#modal-edit-sub-article", function () {
         inst.setContent(resp.data.content_body);
       },
     });
+    if (resp.data.file_id === null) {
+      $('#listOldFile').hide()
+    } else {
+      $('#listOldFile').show()
+    }
   });
+  updateFile(acticle_id); // list old file
 
+
+<<<<<<< HEAD
   // UPDATE SUB-ARTICLE
   $(document).on("click", "#btn-save-update-sub-article", function () {
     var myContent2 = $('#tinymce').innerHTML
@@ -444,239 +623,540 @@ $(document).on("click", "#modal-edit-sub-article", function () {
     buldHome(true);
     //window.location.reload();
   });
+=======
+>>>>>>> 0f1dea8ccb876e0900c25c815291751f53a5b700
 });
 
-// DELETE MAIN ARTICLE
+// update sub content article
+$(document).on("click", "#btn-save-update-sub-article", function () {
+  var myContent2 = tinymce.get("editor2").getContent();
+  var reqAr = {
+    TAG_ID: tage_id,
+    TITLE: $(".get-article-title").val(),
+    CONTENT_BODY: myContent2,
+    USER_ID: Get_User_ID,
+    DEP_ID: Department_ID,
+    ID: acticle_id,
+  };
+  console.log('update content ',reqAr)
+  updateArticles(reqAr, function (resp) {
+    if (resp.status) {
+      tinymce.get("editor2").setContent(""); // Clear
+      // buldHome(true);
+      if (isNull(file_c_update)) {
+        buildActicle(acticle_id,tage_id);
+        buildMenu(true); // Refresh menu
+      
+      } else {
+        buildActicle(acticle_id);
+        buildMenu(true); // Refresh menu
+        
+      }
+    }
+  });
+  
+  // update file
+  console.log('File :', files);
+  for (let i = 0; i < files.length; i++) {
+    if (!isNull(files[i])) {
+      uploadFile(files[i], $('').val(), function (resp) {
+        var data = JSON.parse(resp);
+        var get_file_name = data.data.fileName;
+        var get_file_url = data.data.url;
+        var opt = {
+          FILE_ARTICLE_IDS: UpdateNewFile,
+          FILE_IDNT: files[i].lastModified + Date.now(),
+          FILE_NM: get_file_name,
+          FILE_SIZE: files[i].size,
+          IMG_PATH: get_file_url,
+          THUM_IMG_PATH: get_file_url
+        }
+        upload_file(opt, function (resp) {
+          buildActicle(acticle_id)
+          // buildActicle(acticle_id) = true; // Test
+
+          if (files.length - 1 == i) {
+            // buildActicle(acticle_id);
+          } else {
+
+          }
+          if (i == files.length - 1) {
+            files = [];
+          }
+        });
+      });
+    }
+  }
+
+  // delete old file
+  var req = {
+    ID: oldFile,
+  };
+  if (!isNull(oldFile)) { // check file
+    deleteFile(req, function (resp) {
+      if (resp.status) {
+      } else {
+        // file_idnt_ids = []
+      }
+    });
+  }
+});
+
+// delete main article 
+var GET_TITLE_NAME;
 $(document).on("click", "#delete_thisT", function () {
-  // $(".delete_tage").modal("show");
   $(".delete_tage").modal({ closable: false }).modal("show");
-  var id = $(this).attr("da-de");
-  $(document).on("click", ".btn_delete_tage ", function () {
-    deleteTage(id);
-    buldHome(true);
-    buildMenu(true);
-    window.location.reload();
+  Delete_main_article = $(this).attr("da-de");
+  GET_TITLE_NAME = $(this).attr('get-main-title');
+  $("#get-main-title").empty().append(GET_TITLE_NAME);
+});
+// comfrim to delete main article
+$(document).on("click", ".btn_delete_tage ", function () {
+  $(this).addClass("loading");
+  deleteTage(Delete_main_article, function (resp_delete) {
+    if (resp_delete.status) {
+      setTimeout(function () { }, 1500);
+      $(".btn_delete_tage").removeClass("loading");
+      buldHome(true);
+      buildMenu(true);
+    } else {
+      alert("Error");
+    }
   });
 });
 
-// DELETE SUB ARTICLE
+// delete sub acticle
+var GET_SUB_TITLE;
 $(document).on("click", "#modale-delete-sub", function () {
-  // $(".delete_sub-title").modal("show");
   $(".delete_sub-title").modal({ closable: false }).modal("show");
-  var id = $(this).attr("va-id");
-  $(document).on("click", ".btn_delete_sub", function () {
-    deleteArticles(id);
-    buldHome(true);
-    buildMenu(true);
-    window.location.reload();
-  });
-  console.log("delete-sub: ", id);
+  Delete_Sub_article = $(this).attr("va-id");
+  GET_SUB_TITLE = $(this).attr("get-name");
+  $('#get-sub-title-name').empty().append(GET_SUB_TITLE)
+  console.log('Get sub title => ',GET_SUB_TITLE)
 });
 
-// BUILD PAGE
-$(document).ready(function () {
-  //getLogin();
+// comfrim delete 
+$(document).on("click", ".btn_delete_sub", function () {
+  $(this).addClass("loading");
+  deleteArticles(Delete_Sub_article, function (respone_delete_sub_article) {
+    if (respone_delete_sub_article.status) {
+      setTimeout(function () {
+        $(".btn_delete_sub").removeClass("loading");
+        buldHome(true);
+        buildMenu(true);
+      }, 1500);
+    }
+  });
 });
 
 // USER
 let userB2b = [];
-$.ajax({
-  method: "GET",
-  url: baseUrl + "/doc_users",
-  success: function (response) {
-    userB2b = response.data;
-    userTable(userB2b);
-    console.log("B2b user :", userB2b);
-  },
-});
-function userTable(data) {
-  var table = document.getElementById("userData");
-  var tableData = '';
-  data.forEach((i) => {
-    tableData += `<tr class='allUser'>`
-    tableData += `<td userRole='${i.id}' class='v-id'>${i.id}</td>` // id
-    tableData += `<td userName='${i.username}' class='v-username'>${i.username}</td>` // user name
-    tableData += `<td userPass='${i.password}' class='v-password'>${i.password}</td>` // user passwork
-
-    if (i.role == 1) { // admin
-      tableData += `<td  style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui green label">admin</a> </td>`
-    } else if (i.role == 0) { // user
-      tableData += `<td  style="text-align:center;"  userRolee='${i.id}' class='v-role' > <a class="ui violet label">user</a> </td>`
-    } else if (i.role == 2) { // viewer
-      tableData += `<td style="text-align:center;" userRolee='${i.id}' class='v-role' > <a class="ui grey label">viewer</a> </td>`
-    }
-
-    if (i.status == 1) { // status
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui blue label">active</a> </td>`
-    } else if(i.status == 0) {
-      tableData += `<td style="text-align:center;" userStatus='${i.status}' class='v-status' > <a class="ui red label">disable</a> </td>`
-    } 
-
-    tableData += `<td style="display:flex; justify-content: center; id="all-icon"> <i class="edit blue outline icon con-size editUser_icon" userRole='${i.id}' id='' title='Edit'> </i>  <i class=" red trash alternate outline icon con-size delete_user_icon" userRole='${i.id}' title='Delete' id='delete_user'> </i> </td>
-  </tr>`;
-  });
-
-  table.innerHTML += tableData;
-}
 
 // delete user
+var idUser;
 $(document).on("click", ".delete_user_icon", function () {
-  $("#modal-delete-user").modal({ closable: false, allowMultiple: true }).modal('show');
+  $("#modal-delete-user")
+    .modal({ closable: false, allowMultiple: true })
+    .modal("show");
   //$("#modal-delete-user").modal("show");
-  var id = $(this).attr("userRole");
-  $(document).on('click', '#comfim-delete-user', function () {
-    delete_User(id, function () {
-      if (id.status) {
-        buldHome(true);
-        
+  idUser = $(this).attr("userRole");
 
-      }
-    });
-    window.location.reload();
-    
-    //alert('delete successfully');
-    //window.location.reload();
-  })
+});
+
+$(document).on("click", "#comfim-delete-user", function () {
+  delete_User(idUser, function () {
+    if (idUser.status) {
+      buldHome(true);
+    }
+  });
+  $("#btn_manage-user-pop").modal("hide");
 });
 
 // add user
 $(document).on("click", "#btn_doc_add_users", function () {
-  $(this).addClass("loading");
+
+  
+
+  $(this).addClass("loading"); 
   var req = {
     USER_NAME: $("#username").val(),
     USER_PASSWORD: $("#password").val(),
-    USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value")
-    
+    // USER_ROLE: $("#b2b_role1").siblings(".menu").children(".item.selected").attr("data-value"),
+    USER_ROLE: $('#b2b_role1 .item.selected').attr('data-value'),
+    USER_DEP: $('#new_user_dep .item.selected').attr('data-value') // test
   };
-  console.log('Data add user +', req);
+
   addB2bUser(req, function (resp) {
     if (resp.status) {
       setTimeout(function () {
-        buldHome();
-        $('#btn_doc_add_users').removeClass("loading");
+        // buldHome();
+        $("#btn_doc_add_users").removeClass("loading");
       }, 1000);
-    } else { alert('Error')}
+      $("#New-User").modal("hide");
+      buildUserTable();
+      alert("Add successfully");
+      // clear
+      $('#username, #password').val(''); 
+    } else {
+      alert("Error");
+    }
   });
-  //buldHome();
-  //alert('user has add successfully');
-  //window.location.reload();
 });
 
-// UPDATE USER
+// update user
+var updateId;
+var updatePwd;
+var dept_id;
 $(document).on("click", ".editUser_icon", function () {
-  $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal('show');
+  $('#vUserName').on('input', function () {
+    // var value = $(this).val();
+    // value = value.replace(/[^a-zA-Z0-9]/, '').toLowerCase();
+    // $(this).val(value);
+    var value = $(this).val();
+    var regex = /^[a-zA-Z\s\u1780-\u17FF]+$/gi; // u1780-u17FF range represents Khmer characters
+    if (!regex.test(value)) {
+      $(this).val(value.replace(/[^a-zA-Z\s\u1780-\u17FF]/gi, ''));
+    }
+  })
 
-  var currentUSer = {
-    V_Name: $(this).closest("tr").find(".v-username").text(),
-    V_Pass: $(this).closest("tr").find(".v-password").text(),
-    V_Role: $(this).closest("tr").find(".v-role").text(),
-    V_Status: $(this).closest("tr").find(".v-status").text(),
-  };
-  console.log("Current USer: *", currentUSer);
-  $("#vUserName").val(currentUSer.V_Name);
-  $("#vUerPassword").val(currentUSer.V_Pass);
-  $("#vUserstatus").val(currentUSer.V_Status);
-  $("#vUserRole").val(currentUSer.V_Role);
+  $("#modal_update_user").modal({ closable: false, allowMultiple: true }).modal("show");
 
+  // dept_id = $("#user_department").dropdown("get value");
+  // console.log('get user department => ', dept_id);
+  // buildDepartment("#user_department", dept_id); // Call department
+
+  var data = JSON.parse(decodeURIComponent($(this).closest("tr").attr("data")));
+  updateId = data.id;
+  updatePwd = data.password;
   var id = $(this).attr("userRole");
-  console.log('ID ^', id)
+  var get_current_user = {
+    V_Name: $("#vUserName").val(data.username),
+    V_Pass: $("#vUerPassword").val(data.password),
+    V_Role: $("#b2b_role").dropdown("set selected", data.role + ""),
+    V_Status: $("#b2b_status").dropdown("set selected", data.status + ""),
+    V_USER_DEPARTMENT: $("#user_department").dropdown("set selected", data.dep_name + ""),
+  };
+  buildDepartment("#user_department", data.dept_id);
+});
 
-  // CLICK TO CONFIRMATION UPDATE
-  $(document).on("click", "#btn_doc_update_users_icon", function () {
-    //alert("Update success");
-    
-    var req = {
-      MODIFY_USERNAME: $("#vUserName").val(),
-      MODIFY_USERPASS: $("#vUerPassword").val(),
-      MODIFY_USERROLE: $("#b2b_role").siblings(".menu").children(".item.selected").attr("data-value"),
-      MODIFY_USERSTATUS: $("#b2b_status").siblings(".menu").children(".item.selected").attr("data-value"),
-
-      // MODIFY_USERSTATUS: $("#vUserstatus").val(),
-      // MODIFY_USERROLE: $("#vUserRole").val(),
-      //MODIFY_USERROLE: $('#b2b_role option:selected').val(),
-      //MODIFY_USERSTATUS: $('#b2b_status option:selected').val(),
-    };
-    console.log('Update user data *', req)
-    updateUser(id, req);
-    //buldHome();
-    //window.location.reload();
+// comfirmation update user
+$(document).on("click", "#btn_doc_update_users_icon", function () {
+  //updateId    // staic
+  var req = {
+    // id : updateId,
+    MODIFY_USERNAME: $("#vUserName").val(),
+    //MODIFY_USERPASS: updatePwd,
+    MODIFY_USERPASS: $("#vUerPassword").val(),
+    MODIFY_USERROLE: $("#b2b_role").dropdown("get value"),
+    MODIFY_USERSTATUS: $("#b2b_status").dropdown("get value"),
+    MODIFY_USER_DEPARTMENT: $("#user_department").dropdown("get value"),
+  };
+  updateUser(updateId, req, function (res) {
+    buildUserTable();
   });
+  $("#modal_update_user").modal("hide");
 });
 
 // INSERT-DEPARTMENT
 $("#manage-department").click(function () {
   buildManageDepartment();
   $("#pop-up-management-department").modal({ closable: false }).modal("show");
-  $(".add-manage-department").click(function () {
+  $(document).on("click", ".btn-add-css", function () {
     var imd = $("#insert-manage-department").val();
     var req = {
       DEP_NAME: imd,
       DEP_STATUS: 1,
     };
+    $("#insert-manage-department").val("");
     if (!isNull(imd)) {
-      // $(".txtIsertD").removeClass("txtWarning");
+      $(".txtIs").removeClass("error");
+      $(".btn-add-css").addClass("loading");
       insertDepartment(req, function (resp) {
+        $(".btn-add-css").removeClass("loading");
         if (resp.status) {
           buildManageDepartment();
+          buildDepartment();
         }
       });
     } else {
-      // $(".txtIsertD").addClass("txtWarning");
+      $(".txtIs").addClass("error");
     }
     $("#insert-manage-department").val("");
-    console.log("IMD:", imd);
   });
 });
 
-// DELETE DEPARTMENT
+var dep_idd;
+var get_department_name;
+// delete department
 $(document).on("click", ".alert-depart", function () {
-  var id = $(this).parent().siblings(".dep-id").attr("dep_id");
-  $(".alert-delete").modal("show");
-  $(document).on("click", "#delete-depart", function () {
-    console.log("delete id: ", id);
-    deleteDepartment(id, function (resp) {
-      if (resp.status) {
-        buildManageDepartment();
-      } else {
-        alert(data.message);
-      }
-    });
-    window.location.reload();
+  dep_idd = $(this).parent().siblings(".dep-id").attr("dep_id"); // Get department ID
+  get_department_name = $(this).parent().siblings(".dep-name").attr("dep-name"); // Get department name
+  $(".alert-delete").modal({ closable: false, allowMultiple: true }).modal("show");
+  $('#get_dep_name').empty().append(get_department_name);
+});
+
+$(document).on("click", "#delete-depart", function () {
+  deleteDepartment(dep_idd, function (resp) {
+    if (resp.status) {
+      buildDepartment();
+      buildManageDepartment();
+    } else {
+      alert(data.message);
+    }
   });
 });
-// EDIT DEPARTMENT
+
+var btnUpdateID;
+// edit department
 $(document).on("click", "#icon-update-dep", function () {
-  $(".btn-update-css").show();
-  $(".btn-add-css").hide();
+  $(".txtIs .btn-update-css").remove();
+  $(".txtIs").append(
+    `<button class="btn-update-css ui primary button">Udpate</button>`
+  );
+  $(".txtIs .btn-add-css").remove();
   $(".act-u").show();
   var dep_name = $(this).closest("tr").find(".dep-name").text();
-  var dep_id = $(this).closest("tr").find(".dep-id").attr("dep_id");
+  btnUpdateID = $(this).closest("tr").find(".dep-id").attr("dep_id");
   $(".txtIsertD").val(dep_name);
+});
 
-  // UPDATE DEPARTMENT
-  $(document).on("click", ".btn-update ", function () {
-    var update = $(".txtIsertD").val();
-    console.log("id:", dep_id);
-    console.log("name:", update);
-    var req = {
-      DEP_ID: dep_id,
-      DEP_NAME: update,
-    };
+// update department
+$(document).on("click", ".btn-update-css ", function () {
+  var update = $(".txtIsertD").val();
 
-    updateDepartment(req, function (resp) {
-      if (resp.status) {
-        window.location.reload();
-      } else {
-        alert(data.message);
-      }
-    });
-    $(".btn-update-css").hide();
-    $(".btn-add-css").show();
+  var req = {
+    DEP_ID: btnUpdateID,
+    DEP_NAME: update,
+  };
+
+  $(".btn-update-css").addClass("loading");
+  $(".txtIsertD").val("");
+  updateDepartment(req, function (resp) {
+    $(".txtIs").append(
+      `<button class="btn-add-css ui tiny blue button" style="">Add</button>`
+    );
+    $(".txtIs .btn-update-css").remove();
+    if (resp.status) {
+      buildManageDepartment();
+      buildDepartment();
+      buildeMenuCobobox();
+    } else {
+      alert(data.message);
+    }
   });
 });
 
 $(document).on("click", ".act-u", function () {
   $(".act-u").hide();
-  $(".btn-add-css").show();
-  $(".btn-update-css").hide();
+  $(".txtIs").append(
+    `<button class="btn-add-css ui tiny blue button" style="">Add</button>`
+  );
+  $(".txtIs .btn-update-css").remove();
 });
+
+var oldScrollTop = $(window).scrollTop();
+var oldScrollLeft = $(window).scrollLeft();
+$(".table-scroll").scroll(function () {
+  if (oldScrollTop == $(".table-scroll").scrollTop()) {
+    $(".table-scroll").css("color", "red");
+  } else {
+    $(".table-scroll").css("color", "blue");
+  }
+  oldScrollTop = $(".table-scroll").scrollTop();
+  oldScrollLeft = $(".table-scroll").scrollLeft();
+});
+
+// name profile who login
+$(document).on("click", ".profile", function () {
+  var html = "";
+  var data = JSON.parse(window.localStorage.getItem("b2b_user"));
+  html += `<p class="user-css">${data.name}</p>`;
+  if (data.role == 1) {
+    // html += `<small class="sma">manager</small>`;
+    html += ` <small class="sma"><a class="ui grey mini basic label">manager</a></small>`
+  } else if (data.role == 2) {
+    html += `<small class="sma"><a class="ui grey mini basic label">Viever</a></small>`;
+  } else if (data.role == 0) {
+    html += `<small class="sma"><a class="ui grey mini basic label">User</a></small>`;
+  } else if (data.role == 3) {
+    html += `<small class="sma"><a class="ui grey mini basic label">Admin</a></small>`;
+  }
+  $("#profile-use").empty().append(html);
+});
+
+// click user profile
+$(document).on("click", ".profile-users", function () {
+
+
+  if (isNull(getToken().img)) {
+    $("#upload-img").attr(
+      "src",
+      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAM1BMVEXk5ueutLeqsbTn6eqpr7PJzc/j5ebf4eLZ3N2wtrnBxsjN0NLGysy6v8HT1tissra8wMNxTKO9AAAFDklEQVR4nO2d3XqDIAxAlfivoO//tEOZWzvbVTEpic252W3PF0gAIcsyRVEURVEURVEURVEURVEURVEURVEURVEURVEURflgAFL/AirAqzXO9R7XNBVcy9TbuMHmxjN6lr92cNVVLKEurVfK/zCORVvW8iUBnC02dj+Wpu0z0Y6QlaN5phcwZqjkOkK5HZyPAjkIjSO4fIdfcOwFKkJlX4zPu7Ha1tIcwR3wWxyFhRG6g4Je0YpSPDJCV8a2Sv2zd1O1x/2WMDZCwljH+clRrHfWCLGK8REMiql//2si5+DKWKcWeAGcFMzzNrXC/0TUwQ2s6+LhlcwjTMlYsUIQzPOCb7YBiyHopyLXIEKPEkI/TgeuiidK/R9FniUDOjRDpvm0RhqjMyyXNjDhCfIMYl1gGjIMIuYsnGEYRMRZOMMunaLVwpWRW008v6fYKDIzxCwVAeNSO90BJW6emelYBRF/kHpYGVaoxTDAaxOFsfP9y8hpJ4xd7gOcij7JNGQ1EYFgkPJa1jQEiYZXRaRINKxSDUW9n+FT82lSKadkiru9/4XPqSLWOekGPoY05TAvLm9orm+YWuwHoBHkZKijNBJGmeb61eL6Ff/6q7bLr7yvv3vKGhpDRjvgjGaPz+gUg6YgcvpyAR2FIZ9U6nEEyZRTovmEU32KichpGn7C17XrfyH9gK/c0CMP05HZIM2uf9sEveizKveBy9/6Qt7o89ne33D525cfcIMW6ab+TMEukQbQbu+xu7X3A9bChmWaCeAkG17bpntwXgWxHaMzGPmUaR5dQZiKqRVeUZ3047fi3nAu28h4CHxCsZAgmEH8Y27jJAhm8c+5RQzRQNVGhVFSfxOYIjp/pP7RxzjevYXVGf4eLt+BJ1vCuLuLkrgABgCGXZ2wik5uty+oBvNirI6mkzhAf4Gsb58Hcm67Jzd+KwD10BYPLL3e0MjvKrgAULnOfveF/O4N2Xb9BZom3gJes3F9X5Zze8/6Yt09b4CrqsEjUv8oFBaR2rl+6CZr2xVrp24o/WitBKuGrrpl1+bFkmK2qXTON4VpbdfLa7o7y/WdLxG7lm2Lqh2clOwTegbvc/vj2U78CwhA87Bn8G5Nk3eOb0Nsr9flz3sG78UUtue4kpv1xvjg3TMay62BMlTlP+vrOMnJsRmt/ze0jsfkPPYdAH57hK+34PeOyc8XIXu5xT2HsUkdZz+adwg8HGFfQ3K5jtDvbUiO4Di9/ywHGrL88pDizZ++oTp+an+SMX/ndymUCwmHMdO7yuOx83pUx/eEMU0AvxWndwgidAqOZ8ypCwdEfvvEo6D9HwpA8wzvmOJEqAg9ySu8g4x0Hb9hSB/BANEKJ+LbPBU0lzbAJs4xt1AoshKkUGQmiH8/jJ0gdhTTLmSegHlPE0oOdXALnqDjKYh3px//fSgSWG8UqfrrIICzYYSJXRr9BSPbpNzw7gBjKjKOYI7ReIGqQRIap5+5MdjyvuDkExvGeXSlONWZAP3/AZBwJohU7QJRGU+cTVH18ELmRPNBmibW6MT/k1b0XhdkRBvyT6SB6EYv/GvhSmRNpGngRULsAlxMCGNXp7w3FfdEbTEEDdLI9TdIKRUzUesa3I461ER8cpNT7gMRhpKmYVS9ELOgCUQsa4SsulciKiLbY+AnHD8cpuhISsnxpamI84sbDq9qYJgf8wiiOBrC7Ml7M7ZECCqKoiiKoiiKoiiKoijv5AvJxlZRyNWWLwAAAABJRU5ErkJggg=="
+    );
+  } else {
+    $("#upload-img").attr(
+      "src",
+      getToken().img
+    );
+  }
+  $("#information_user").modal({ closable: false }).modal("show");
+});
+
+// choose image
+$(document).on("click", ".edit_profile_user", function () {
+  $("#fileuploads_image").click(); // Choose image
+});
+
+// preview image
+$("#fileuploads_image").change(function () {
+  const file = this.files[0];
+  if (file) {
+    let reader = new FileReader();
+    reader.onload = function (event) {
+      $("#upload-img").attr("src", event.target.result);
+    };
+    profileFile = file;
+    reader.readAsDataURL(file);
+  }
+});
+
+// update image
+$(document).on("click", "#user_click_update", function () {
+  var id = getToken().id;
+
+  uploadFile(profileFile, $("#fileuploads_image").val(), function (resp) {
+    $("#user_click_update").addClass("loading");
+    var data = JSON.parse(resp);
+
+    if (data.status) {
+      var res = {
+        ID: id,
+        USER_IMAGE: data.data.url,
+      };
+      update_user_profile(id, res, function (resp) {
+        if (resp.status) {
+          setTimeout(function () {
+            $("#fileuploads_image").removeClass("loading");
+            var user_image = localStorage.getItem("b2b_user");
+            var obj = JSON.parse(user_image); // Convert to JSON
+            obj.img = data.data.url;
+            if ($('#profile_update_image').attr('src') == getToken().img) {
+              $('#profile_update_image').attr('src', data.data.url)
+            }
+            localStorage.setItem("b2b_user", JSON.stringify(obj));
+            get_user_image();
+            $("#user_click_update").removeClass("loading");
+            $("#information_user").modal("hide");
+          }, 1000);
+        }
+      });
+      // $('#user_click_update').removeClass('loading');
+    } else {
+      alert(data.message);
+    }
+  });
+});
+
+// popup reset password
+$(document).on("click", "#reset-password", function () {
+  $("#change-password")
+    .modal({ closable: false, allowMultiple: true })
+    .modal("show");
+});
+// reset password
+$(document).on("click", "#sign_up", function () {
+  var curpwd = $(".curpwd").val();
+  var newpwd = $(".newpwd").val();
+  var conpwd = $(".conpwd").val();
+  var id = getToken().id;
+  // Validation
+  if (isNull(curpwd)) $(".curpwd").parent().addClass("error");
+  else $(".curpwd").parent().removeClass("error");
+  if (isNull(newpwd)) $(".newpwd").parent().addClass("error");
+  else $(".newpwd").parent().removeClass("error");
+  if (isNull(conpwd)) $(".conpwd").parent().addClass("error");
+  else $(".conpwd").parent().removeClass("error");
+  if (!isNull(curpwd) && !isNull(newpwd) && !isNull(conpwd)) {
+    $(this).addClass("loading");
+    if ($(".conpwd").val() == $(".newpwd").val()) {
+      $(".msg_re_pwd").hide();
+      var req = {
+        currentPassword: $(".curpwd").val(),
+        ID: getToken().id,
+        newPassword: $(".newpwd").val(),
+      };
+      reset_password(req, function (resp) {
+        if (resp.status) {
+          setTimeout(function () {
+            $("#change-password").modal("hide");
+            $(".msg_re_pwd1").hide();
+            $("#sign_up").removeClass("loading");
+          }, 1000);
+        } else {
+          alert(resp.message)
+          setTimeout(function () {
+            $("#sign_up").removeClass("loading");
+            $(".msg_re_pwd1").show();
+          }, 1000);
+        }
+      });
+    } else {
+      setTimeout(function () {
+        $("#sign_up").removeClass("loading");
+        $(".msg_re_pwd").show();
+        $(".msg_re_pwd1").hide();
+      }, 1000);
+    }
+  }
+});
+$(document).on("click", ".cancel_re_pwd ", function () {
+  $(".msg_re_pwd").hide();
+  $(".msg_re_pwd1").hide();
+  $("#change-password").modal("hide");
+  newpwd = $(".newpwd").val("");
+  conpwd = $(".conpwd").val("");
+  curpwd = $(".curpwd").val("");
+});
+
+// delete file
+var dlFile;
+var file_opt;
+var oldFile
+var file_idnt_ids = []
+$(document).on("click", "#deleteFile", function () {
+  var file_idnt_id = $(this).attr("file_idnt_id");
+  file_idnt_ids.push(file_idnt_id);
+  file_idnt_ids.join("','") + "'";
+  oldFile = "'" + file_idnt_ids.join("','") + "'";
+  $('#listOldFile [file_idnt_id="' + file_idnt_id + '"]').parent().parent().remove(); // remove old file
+});
+
+
+$(document).on('click', '.copy_link', function () {
+  var actId = $(this).attr('act_id');
+  var link = window.location.origin + '?id=' + actId;
+  $("body").append('<input type="text" id="copy_clip" value="' + link + '">');
+
+  var copyText = document.getElementById("copy_clip");
+  copyText.focus();
+  copyText.select();
+
+  try {
+    var successful = document.execCommand('copy');
+    var msg = successful ? 'successful' : 'unsuccessful';
+  } catch (err) {
+  }
+
+  $('#copy_clip').remove()
+  //navigator.clipboard.writeText(copyText.value);
+})
+
+$(document).on('click', '#btn-cancel-update-article', function () {
+  file_c_update = []
+  $('#List_file_content_update, #content_file').empty();
+});
+
+$(document).on('click', '#icon_add_Title', function() {
+  $('#btn_add_contents').click();
+})
+
