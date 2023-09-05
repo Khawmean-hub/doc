@@ -1,7 +1,7 @@
 stages:          # List of stages for jobs, and their order of execution
   - test
 unit-test-job:   # This job runs in the test stage.
-  stage: test    # It only starts when the job in the build stage completes successfully./
+  stage: test    # It only starts when the job in the build stage completes successfully.
   variables:
     TOKEN: '6417666770:AAFZEnvMLKSgu0HTKWpnN2aXvYkvpVffTz4'
     FILE_PA: '/home/b2bdoc/b2b_doc_imgs/d14twsr-c939fa75-9c7a-447b-b73e-4cdfec4e9f3b.jpg'
