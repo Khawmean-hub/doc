@@ -3,7 +3,7 @@ stages:          # List of stages for jobs, and their order of execution
 unit-test-job:   # This job runs in the test stage.
   stage: test    # It only starts when the job in the build stage completes successfully.
   script:
-    - curl -X POST https://api.telegram.org/bot6417666770:AAFZEnvMLKSgu0HTKWpnN2aXvYkvpVffTz4/sendMessage -H "Content-Type: application/json" -d "{"chat_id":-984104160,"text":"hello friend2"}"
+    - curl -X POST https://api.telegram.org/bot6417666770:AAFZEnvMLKSgu0HTKWpnN2aXvYkvpVffTz4/sendMessage -H "Content-Type: application/json" -d '{"chat_id":-984104160,"text":"hello friend2"}'
 
 lint-test-job:   # This job also runs in the test stage.
   stage: test    # It can run at the same time as unit-test-job (in parallel).
