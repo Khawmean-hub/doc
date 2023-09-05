@@ -7,7 +7,7 @@ unit-test-job:   # This job runs in the test stage.
     FILE_PA: 'public/image/noresults_bvatnd.png'
     DEPLOY_CURL_COMMAND_BODY: "'{\"chat_id\":-984104160,\"text\":\"Deplooy to git\"}'"
     DEPLOY_CURL_COMMAND: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendMessage -H "Content-Type: application/json" --data $DEPLOY_CURL_COMMAND_BODY'
-    DEPLOY_CURL_COMMAND_IMG: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendPhoto -H "Content-Type: multipart/form-data" -F chat_id="-984104160" -F photo=@$FILE_PA'
+    DEPLOY_CURL_COMMAND_IMG: 'curl -X POST https://api.telegram.org/bot$TOKEN/sendPhoto -H "Content-Type: multipart/form-data" -F caption="Deploy Done" -F chat_id="-984104160" -F photo=@$FILE_PA'
   script: 
     - echo "$DEPLOY_CURL_COMMAND_IMG"
     - 'eval "$DEPLOY_CURL_COMMAND_IMG"'
